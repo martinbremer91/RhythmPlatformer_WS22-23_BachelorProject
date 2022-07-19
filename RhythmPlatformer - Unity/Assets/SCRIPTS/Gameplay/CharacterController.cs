@@ -3,20 +3,31 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class CharacterController : MonoBehaviour, IUpdatable
+    public class CharacterController : GameplayComponent, IUpdatable
     {
-        #region iUPDATABLE BOILERPLATE
-        public UpdateType UpdateType => UpdateType.GamePlay;
+        #region REFERENCES
 
-        private void OnEnable() => (this as IUpdatable).RegisterUpdatable();
-        private void OnDisable() => (this as IUpdatable).DeregisterUpdatable();
+        [SerializeField] private CharacterSpriteController spriteController;
+
         #endregion
-
+        
         void IUpdatable.OnUpdate()
         {
-        
+            DetectKeyboardInput();
         }
-        
-        
+
+        private void DetectKeyboardInput()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+                HandleHorizontalInput(true);
+            if (Input.GetKeyDown(KeyCode.D))
+                HandleHorizontalInput(false);
+        }
+
+        private void HandleHorizontalInput(bool faceLeft, float axisValue = 1)
+        {
+            if (spriteController.characterFacingLeft != faceLeft)
+                spriteController.SetCharacterOrientation(faceLeft);
+        }
     }
 }

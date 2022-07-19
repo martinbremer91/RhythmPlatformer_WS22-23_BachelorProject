@@ -7,9 +7,10 @@ namespace Systems
     public class UpdateManager : MonoBehaviour
     {
         public static UpdateManager Instance;
+        
         private List<IUpdatable> updatables = new();
 
-        private void Awake()
+        private void OnEnable()
         {
             if (Instance == null)
                 Instance = this;
