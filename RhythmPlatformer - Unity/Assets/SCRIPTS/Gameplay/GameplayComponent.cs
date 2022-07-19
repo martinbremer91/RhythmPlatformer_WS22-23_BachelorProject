@@ -10,6 +10,6 @@ namespace Gameplay
         protected virtual void OnEnable() => (this as IUpdatable).RegisterUpdatable();
         protected virtual void OnDisable() => (this as IUpdatable).DeregisterUpdatable();
 
-        public virtual void OnUpdate() => Debug.LogWarning("OnUpdate not implemented", gameObject);
+        public virtual void OnUpdate() { }
     }
 }

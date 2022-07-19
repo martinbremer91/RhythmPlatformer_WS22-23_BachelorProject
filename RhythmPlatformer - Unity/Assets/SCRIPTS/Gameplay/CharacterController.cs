@@ -28,6 +28,8 @@ namespace Gameplay
         {
             if (spriteController.characterFacingLeft != faceLeft)
                 spriteController.SetCharacterOrientation(faceLeft);
+            
+            
         }
     }
 }
