@@ -11,7 +11,7 @@ namespace Gameplay
 
         #endregion
         
-        void IUpdatable.OnUpdate()
+        public override void OnUpdate()
         {
             DetectKeyboardInput();
         }
