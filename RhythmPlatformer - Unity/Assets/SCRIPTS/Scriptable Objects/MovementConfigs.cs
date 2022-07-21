@@ -6,5 +6,8 @@ namespace Scriptable_Objects
     public class MovementConfigs : ScriptableObject
     {
         public AnimationCurve runAcceleration;
+        public AnimationCurve dashAcceleration;
+        public AnimationCurve riseAcceleration;
+        public AnimationCurve fallAcceleration;
     }
 }

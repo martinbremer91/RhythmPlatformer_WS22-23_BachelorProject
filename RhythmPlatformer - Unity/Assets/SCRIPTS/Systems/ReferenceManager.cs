@@ -1,3 +1,4 @@
+using Gameplay;
 using UnityEngine;
 
 namespace Systems
@@ -5,6 +6,15 @@ namespace Systems
     public class ReferenceManager : MonoBehaviour
     {
         public static ReferenceManager Instance;
+
+        #region REFERENCES
+
+        public CharacterInput CharacterInput;
+        public CharacterMovement CharacterMovement;
+        public CharacterSpriteController CharacterSpriteController;
+        public CharacterStateController CharacterStateController;
+
+        #endregion
 
         private void Awake()
         {
