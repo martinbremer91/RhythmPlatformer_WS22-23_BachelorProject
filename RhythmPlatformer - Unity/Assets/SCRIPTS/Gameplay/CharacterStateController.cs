@@ -1,4 +1,5 @@
 using Systems;
+using UnityEngine;
 
 namespace Gameplay
 {
@@ -52,8 +53,11 @@ namespace Gameplay
             CurrentStateUpdate();
             ExecuteCurrentStateFunctions();
         }
-        
-        private static void SetCharacterState(CharacterState value) => _currentCharacterState = value;
+
+        private static void SetCharacterState(CharacterState value)
+        {
+            _currentCharacterState = value;
+        }
 
         public void HandleCollisionStateChange(CharacterCollisionChecks.CollisionCheck check, bool enter)
         {
