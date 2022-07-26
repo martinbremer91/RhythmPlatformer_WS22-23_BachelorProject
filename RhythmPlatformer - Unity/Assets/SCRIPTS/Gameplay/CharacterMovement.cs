@@ -1,4 +1,5 @@
-using Scriptable_Objects;
+using System;
+using Scriptable_Object_Scripts;
 using UnityEngine;
 
 namespace Gameplay
@@ -12,33 +13,28 @@ namespace Gameplay
 
         #endregion
 
-        private Vector2 velocity;
-        private float runVelocity;
+        public static Vector2 CharacterVelocity { get; private set; }
         
-        // Animation Curve Tracking
-        /// <summary>
-        /// X = current time along animation curve. Y = time of last key in animation curve
-        /// </summary>
-        public Vector2 MovementCurveTracker;
-        
-        private float runCurveLength;
-        private float dashCurveLength;
-        private float riseCurveLength;
-        private float fallCurveLength;
+        // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
+        public static Vector2 RunCurveTracker;
+        public static Vector2 DashCurveTracker;
+        public static Vector2 RiseCurveTracker;
+        public static Vector2 FallCurveTracker;
 
         private void Awake() => GetMovementCurveLengths();
 
         private void GetMovementCurveLengths()
         {
-            runCurveLength = movementConfigs.runAcceleration.keys[^1].time;
-            dashCurveLength = movementConfigs.dashAcceleration.keys[^1].time;
-            riseCurveLength = movementConfigs.riseAcceleration.keys[^1].time;
-            fallCurveLength = movementConfigs.fallAcceleration.keys[^1].time;
+            RunCurveTracker.y = movementConfigs.RunAcceleration.keys[^1].time;
+            DashCurveTracker.y = movementConfigs.DashAcceleration.keys[^1].time;
+            RiseCurveTracker.y = movementConfigs.RiseAcceleration.keys[^1].time;
+            FallCurveTracker.y = movementConfigs.FallAcceleration.keys[^1].time;
         }
 
         public override void OnUpdate()
         {
-            
+            CharacterVelocity = CharacterInput.InputState.DirectionalInput * 5;
+            rb.velocity = CharacterVelocity;
         }
 
         private void Idle()

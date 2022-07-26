@@ -7,12 +7,18 @@ namespace Systems
     {
         public static ReferenceManager Instance;
 
-        #region REFERENCES
+        #region COMPONENT REFERENCES
 
         public CharacterInput CharacterInput;
         public CharacterMovement CharacterMovement;
         public CharacterSpriteController CharacterSpriteController;
         public CharacterStateController CharacterStateController;
+
+        #endregion
+
+        #region DATA REFERENCES
+
+        
 
         #endregion
 
