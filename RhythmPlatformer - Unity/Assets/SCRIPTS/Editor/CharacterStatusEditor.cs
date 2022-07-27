@@ -51,9 +51,7 @@ namespace Editor
         private void OnGUI()
         {
             Draw();
-
-            if (GUI.changed) 
-                Repaint();
+            Repaint();
         }
 
         private void Draw()

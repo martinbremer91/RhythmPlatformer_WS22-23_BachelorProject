@@ -1,4 +1,3 @@
-using System;
 using Scriptable_Object_Scripts;
 using UnityEngine;
 
@@ -37,14 +36,19 @@ namespace Gameplay
             rb.velocity = CharacterVelocity;
         }
 
-        private void Idle()
+        public static void CancelHorizontalVelocity()
         {
-            
+            RunCurveTracker.x = 0;
+            DashCurveTracker.x = 0;
+            RiseCurveTracker.x = 0;
+            FallCurveTracker.x = 0;
         }
 
-        private void Run()
+        public static void CancelVerticalVelocity()
         {
-            
+            DashCurveTracker.y = 0;
+            RiseCurveTracker.y = 0;
+            FallCurveTracker.y = 0;
         }
     }
 }
