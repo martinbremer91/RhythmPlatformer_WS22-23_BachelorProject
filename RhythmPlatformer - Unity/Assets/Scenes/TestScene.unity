@@ -816,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterMovement: {fileID: 1285793917}
 --- !u!114 &1285793916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,6 +975,7 @@ MonoBehaviour:
   CharacterMovement: {fileID: 1285793917}
   CharacterSpriteController: {fileID: 1285793918}
   CharacterStateController: {fileID: 1285793915}
+  MovementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
 --- !u!114 &1513798203
 MonoBehaviour:
   m_ObjectHideFlags: 0

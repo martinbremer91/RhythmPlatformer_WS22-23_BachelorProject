@@ -1,4 +1,5 @@
 using Gameplay;
+using Scriptable_Object_Scripts;
 using UnityEngine;
 
 namespace Systems
@@ -18,7 +19,7 @@ namespace Systems
 
         #region DATA REFERENCES
 
-        
+        public MovementConfigs MovementConfigs;
 
         #endregion
 

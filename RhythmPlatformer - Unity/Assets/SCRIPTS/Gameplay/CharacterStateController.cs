@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Systems;
+using UnityEngine;
 
 namespace Gameplay
 {
@@ -7,6 +9,7 @@ namespace Gameplay
         #region REFERENCES
 
         private static CharacterSpriteController spriteController;
+        [SerializeField] private CharacterMovement characterMovement;
 
         #endregion
         
@@ -24,10 +27,10 @@ namespace Gameplay
         public static bool Dashing;
 
         private static bool _facingLeft;
-        private static bool FacingLeft
+        public static bool FacingLeft
         {
             get => _facingLeft;
-            set
+            private set
             {
                 if (_facingLeft == value)
                     return;
@@ -45,27 +48,63 @@ namespace Gameplay
         public static bool Airborne => CurrentCharacterState is CharacterState.Rise or CharacterState.Fall;
         public static bool Walled => CurrentCharacterState is CharacterState.WallCling or CharacterState.WallSlide;
 
+        private const float runTurnWindow = .1f;
+        
         public static bool NearWall_L;
         public static bool NearWall_R;
 
+        //private static bool canWallCling = true;
+
+        // private float wallClingMaxDuration;
+        // private static float wallClingTimer;
+        
         #endregion
 
         private void Start()
         {
             spriteController = ReferenceManager.Instance.CharacterSpriteController;
+            // wallClingMaxDuration = ReferenceManager.Instance.MovementConfigs.WallClingMaxDuration;
         }
 
         public override void OnUpdate()
-        {
-            // check input and conditions for wall cling (when near wall)
-            
-            CurrentStateUpdate();
-            ExecuteCurrentStateFunctions();
+        { 
+            HandleInputStateChange();
+            ApplyStateMovement();
         }
 
         private static void SetCharacterState(CharacterState value)
         {
+            if (_currentCharacterState == value)
+                return;
+            
+            ChangeOutOfState();
+            ChangeIntoState(value);
+            
             _currentCharacterState = value;
+        }
+
+        private static void ChangeIntoState(CharacterState value)
+        {
+            switch (value)
+            {
+                case CharacterState.Run:
+                    CheckFacingOrientation();
+                    break;
+                case CharacterState.Fall:
+                    CharacterMovement.FallVelocity = new(CharacterMovement.CharacterVelocity.x, 0);
+                    break;
+            }
+        }
+
+        private static void ChangeOutOfState()
+        {
+            switch (_currentCharacterState)
+            {
+                case CharacterState.Run:
+                    ResetRunCurveTrackerAsync();
+                    CharacterMovement.RunVelocity = 0;
+                    break;
+            }
         }
 
         public void HandleCollisionStateChange(CharacterCollisionChecks.CollisionCheck check, bool enter)
@@ -91,54 +130,172 @@ namespace Gameplay
                     }
                     break;
                 case CharacterCollisionChecks.CollisionCheck.LWall:
-                    if (ExitWall())
-                        break;
+                    NearWall_L = enter;
                     if (enter && CharacterMovement.CharacterVelocity.x < 0)
                     {
-                        if (CharacterMovement.CharacterVelocity.y != 0)
-                            CurrentCharacterState = CharacterState.WallSlide;
-                        else if (CharacterInput.InputState.DirectionalInput.x < -.5f)
-                            CurrentCharacterState = CharacterState.WallCling;
-                        
+                        SetWalledState(false);
                         CharacterMovement.CancelHorizontalVelocity();
                     }
                     break;
                 case CharacterCollisionChecks.CollisionCheck.RWall:
-                    if (ExitWall())
-                        break;
+                    NearWall_R = enter;
                     if (enter && CharacterMovement.CharacterVelocity.x > 0)
                     {
-                        if (CharacterMovement.CharacterVelocity.y != 0)
-                            CurrentCharacterState = CharacterState.WallSlide;
-                        else if (CharacterInput.InputState.DirectionalInput.x > .5f)
-                            CurrentCharacterState = CharacterState.WallCling;
-                        
+                        SetWalledState(true);
                         CharacterMovement.CancelHorizontalVelocity();
                     }
                     break;
             }
+        }
 
-            bool ExitWall()
+        private void HandleInputStateChange()
+        {
+            switch (CurrentCharacterState)
             {
-                if (enter || Grounded) 
-                    return false;
+                case CharacterState.Idle:
+                    HandleIdle();
+                    break;
+                case CharacterState.Run:
+                    if (CharacterInput.InputState.DirectionalInput.y > -.5f)
+                        CurrentCharacterState =
+                            Mathf.Abs(CharacterInput.InputState.DirectionalInput.x) > .5f
+                                ? CharacterState.Run
+                                : CharacterState.Idle;
+                    else
+                        CurrentCharacterState = CharacterState.Crouch;
+                    break;
+                case CharacterState.Crouch:
+                    if (CharacterInput.InputState.DirectionalInput.y > -.5f)
+                        CurrentCharacterState = 
+                            Mathf.Abs(CharacterInput.InputState.DirectionalInput.x) > .5f ? 
+                                CharacterState.Run : CharacterState.Idle;
+                    break;
+                case CharacterState.Land:
+                    if (CharacterMovement.CharacterVelocity.x == 0)
+                        CurrentCharacterState = 
+                            CharacterInput.InputState.DirectionalInput.y <= -.5f ? 
+                                CharacterState.Crouch : CharacterState.Idle;
+                    break;
+                case CharacterState.Rise:
+                    break;
+                case CharacterState.Fall:
+                    break;
+                case CharacterState.WallCling:
+                    break;
+                case CharacterState.WallSlide:
+                    break;
+            }
+            
+            if (NearWall_L || NearWall_R)
+                NearWallChecks();
+
+            void HandleIdle()
+            {
+                if (CharacterInput.InputState.DirectionalInput.y < -.5f)
+                {
+                    CurrentCharacterState = CharacterState.Crouch;
+                    return;
+                }
+
+                if (Mathf.Abs(CharacterInput.InputState.DirectionalInput.x) > .5f)
+                {
+                    CurrentCharacterState = CharacterState.Run;
+                    return;
+                }
                 
-                CurrentCharacterState = CharacterMovement.CharacterVelocity.y <= 0
-                    ? CharacterState.Fall
-                    : CharacterState.Rise;
-                
-                return true;
+                CheckFacingOrientation();
+            }
+            
+            void NearWallChecks()
+            {
+                bool holdTowardsWall_L = NearWall_L && CharacterInput.InputState.DirectionalInput.x < -.5f;
+                bool holdTowardsWall_R = NearWall_R && CharacterInput.InputState.DirectionalInput.x > .5f;
+            
+                if (Airborne && holdTowardsWall_L)
+                    SetWalledState(false);
+                if (Airborne && holdTowardsWall_R)
+                    SetWalledState(true);
+            
+                if (Walled && CharacterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
+                    CurrentCharacterState = CharacterState.Fall;
             }
         }
         
-        private void CurrentStateUpdate()
+        private void ApplyStateMovement()
         {
-            
+            switch (CurrentCharacterState)
+            {
+                case CharacterState.Idle:
+                    break;
+                case CharacterState.Run:
+                    Vector2 runTracker = CharacterMovement.RunCurveTracker;
+                    if (runTracker.x < runTracker.y || CharacterMovement.RunVelocity == 0)
+                    {
+                        CharacterMovement.RunCurveTracker.x += Time.deltaTime;
+                        characterMovement.Run();
+                    }
+                    break;
+                case CharacterState.Crouch:
+                    break;
+                case CharacterState.Land:
+                    // temp
+                    CharacterMovement.CancelHorizontalVelocity();
+                    break;
+                case CharacterState.Rise:
+                    //drift
+                    break;
+                case CharacterState.Fall:
+                    Vector2 fallTracker = CharacterMovement.FallCurveTracker;
+                    if (fallTracker.x < fallTracker.y)
+                    {
+                        CharacterMovement.FallCurveTracker.x += Time.deltaTime;
+                        characterMovement.Fall();
+                    }
+                    //drift
+                    break;
+                case CharacterState.WallCling:
+                    //wallClingTimer += Time.deltaTime;
+                    break;
+                case CharacterState.WallSlide:
+                    break;
+            }
         }
 
-        private void ExecuteCurrentStateFunctions()
+        private static void CheckFacingOrientation()
         {
+            if (FacingLeft && CharacterInput.InputState.DirectionalInput.x > .1f)
+                FacingLeft = false;
+            if (!FacingLeft && CharacterInput.InputState.DirectionalInput.x < -.1f)
+                FacingLeft = true;
+        }
+
+        private static async void ResetRunCurveTrackerAsync()
+        {
+            float runTimer = runTurnWindow;
+
+            while (runTimer > 0)
+            {
+                await Task.Yield();
+                
+                runTimer -= Time.deltaTime;
+                if (CurrentCharacterState == CharacterState.Run)
+                    return;
+            }
             
+            CharacterMovement.RunCurveTracker.x = 0;
+        }
+
+        /// <summary>
+        /// Checks y velocity and input direction. Sets state to WallCling, WallSlide, or does nothing.
+        /// </summary>
+        /// <param name="rightWall"></param>
+        private void SetWalledState(bool rightWall)
+        {
+            if (CharacterMovement.CharacterVelocity.y != 0)
+                CurrentCharacterState = CharacterState.WallSlide;
+            else if (rightWall && CharacterInput.InputState.DirectionalInput.x > .5f || 
+                     !rightWall && CharacterInput.InputState.DirectionalInput.x < -.5f)
+                CurrentCharacterState = CharacterState.WallCling;
         }
     }
     
@@ -152,9 +309,5 @@ namespace Gameplay
         Fall = 5,
         WallCling = 6,
         WallSlide = 7
-        // Grounded = Idle | Run | Crouch | Land,
-        // Airborne = Rise | Fall,
-        // Walled = WallCling | WallSlide,
-        // CanCrouch = Idle | Run
     }
 }

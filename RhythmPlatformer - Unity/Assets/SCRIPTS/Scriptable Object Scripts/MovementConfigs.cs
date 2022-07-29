@@ -9,5 +9,12 @@ namespace Scriptable_Object_Scripts
         public AnimationCurve DashAcceleration;
         public AnimationCurve RiseAcceleration;
         public AnimationCurve FallAcceleration;
+
+        public float RunTopSpeed;
+        public float DashTopSpeed;
+        public float RiseTopSpeed;
+        public float FallTopSpeed;
+
+        public float WallClingMaxDuration = .5f;
     }
 }
