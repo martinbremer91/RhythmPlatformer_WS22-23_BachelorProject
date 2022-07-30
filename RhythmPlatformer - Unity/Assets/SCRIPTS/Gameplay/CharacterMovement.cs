@@ -16,6 +16,7 @@ namespace Gameplay
 
         public static float RunVelocity;
         public static float LandVelocity;
+        public static float WallSlideVelocity;
         public static Vector2 DashVelocity;
         public static Vector2 RiseVelocity;
         public static Vector2 FallVelocity;
@@ -56,7 +57,7 @@ namespace Gameplay
             rb.velocity = CharacterVelocity;
 
             Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + FallVelocity.x + RiseVelocity.x, 
-                FallVelocity.y + RiseVelocity.y);
+                WallSlideVelocity + FallVelocity.y + RiseVelocity.y);
         }
 
         public void Run()
@@ -79,6 +80,13 @@ namespace Gameplay
             int directionMod = CharacterStateController.FacingLeft ? -1 : 1;
             LandVelocity = 
                 Mathf.Abs(LandVelocity) > .05f ? LandVelocity - directionMod * surfaceDrag * Time.deltaTime : 0;
+        }
+        
+        public void WallSlide()
+        {
+            int directionMod = CharacterVelocity.y < 0 ? -1 : 1;
+            WallSlideVelocity = Mathf.Abs(WallSlideVelocity) > .05f ? 
+                    WallSlideVelocity - directionMod * surfaceDrag * Time.deltaTime : 0;
         }
 
         public static void CancelHorizontalVelocity()

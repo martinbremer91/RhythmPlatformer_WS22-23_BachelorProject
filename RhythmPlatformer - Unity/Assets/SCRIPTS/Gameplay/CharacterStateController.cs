@@ -96,6 +96,9 @@ namespace Gameplay
                 case CharacterState.Land:
                     CharacterMovement.LandVelocity = CharacterMovement.CharacterVelocity.x;
                     break;
+                case CharacterState.WallSlide:
+                    CharacterMovement.WallSlideVelocity = CharacterMovement.CharacterVelocity.y;
+                    break;
             }
         }
 
@@ -115,6 +118,9 @@ namespace Gameplay
                     break;
                 case CharacterState.Fall:
                     CharacterMovement.FallVelocity = Vector2.zero;
+                    break;
+                case CharacterState.WallSlide:
+                    CharacterMovement.WallSlideVelocity = 0;
                     break;
             }
         }
@@ -168,13 +174,7 @@ namespace Gameplay
                     HandleIdle();
                     break;
                 case CharacterState.Run:
-                    if (CharacterInput.InputState.DirectionalInput.y > -.5f)
-                        CurrentCharacterState =
-                            Mathf.Abs(CharacterInput.InputState.DirectionalInput.x) > .5f
-                                ? CharacterState.Run
-                                : CharacterState.Idle;
-                    else
-                        CurrentCharacterState = CharacterState.Crouch;
+                    HandleRun();
                     break;
                 case CharacterState.Crouch:
                     if (CharacterInput.InputState.DirectionalInput.y > -.5f)
@@ -189,12 +189,16 @@ namespace Gameplay
                                 CharacterState.Crouch : CharacterState.Idle;
                     break;
                 case CharacterState.Rise:
+                    // drift
                     break;
                 case CharacterState.Fall:
+                    // drift
                     break;
                 case CharacterState.WallCling:
                     break;
                 case CharacterState.WallSlide:
+                    if (CharacterMovement.CharacterVelocity.y == 0)
+                        CurrentCharacterState = CharacterState.WallCling;
                     break;
             }
             
@@ -216,6 +220,17 @@ namespace Gameplay
                 }
                 
                 CheckFacingOrientation();
+            }
+
+            void HandleRun()
+            {
+                if (CharacterInput.InputState.DirectionalInput.y > -.5f)
+                    CurrentCharacterState =
+                        Mathf.Abs(CharacterInput.InputState.DirectionalInput.x) > .5f
+                            ? CharacterState.Run
+                            : CharacterState.Idle;
+                else
+                    CurrentCharacterState = CharacterState.Crouch;
             }
             
             void NearWallChecks()
@@ -253,8 +268,6 @@ namespace Gameplay
                     characterMovement.Land();
                     break;
                 case CharacterState.Rise:
-                    // drag
-                    //drift
                     break;
                 case CharacterState.Fall:
                     Vector2 fallTracker = CharacterMovement.FallCurveTracker;
@@ -263,12 +276,12 @@ namespace Gameplay
                         CharacterMovement.FallCurveTracker.x += Time.deltaTime;
                         characterMovement.RiseOrFall(false);
                     }
-                    //drift
                     break;
                 case CharacterState.WallCling:
                     //wallClingTimer += Time.deltaTime;
                     break;
                 case CharacterState.WallSlide:
+                    characterMovement.WallSlide();
                     break;
             }
         }
