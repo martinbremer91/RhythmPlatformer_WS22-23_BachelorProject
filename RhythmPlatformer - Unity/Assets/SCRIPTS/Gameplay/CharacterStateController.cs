@@ -77,8 +77,8 @@ namespace Gameplay
             if (_currentCharacterState == value)
                 return;
             
-            ChangeOutOfState();
             ChangeIntoState(value);
+            ChangeOutOfState();
             
             _currentCharacterState = value;
         }
@@ -242,6 +242,7 @@ namespace Gameplay
                     CharacterMovement.CancelHorizontalVelocity();
                     break;
                 case CharacterState.Rise:
+                    // drag
                     //drift
                     break;
                 case CharacterState.Fall:
@@ -269,6 +270,9 @@ namespace Gameplay
                 FacingLeft = true;
         }
 
+        /// <summary>
+        /// Async function to create time-frame for reversing run direction without losing speed ("dash dancing")
+        /// </summary>
         private static async void ResetRunCurveTrackerAsync()
         {
             float runTimer = runTurnWindow;

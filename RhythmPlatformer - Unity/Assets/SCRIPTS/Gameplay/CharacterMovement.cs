@@ -23,6 +23,9 @@ namespace Gameplay
         private static float riseTopSpeed;
         private static float fallTopSpeed;
 
+        private static float airDrag;
+        private static float surfaceInertia;
+
         // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
         public static Vector2 RunCurveTracker;
         public static Vector2 DashCurveTracker;
@@ -41,6 +44,9 @@ namespace Gameplay
             runTopSpeed = movementConfigs.RunTopSpeed;
             riseTopSpeed = movementConfigs.RiseTopSpeed;
             fallTopSpeed = movementConfigs.FallTopSpeed;
+
+            airDrag = movementConfigs.AirDrag;
+            surfaceInertia = movementConfigs.SurfaceDrag;
         }
 
         public override void OnUpdate()
@@ -60,8 +66,10 @@ namespace Gameplay
 
         public void Fall()
         {
-            FallVelocity = new(FallVelocity.x, 
-                -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
+            FallVelocity =
+                new(Mathf.Abs(FallVelocity.x) > .05f ? 
+                        FallVelocity.x - FallVelocity.x * airDrag * Time.deltaTime : 0,
+                    -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
         }
 
         public static void CancelHorizontalVelocity()
