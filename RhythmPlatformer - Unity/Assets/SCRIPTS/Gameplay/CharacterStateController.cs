@@ -93,6 +93,9 @@ namespace Gameplay
                 case CharacterState.Fall:
                     CharacterMovement.FallVelocity = new(CharacterMovement.CharacterVelocity.x, 0);
                     break;
+                case CharacterState.Land:
+                    CharacterMovement.LandVelocity = CharacterMovement.CharacterVelocity.x;
+                    break;
             }
         }
 
@@ -103,6 +106,15 @@ namespace Gameplay
                 case CharacterState.Run:
                     ResetRunCurveTrackerAsync();
                     CharacterMovement.RunVelocity = 0;
+                    break;
+                case CharacterState.Land:
+                    CharacterMovement.LandVelocity = 0;
+                    break;
+                case CharacterState.Rise:
+                    CharacterMovement.RiseVelocity = Vector2.zero;
+                    break;
+                case CharacterState.Fall:
+                    CharacterMovement.FallVelocity = Vector2.zero;
                     break;
             }
         }
@@ -238,8 +250,7 @@ namespace Gameplay
                 case CharacterState.Crouch:
                     break;
                 case CharacterState.Land:
-                    // temp
-                    CharacterMovement.CancelHorizontalVelocity();
+                    characterMovement.Land();
                     break;
                 case CharacterState.Rise:
                     // drag
@@ -250,7 +261,7 @@ namespace Gameplay
                     if (fallTracker.x < fallTracker.y)
                     {
                         CharacterMovement.FallCurveTracker.x += Time.deltaTime;
-                        characterMovement.Fall();
+                        characterMovement.RiseOrFall(false);
                     }
                     //drift
                     break;

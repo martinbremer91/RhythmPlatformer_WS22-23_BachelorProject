@@ -64,6 +64,16 @@ namespace Editor
                 "Character State: " + 
                 Enum.GetName(typeof(CharacterState), CharacterStateController.CurrentCharacterState));
             
+            // Draw Velocities
+            GUI.Label(new Rect (infoRect.position + new Vector2(5, 25), new Vector2(300, 20)), 
+                "Character Velocity: " + CharacterMovement.CharacterVelocity);
+            GUI.Label(new Rect (infoRect.position + new Vector2(25, 40), new Vector2(300, 20)), 
+                "Run Velocity: " + CharacterMovement.RunVelocity);
+            GUI.Label(new Rect (infoRect.position + new Vector2(25, 55), new Vector2(300, 20)), 
+                "Fall Velocity: " + CharacterMovement.FallVelocity);
+            GUI.Label(new Rect (infoRect.position + new Vector2(25, 70), new Vector2(300, 20)), 
+                "Land Velocity: " + CharacterMovement.LandVelocity);
+            
             // DrawDirectionalInputCircle();
         }
 

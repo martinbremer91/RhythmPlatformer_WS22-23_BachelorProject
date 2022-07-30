@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Gameplay
@@ -11,7 +12,7 @@ namespace Gameplay
         #endregion
 
         public static InputState InputState;
-        
+
         public override void OnUpdate() => DetectKeyboardInput();
 
         private void DetectKeyboardInput()

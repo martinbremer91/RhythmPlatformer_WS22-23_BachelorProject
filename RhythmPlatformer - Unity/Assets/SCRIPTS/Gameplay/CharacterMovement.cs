@@ -15,6 +15,7 @@ namespace Gameplay
         public static Vector2 CharacterVelocity { get; private set; }
 
         public static float RunVelocity;
+        public static float LandVelocity;
         public static Vector2 DashVelocity;
         public static Vector2 RiseVelocity;
         public static Vector2 FallVelocity;
@@ -24,7 +25,7 @@ namespace Gameplay
         private static float fallTopSpeed;
 
         private static float airDrag;
-        private static float surfaceInertia;
+        private static float surfaceDrag;
 
         // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
         public static Vector2 RunCurveTracker;
@@ -46,7 +47,7 @@ namespace Gameplay
             fallTopSpeed = movementConfigs.FallTopSpeed;
 
             airDrag = movementConfigs.AirDrag;
-            surfaceInertia = movementConfigs.SurfaceDrag;
+            surfaceDrag = movementConfigs.SurfaceDrag;
         }
 
         public override void OnUpdate()
@@ -54,7 +55,7 @@ namespace Gameplay
             CharacterVelocity = GetCharacterVelocity();
             rb.velocity = CharacterVelocity;
 
-            Vector2 GetCharacterVelocity() => new (RunVelocity + FallVelocity.x + RiseVelocity.x, 
+            Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + FallVelocity.x + RiseVelocity.x, 
                 FallVelocity.y + RiseVelocity.y);
         }
 
@@ -64,12 +65,20 @@ namespace Gameplay
             RunVelocity = directionMod * movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * runTopSpeed;
         }
 
-        public void Fall()
+        public void RiseOrFall(bool rise)
         {
+            int directionMod = rise ? 1 : -1;
             FallVelocity =
                 new(Mathf.Abs(FallVelocity.x) > .05f ? 
                         FallVelocity.x - FallVelocity.x * airDrag * Time.deltaTime : 0,
-                    -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
+                    directionMod * movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
+        }
+
+        public void Land()
+        {
+            int directionMod = CharacterStateController.FacingLeft ? -1 : 1;
+            LandVelocity = 
+                Mathf.Abs(LandVelocity) > .05f ? LandVelocity - directionMod * surfaceDrag * Time.deltaTime : 0;
         }
 
         public static void CancelHorizontalVelocity()
