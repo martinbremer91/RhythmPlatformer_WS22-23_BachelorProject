@@ -27,8 +27,14 @@ namespace Gameplay
         private static float fallTopSpeed;
         private static float airDriftSpeed;
 
-        private static float airDrag;
-        private static float surfaceDrag;
+        private static float defaultAirDrag;
+        private static float reducedAirDragFactor;
+        private static float increasedAirDragFactor;
+        private static float defaultSurfaceDrag;
+        private static float reducedSurfaceDragFactor;
+        private static float increasedSurfaceDragFactor;
+
+        private static float crouchJumpVerticalSpeedModifier;
 
         // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
         public static Vector2 RunCurveTracker;
@@ -50,8 +56,15 @@ namespace Gameplay
             fallTopSpeed = movementConfigs.FallTopSpeed;
             airDriftSpeed = movementConfigs.AirDriftSpeed;
 
-            airDrag = movementConfigs.AirDrag;
-            surfaceDrag = movementConfigs.SurfaceDrag;
+            defaultAirDrag = movementConfigs.DefaultAirDrag;
+            reducedAirDragFactor = movementConfigs.ReducedAirDragFactor;
+            increasedAirDragFactor = movementConfigs.IncreasedAirDragFactor;
+            
+            defaultSurfaceDrag = movementConfigs.DefaultSurfaceDrag;
+            reducedSurfaceDragFactor = movementConfigs.ReducedSurfaceDragFactor;
+            increasedSurfaceDragFactor = movementConfigs.IncreasedSurfaceDragFactor;
+
+            crouchJumpVerticalSpeedModifier = movementConfigs.CrouchJumpSpeedModifier;
         }
 
         public override void OnUpdate()
@@ -72,36 +85,57 @@ namespace Gameplay
         public void Fall()
         {
             FallVelocity = new(Mathf.Abs(FallVelocity.x) > .05f ? 
-                        FallVelocity.x - FallVelocity.x * airDrag * Time.deltaTime : 0,
-                    -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
+                        FallVelocity.x - FallVelocity.x * GetCurrentAirDrag() * Time.deltaTime : 0,
+                    -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.x) * fallTopSpeed);
             
-            ApplyAirDrift();
+            ApplyAirDrift(FallVelocity.x);
         }
 
         public void Rise()
         {
             RiseVelocity = new(Mathf.Abs(RiseVelocity.x) > .05f ? 
-                        RiseVelocity.x - RiseVelocity.x * airDrag * Time.deltaTime : 0,
-                    -movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.y) * riseTopSpeed);
+                        RiseVelocity.x - RiseVelocity.x * GetCurrentAirDrag() * Time.deltaTime : 0,
+                    movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * riseTopSpeed);
             
-            ApplyAirDrift();
+            ApplyAirDrift(RiseVelocity.x);
         }
 
-        private void ApplyAirDrift() => 
-            AirDriftVelocity = CharacterInput.InputState.DirectionalInput.x * airDriftSpeed;
+        private float GetCurrentAirDrag()
+        {
+            float inputX = CharacterInput.InputState.DirectionalInput.x;
+            float airborneX = FallVelocity.x + RiseVelocity.x;
+            float currentAirDrag = defaultAirDrag;
+
+            currentAirDrag *= inputX == 0 || airborneX == 0 ? 1 :
+                airborneX * inputX > 0 ? reducedAirDragFactor : increasedAirDragFactor;
+
+            return currentAirDrag;
+        }
+
+        private void ApplyAirDrift(float airborneHorizontalVelocity)
+        {
+            if (airborneHorizontalVelocity == 0)
+                AirDriftVelocity = CharacterInput.InputState.DirectionalInput.x * airDriftSpeed;
+        }
 
         public void Land()
         {
             int directionMod = CharacterVelocity.x > 0 ? 1 : -1;
             LandVelocity = 
-                Mathf.Abs(LandVelocity) > .05f ? LandVelocity - directionMod * surfaceDrag * Time.deltaTime : 0;
+                Mathf.Abs(LandVelocity) > .05f ? LandVelocity - directionMod * defaultSurfaceDrag * Time.deltaTime : 0;
         }
         
         public void WallSlide()
         {
             int directionMod = CharacterVelocity.y < 0 ? -1 : 1;
             WallSlideVelocity = Mathf.Abs(WallSlideVelocity) > .05f ? 
-                    WallSlideVelocity - directionMod * surfaceDrag * Time.deltaTime : 0;
+                    WallSlideVelocity - directionMod * defaultSurfaceDrag * Time.deltaTime : 0;
+        }
+
+        public static float GetInitialJumpVerticalSpeed()
+        {
+            return CharacterStateController.Grounded && CharacterInput.InputState.DirectionalInput.y < -.5f ? 
+                riseTopSpeed * crouchJumpVerticalSpeedModifier: riseTopSpeed;
         }
 
         public static void CancelHorizontalVelocity()

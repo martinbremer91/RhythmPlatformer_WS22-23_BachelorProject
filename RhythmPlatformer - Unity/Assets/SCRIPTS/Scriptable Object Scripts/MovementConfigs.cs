@@ -22,11 +22,17 @@ namespace Scriptable_Object_Scripts
         
         [Space]
         [Header("DRAG")]
-        public float AirDrag; 
-        public float SurfaceDrag;
+        public float DefaultAirDrag;
+        public float ReducedAirDragFactor;
+        public float IncreasedAirDragFactor;
+        [Space]
+        public float DefaultSurfaceDrag;
+        public float ReducedSurfaceDragFactor;
+        public float IncreasedSurfaceDragFactor;
 
         [Space]
         [Header("MISC")]
         public float WallClingMaxDuration = .5f;
+        public float CrouchJumpSpeedModifier;
     }
 }
