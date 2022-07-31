@@ -18,6 +18,7 @@ namespace Scriptable_Object_Scripts
         public float DashTopSpeed;
         public float RiseTopSpeed;
         public float FallTopSpeed;
+        public float AirDriftSpeed;
         
         [Space]
         [Header("DRAG")]

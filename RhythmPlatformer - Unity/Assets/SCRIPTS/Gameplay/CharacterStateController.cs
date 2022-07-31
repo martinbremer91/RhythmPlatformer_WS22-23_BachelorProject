@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Systems;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace Gameplay
 {
@@ -52,18 +53,18 @@ namespace Gameplay
         
         public static bool NearWall_L;
         public static bool NearWall_R;
+        
+        private static bool canWallCling = true;
 
-        //private static bool canWallCling = true;
-
-        // private float wallClingMaxDuration;
-        // private static float wallClingTimer;
+        private float wallClingMaxDuration;
+        private static float wallClingTimer;
         
         #endregion
 
         private void Start()
         {
             spriteController = ReferenceManager.Instance.CharacterSpriteController;
-            // wallClingMaxDuration = ReferenceManager.Instance.MovementConfigs.WallClingMaxDuration;
+            wallClingMaxDuration = ReferenceManager.Instance.MovementConfigs.WallClingMaxDuration;
         }
 
         public override void OnUpdate()
@@ -115,9 +116,11 @@ namespace Gameplay
                     break;
                 case CharacterState.Rise:
                     CharacterMovement.RiseVelocity = Vector2.zero;
+                    CharacterMovement.AirDriftVelocity = 0;
                     break;
                 case CharacterState.Fall:
                     CharacterMovement.FallVelocity = Vector2.zero;
+                    CharacterMovement.AirDriftVelocity = 0;
                     break;
                 case CharacterState.WallSlide:
                     CharacterMovement.WallSlideVelocity = 0;
@@ -188,13 +191,12 @@ namespace Gameplay
                             CharacterInput.InputState.DirectionalInput.y <= -.5f ? 
                                 CharacterState.Crouch : CharacterState.Idle;
                     break;
-                case CharacterState.Rise:
-                    // drift
-                    break;
-                case CharacterState.Fall:
-                    // drift
-                    break;
                 case CharacterState.WallCling:
+                    if (wallClingTimer >= wallClingMaxDuration)
+                    {
+                        canWallCling = false;
+                        CurrentCharacterState = CharacterState.Fall;
+                    }
                     break;
                 case CharacterState.WallSlide:
                     if (CharacterMovement.CharacterVelocity.y == 0)
@@ -232,7 +234,7 @@ namespace Gameplay
                 else
                     CurrentCharacterState = CharacterState.Crouch;
             }
-            
+
             void NearWallChecks()
             {
                 bool holdTowardsWall_L = NearWall_L && CharacterInput.InputState.DirectionalInput.x < -.5f;
@@ -268,17 +270,23 @@ namespace Gameplay
                     characterMovement.Land();
                     break;
                 case CharacterState.Rise:
+                    Vector2 riseTracker = CharacterMovement.RiseCurveTracker;
+                    if (riseTracker.x < riseTracker.y)
+                    {
+                        CharacterMovement.RiseCurveTracker.x += Time.deltaTime;
+                        characterMovement.Rise();
+                    }
                     break;
                 case CharacterState.Fall:
                     Vector2 fallTracker = CharacterMovement.FallCurveTracker;
                     if (fallTracker.x < fallTracker.y)
                     {
                         CharacterMovement.FallCurveTracker.x += Time.deltaTime;
-                        characterMovement.RiseOrFall(false);
+                        characterMovement.Fall();
                     }
                     break;
                 case CharacterState.WallCling:
-                    //wallClingTimer += Time.deltaTime;
+                    wallClingTimer += Time.deltaTime;
                     break;
                 case CharacterState.WallSlide:
                     characterMovement.WallSlide();

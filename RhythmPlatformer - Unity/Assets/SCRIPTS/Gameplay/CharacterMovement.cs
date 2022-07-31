@@ -16,6 +16,7 @@ namespace Gameplay
 
         public static float RunVelocity;
         public static float LandVelocity;
+        public static float AirDriftVelocity;
         public static float WallSlideVelocity;
         public static Vector2 DashVelocity;
         public static Vector2 RiseVelocity;
@@ -24,6 +25,7 @@ namespace Gameplay
         private static float runTopSpeed;
         private static float riseTopSpeed;
         private static float fallTopSpeed;
+        private static float airDriftSpeed;
 
         private static float airDrag;
         private static float surfaceDrag;
@@ -34,9 +36,9 @@ namespace Gameplay
         public static Vector2 RiseCurveTracker;
         public static Vector2 FallCurveTracker;
 
-        private void Awake() => GetMovementCurveLengths();
+        private void Awake() => GetMovementData();
 
-        private void GetMovementCurveLengths()
+        private void GetMovementData()
         {
             RunCurveTracker.y = movementConfigs.RunAcceleration.keys[^1].time;
             DashCurveTracker.y = movementConfigs.DashAcceleration.keys[^1].time;
@@ -46,6 +48,7 @@ namespace Gameplay
             runTopSpeed = movementConfigs.RunTopSpeed;
             riseTopSpeed = movementConfigs.RiseTopSpeed;
             fallTopSpeed = movementConfigs.FallTopSpeed;
+            airDriftSpeed = movementConfigs.AirDriftSpeed;
 
             airDrag = movementConfigs.AirDrag;
             surfaceDrag = movementConfigs.SurfaceDrag;
@@ -56,8 +59,8 @@ namespace Gameplay
             CharacterVelocity = GetCharacterVelocity();
             rb.velocity = CharacterVelocity;
 
-            Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + FallVelocity.x + RiseVelocity.x, 
-                WallSlideVelocity + FallVelocity.y + RiseVelocity.y);
+            Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + FallVelocity.x + RiseVelocity.x + 
+                AirDriftVelocity, WallSlideVelocity + FallVelocity.y + RiseVelocity.y);
         }
 
         public void Run()
@@ -66,18 +69,30 @@ namespace Gameplay
             RunVelocity = directionMod * movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * runTopSpeed;
         }
 
-        public void RiseOrFall(bool rise)
+        public void Fall()
         {
-            int directionMod = rise ? 1 : -1;
-            FallVelocity =
-                new(Mathf.Abs(FallVelocity.x) > .05f ? 
+            FallVelocity = new(Mathf.Abs(FallVelocity.x) > .05f ? 
                         FallVelocity.x - FallVelocity.x * airDrag * Time.deltaTime : 0,
-                    directionMod * movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
+                    -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.y) * fallTopSpeed);
+            
+            ApplyAirDrift();
         }
+
+        public void Rise()
+        {
+            RiseVelocity = new(Mathf.Abs(RiseVelocity.x) > .05f ? 
+                        RiseVelocity.x - RiseVelocity.x * airDrag * Time.deltaTime : 0,
+                    -movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.y) * riseTopSpeed);
+            
+            ApplyAirDrift();
+        }
+
+        private void ApplyAirDrift() => 
+            AirDriftVelocity = CharacterInput.InputState.DirectionalInput.x * airDriftSpeed;
 
         public void Land()
         {
-            int directionMod = CharacterStateController.FacingLeft ? -1 : 1;
+            int directionMod = CharacterVelocity.x > 0 ? 1 : -1;
             LandVelocity = 
                 Mathf.Abs(LandVelocity) > .05f ? LandVelocity - directionMod * surfaceDrag * Time.deltaTime : 0;
         }
