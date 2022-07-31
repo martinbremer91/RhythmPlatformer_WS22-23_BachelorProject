@@ -111,7 +111,8 @@ MonoBehaviour:
   RunTopSpeed: 5
   DashTopSpeed: 5
   RiseTopSpeed: 5
-  FallTopSpeed: 5
+  FallTopSpeed: 1
+  AirDriftSpeed: 5
   AirDrag: 0.5
   SurfaceDrag: 5
   WallClingMaxDuration: 2

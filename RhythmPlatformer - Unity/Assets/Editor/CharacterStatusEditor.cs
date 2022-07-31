@@ -10,8 +10,12 @@ namespace Editor
         private static CharacterStatusEditor Instance;
 
         private Texture2D unitCircleTexture;
+        private Texture2D directionalInputMarkerTexture;
 
         private readonly Rect infoRect = new(new Vector2(5, 5), new Vector2(400, 400));
+        
+        private readonly Vector2 directionalInputPos = new(300, 10);
+        private readonly Vector2 markerOffset = new(45, 45);
 
         #region INITIALIZATION
 
@@ -41,7 +45,9 @@ namespace Editor
         private void LoadResources()
         {
             unitCircleTexture = 
-                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/SCRIPTS/Editor/Editor Resources/unit_circle.png");
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Editor Resources/unit_circle.png");
+            directionalInputMarkerTexture =
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Editor Resources/input_direction_marker.png");
         }
         
         private void OnDisable() => Instance = null;
@@ -74,13 +80,27 @@ namespace Editor
             GUI.Label(new Rect (infoRect.position + new Vector2(25, 70), new Vector2(300, 20)), 
                 "Land Velocity: " + CharacterMovement.LandVelocity);
             
-            // DrawDirectionalInputCircle();
+            DrawDirectionalInputCircle();
+            DrawButtonsState();
         }
 
         private void DrawDirectionalInputCircle()
         {
-            // GUI.DrawTexture(new Rect(new Vector2(50, 50), new Vector2(100, 100)), 
-            //     unitCircleTexture);
+            // temp: only works for keyboard (binary / raw axis) inputs. The 50 needs to take the axes into account.
+            Vector2 currentInput = 
+                new Vector2(CharacterInput.InputState.DirectionalInput.x, 
+                    -CharacterInput.InputState.DirectionalInput.y).normalized * 50;
+            
+            GUI.DrawTexture(new Rect(directionalInputPos, new Vector2(100, 100)),
+                unitCircleTexture);
+            GUI.DrawTexture(new Rect(directionalInputPos + markerOffset + currentInput, 
+                    new(10, 10)), directionalInputMarkerTexture);
+        }
+
+        private void DrawButtonsState()
+        {
+            GUI.Toggle(new Rect(directionalInputPos + new Vector2(0, 105),
+                new Vector2(200, 20)), CharacterInput.InputState.DashButton == ButtonState.On, "DASH");
         }
     }
 }
