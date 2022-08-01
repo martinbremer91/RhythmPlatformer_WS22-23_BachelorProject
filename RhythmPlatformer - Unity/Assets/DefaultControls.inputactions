@@ -65,6 +65,17 @@
                 },
                 {
                     "name": "",
+                    "id": "6fa67f14-a583-479f-950d-a17f03c9578e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AnalogMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c1663adc-3ab2-4b3f-b986-7b835897f14b",
                     "path": "<Keyboard>/space",
                     "interactions": "",

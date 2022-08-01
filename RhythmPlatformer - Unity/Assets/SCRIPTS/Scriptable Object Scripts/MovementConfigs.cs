@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Scriptable_Object_Scripts
 {
-    [CreateAssetMenu(fileName = "Movement Configs", menuName = "PC/Movement Configs")]
+    [CreateAssetMenu(fileName = "Movement Configs", menuName = "Custom/Movement Configs")]
     public class MovementConfigs : ScriptableObject
     {
         [Header("ACCELERATION CURVES")]

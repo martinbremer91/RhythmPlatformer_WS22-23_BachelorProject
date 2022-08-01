@@ -18,6 +18,8 @@ namespace Editor
         private readonly Vector2 inputStatePos = new(300, 10);
         private readonly Vector2 markerOffset = new(45, 45);
 
+        private float inputDeadzone;
+
         #region INITIALIZATION
 
         [MenuItem("Debug/Character Status", true)]
@@ -40,10 +42,10 @@ namespace Editor
                 return;
             }
             
-            LoadResources();
+            Init();
         }
 
-        private void LoadResources()
+        private void Init()
         {
             unitCircleTexture = 
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Editor Resources/unit_circle.png");
@@ -94,7 +96,6 @@ namespace Editor
 
         private void DrawInputState()
         {
-            // temp: only works for keyboard (binary / raw axis) inputs. The 50 needs to take the axes into account.
             Vector2 currentInput = 
                 new Vector2(CharacterInput.InputState.DirectionalInput.x, 
                     -CharacterInput.InputState.DirectionalInput.y).normalized * 

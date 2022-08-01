@@ -20,6 +20,7 @@ namespace Systems
         #region DATA REFERENCES
 
         public MovementConfigs MovementConfigs;
+        public SettingsConfigs Settings;
 
         #endregion
 
