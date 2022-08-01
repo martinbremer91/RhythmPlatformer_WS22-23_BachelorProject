@@ -1,99 +1,62 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
     public class CharacterInput : GameplayComponent
     {
-        #region REFERENCES
-
-        [SerializeField] private CharacterStateController stateController;
-
-        #endregion
-
-        public static bool GamepadDetected = true;
+        private DefaultControls controls;
 
         public static InputState InputState;
 
-        public override void OnUpdate()
+        private void Awake()
         {
-            if (GamepadDetected)
-                DetectGamepadInput();
-            else
-                DetectKeyboardInput();
+            controls = new DefaultControls();
+
+            controls.GameplayDefault.AnalogMove.performed += 
+                ctx => InputState.DirectionalInput = ctx.ReadValue<Vector2>();
+            controls.GameplayDefault.AnalogMove.canceled += 
+                ctx => InputState.DirectionalInput = Vector2.zero;
+
+            controls.GameplayDefault.DigitalMove.performed += 
+                ctx => HandleDigitalMove(ctx.ReadValue<Vector2>());
+
+            //temp
+            controls.GameplayDefault.Jump.performed +=
+                ctx => CharacterStateController.CurrentCharacterState = CharacterState.Rise;
+            
+            controls.Enable();
         }
 
-        private void DetectKeyboardInput()
+        private void Update()
         {
-            InputState.DirectionalInput = Vector2.zero;
-            
-            if (Input.GetKey(KeyCode.A))
-                InputState.DirectionalInput.x -= 1;
-            if (Input.GetKey(KeyCode.D))
-                InputState.DirectionalInput.x += 1;
+            InputState.DashButton = controls.GameplayDefault.Dash.phase;
+            InputState.JumpButton = controls.GameplayDefault.Jump.phase;
 
-            if (Input.GetKey(KeyCode.W))
-                InputState.DirectionalInput.y += 1;
-            if (Input.GetKey(KeyCode.S))
-                InputState.DirectionalInput.y -= 1;
-
-            InputState.DashButton = GetButtonState(KeyCode.Space);
-            InputState.JumpButton = GetButtonState(KeyCode.J);
-
-            ButtonState GetButtonState(KeyCode key)
-            {
-                if (Input.GetKeyDown(key))
-                    return ButtonState.Down;
-                if (Input.GetKey(key))
-                    return ButtonState.On;
-                if (Input.GetKeyUp(key))
-                    return ButtonState.Up;
-                
-                return ButtonState.Off;
-            }
+            InputState.directionalInputModifier = 
+                controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
+                controls.GameplayDefault.AnalogMove.phase == InputActionPhase.Waiting;
         }
 
-        private void DetectGamepadInput()
+        private void HandleDigitalMove(Vector2 digitalInput)
         {
-            InputState.DirectionalInput = Vector2.zero;
-
-            float xAxis = Input.GetAxis("Horizontal");
-            float yAxis = Input.GetAxis("Vertical");
-            
-            if (Mathf.Abs(xAxis) > .1f)
-                InputState.DirectionalInput.x = xAxis;
-            if (Mathf.Abs(yAxis) > .1f)
-                InputState.DirectionalInput.y = yAxis;
-
-            InputState.DashButton = GetButtonState("Fire1");
-            InputState.JumpButton = GetButtonState("Fire2");
-
-            ButtonState GetButtonState(string buttonString)
-            {
-                if (Input.GetButtonDown(buttonString))
-                    return ButtonState.Down;
-                if (Input.GetButton(buttonString))
-                    return ButtonState.On;
-                if (Input.GetButtonUp(buttonString))
-                    return ButtonState.Up;
-                
-                return ButtonState.Off;
-            }
+            if (controls.GameplayDefault.AnalogMove.phase == InputActionPhase.Waiting)
+                InputState.DirectionalInput = digitalInput;
         }
     }
-
+    
     public struct InputState
     {
-        public Vector2 DirectionalInput;
+        private Vector2 _directionalInput;
+        public Vector2 DirectionalInput
+        {
+            get => _directionalInput * (directionalInputModifier ? .5f : 1);
+            set => _directionalInput = value;
+        }
 
-        public ButtonState DashButton;
-        public ButtonState JumpButton;
-    }
-
-    public enum ButtonState
-    {
-        Off = 0,
-        Down = 1,
-        On = 2,
-        Up = 3
+        public bool directionalInputModifier;
+        
+        public InputActionPhase DashButton;
+        public InputActionPhase JumpButton;
     }
 }

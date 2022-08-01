@@ -2,6 +2,7 @@ using System;
 using Gameplay;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.InputSystem;
 
 namespace Editor
 {
@@ -14,7 +15,7 @@ namespace Editor
 
         private readonly Rect infoRect = new(new Vector2(5, 5), new Vector2(400, 400));
         
-        private readonly Vector2 directionalInputPos = new(300, 10);
+        private readonly Vector2 inputStatePos = new(300, 10);
         private readonly Vector2 markerOffset = new(45, 45);
 
         #region INITIALIZATION
@@ -72,8 +73,7 @@ namespace Editor
             
             DrawVelocities();
 
-            DrawDirectionalInputCircle();
-            DrawButtonsState();
+            DrawInputState();
         }
 
         private void DrawVelocities()
@@ -92,23 +92,24 @@ namespace Editor
                 "Land Velocity: " + CharacterMovement.LandVelocity);
         }
 
-        private void DrawDirectionalInputCircle()
+        private void DrawInputState()
         {
             // temp: only works for keyboard (binary / raw axis) inputs. The 50 needs to take the axes into account.
             Vector2 currentInput = 
                 new Vector2(CharacterInput.InputState.DirectionalInput.x, 
-                    -CharacterInput.InputState.DirectionalInput.y).normalized * 50;
+                    -CharacterInput.InputState.DirectionalInput.y).normalized * 
+                CharacterInput.InputState.DirectionalInput.magnitude * 50;
             
-            GUI.DrawTexture(new Rect(directionalInputPos, new Vector2(100, 100)),
+            GUI.DrawTexture(new Rect(inputStatePos, new Vector2(100, 100)),
                 unitCircleTexture);
-            GUI.DrawTexture(new Rect(directionalInputPos + markerOffset + currentInput, 
+            GUI.DrawTexture(new Rect(inputStatePos + markerOffset + currentInput, 
                     new(10, 10)), directionalInputMarkerTexture);
-        }
-
-        private void DrawButtonsState()
-        {
-            GUI.Toggle(new Rect(directionalInputPos + new Vector2(0, 105),
-                new Vector2(200, 20)), CharacterInput.InputState.DashButton == ButtonState.On, "DASH");
+            
+            GUI.Label(new Rect (inputStatePos + new Vector2(0, 105), new Vector2(300, 20)), 
+                CharacterInput.InputState.DirectionalInput.ToString());
+            GUI.Toggle(new Rect(inputStatePos + new Vector2(0, 120),
+                    new Vector2(200, 20)), 
+                CharacterInput.InputState.DashButton == InputActionPhase.Performed, "DASH");
         }
     }
 }

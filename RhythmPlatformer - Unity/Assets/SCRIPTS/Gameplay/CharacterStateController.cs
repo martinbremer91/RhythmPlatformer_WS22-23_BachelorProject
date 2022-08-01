@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Systems;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 
 namespace Gameplay
@@ -20,7 +21,7 @@ namespace Gameplay
         public static CharacterState CurrentCharacterState
         {
             get => _currentCharacterState;
-            private set => SetCharacterState(value);
+            set => SetCharacterState(value);
         }
 
         public static bool JumpSquat;
@@ -71,10 +72,6 @@ namespace Gameplay
         { 
             HandleInputStateChange();
             ApplyStateMovement();
-            
-            // temp
-            if (CharacterInput.InputState.JumpButton == ButtonState.Down)
-                CurrentCharacterState = CharacterState.Rise;
         }
 
         private static void SetCharacterState(CharacterState value)
