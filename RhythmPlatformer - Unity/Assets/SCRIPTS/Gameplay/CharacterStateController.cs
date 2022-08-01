@@ -79,7 +79,7 @@ namespace Gameplay
 
         private static void SetCharacterState(CharacterState value)
         {
-            if (_currentCharacterState == value)
+            if (_currentCharacterState != CharacterState.Rise && _currentCharacterState == value)
                 return;
             
             ChangeIntoState(value);
@@ -101,14 +101,16 @@ namespace Gameplay
                     break;
                 case CharacterState.Rise:
                     CharacterMovement.RiseCurveTracker.x = 0;
-                    float initialJumpSpeed = CharacterMovement.GetInitialJumpVerticalSpeed();
-                    CharacterMovement.RiseVelocity = 
-                        new(CharacterMovement.CharacterVelocity.x, initialJumpSpeed);
+                    CharacterMovement.InitializeRise();
                     break;
                 case CharacterState.Land:
                     CharacterMovement.LandVelocity = CharacterMovement.CharacterVelocity.x;
                     break;
+                case CharacterState.WallCling:
+                    CheckFacingOrientation(true);
+                    break;
                 case CharacterState.WallSlide:
+                    CheckFacingOrientation(true, true);
                     CharacterMovement.WallSlideVelocity = CharacterMovement.CharacterVelocity.y;
                     break;
             }
@@ -307,12 +309,15 @@ namespace Gameplay
             }
         }
 
-        private static void CheckFacingOrientation()
+        private static void CheckFacingOrientation(bool walled = false, bool slide = false)
         {
-            if (FacingLeft && CharacterInput.InputState.DirectionalInput.x > .1f)
-                FacingLeft = false;
-            if (!FacingLeft && CharacterInput.InputState.DirectionalInput.x < -.1f)
-                FacingLeft = true;
+            float turnParam = 
+                slide ? CharacterMovement.CharacterVelocity.x : CharacterInput.InputState.DirectionalInput.x;
+            
+            if (FacingLeft == !walled && turnParam > .1f)
+                FacingLeft = walled;
+            if (FacingLeft == walled && turnParam < -.1f)
+                FacingLeft = !walled;
         }
 
         /// <summary>

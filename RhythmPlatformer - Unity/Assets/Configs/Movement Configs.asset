@@ -73,13 +73,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.16678119
     - serializedVersion: 3
-      time: 1
+      time: 0.5
       value: 0
-      inSlope: -2.9578764
-      outSlope: -2.9578764
+      inSlope: -6.077986
+      outSlope: -6.077986
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.045918643
+      inWeight: 0.030303001
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -90,14 +90,14 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 6.3647795
+      outSlope: 6.3647795
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.03409091
     - serializedVersion: 3
-      time: 1
+      time: 0.5
       value: 1
       inSlope: 0
       outSlope: 0
@@ -108,15 +108,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RunTopSpeed: 5
-  DashTopSpeed: 5
-  RiseTopSpeed: 5
-  FallTopSpeed: 5
-  AirDriftSpeed: 3
-  DefaultAirDrag: 2
-  ReducedAirDragFactor: 0.5
-  IncreasedAirDragFactor: 2
-  DefaultSurfaceDrag: 5
+  RunTopSpeed: 7
+  DashTopSpeed: 20
+  RiseTopSpeed: 10
+  FallTopSpeed: 10
+  AirDriftSpeed: 5
+  DefaultAirDrag: 1
+  ReducedAirDragFactor: 0.01
+  IncreasedAirDragFactor: 10
+  DefaultSurfaceDrag: 7
   ReducedSurfaceDragFactor: 0.5
   IncreasedSurfaceDragFactor: 2
   WallClingMaxDuration: 2
