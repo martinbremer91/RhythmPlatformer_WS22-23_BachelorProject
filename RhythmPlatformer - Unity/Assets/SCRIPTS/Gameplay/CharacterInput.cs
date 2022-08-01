@@ -10,9 +10,17 @@ namespace Gameplay
 
         #endregion
 
+        public static bool GamepadDetected = true;
+
         public static InputState InputState;
 
-        public override void OnUpdate() => DetectKeyboardInput();
+        public override void OnUpdate()
+        {
+            if (GamepadDetected)
+                DetectGamepadInput();
+            else
+                DetectKeyboardInput();
+        }
 
         private void DetectKeyboardInput()
         {
@@ -38,6 +46,34 @@ namespace Gameplay
                 if (Input.GetKey(key))
                     return ButtonState.On;
                 if (Input.GetKeyUp(key))
+                    return ButtonState.Up;
+                
+                return ButtonState.Off;
+            }
+        }
+
+        private void DetectGamepadInput()
+        {
+            InputState.DirectionalInput = Vector2.zero;
+
+            float xAxis = Input.GetAxis("Horizontal");
+            float yAxis = Input.GetAxis("Vertical");
+            
+            if (Mathf.Abs(xAxis) > .1f)
+                InputState.DirectionalInput.x = xAxis;
+            if (Mathf.Abs(yAxis) > .1f)
+                InputState.DirectionalInput.y = yAxis;
+
+            InputState.DashButton = GetButtonState("Fire1");
+            InputState.JumpButton = GetButtonState("Fire2");
+
+            ButtonState GetButtonState(string buttonString)
+            {
+                if (Input.GetButtonDown(buttonString))
+                    return ButtonState.Down;
+                if (Input.GetButton(buttonString))
+                    return ButtonState.On;
+                if (Input.GetButtonUp(buttonString))
                     return ButtonState.Up;
                 
                 return ButtonState.Off;
