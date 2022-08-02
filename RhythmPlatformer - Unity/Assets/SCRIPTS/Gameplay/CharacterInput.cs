@@ -42,9 +42,10 @@ namespace Gameplay
                 InputState.analogDeadzone;
         }
 
-        private void HandleAnalogMove(Vector2 input) 
+        private void HandleAnalogMove(Vector2 input)
         {
-            if (InputState.analogDeadzone = input.magnitude <= settings.InputDeadZone) 
+            InputState.analogDeadzone = input.magnitude <= settings.InputDeadZone;
+            if (InputState.analogDeadzone)
             {
                 InputState.DirectionalInput = Vector2.zero;
                 return;

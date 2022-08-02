@@ -27,7 +27,7 @@ namespace Gameplay
         private static float fallTopSpeed;
         private static float airDriftSpeed;
 
-        public static float CurrentRiseTopSpeedModifier;
+        public static float RiseSpeedMod;
 
         private static float defaultAirDrag;
         private static float reducedAirDragFactor;
@@ -98,7 +98,7 @@ namespace Gameplay
             RiseVelocity = new(Mathf.Abs(RiseVelocity.x) > .05f ? 
                         RiseVelocity.x - RiseVelocity.x * GetCurrentAirDrag() * Time.deltaTime : 0,
                     movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * 
-                    riseTopSpeed * CurrentRiseTopSpeedModifier);
+                    riseTopSpeed * RiseSpeedMod);
             
             ApplyAirDrift(RiseVelocity.x);
         }
@@ -137,11 +137,15 @@ namespace Gameplay
 
         public static void InitializeRise()
         {
-            CurrentRiseTopSpeedModifier =
+            RiseSpeedMod =
                 CharacterStateController.Grounded && CharacterInput.InputState.DirectionalInput.y < -.5f
                     ? crouchJumpVerticalSpeedModifier : 1;
+
+            Vector2 riseVector = !CharacterStateController.Walled ? Vector2.up :
+                CharacterStateController.FacingLeft ? new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;
             
-            RiseVelocity = new(CharacterVelocity.x, CurrentRiseTopSpeedModifier * riseTopSpeed);
+            RiseVelocity = new Vector2(riseVector.x, riseVector.y * RiseSpeedMod) * riseTopSpeed + 
+                           new Vector2(CharacterVelocity.x, 0);
         }
 
         public static void CancelHorizontalVelocity()

@@ -28,6 +28,24 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
             ""id"": ""9878db16-605f-448f-a71b-b4e76ea1888c"",
             ""actions"": [
                 {
+                    ""name"": ""DigitalMove"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ff40c985-af0d-4881-bf14-8eab7b1bd7f1"",
+                    ""expectedControlType"": ""Dpad"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DigitalAxesModifier"",
+                    ""type"": ""Button"",
+                    ""id"": ""7036d85c-24df-4499-8fdb-96004197ce0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""AnalogMove"",
                     ""type"": ""Value"",
                     ""id"": ""faceae50-1127-459f-9953-41cd9955b4dd"",
@@ -53,115 +71,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DigitalMove"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""ff40c985-af0d-4881-bf14-8eab7b1bd7f1"",
-                    ""expectedControlType"": ""Dpad"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DigitalAxesModifier"",
-                    ""type"": ""Button"",
-                    ""id"": ""7036d85c-24df-4499-8fdb-96004197ce0c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""409057d4-7d4d-4398-a5cf-b6dff2052230"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AnalogMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6fa67f14-a583-479f-950d-a17f03c9578e"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AnalogMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c1663adc-3ab2-4b3f-b986-7b835897f14b"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a5bdf2b0-0f41-4a7f-816e-fc2c899e4208"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""049da5de-03f6-494f-9908-af861ae6b569"",
-                    ""path"": ""<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7b141ba5-2dc9-4a8f-bdd4-a48d9179c707"",
-                    ""path"": ""<Keyboard>/j"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5212e3f5-76f8-4b97-a879-fe8d1520cf5d"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ebaa28c4-a818-4643-b2f5-ee2a70c6fb88"",
-                    ""path"": ""<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""WASD"",
                     ""id"": ""7a7e3cb1-3eeb-459a-9d34-52794ce7dff0"",
@@ -274,6 +186,94 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""409057d4-7d4d-4398-a5cf-b6dff2052230"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnalogMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6fa67f14-a583-479f-950d-a17f03c9578e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnalogMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1663adc-3ab2-4b3f-b986-7b835897f14b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5bdf2b0-0f41-4a7f-816e-fc2c899e4208"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""049da5de-03f6-494f-9908-af861ae6b569"",
+                    ""path"": ""<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b141ba5-2dc9-4a8f-bdd4-a48d9179c707"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5212e3f5-76f8-4b97-a879-fe8d1520cf5d"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ebaa28c4-a818-4643-b2f5-ee2a70c6fb88"",
+                    ""path"": ""<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8e92f2a2-aaee-4a33-9874-a514884a9065"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
@@ -290,11 +290,11 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
 }");
         // GameplayDefault
         m_GameplayDefault = asset.FindActionMap("GameplayDefault", throwIfNotFound: true);
+        m_GameplayDefault_DigitalMove = m_GameplayDefault.FindAction("DigitalMove", throwIfNotFound: true);
+        m_GameplayDefault_DigitalAxesModifier = m_GameplayDefault.FindAction("DigitalAxesModifier", throwIfNotFound: true);
         m_GameplayDefault_AnalogMove = m_GameplayDefault.FindAction("AnalogMove", throwIfNotFound: true);
         m_GameplayDefault_Dash = m_GameplayDefault.FindAction("Dash", throwIfNotFound: true);
         m_GameplayDefault_Jump = m_GameplayDefault.FindAction("Jump", throwIfNotFound: true);
-        m_GameplayDefault_DigitalMove = m_GameplayDefault.FindAction("DigitalMove", throwIfNotFound: true);
-        m_GameplayDefault_DigitalAxesModifier = m_GameplayDefault.FindAction("DigitalAxesModifier", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -354,20 +354,20 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     // GameplayDefault
     private readonly InputActionMap m_GameplayDefault;
     private IGameplayDefaultActions m_GameplayDefaultActionsCallbackInterface;
+    private readonly InputAction m_GameplayDefault_DigitalMove;
+    private readonly InputAction m_GameplayDefault_DigitalAxesModifier;
     private readonly InputAction m_GameplayDefault_AnalogMove;
     private readonly InputAction m_GameplayDefault_Dash;
     private readonly InputAction m_GameplayDefault_Jump;
-    private readonly InputAction m_GameplayDefault_DigitalMove;
-    private readonly InputAction m_GameplayDefault_DigitalAxesModifier;
     public struct GameplayDefaultActions
     {
         private @DefaultControls m_Wrapper;
         public GameplayDefaultActions(@DefaultControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @DigitalMove => m_Wrapper.m_GameplayDefault_DigitalMove;
+        public InputAction @DigitalAxesModifier => m_Wrapper.m_GameplayDefault_DigitalAxesModifier;
         public InputAction @AnalogMove => m_Wrapper.m_GameplayDefault_AnalogMove;
         public InputAction @Dash => m_Wrapper.m_GameplayDefault_Dash;
         public InputAction @Jump => m_Wrapper.m_GameplayDefault_Jump;
-        public InputAction @DigitalMove => m_Wrapper.m_GameplayDefault_DigitalMove;
-        public InputAction @DigitalAxesModifier => m_Wrapper.m_GameplayDefault_DigitalAxesModifier;
         public InputActionMap Get() { return m_Wrapper.m_GameplayDefault; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -377,6 +377,12 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_GameplayDefaultActionsCallbackInterface != null)
             {
+                @DigitalMove.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalMove;
+                @DigitalMove.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalMove;
+                @DigitalMove.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalMove;
+                @DigitalAxesModifier.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalAxesModifier;
+                @DigitalAxesModifier.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalAxesModifier;
+                @DigitalAxesModifier.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalAxesModifier;
                 @AnalogMove.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnAnalogMove;
                 @AnalogMove.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnAnalogMove;
                 @AnalogMove.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnAnalogMove;
@@ -386,16 +392,16 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnJump;
-                @DigitalMove.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalMove;
-                @DigitalMove.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalMove;
-                @DigitalMove.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalMove;
-                @DigitalAxesModifier.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalAxesModifier;
-                @DigitalAxesModifier.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalAxesModifier;
-                @DigitalAxesModifier.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDigitalAxesModifier;
             }
             m_Wrapper.m_GameplayDefaultActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @DigitalMove.started += instance.OnDigitalMove;
+                @DigitalMove.performed += instance.OnDigitalMove;
+                @DigitalMove.canceled += instance.OnDigitalMove;
+                @DigitalAxesModifier.started += instance.OnDigitalAxesModifier;
+                @DigitalAxesModifier.performed += instance.OnDigitalAxesModifier;
+                @DigitalAxesModifier.canceled += instance.OnDigitalAxesModifier;
                 @AnalogMove.started += instance.OnAnalogMove;
                 @AnalogMove.performed += instance.OnAnalogMove;
                 @AnalogMove.canceled += instance.OnAnalogMove;
@@ -405,22 +411,16 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @DigitalMove.started += instance.OnDigitalMove;
-                @DigitalMove.performed += instance.OnDigitalMove;
-                @DigitalMove.canceled += instance.OnDigitalMove;
-                @DigitalAxesModifier.started += instance.OnDigitalAxesModifier;
-                @DigitalAxesModifier.performed += instance.OnDigitalAxesModifier;
-                @DigitalAxesModifier.canceled += instance.OnDigitalAxesModifier;
             }
         }
     }
     public GameplayDefaultActions @GameplayDefault => new GameplayDefaultActions(this);
     public interface IGameplayDefaultActions
     {
+        void OnDigitalMove(InputAction.CallbackContext context);
+        void OnDigitalAxesModifier(InputAction.CallbackContext context);
         void OnAnalogMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnDigitalMove(InputAction.CallbackContext context);
-        void OnDigitalAxesModifier(InputAction.CallbackContext context);
     }
 }
