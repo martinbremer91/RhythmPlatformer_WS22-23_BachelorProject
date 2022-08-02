@@ -95,12 +95,8 @@ namespace Gameplay
 
         public void Rise()
         {
-            RiseVelocity = new(Mathf.Abs(RiseVelocity.x) > .05f ? 
-                        RiseVelocity.x - RiseVelocity.x * GetCurrentAirDrag() * Time.deltaTime : 0,
-                    movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * 
-                    riseTopSpeed * RiseSpeedMod);
-            
-            ApplyAirDrift(RiseVelocity.x);
+            RiseVelocity = new(RiseVelocity.x,
+                movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * riseTopSpeed * RiseSpeedMod);
         }
 
         private float GetCurrentAirDrag()
@@ -159,6 +155,8 @@ namespace Gameplay
 
             RiseVelocity = new Vector2(riseVector.x, riseVector.y * RiseSpeedMod) * riseTopSpeed + 
                            new Vector2(CharacterVelocity.x, 0);
+
+            CharacterVelocity = RiseVelocity;
         }
 
         public static void CancelHorizontalVelocity()

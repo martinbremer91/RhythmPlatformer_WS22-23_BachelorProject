@@ -247,8 +247,11 @@ namespace Gameplay
 
             void NearWallChecks()
             {
-                bool holdTowardsWall_L = NearWall_L && CharacterInput.InputState.DirectionalInput.x < -.5f;
-                bool holdTowardsWall_R = NearWall_R && CharacterInput.InputState.DirectionalInput.x > .5f;
+                float inputX = CharacterInput.InputState.DirectionalInput.x;
+                float velocityX = CharacterMovement.CharacterVelocity.x;
+                
+                bool holdTowardsWall_L = NearWall_L && inputX < -.5f && velocityX <= 0;
+                bool holdTowardsWall_R = NearWall_R && inputX > .5f && velocityX >= 0;
             
                 if (Airborne && holdTowardsWall_L)
                     SetWalledState(false);
