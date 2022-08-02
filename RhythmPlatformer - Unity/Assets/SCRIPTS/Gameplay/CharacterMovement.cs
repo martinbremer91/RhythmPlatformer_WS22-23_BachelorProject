@@ -146,9 +146,8 @@ namespace Gameplay
 
         public static void InitializeRise()
         {
-            RiseSpeedMod =
-                CharacterStateController.Grounded && CharacterInput.InputState.DirectionalInput.y < -.5f
-                    ? crouchJumpVerticalSpeedModifier : 1;
+            bool crouching = CharacterStateController.Grounded && CharacterInput.InputState.DirectionalInput.y < -.5f;
+            RiseSpeedMod = crouching ? crouchJumpVerticalSpeedModifier : 1;
 
             Vector2 riseVector = !CharacterStateController.Walled ? Vector2.up : CharacterStateController.FacingLeft ? 
                 new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;

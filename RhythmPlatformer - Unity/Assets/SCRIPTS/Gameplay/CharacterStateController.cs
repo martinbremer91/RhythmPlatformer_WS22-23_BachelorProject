@@ -45,8 +45,7 @@ namespace Gameplay
         public static bool Grounded =>
             CurrentCharacterState is CharacterState.Idle or CharacterState.Run or CharacterState.Land
                 or CharacterState.Crouch;
-        public static bool CanCrouch =>
-            CurrentCharacterState is CharacterState.Idle or CharacterState.Run or CharacterState.Land;
+        
         public static bool Airborne => CurrentCharacterState is CharacterState.Rise or CharacterState.Fall;
         public static bool Walled => CurrentCharacterState is CharacterState.WallCling or CharacterState.WallSlide;
 
@@ -288,7 +287,7 @@ namespace Gameplay
                     Vector2 riseTracker = CharacterMovement.RiseCurveTracker;
                     if (riseTracker.x < riseTracker.y)
                     {
-                        CharacterMovement.RiseCurveTracker.x += Time.deltaTime;
+                        CharacterMovement.RiseCurveTracker.x += Time.deltaTime * (1 / CharacterMovement.RiseSpeedMod);
                         characterMovement.Rise();
                     }
                     else

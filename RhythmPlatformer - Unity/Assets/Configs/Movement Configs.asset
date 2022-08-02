@@ -110,8 +110,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   RunTopSpeed: 10
   DashTopSpeed: 20
-  RiseTopSpeed: 7
-  FallTopSpeed: 15
+  RiseTopSpeed: 14
+  FallTopSpeed: 10
   AirDriftSpeed: 7
   DefaultAirDrag: 0.2
   ReducedAirDragFactor: 0.01
