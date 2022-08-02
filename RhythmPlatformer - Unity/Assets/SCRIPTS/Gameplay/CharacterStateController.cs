@@ -211,6 +211,8 @@ namespace Gameplay
                 case CharacterState.WallSlide:
                     if (CharacterMovement.CharacterVelocity.y == 0)
                         CurrentCharacterState = CharacterState.WallCling;
+                    if (!NearWall_L && !NearWall_R)
+                        CurrentCharacterState = CharacterState.Fall;
                     break;
             }
             
