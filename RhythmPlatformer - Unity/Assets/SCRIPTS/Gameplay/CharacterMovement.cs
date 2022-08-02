@@ -124,15 +124,28 @@ namespace Gameplay
         public void Land()
         {
             int directionMod = CharacterVelocity.x > 0 ? 1 : -1;
-            LandVelocity = 
-                Mathf.Abs(LandVelocity) > .05f ? LandVelocity - directionMod * defaultSurfaceDrag * Time.deltaTime : 0;
+            LandVelocity = Mathf.Abs(LandVelocity) > .05f ? 
+                LandVelocity - directionMod * GetCurrentSurfaceDrag(false) * Time.deltaTime : 0;
         }
         
         public void WallSlide()
         {
             int directionMod = CharacterVelocity.y < 0 ? -1 : 1;
             WallSlideVelocity = Mathf.Abs(WallSlideVelocity) > .05f ? 
-                    WallSlideVelocity - directionMod * defaultSurfaceDrag * Time.deltaTime : 0;
+                    WallSlideVelocity - directionMod * GetCurrentSurfaceDrag(true) * Time.deltaTime : 0;
+        }
+
+        private float GetCurrentSurfaceDrag(bool wallSlide)
+        {
+            float slideAxisInput = wallSlide ? CharacterInput.InputState.DirectionalInput.y : 
+                CharacterInput.InputState.DirectionalInput.x;
+            float slideAxisVelocity = wallSlide ? CharacterVelocity.y : CharacterVelocity.x;
+            float currentSurfaceDrag = defaultSurfaceDrag;
+
+            currentSurfaceDrag *= slideAxisInput == 0 || slideAxisVelocity == 0 ? 1 :
+                slideAxisVelocity * slideAxisInput > 0 ? reducedSurfaceDragFactor : increasedSurfaceDragFactor;
+
+            return currentSurfaceDrag;
         }
 
         public static void InitializeRise()
@@ -141,9 +154,9 @@ namespace Gameplay
                 CharacterStateController.Grounded && CharacterInput.InputState.DirectionalInput.y < -.5f
                     ? crouchJumpVerticalSpeedModifier : 1;
 
-            Vector2 riseVector = !CharacterStateController.Walled ? Vector2.up :
-                CharacterStateController.FacingLeft ? new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;
-            
+            Vector2 riseVector = !CharacterStateController.Walled ? Vector2.up : CharacterStateController.FacingLeft ? 
+                new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;
+
             RiseVelocity = new Vector2(riseVector.x, riseVector.y * RiseSpeedMod) * riseTopSpeed + 
                            new Vector2(CharacterVelocity.x, 0);
         }

@@ -73,13 +73,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.16678119
     - serializedVersion: 3
-      time: 0.5
+      time: 0.25
       value: 0
-      inSlope: -6.077986
-      outSlope: -6.077986
+      inSlope: -11.907714
+      outSlope: -11.907714
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.030303001
+      inWeight: 0.034090936
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -108,14 +108,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RunTopSpeed: 7
+  RunTopSpeed: 10
   DashTopSpeed: 20
-  RiseTopSpeed: 10
-  FallTopSpeed: 10
-  AirDriftSpeed: 5
-  DefaultAirDrag: 1
+  RiseTopSpeed: 7
+  FallTopSpeed: 15
+  AirDriftSpeed: 7
+  DefaultAirDrag: 0.2
   ReducedAirDragFactor: 0.01
-  IncreasedAirDragFactor: 10
+  IncreasedAirDragFactor: 5
   DefaultSurfaceDrag: 7
   ReducedSurfaceDragFactor: 0.5
   IncreasedSurfaceDragFactor: 2
