@@ -19,6 +19,7 @@ namespace Gameplay
                 ctx => HandleAnalogMove(ctx.ReadValue<Vector2>());
             controls.GameplayDefault.AnalogMove.canceled += 
                 ctx => InputState.DirectionalInput = Vector2.zero;
+            InputState.analogDeadzone = true;
 
             controls.GameplayDefault.DigitalMove.performed += 
                 ctx => HandleDigitalMove(ctx.ReadValue<Vector2>());
