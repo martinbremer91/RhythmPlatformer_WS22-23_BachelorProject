@@ -90,6 +90,11 @@ namespace Editor
                 "Rise Velocity: " + CharacterMovement.RiseVelocity);
             GUI.Label(new Rect (infoRect.position + new Vector2(25, 85), new Vector2(300, 20)), 
                 "Land Velocity: " + CharacterMovement.LandVelocity);
+            GUI.Toggle(new Rect(infoRect.position + new Vector2(5, 105),
+                    new Vector2(200, 20)), 
+                CharacterStateController.CanWallCling, "Wall Cling available");
+            GUI.Label(new Rect (infoRect.position + new Vector2(25, 120), new Vector2(300, 20)), 
+                "Wall Cling Timer: " + $"{CharacterStateController.wallClingTimer:N2}");
         }
 
         private void DrawInputState()

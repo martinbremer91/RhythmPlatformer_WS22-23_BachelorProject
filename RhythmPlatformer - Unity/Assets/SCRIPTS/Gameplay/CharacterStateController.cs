@@ -55,17 +55,17 @@ namespace Gameplay
         public static bool NearWall_L;
         public static bool NearWall_R;
         
-        // private static bool canWallCling = true;
-        //
-        // private float wallClingMaxDuration;
-        // private static float wallClingTimer;
+        public static bool CanWallCling = true;
+        
+        private float wallClingMaxDuration;
+        public static float wallClingTimer;
         
         #endregion
 
         private void Start()
         {
             spriteController = ReferenceManager.Instance.CharacterSpriteController;
-            //wallClingMaxDuration = ReferenceManager.Instance.MovementConfigs.WallClingMaxDuration;
+            wallClingMaxDuration = ReferenceManager.Instance.MovementConfigs.WallClingMaxDuration;
         }
 
         public override void OnUpdate()
@@ -207,13 +207,19 @@ namespace Gameplay
                                 CharacterState.Crouch : CharacterState.Idle;
                     break;
                 case CharacterState.WallCling:
-                    // if (wallClingTimer >= wallClingMaxDuration)
-                    // {
-                    //     canWallCling = false;
-                    //     CurrentCharacterState = CharacterState.Fall;
-                    // }
+                    if (wallClingTimer >= wallClingMaxDuration)
+                    {
+                        CanWallCling = false;
+                        CurrentCharacterState = CharacterState.Fall;
+                    }
                     break;
                 case CharacterState.WallSlide:
+                    if (wallClingTimer >= wallClingMaxDuration)
+                    {
+                        CanWallCling = false;
+                        CurrentCharacterState = CharacterState.Fall;
+                        break;
+                    }
                     if (CharacterMovement.CharacterVelocity.y == 0)
                         CurrentCharacterState = CharacterState.WallCling;
                     if (!NearWall_L && !NearWall_R)
@@ -272,6 +278,9 @@ namespace Gameplay
         
         private void ApplyStateMovement()
         {
+            if (!Walled)
+                DecrementWallClingTimer();
+            
             switch (CurrentCharacterState)
             {
                 case CharacterState.Idle:
@@ -308,11 +317,19 @@ namespace Gameplay
                     }
                     break;
                 case CharacterState.WallCling:
-                    //wallClingTimer += Time.deltaTime;
+                    wallClingTimer += Time.deltaTime;
                     break;
                 case CharacterState.WallSlide:
+                    wallClingTimer += Time.deltaTime;
                     characterMovement.WallSlide();
                     break;
+            }
+            
+            void DecrementWallClingTimer()
+            {
+                wallClingTimer = Mathf.Max(wallClingTimer - Time.deltaTime, 0);
+                if (wallClingTimer <= 0)
+                    CanWallCling = true;
             }
         }
 
@@ -352,6 +369,9 @@ namespace Gameplay
         /// <param name="rightWall"></param>
         private void SetWalledState(bool rightWall)
         {
+            if (!CanWallCling)
+                return;
+            
             if (CharacterMovement.CharacterVelocity.y != 0)
                 CurrentCharacterState = CharacterState.WallSlide;
             else if (rightWall && CharacterInput.InputState.DirectionalInput.x > .5f || 
