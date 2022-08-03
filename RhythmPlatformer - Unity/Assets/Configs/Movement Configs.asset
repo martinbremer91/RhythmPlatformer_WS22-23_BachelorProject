@@ -113,11 +113,10 @@ MonoBehaviour:
   RiseTopSpeed: 14
   FallTopSpeed: 10
   AirDriftSpeed: 7
-  DefaultAirDrag: 0.2
-  ReducedAirDragFactor: 0.01
-  IncreasedAirDragFactor: 5
+  AirDrag: 0.2
   DefaultSurfaceDrag: 20
   ReducedSurfaceDragFactor: 0.5
   IncreasedSurfaceDragFactor: 2
   WallClingMaxDuration: 2
   CrouchJumpSpeedModifier: 0.5
+  RiseAirDriftPoint: 0.5

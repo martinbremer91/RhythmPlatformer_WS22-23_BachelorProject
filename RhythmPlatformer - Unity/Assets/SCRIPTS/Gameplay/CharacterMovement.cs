@@ -21,7 +21,7 @@ namespace Gameplay
         public static Vector2 RiseVelocity;
         public static Vector2 FallVelocity;
 
-        private static float runTopSpeed;
+        public static float runTopSpeed;
         private static float riseTopSpeed;
         private static float fallTopSpeed;
         private static float airDriftSpeed;
@@ -78,7 +78,10 @@ namespace Gameplay
         public void Run()
         {
             int directionMod = CharacterStateController.FacingLeft ? -1 : 1;
-            RunVelocity = directionMod * movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * runTopSpeed;
+            float velocity = movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * runTopSpeed;
+
+            if (velocity > Mathf.Abs(RunVelocity))
+                RunVelocity = directionMod * velocity;
         }
 
         public void Fall()

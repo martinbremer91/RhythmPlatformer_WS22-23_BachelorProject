@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -193,6 +194,13 @@ namespace Gameplay
                                 CharacterState.Run : CharacterState.Idle;
                     break;
                 case CharacterState.Land:
+                    if (CharacterMovement.CharacterVelocity.x * CharacterInput.InputState.DirectionalInput.x > 0 &&
+                        Mathf.Abs(CharacterMovement.CharacterVelocity.x) <= CharacterMovement.runTopSpeed)
+                    {
+                        CurrentCharacterState = CharacterState.Run;
+                        CharacterMovement.RunVelocity = CharacterMovement.CharacterVelocity.x;
+                        break;
+                    }
                     if (CharacterMovement.CharacterVelocity.x == 0)
                         CurrentCharacterState = 
                             CharacterInput.InputState.DirectionalInput.y <= -.5f ? 
