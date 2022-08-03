@@ -89,8 +89,6 @@ namespace Editor
             GUI.Label(new Rect (infoRect.position + new Vector2(25, 70), new Vector2(300, 20)), 
                 "Rise Velocity: " + CharacterMovement.RiseVelocity);
             GUI.Label(new Rect (infoRect.position + new Vector2(25, 85), new Vector2(300, 20)), 
-                "Air Drift Velocity: " + CharacterMovement.AirDriftVelocity);
-            GUI.Label(new Rect (infoRect.position + new Vector2(25, 100), new Vector2(300, 20)), 
                 "Land Velocity: " + CharacterMovement.LandVelocity);
         }
 

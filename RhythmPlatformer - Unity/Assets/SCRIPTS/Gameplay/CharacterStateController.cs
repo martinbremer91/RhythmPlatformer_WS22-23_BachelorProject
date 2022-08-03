@@ -125,11 +125,9 @@ namespace Gameplay
                     break;
                 case CharacterState.Rise:
                     CharacterMovement.RiseVelocity = Vector2.zero;
-                    CharacterMovement.AirDriftVelocity = 0;
                     break;
                 case CharacterState.Fall:
                     CharacterMovement.FallVelocity = Vector2.zero;
-                    CharacterMovement.AirDriftVelocity = 0;
                     break;
                 case CharacterState.WallSlide:
                     CharacterMovement.WallSlideVelocity = 0;

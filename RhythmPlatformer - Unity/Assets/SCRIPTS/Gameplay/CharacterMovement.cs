@@ -16,7 +16,6 @@ namespace Gameplay
 
         public static float RunVelocity;
         public static float LandVelocity;
-        public static float AirDriftVelocity;
         public static float WallSlideVelocity;
         public static Vector2 DashVelocity;
         public static Vector2 RiseVelocity;
@@ -29,14 +28,13 @@ namespace Gameplay
 
         public static float RiseSpeedMod;
 
-        private static float defaultAirDrag;
-        private static float reducedAirDragFactor;
-        private static float increasedAirDragFactor;
+        private static float airDrag;
         private static float defaultSurfaceDrag;
         private static float reducedSurfaceDragFactor;
         private static float increasedSurfaceDragFactor;
 
         private static float crouchJumpVerticalSpeedModifier;
+        private static float riseAirDriftPoint;
 
         // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
         public static Vector2 RunCurveTracker;
@@ -58,15 +56,14 @@ namespace Gameplay
             fallTopSpeed = movementConfigs.FallTopSpeed;
             airDriftSpeed = movementConfigs.AirDriftSpeed;
 
-            defaultAirDrag = movementConfigs.DefaultAirDrag;
-            reducedAirDragFactor = movementConfigs.ReducedAirDragFactor;
-            increasedAirDragFactor = movementConfigs.IncreasedAirDragFactor;
-            
+            airDrag = movementConfigs.AirDrag;
+
             defaultSurfaceDrag = movementConfigs.DefaultSurfaceDrag;
             reducedSurfaceDragFactor = movementConfigs.ReducedSurfaceDragFactor;
             increasedSurfaceDragFactor = movementConfigs.IncreasedSurfaceDragFactor;
 
             crouchJumpVerticalSpeedModifier = movementConfigs.CrouchJumpSpeedModifier;
+            riseAirDriftPoint = movementConfigs.RiseAirDriftPoint;
         }
 
         public override void OnUpdate()
@@ -74,8 +71,8 @@ namespace Gameplay
             CharacterVelocity = GetCharacterVelocity();
             rb.velocity = CharacterVelocity;
 
-            Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + FallVelocity.x + RiseVelocity.x + 
-                AirDriftVelocity, WallSlideVelocity + FallVelocity.y + RiseVelocity.y);
+            Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + FallVelocity.x + RiseVelocity.x, 
+                WallSlideVelocity + FallVelocity.y + RiseVelocity.y);
         }
 
         public void Run()
@@ -86,35 +83,24 @@ namespace Gameplay
 
         public void Fall()
         {
-            FallVelocity = new(Mathf.Abs(FallVelocity.x) > .05f ? 
-                        FallVelocity.x - FallVelocity.x * GetCurrentAirDrag() * Time.deltaTime : 0,
-                    -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.x) * fallTopSpeed);
+            float drift = CharacterInput.InputState.DirectionalInput.x * airDriftSpeed;
+
+            float xVelocity = FallVelocity.x == 0 ? drift : 
+                FallVelocity.x > 0 ? FallVelocity.x - (airDrag + drift) * Time.deltaTime : 
+                FallVelocity.x + (airDrag + drift) * Time.deltaTime;
             
-            ApplyAirDrift(FallVelocity.x);
+            float yVelocity = -movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.x) * fallTopSpeed; 
+            
+            FallVelocity = new(xVelocity, yVelocity);
         }
 
         public void Rise()
         {
             RiseVelocity = new(RiseVelocity.x,
                 movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * riseTopSpeed * RiseSpeedMod);
-        }
 
-        private float GetCurrentAirDrag()
-        {
-            float inputX = CharacterInput.InputState.DirectionalInput.x;
-            float airborneX = FallVelocity.x + RiseVelocity.x;
-            float currentAirDrag = defaultAirDrag;
-
-            currentAirDrag *= inputX == 0 || airborneX == 0 ? 1 :
-                airborneX * inputX > 0 ? reducedAirDragFactor : increasedAirDragFactor;
-
-            return currentAirDrag;
-        }
-
-        private void ApplyAirDrift(float airborneHorizontalVelocity)
-        {
-            if (airborneHorizontalVelocity == 0)
-                AirDriftVelocity = CharacterInput.InputState.DirectionalInput.x * airDriftSpeed;
+            if (RiseCurveTracker.x > riseAirDriftPoint * RiseCurveTracker.y)
+                RiseVelocity.x += CharacterInput.InputState.DirectionalInput.x * airDriftSpeed * Time.deltaTime;
         }
 
         public void Land()
