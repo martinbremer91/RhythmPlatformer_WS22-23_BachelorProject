@@ -317,10 +317,10 @@ namespace Gameplay
                     }
                     break;
                 case CharacterState.WallCling:
-                    wallClingTimer += Time.deltaTime;
+                    wallClingTimer = Mathf.Min(wallClingTimer + Time.deltaTime, wallClingMaxDuration);
                     break;
                 case CharacterState.WallSlide:
-                    wallClingTimer += Time.deltaTime;
+                    wallClingTimer = Mathf.Min(wallClingTimer + Time.deltaTime, wallClingMaxDuration);;
                     characterMovement.WallSlide();
                     break;
             }
