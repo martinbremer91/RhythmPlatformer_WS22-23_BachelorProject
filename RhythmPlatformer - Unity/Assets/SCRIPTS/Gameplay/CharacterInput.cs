@@ -37,6 +37,7 @@ namespace Gameplay
         {
             InputState.DashButton = controls.GameplayDefault.Dash.phase;
             InputState.JumpButton = controls.GameplayDefault.Jump.phase;
+            InputState.WallClingTrigger = controls.GameplayDefault.WallCling.phase;
 
             InputState.directionalInputModifier = 
                 controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
@@ -75,6 +76,7 @@ namespace Gameplay
         public bool analogDeadzone;
         
         public InputActionPhase DashButton;
+        public InputActionPhase WallClingTrigger;
         public InputActionPhase JumpButton;
     }
 }

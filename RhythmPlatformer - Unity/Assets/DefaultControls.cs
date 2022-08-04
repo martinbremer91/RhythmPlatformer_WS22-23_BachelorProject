@@ -71,6 +71,15 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WallCling"",
+                    ""type"": ""Button"",
+                    ""id"": ""a079fa59-bfe3-4a8f-be61-2ddd6b010fcb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -337,6 +346,50 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""action"": ""DigitalAxesModifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7ca458e-eeb6-4aa9-b338-be9f36016d42"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallCling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5ff68c6-a3d0-4b0c-b8fd-c2987863522e"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallCling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a1f28b7-4e34-4b14-a239-1a63af1a8798"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallCling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2860714-571c-4277-a3b2-ebaf9dac13aa"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallCling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -350,6 +403,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_GameplayDefault_AnalogMove = m_GameplayDefault.FindAction("AnalogMove", throwIfNotFound: true);
         m_GameplayDefault_Dash = m_GameplayDefault.FindAction("Dash", throwIfNotFound: true);
         m_GameplayDefault_Jump = m_GameplayDefault.FindAction("Jump", throwIfNotFound: true);
+        m_GameplayDefault_WallCling = m_GameplayDefault.FindAction("WallCling", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -414,6 +468,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_GameplayDefault_AnalogMove;
     private readonly InputAction m_GameplayDefault_Dash;
     private readonly InputAction m_GameplayDefault_Jump;
+    private readonly InputAction m_GameplayDefault_WallCling;
     public struct GameplayDefaultActions
     {
         private @DefaultControls m_Wrapper;
@@ -423,6 +478,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         public InputAction @AnalogMove => m_Wrapper.m_GameplayDefault_AnalogMove;
         public InputAction @Dash => m_Wrapper.m_GameplayDefault_Dash;
         public InputAction @Jump => m_Wrapper.m_GameplayDefault_Jump;
+        public InputAction @WallCling => m_Wrapper.m_GameplayDefault_WallCling;
         public InputActionMap Get() { return m_Wrapper.m_GameplayDefault; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -447,6 +503,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnJump;
+                @WallCling.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnWallCling;
+                @WallCling.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnWallCling;
+                @WallCling.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnWallCling;
             }
             m_Wrapper.m_GameplayDefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -466,6 +525,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @WallCling.started += instance.OnWallCling;
+                @WallCling.performed += instance.OnWallCling;
+                @WallCling.canceled += instance.OnWallCling;
             }
         }
     }
@@ -477,5 +539,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         void OnAnalogMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnWallCling(InputAction.CallbackContext context);
     }
 }

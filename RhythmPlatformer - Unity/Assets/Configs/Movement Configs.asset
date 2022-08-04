@@ -119,4 +119,5 @@ MonoBehaviour:
   IncreasedSurfaceDragFactor: 2
   WallClingMaxDuration: 2
   CrouchJumpSpeedModifier: 0.5
-  RiseAirDriftPoint: 0.5
+  RiseAirDriftPoint: 0.25
+  WallSlideFallSpeed: 0

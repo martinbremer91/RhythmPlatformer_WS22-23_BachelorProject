@@ -220,8 +220,6 @@ namespace Gameplay
                         CurrentCharacterState = CharacterState.Fall;
                         break;
                     }
-                    if (CharacterMovement.CharacterVelocity.y == 0)
-                        CurrentCharacterState = CharacterState.WallCling;
                     if (!NearWall_L && !NearWall_R)
                         CurrentCharacterState = CharacterState.Fall;
                     break;

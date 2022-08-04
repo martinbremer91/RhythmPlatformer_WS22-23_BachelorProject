@@ -18,7 +18,7 @@ namespace Scriptable_Object_Scripts
         public float RiseTopSpeed;
         public float FallTopSpeed;
         public float AirDriftSpeed;
-        
+
         [Space]
         [Header("DRAG")]
         public float AirDrag;
@@ -31,5 +31,6 @@ namespace Scriptable_Object_Scripts
         public float WallClingMaxDuration = .5f;
         public float CrouchJumpSpeedModifier;
         [Range(0,1)] public float RiseAirDriftPoint;
+        public float WallSlideFallSpeed;
     }
 }

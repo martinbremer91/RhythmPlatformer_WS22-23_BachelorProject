@@ -115,9 +115,10 @@ namespace Gameplay
         
         public void WallSlide()
         {
-            int directionMod = CharacterVelocity.y < 0 ? -1 : 1;
-            WallSlideVelocity = Mathf.Abs(WallSlideVelocity) > .05f ? 
-                    WallSlideVelocity - directionMod * GetCurrentSurfaceDrag(true) * Time.deltaTime : 0;
+            float velocity = WallSlideVelocity -
+                             (CharacterVelocity.y <= 0 ? -1 : 1) * GetCurrentSurfaceDrag(true) * Time.deltaTime;
+            
+            WallSlideVelocity = Mathf.Max(velocity);
         }
 
         private float GetCurrentSurfaceDrag(bool wallSlide)
