@@ -390,6 +390,17 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""action"": ""WallCling"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d853e79-435f-40b3-bd8c-8397095dca94"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallCling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
