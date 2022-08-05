@@ -1,4 +1,5 @@
 using System;
+using Debug_and_Tools;
 using Gameplay;
 using UnityEngine;
 using UnityEditor;
@@ -10,8 +11,10 @@ namespace Editor
     {
         private static CharacterStatusEditor s_instance;
 
-        private CharacterStateController _characterStateController;
-        private CharacterMovement _characterMovement;
+        private CharacterStateController _characterStateController => 
+            EditorReferenceCollector.s_Instance.CharacterStateController;
+        private CharacterMovement _characterMovement => 
+            EditorReferenceCollector.s_Instance.CharacterMovement;
 
         private Texture2D _unitCircleTexture;
         private Texture2D _directionalInputMarkerTexture;
@@ -23,6 +26,8 @@ namespace Editor
 
         private InputState _inputState;
         private float _inputDeadzone;
+
+        private bool _referencesCheck;
 
         #region INITIALIZATION
 
@@ -59,11 +64,29 @@ namespace Editor
         
         private void OnDisable() => s_instance = null;
 
+        private bool CheckReferences()
+        {
+            if (_referencesCheck)
+                return true;
+
+            _referencesCheck =
+                EditorReferenceCollector.s_Instance != null &&
+                _characterMovement != null &&
+                _characterStateController != null;
+
+            return _referencesCheck;
+        }
+
         #endregion
 
         private void OnGUI()
         {
-            return;
+            if (!CheckReferences())
+            {
+                GUI.Label(new Rect (_infoRect.position + new Vector2(5, 5), new Vector2(300, 20)), 
+                    "Start Game to Refresh");
+                return;
+            }
             
             Draw();
             Repaint();
@@ -80,7 +103,6 @@ namespace Editor
                 Enum.GetName(typeof(CharacterState), _characterStateController.CurrentCharacterState));
             
             DrawVelocities();
-
             DrawInputState();
         }
 
