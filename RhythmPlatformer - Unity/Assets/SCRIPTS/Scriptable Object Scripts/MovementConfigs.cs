@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scriptable_Object_Scripts
 {
@@ -22,11 +23,18 @@ namespace Scriptable_Object_Scripts
         [Space]
         [Header("DRAG")]
         public float AirDrag;
-        public float DefaultSurfaceDrag;
-        public float ReducedSurfaceDragFactor;
-        public float IncreasedSurfaceDragFactor;
+        [Space]
+        public float DefaultGroundDrag;
+        public float ReducedGroundDragFactor;
+        public float IncreasedGroundDragFactor;
+        [Space] 
+        public float DefaultWallDrag;
+        public float ReducedWallDrag;
+        public float IncreasedWallDrag;
 
-        [Space] [Header("MISC")] public float RunTurnWindow = .1f;
+        [Space] 
+        [Header("MISC")] 
+        public float RunTurnWindow = .1f;
         public float WallClingMaxDuration = .5f;
         public float CrouchJumpSpeedModifier;
         [Range(0,1)] public float RiseAirDriftPoint;

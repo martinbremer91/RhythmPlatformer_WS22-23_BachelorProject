@@ -42,9 +42,14 @@ namespace Gameplay
         public float RiseSpeedMod => _riseSpeedMod;
 
         private float _airDrag;
-        private float _defaultSurfaceDrag;
-        private float _reducedSurfaceDragFactor;
-        private float _increasedSurfaceDragFactor;
+        
+        private float _defaultGroundDrag;
+        private float _reducedGroundDragFactor;
+        private float _increasedGroundDragFactor;
+
+        private float _defaultWallDrag;
+        private float _reducedWallDragFactor;
+        private float _increasedWallDragFactor;
 
         private float _crouchJumpVerticalSpeedModifier;
         private float _riseAirDriftPoint;
@@ -75,9 +80,13 @@ namespace Gameplay
 
             _airDrag = _movementConfigs.AirDrag;
 
-            _defaultSurfaceDrag = _movementConfigs.DefaultSurfaceDrag;
-            _reducedSurfaceDragFactor = _movementConfigs.ReducedSurfaceDragFactor;
-            _increasedSurfaceDragFactor = _movementConfigs.IncreasedSurfaceDragFactor;
+            _defaultGroundDrag = _movementConfigs.DefaultGroundDrag;
+            _reducedGroundDragFactor = _movementConfigs.ReducedGroundDragFactor;
+            _increasedGroundDragFactor = _movementConfigs.IncreasedGroundDragFactor;
+
+            _defaultWallDrag = _movementConfigs.DefaultWallDrag;
+            _reducedWallDragFactor = _movementConfigs.ReducedWallDrag;
+            _increasedWallDragFactor = _movementConfigs.IncreasedWallDrag;
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
             _riseAirDriftPoint = _movementConfigs.RiseAirDriftPoint;
@@ -131,13 +140,13 @@ namespace Gameplay
         {
             int directionMod = _characterVelocity.x > 0 ? 1 : -1;
             LandVelocity = Mathf.Abs(LandVelocity) > .05f ? 
-                LandVelocity - directionMod * GetCurrentSurfaceDrag(false) * Time.deltaTime : 0;
+                LandVelocity - directionMod * GetCurrentGroundDrag() * Time.deltaTime : 0;
         }
         
         public void WallSlide()
         {
             float velocity = WallSlideVelocity -
-                             (_characterVelocity.y <= 0 ? -1 : 1) * GetCurrentSurfaceDrag(true) * Time.deltaTime;
+                             (_characterVelocity.y <= 0 ? -1 : 1) * GetCurrentWallDrag() * Time.deltaTime;
             
             WallSlideVelocity = Mathf.Max(velocity);
         }
@@ -146,15 +155,24 @@ namespace Gameplay
 
         #region UTILITY FUNCTIONS
         
-        private float GetCurrentSurfaceDrag(bool in_wallSlide)
+        private float GetCurrentGroundDrag()
         {
-            float slideAxisInput = in_wallSlide ? _characterInput.InputState.DirectionalInput.y : 
-                _characterInput.InputState.DirectionalInput.x;
-            float slideAxisVelocity = in_wallSlide ? _characterVelocity.y : _characterVelocity.x;
-            float currentSurfaceDrag = _defaultSurfaceDrag;
+            float slideAxisInput = _characterInput.InputState.DirectionalInput.x;
+            float slideAxisVelocity = _characterVelocity.x;
 
-            currentSurfaceDrag *= slideAxisInput == 0 || slideAxisVelocity == 0 ? 1 :
-                slideAxisVelocity * slideAxisInput > 0 ? _reducedSurfaceDragFactor : _increasedSurfaceDragFactor;
+            float currentSurfaceDrag = slideAxisInput == 0 || slideAxisVelocity == 0 ? _defaultGroundDrag :
+                slideAxisVelocity * slideAxisInput > 0 ? _reducedGroundDragFactor : _increasedGroundDragFactor;
+
+            return currentSurfaceDrag;
+        }
+
+        private float GetCurrentWallDrag()
+        {
+            float slideAxisInput = _characterInput.InputState.DirectionalInput.y;
+            float slideAxisVelocity = _characterVelocity.y;
+
+            float currentSurfaceDrag = slideAxisInput == 0 || slideAxisVelocity == 0 ? _defaultWallDrag :
+                slideAxisVelocity * slideAxisInput > 0 ? _reducedWallDragFactor : _increasedWallDragFactor;
 
             return currentSurfaceDrag;
         }

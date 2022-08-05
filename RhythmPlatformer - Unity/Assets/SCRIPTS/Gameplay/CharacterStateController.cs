@@ -217,26 +217,29 @@ namespace Gameplay
                                 CharacterState.Crouch : CharacterState.Idle;
                     break;
                 case CharacterState.WallCling:
-                    if (WallClingTimer >= wallClingMaxDuration)
+                    HandleWalled();
+                    if (_characterInput.InputState.WallClingTrigger != InputActionPhase.Performed)
                     {
-                        _canWallCling = false;
-                        CurrentCharacterState = CharacterState.Fall;
+                        float inputX = _characterInput.InputState.DirectionalInput.x;
+                        bool holdTowardsWall_L = NearWall_L && inputX < -.5f;
+                        bool holdTowardsWall_R = NearWall_R && inputX > .5f;
+                        
+                        CurrentCharacterState = holdTowardsWall_L || holdTowardsWall_R ? 
+                            CharacterState.WallSlide : CharacterState.Fall;
                     }
                     break;
                 case CharacterState.WallSlide:
-                    if (WallClingTimer >= wallClingMaxDuration)
-                    {
-                        _canWallCling = false;
-                        CurrentCharacterState = CharacterState.Fall;
-                        break;
-                    }
-                    if (!NearWall_L && !NearWall_R)
-                        CurrentCharacterState = CharacterState.Fall;
+                    HandleWalled();
+                    if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= .1f &&
+                        _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
+                        CurrentCharacterState = CharacterState.WallCling;
                     break;
             }
             
-            if (NearWall_L || NearWall_R)
-                NearWallChecks();
+            if (NearWall_L)
+                SetWalledState(false);
+            else if (NearWall_R)
+                SetWalledState(true);
 
             void HandleIdle()
             {
@@ -266,20 +269,15 @@ namespace Gameplay
                     CurrentCharacterState = CharacterState.Crouch;
             }
 
-            void NearWallChecks()
+            void HandleWalled()
             {
-                float inputX = _characterInput.InputState.DirectionalInput.x;
-                float velocityX = _characterMovement.CharacterVelocity.x;
-                
-                bool holdTowardsWall_L = NearWall_L && inputX < -.5f && velocityX <= 0;
-                bool holdTowardsWall_R = NearWall_R && inputX > .5f && velocityX >= 0;
-            
-                if (Airborne && holdTowardsWall_L)
-                    SetWalledState(false);
-                if (Airborne && holdTowardsWall_R)
-                    SetWalledState(true);
-            
-                if (Walled && _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
+                if (WallClingTimer >= wallClingMaxDuration)
+                {
+                    _canWallCling = false;
+                    CurrentCharacterState = CharacterState.Fall;
+                    return;
+                }
+                if (!NearWall_L && !NearWall_R)
                     CurrentCharacterState = CharacterState.Fall;
             }
         }
@@ -378,17 +376,22 @@ namespace Gameplay
         /// <summary>
         /// Checks y velocity and input direction. Sets state to WallCling, WallSlide, or does nothing.
         /// </summary>
-        /// <param name="in_rightWall"></param>
-        private void SetWalledState(bool in_rightWall)
+        private void SetWalledState(bool in_RightWall)
         {
-            if (!_canWallCling)
-                return;
+            bool leftWall = !in_RightWall || NearWall_L;
+            bool rightWall = in_RightWall || NearWall_R;
             
-            if (_characterMovement.CharacterVelocity.y != 0)
+            float inputX = _characterInput.InputState.DirectionalInput.x;
+            float velocityX = _characterMovement.CharacterVelocity.x;
+                
+            bool holdTowardsWall_L = leftWall && inputX < -.5f && velocityX <= 0;
+            bool holdTowardsWall_R = rightWall && inputX > .5f && velocityX >= 0;
+
+            if (Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
-            else if (in_rightWall && _characterInput.InputState.DirectionalInput.x > .5f || 
-                     !in_rightWall && _characterInput.InputState.DirectionalInput.x < -.5f)
-                CurrentCharacterState = CharacterState.WallCling;
+
+            if (Walled && _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
+                CurrentCharacterState = CharacterState.Fall;
         }
         
         #endregion
