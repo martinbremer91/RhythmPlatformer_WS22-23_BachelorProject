@@ -4,7 +4,7 @@ namespace Systems
 {
     public static class InputManager
     {
-        public static InputType InputType;
+        public static InputType s_InputType;
         
         
     }

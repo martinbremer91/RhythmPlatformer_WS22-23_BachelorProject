@@ -26,8 +26,7 @@ namespace Scriptable_Object_Scripts
         public float ReducedSurfaceDragFactor;
         public float IncreasedSurfaceDragFactor;
 
-        [Space]
-        [Header("MISC")]
+        [Space] [Header("MISC")] public float RunTurnWindow = .1f;
         public float WallClingMaxDuration = .5f;
         public float CrouchJumpSpeedModifier;
         [Range(0,1)] public float RiseAirDriftPoint;

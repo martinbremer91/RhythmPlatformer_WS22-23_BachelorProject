@@ -8,7 +8,7 @@ namespace Systems
     {
         public static UpdateManager Instance;
         
-        private List<IUpdatable> updatables = new();
+        private readonly List<IUpdatable> _updatables = new();
 
         private void OnEnable()
         {
@@ -18,14 +18,14 @@ namespace Systems
                 Destroy(gameObject);
         }
 
-        public void RegisterUpdatable(IUpdatable updatable) => updatables.Add(updatable);
-        public void DeregisterUpdatable(IUpdatable updatable) => updatables.Remove(updatable);
+        public void RegisterUpdatable(IUpdatable in_updatable) => _updatables.Add(in_updatable);
+        public void DeregisterUpdatable(IUpdatable in_updatable) => _updatables.Remove(in_updatable);
 
         private void Update()
         {
-            foreach (IUpdatable updatable in updatables)
+            foreach (IUpdatable updatable in _updatables)
             {
-                if (GameStateManager.ActiveUpdateType.HasFlag(updatable.UpdateType))
+                if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
                     updatable.OnUpdate();
             }
         }

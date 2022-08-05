@@ -1,3 +1,4 @@
+using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,77 +7,72 @@ namespace Gameplay
 {
     public class CharacterInput : GameplayComponent
     {
-        private SettingsConfigs settings;
+        #region REFERENCES
 
-        private DefaultControls controls;
-        public static InputState InputState;
+        [SerializeField] private CharacterStateController _characterStateController;
+        [SerializeField] private SettingsConfigs _settings;
+
+        #endregion
+
+        #region VARIABLES
+
+        private DefaultControls _controls;
+        public InputState InputState;
+
+        #endregion
 
         private void Awake()
         {
-            controls = new DefaultControls();
+            _controls = new DefaultControls();
 
-            controls.GameplayDefault.AnalogMove.performed += 
+            _controls.GameplayDefault.AnalogMove.performed += 
                 ctx => HandleAnalogMove(ctx.ReadValue<Vector2>());
-            controls.GameplayDefault.AnalogMove.canceled += 
+            _controls.GameplayDefault.AnalogMove.canceled += 
                 ctx => InputState.DirectionalInput = Vector2.zero;
             InputState.analogDeadzone = true;
 
-            controls.GameplayDefault.DigitalMove.performed += 
+            _controls.GameplayDefault.DigitalMove.performed += 
                 ctx => HandleDigitalMove(ctx.ReadValue<Vector2>());
 
             //temp
-            controls.GameplayDefault.Jump.performed +=
-                ctx => CharacterStateController.CurrentCharacterState = CharacterState.Rise;
+            _controls.GameplayDefault.Jump.performed +=
+                ctx => _characterStateController.CurrentCharacterState = CharacterState.Rise;
             
-            controls.Enable();
+            _controls.Enable();
         }
-
-        private void Start() => settings = ReferenceManager.Instance.Settings;
 
         private void Update()
         {
-            InputState.DashButton = controls.GameplayDefault.Dash.phase;
-            InputState.JumpButton = controls.GameplayDefault.Jump.phase;
-            InputState.WallClingTrigger = controls.GameplayDefault.WallCling.phase;
+            InputStateButtonsUpdate();
 
-            InputState.directionalInputModifier = 
-                controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
-                InputState.analogDeadzone;
+            void InputStateButtonsUpdate()
+            {
+                InputState.DashButton = _controls.GameplayDefault.Dash.phase;
+                InputState.JumpButton = _controls.GameplayDefault.Jump.phase;
+                InputState.WallClingTrigger = _controls.GameplayDefault.WallCling.phase;
+
+                InputState.directionalInputModifier = 
+                    _controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
+                    InputState.analogDeadzone;
+            }
         }
 
-        private void HandleAnalogMove(Vector2 input)
+        private void HandleAnalogMove(Vector2 in_input)
         {
-            InputState.analogDeadzone = input.magnitude <= settings.InputDeadZone;
+            InputState.analogDeadzone = in_input.magnitude <= _settings.InputDeadZone;
             if (InputState.analogDeadzone)
             {
                 InputState.DirectionalInput = Vector2.zero;
                 return;
             }
             
-            InputState.DirectionalInput = input;
+            InputState.DirectionalInput = in_input;
         }
 
-        private void HandleDigitalMove(Vector2 digitalInput)
+        private void HandleDigitalMove(Vector2 in_digitalInput)
         {
             if (InputState.analogDeadzone)
-                InputState.DirectionalInput = digitalInput;
+                InputState.DirectionalInput = in_digitalInput;
         }
-    }
-    
-    public struct InputState
-    {
-        private Vector2 _directionalInput;
-        public Vector2 DirectionalInput
-        {
-            get => _directionalInput * (directionalInputModifier ? .5f : 1);
-            set => _directionalInput = value;
-        }
-
-        public bool directionalInputModifier;
-        public bool analogDeadzone;
-        
-        public InputActionPhase DashButton;
-        public InputActionPhase WallClingTrigger;
-        public InputActionPhase JumpButton;
     }
 }

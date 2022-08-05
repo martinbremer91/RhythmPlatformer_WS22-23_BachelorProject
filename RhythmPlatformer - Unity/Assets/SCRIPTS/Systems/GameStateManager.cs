@@ -5,10 +5,10 @@ namespace Systems
 {
     public class GameStateManager : MonoBehaviour
     {
-        [SerializeField] private UpdateType startUpdateType;
+        [SerializeField] private UpdateType _startUpdateType;
     
-        public static UpdateType ActiveUpdateType;
+        public static UpdateType s_ActiveUpdateType;
 
-        private void Start() => ActiveUpdateType = startUpdateType;
+        private void Start() => s_ActiveUpdateType = _startUpdateType;
     }
 }

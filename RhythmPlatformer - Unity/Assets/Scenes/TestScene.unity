@@ -168,7 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionCheck: 3
+  _characterStateController: {fileID: 1285793915}
+  _collisionCheck: 3
 --- !u!61 &104802501
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -266,7 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionCheck: 0
+  _characterStateController: {fileID: 1285793915}
+  _collisionCheck: 0
 --- !u!1 &256681399
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,7 +818,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterMovement: {fileID: 1285793917}
+  _spriteController: {fileID: 1285793918}
+  _characterMovement: {fileID: 1285793917}
+  _movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
+  _characterInput: {fileID: 1285793916}
 --- !u!114 &1285793916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,6 +834,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb146c95935bf454a9b53f26532d36ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterStateController: {fileID: 1285793915}
+  _settings: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
 --- !u!114 &1285793917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,8 +848,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18c8c08d2a74475491b0b95087c4818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
-  rb: {fileID: 1285793919}
+  _movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
+  _characterStateController: {fileID: 1285793915}
+  _characterInput: {fileID: 1285793916}
+  _rigidbody2D: {fileID: 1285793919}
+  RunCurveTracker: {x: 0, y: 0}
+  DashCurveTracker: {x: 0, y: 0}
+  RiseCurveTracker: {x: 0, y: 0}
+  FallCurveTracker: {x: 0, y: 0}
 --- !u!114 &1285793918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,7 +868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c888d331d2aef4dd199534c5a1b9cd04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1285793912}
+  _spriteRenderer: {fileID: 1285793912}
 --- !u!50 &1285793919
 Rigidbody2D:
   serializedVersion: 4
@@ -906,7 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e7a127a0faa46719618dc0266d0384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plot:
+  Plot:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
@@ -937,7 +950,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1513798204}
   - component: {fileID: 1513798203}
-  - component: {fileID: 1513798202}
   - component: {fileID: 1513798201}
   m_Layer: 0
   m_Name: GameManager
@@ -958,24 +970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c66967c843c444e4bcf10e89290b1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1513798202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513798200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3347466f170ff4ee88da5ea6b173b5b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CharacterInput: {fileID: 1285793916}
-  CharacterMovement: {fileID: 1285793917}
-  CharacterSpriteController: {fileID: 1285793918}
-  CharacterStateController: {fileID: 1285793915}
-  MovementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
-  Settings: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
 --- !u!114 &1513798203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -988,7 +982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c29313c082d4febae8df23a4772ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startUpdateType: 1
+  _startUpdateType: 1
 --- !u!4 &1513798204
 Transform:
   m_ObjectHideFlags: 0
@@ -1160,7 +1154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionCheck: 1
+  _characterStateController: {fileID: 1285793915}
+  _collisionCheck: 1
 --- !u!61 &1566410011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1343,7 +1338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionCheck: 2
+  _characterStateController: {fileID: 1285793915}
+  _collisionCheck: 2
 --- !u!61 &1710743678
 BoxCollider2D:
   m_ObjectHideFlags: 0

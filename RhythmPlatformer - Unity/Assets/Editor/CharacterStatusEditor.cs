@@ -8,22 +8,26 @@ namespace Editor
 {
     public class CharacterStatusEditor : EditorWindow
     {
-        private static CharacterStatusEditor Instance;
+        private static CharacterStatusEditor s_instance;
 
-        private Texture2D unitCircleTexture;
-        private Texture2D directionalInputMarkerTexture;
+        private CharacterStateController _characterStateController;
+        private CharacterMovement _characterMovement;
 
-        private readonly Rect infoRect = new(new Vector2(5, 5), new Vector2(400, 400));
+        private Texture2D _unitCircleTexture;
+        private Texture2D _directionalInputMarkerTexture;
+
+        private readonly Rect _infoRect = new(new Vector2(5, 5), new Vector2(400, 400));
         
-        private readonly Vector2 inputStatePos = new(300, 10);
-        private readonly Vector2 markerOffset = new(45, 45);
+        private readonly Vector2 _inputStatePos = new(300, 10);
+        private readonly Vector2 _markerOffset = new(45, 45);
 
-        private float inputDeadzone;
+        private InputState _inputState;
+        private float _inputDeadzone;
 
         #region INITIALIZATION
 
         [MenuItem("Debug/Character Status", true)]
-        private static bool OpenWindowValidate() => Instance == null;
+        private static bool OpenWindowValidate() => s_instance == null;
 
         [MenuItem("Debug/Character Status")]
         private static void OpenWindow()
@@ -34,8 +38,8 @@ namespace Editor
 
         private void OnEnable()
         {
-            if (Instance == null)
-                Instance = this;
+            if (s_instance == null)
+                s_instance = this;
             else
             {
                 Close();
@@ -47,18 +51,20 @@ namespace Editor
 
         private void Init()
         {
-            unitCircleTexture = 
+            _unitCircleTexture = 
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Editor Resources/unit_circle.png");
-            directionalInputMarkerTexture =
+            _directionalInputMarkerTexture =
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Editor Resources/input_direction_marker.png");
         }
         
-        private void OnDisable() => Instance = null;
+        private void OnDisable() => s_instance = null;
 
         #endregion
 
         private void OnGUI()
         {
+            return;
+            
             Draw();
             Repaint();
         }
@@ -66,12 +72,12 @@ namespace Editor
         private void Draw()
         {
             // Draw info box
-            GUI.Box(infoRect, String.Empty);
+            GUI.Box(_infoRect, String.Empty);
             
             // Draw Character State
-            GUI.Label(new Rect (infoRect.position + new Vector2(5, 5), new Vector2(300, 20)), 
+            GUI.Label(new Rect (_infoRect.position + new Vector2(5, 5), new Vector2(300, 20)), 
                 "Character State: " + 
-                Enum.GetName(typeof(CharacterState), CharacterStateController.CurrentCharacterState));
+                Enum.GetName(typeof(CharacterState), _characterStateController.CurrentCharacterState));
             
             DrawVelocities();
 
@@ -80,40 +86,39 @@ namespace Editor
 
         private void DrawVelocities()
         {
-            GUI.Label(new Rect (infoRect.position + new Vector2(5, 25), new Vector2(300, 20)), 
-                "Character Velocity: " + CharacterMovement.CharacterVelocity);
-            GUI.Label(new Rect (infoRect.position + new Vector2(25, 40), new Vector2(300, 20)), 
-                "Run Velocity: " + CharacterMovement.RunVelocity);
-            GUI.Label(new Rect (infoRect.position + new Vector2(25, 55), new Vector2(300, 20)), 
-                "Fall Velocity: " + CharacterMovement.FallVelocity);
-            GUI.Label(new Rect (infoRect.position + new Vector2(25, 70), new Vector2(300, 20)), 
-                "Rise Velocity: " + CharacterMovement.RiseVelocity);
-            GUI.Label(new Rect (infoRect.position + new Vector2(25, 85), new Vector2(300, 20)), 
-                "Land Velocity: " + CharacterMovement.LandVelocity);
-            GUI.Toggle(new Rect(infoRect.position + new Vector2(5, 105),
+            GUI.Label(new Rect (_infoRect.position + new Vector2(5, 25), new Vector2(300, 20)), 
+                "Character Velocity: " + _characterMovement.CharacterVelocity);
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 40), new Vector2(300, 20)), 
+                "Run Velocity: " + _characterMovement.RunVelocity);
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 55), new Vector2(300, 20)), 
+                "Fall Velocity: " + _characterMovement.FallVelocity);
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 70), new Vector2(300, 20)), 
+                "Rise Velocity: " + _characterMovement.RiseVelocity);
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 85), new Vector2(300, 20)), 
+                "Land Velocity: " + _characterMovement.LandVelocity);
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 105),
                     new Vector2(200, 20)), 
-                CharacterStateController.CanWallCling, "Wall Cling available");
-            GUI.Label(new Rect (infoRect.position + new Vector2(25, 120), new Vector2(300, 20)), 
-                "Wall Cling Timer: " + $"{CharacterStateController.wallClingTimer:N2}");
+                _characterStateController.CanWallCling, "Wall Cling available");
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 120), new Vector2(300, 20)), 
+                "Wall Cling Timer: " + $"{_characterStateController.WallClingTimer:N2}");
         }
 
         private void DrawInputState()
         {
-            Vector2 currentInput = 
-                new Vector2(CharacterInput.InputState.DirectionalInput.x, 
-                    -CharacterInput.InputState.DirectionalInput.y).normalized * 
-                CharacterInput.InputState.DirectionalInput.magnitude * 50;
+            Vector2 currentInput = new Vector2(_inputState.DirectionalInput.x, 
+                                   -_inputState.DirectionalInput.y).normalized * 
+                               _inputState.DirectionalInput.magnitude * 50;
+
+            GUI.DrawTexture(new Rect(_inputStatePos, new Vector2(100, 100)),
+                _unitCircleTexture);
+            GUI.DrawTexture(new Rect(_inputStatePos + _markerOffset + currentInput, 
+                    new(10, 10)), _directionalInputMarkerTexture);
             
-            GUI.DrawTexture(new Rect(inputStatePos, new Vector2(100, 100)),
-                unitCircleTexture);
-            GUI.DrawTexture(new Rect(inputStatePos + markerOffset + currentInput, 
-                    new(10, 10)), directionalInputMarkerTexture);
-            
-            GUI.Label(new Rect (inputStatePos + new Vector2(0, 105), new Vector2(300, 20)), 
-                CharacterInput.InputState.DirectionalInput.ToString());
-            GUI.Toggle(new Rect(inputStatePos + new Vector2(0, 120),
+            GUI.Label(new Rect (_inputStatePos + new Vector2(0, 105), new Vector2(300, 20)), 
+                _inputState.DirectionalInput.ToString());
+            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 120),
                     new Vector2(200, 20)), 
-                CharacterInput.InputState.DashButton == InputActionPhase.Performed, "DASH");
+                _inputState.DashButton == InputActionPhase.Performed, "DASH");
         }
     }
 }

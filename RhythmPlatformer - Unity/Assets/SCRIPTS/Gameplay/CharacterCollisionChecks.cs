@@ -6,19 +6,8 @@ namespace Gameplay
 {
     public class CharacterCollisionChecks : GameplayComponent
     {
-        public enum CollisionCheck
-        {
-            Ground,
-            Ceiling,
-            RWall,
-            LWall
-        }
-
-        private static CharacterStateController characterStateController;
-        
-        [SerializeField] private CollisionCheck collisionCheck;
-
-        private void Start() => characterStateController = ReferenceManager.Instance.CharacterStateController;
+        [SerializeField] private CharacterStateController _characterStateController;
+        [SerializeField] private CollisionCheck _collisionCheck;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -26,7 +15,7 @@ namespace Gameplay
                 return;
             
             if (CheckValidStateForCollisionInteraction(true))
-                characterStateController.HandleCollisionStateChange(collisionCheck, true);
+                _characterStateController.HandleCollisionStateChange(_collisionCheck, true);
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -35,27 +24,27 @@ namespace Gameplay
                 return;
             
             if (CheckValidStateForCollisionInteraction(false))
-                characterStateController.HandleCollisionStateChange(collisionCheck, false);
+                _characterStateController.HandleCollisionStateChange(_collisionCheck, false);
         }
 
-        private bool CheckValidStateForCollisionInteraction(bool enter)
+        private bool CheckValidStateForCollisionInteraction(bool in_enter)
         {
-            switch (collisionCheck)
+            switch (_collisionCheck)
             {
                 case CollisionCheck.Ground: 
-                    return enter != CharacterStateController.Grounded;
+                    return in_enter != _characterStateController.Grounded;
                 case CollisionCheck.Ceiling:
-                    return enter != (CharacterStateController.CurrentCharacterState == CharacterState.Fall);
+                    return in_enter != (_characterStateController.CurrentCharacterState == CharacterState.Fall);
                 case CollisionCheck.LWall:
-                    CharacterStateController.NearWall_L = enter;
-                    if (enter && !CharacterStateController.Airborne)
+                    _characterStateController.NearWall_L = in_enter;
+                    if (in_enter && !_characterStateController.Airborne)
                         return false;
-                    return enter != CharacterStateController.Walled;
+                    return in_enter != _characterStateController.Walled;
                 case CollisionCheck.RWall:
-                    CharacterStateController.NearWall_R = enter;
-                    if (enter && !CharacterStateController.Airborne) 
+                    _characterStateController.NearWall_R = in_enter;
+                    if (in_enter && !_characterStateController.Airborne) 
                         return false;
-                    return enter != CharacterStateController.Walled;
+                    return in_enter != _characterStateController.Walled;
             }
             
             throw new Exception("Could not find valid collision check type");
