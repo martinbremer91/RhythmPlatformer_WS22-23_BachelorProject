@@ -87,9 +87,16 @@ namespace Editor
                     "Start Game to Refresh");
                 return;
             }
-            
-            Draw();
-            Repaint();
+
+            try
+            {
+                Draw();
+                Repaint();
+            }
+            catch
+            {
+                _referencesCheck = false;
+            }
         }
 
         private void Draw()
