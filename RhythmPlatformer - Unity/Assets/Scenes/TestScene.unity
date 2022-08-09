@@ -1013,6 +1013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterMovement: {fileID: 1285793917}
   CharacterStateController: {fileID: 1285793915}
+  CharacterInput: {fileID: 1285793916}
 --- !u!1 &1525259334
 GameObject:
   m_ObjectHideFlags: 0

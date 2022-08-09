@@ -1,5 +1,6 @@
 using Scriptable_Object_Scripts;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
@@ -34,6 +35,7 @@ namespace Gameplay
         private float _runTopSpeed;
         private float _riseTopSpeed;
         private float _fallTopSpeed;
+        private float _wallSlideFallTopSpeed;
         private float _airDriftSpeed;
 
         private float _riseSpeedMod;
@@ -44,12 +46,12 @@ namespace Gameplay
         private float _airDrag;
         
         private float _defaultGroundDrag;
-        private float _reducedGroundDragFactor;
-        private float _increasedGroundDragFactor;
+        private float _reducedGroundDrag;
+        private float _increasedGroundDrag;
 
         private float _defaultWallDrag;
-        private float _reducedWallDragFactor;
-        private float _increasedWallDragFactor;
+        private float _reducedWallDrag;
+        private float _increasedWallDrag;
 
         private float _crouchJumpVerticalSpeedModifier;
         private float _riseAirDriftPoint;
@@ -76,17 +78,18 @@ namespace Gameplay
             _runTopSpeed = _movementConfigs.RunTopSpeed;
             _riseTopSpeed = _movementConfigs.RiseTopSpeed;
             _fallTopSpeed = _movementConfigs.FallTopSpeed;
+            _wallSlideFallTopSpeed = _movementConfigs.WallSlideFallTopSpeed;
             _airDriftSpeed = _movementConfigs.AirDriftSpeed;
 
             _airDrag = _movementConfigs.AirDrag;
 
             _defaultGroundDrag = _movementConfigs.DefaultGroundDrag;
-            _reducedGroundDragFactor = _movementConfigs.ReducedGroundDragFactor;
-            _increasedGroundDragFactor = _movementConfigs.IncreasedGroundDragFactor;
+            _reducedGroundDrag = _movementConfigs.ReducedGroundDragFactor;
+            _increasedGroundDrag = _movementConfigs.IncreasedGroundDragFactor;
 
             _defaultWallDrag = _movementConfigs.DefaultWallDrag;
-            _reducedWallDragFactor = _movementConfigs.ReducedWallDrag;
-            _increasedWallDragFactor = _movementConfigs.IncreasedWallDrag;
+            _reducedWallDrag = _movementConfigs.ReducedWallDrag;
+            _increasedWallDrag = _movementConfigs.IncreasedWallDrag;
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
             _riseAirDriftPoint = _movementConfigs.RiseAirDriftPoint;
@@ -145,10 +148,19 @@ namespace Gameplay
         
         public void WallSlide()
         {
-            float velocity = WallSlideVelocity -
-                             (_characterVelocity.y <= 0 ? -1 : 1) * GetCurrentWallDrag() * Time.deltaTime;
+            bool wallSlideFalling = _characterInput.InputState.WallClingTrigger != InputActionPhase.Performed &&
+                                    WallSlideVelocity <= 0 && WallSlideVelocity > -_wallSlideFallTopSpeed;
+
+            float drag = wallSlideFalling ? 0 : GetCurrentWallDrag();
             
-            WallSlideVelocity = Mathf.Max(velocity);
+            float velocity = wallSlideFalling ? -_movementConfigs.FallAcceleration
+                    .Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed : 
+                WallSlideVelocity; 
+            
+            WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.deltaTime;
+
+            if (wallSlideFalling && FallCurveTracker.x < FallCurveTracker.y)
+                FallCurveTracker.x += Time.deltaTime;
         }
 
         #endregion
@@ -160,21 +172,26 @@ namespace Gameplay
             float slideAxisInput = _characterInput.InputState.DirectionalInput.x;
             float slideAxisVelocity = _characterVelocity.x;
 
-            float currentSurfaceDrag = slideAxisInput == 0 || slideAxisVelocity == 0 ? _defaultGroundDrag :
-                slideAxisVelocity * slideAxisInput > 0 ? _reducedGroundDragFactor : _increasedGroundDragFactor;
+            float currentGroundDrag = slideAxisInput == 0 || slideAxisVelocity == 0 ? _defaultGroundDrag :
+                slideAxisVelocity * slideAxisInput > 0 ? _reducedGroundDrag : _increasedGroundDrag;
 
-            return currentSurfaceDrag;
+            return currentGroundDrag;
         }
 
         private float GetCurrentWallDrag()
         {
             float slideAxisInput = _characterInput.InputState.DirectionalInput.y;
-            float slideAxisVelocity = _characterVelocity.y;
 
-            float currentSurfaceDrag = slideAxisInput == 0 || slideAxisVelocity == 0 ? _defaultWallDrag :
-                slideAxisVelocity * slideAxisInput > 0 ? _reducedWallDragFactor : _increasedWallDragFactor;
+            bool increasedDrag = _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed ||
+                                 _characterVelocity.y * slideAxisInput < 0;
 
-            return currentSurfaceDrag;
+            float currentWallDrag = increasedDrag ? _increasedWallDrag :
+                slideAxisInput == 0 || _characterVelocity.y == 0 ? _defaultWallDrag : _reducedWallDrag;
+
+            if (increasedDrag)
+                _characterStateController.IncrementWallClingTimer();
+            
+            return currentWallDrag;
         }
 
         public void InitializeRise()

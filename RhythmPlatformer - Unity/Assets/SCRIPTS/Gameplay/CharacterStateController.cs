@@ -104,6 +104,7 @@ namespace Gameplay
                     break;
                 case CharacterState.WallSlide:
                     CheckFacingOrientation(true, true);
+                    _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
                     break;
             }
@@ -271,12 +272,6 @@ namespace Gameplay
 
             void HandleWalled()
             {
-                if (WallClingTimer >= wallClingMaxDuration)
-                {
-                    _canWallCling = false;
-                    CurrentCharacterState = CharacterState.Fall;
-                    return;
-                }
                 if (!NearWall_L && !NearWall_R)
                     CurrentCharacterState = CharacterState.Fall;
             }
@@ -323,19 +318,28 @@ namespace Gameplay
                     }
                     break;
                 case CharacterState.WallCling:
-                    WallClingTimer = Mathf.Min(WallClingTimer + Time.deltaTime, wallClingMaxDuration);
+                    IncrementWallClingTimer();
                     break;
                 case CharacterState.WallSlide:
-                    WallClingTimer = Mathf.Min(WallClingTimer + Time.deltaTime, wallClingMaxDuration);;
                     _characterMovement.WallSlide();
                     break;
             }
-            
+
             void DecrementWallClingTimer()
             {
                 WallClingTimer = Mathf.Max(WallClingTimer - Time.deltaTime, 0);
                 if (WallClingTimer <= 0)
                     _canWallCling = true;
+            }
+        }
+        
+        public void IncrementWallClingTimer()
+        {
+            WallClingTimer = Mathf.Min(WallClingTimer + Time.deltaTime, wallClingMaxDuration);
+            if (WallClingTimer >= wallClingMaxDuration)
+            {
+                _canWallCling = false;
+                CurrentCharacterState = CharacterState.Fall;
             }
         }
         
@@ -387,10 +391,11 @@ namespace Gameplay
             bool holdTowardsWall_L = leftWall && inputX < -.5f && velocityX <= 0;
             bool holdTowardsWall_R = rightWall && inputX > .5f && velocityX >= 0;
 
-            if (Airborne && (holdTowardsWall_L || holdTowardsWall_R))
+            if (CanWallCling && Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
 
-            if (Walled && _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
+            if (CurrentCharacterState == CharacterState.WallSlide && 
+                _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
                 CurrentCharacterState = CharacterState.Fall;
         }
         

@@ -10,6 +10,7 @@ namespace Debug_and_Tools
 
         public CharacterMovement CharacterMovement;
         public CharacterStateController CharacterStateController;
+        public CharacterInput CharacterInput;
 
         private void OnEnable()
         {

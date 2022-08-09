@@ -16,6 +16,8 @@ namespace Editor
         private CharacterMovement _characterMovement => 
             EditorReferenceCollector.s_Instance.CharacterMovement;
 
+        private CharacterInput _characterInput => EditorReferenceCollector.s_Instance.CharacterInput;
+
         private Texture2D _unitCircleTexture;
         private Texture2D _directionalInputMarkerTexture;
 
@@ -23,9 +25,6 @@ namespace Editor
         
         private readonly Vector2 _inputStatePos = new(300, 10);
         private readonly Vector2 _markerOffset = new(45, 45);
-
-        private InputState _inputState;
-        private float _inputDeadzone;
 
         private bool _referencesCheck;
 
@@ -72,7 +71,8 @@ namespace Editor
             _referencesCheck =
                 EditorReferenceCollector.s_Instance != null &&
                 _characterMovement != null &&
-                _characterStateController != null;
+                _characterStateController != null && 
+                _characterInput != null;
 
             return _referencesCheck;
         }
@@ -125,18 +125,20 @@ namespace Editor
                 "Rise Velocity: " + _characterMovement.RiseVelocity);
             GUI.Label(new Rect (_infoRect.position + new Vector2(25, 85), new Vector2(300, 20)), 
                 "Land Velocity: " + _characterMovement.LandVelocity);
-            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 105),
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 100), new Vector2(300, 20)), 
+                "Wall Slide Velocity: " + $"{_characterMovement.WallSlideVelocity:N2}");
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 120),
                     new Vector2(200, 20)), 
                 _characterStateController.CanWallCling, "Wall Cling available");
-            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 120), new Vector2(300, 20)), 
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 135), new Vector2(300, 20)), 
                 "Wall Cling Timer: " + $"{_characterStateController.WallClingTimer:N2}");
         }
 
         private void DrawInputState()
         {
-            Vector2 currentInput = new Vector2(_inputState.DirectionalInput.x, 
-                                   -_inputState.DirectionalInput.y).normalized * 
-                               _inputState.DirectionalInput.magnitude * 50;
+            Vector2 currentInput = new Vector2(_characterInput.InputState.DirectionalInput.x, 
+                                   -_characterInput.InputState.DirectionalInput.y).normalized * 
+                               _characterInput.InputState.DirectionalInput.magnitude * 50;
 
             GUI.DrawTexture(new Rect(_inputStatePos, new Vector2(100, 100)),
                 _unitCircleTexture);
@@ -144,10 +146,13 @@ namespace Editor
                     new(10, 10)), _directionalInputMarkerTexture);
             
             GUI.Label(new Rect (_inputStatePos + new Vector2(0, 105), new Vector2(300, 20)), 
-                _inputState.DirectionalInput.ToString());
+                _characterInput.InputState.DirectionalInput.ToString());
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 120),
                     new Vector2(200, 20)), 
-                _inputState.DashButton == InputActionPhase.Performed, "DASH");
+                _characterInput.InputState.DashButton == InputActionPhase.Performed, "DASH");
+            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 135),
+                    new Vector2(200, 20)), 
+                _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed, "WALL CLING");
         }
     }
 }

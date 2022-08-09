@@ -112,6 +112,7 @@ MonoBehaviour:
   DashTopSpeed: 20
   RiseTopSpeed: 14
   FallTopSpeed: 10
+  WallSlideFallTopSpeed: 5
   AirDriftSpeed: 7
   AirDrag: 0.2
   DefaultGroundDrag: 20
@@ -121,7 +122,6 @@ MonoBehaviour:
   ReducedWallDrag: 16
   IncreasedWallDrag: 60
   RunTurnWindow: 0.1
-  WallClingMaxDuration: 2
+  WallClingMaxDuration: 3
   CrouchJumpSpeedModifier: 0.5
   RiseAirDriftPoint: 0.25
-  WallSlideFallSpeed: 0
