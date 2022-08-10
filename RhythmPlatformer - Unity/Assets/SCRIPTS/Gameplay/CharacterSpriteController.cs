@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Gameplay
@@ -20,5 +19,12 @@ namespace Gameplay
 
         private void SetJumpSquatTrigger() => PlayerAnimator.SetTrigger(Constants.JumpSquatClipName);
         private void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            _characterStateController.JumpSquatStarted -= SetJumpSquatTrigger;
+            _characterStateController.DashWindupStarted -= SetDashWindupTrigger;
+        }
     }
 }

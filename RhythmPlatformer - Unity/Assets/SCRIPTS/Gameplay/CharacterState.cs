@@ -9,6 +9,7 @@ namespace Gameplay
         Rise = 4,
         Fall = 5,
         WallCling = 6,
-        WallSlide = 7
+        WallSlide = 7,
+        Dash = 8
     }
 }

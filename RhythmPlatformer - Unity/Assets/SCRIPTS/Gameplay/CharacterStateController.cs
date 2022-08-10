@@ -56,8 +56,6 @@ namespace Gameplay
             }
         }
         private float _dashWindupDuration;
-        
-        private bool _dashing;
 
         private bool _facingLeft;
         public bool FacingLeft
@@ -468,10 +466,7 @@ namespace Gameplay
             DashWindup = false;
             // TODO: call Dash logic
         }
-
-        /// <summary>
-        /// Checks y velocity and input direction. Sets state to WallCling, WallSlide, or does nothing.
-        /// </summary>
+        
         private void SetWalledState(bool in_RightWall)
         {
             bool leftWall = !in_RightWall || NearWall_L;
