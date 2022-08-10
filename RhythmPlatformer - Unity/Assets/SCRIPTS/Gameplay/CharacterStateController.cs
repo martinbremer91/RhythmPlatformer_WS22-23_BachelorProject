@@ -1,10 +1,9 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Scriptable_Object_Scripts;
-using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using UnityEngine.TextCore.Text;
 
 namespace Gameplay
 {
@@ -25,11 +24,39 @@ namespace Gameplay
         public CharacterState CurrentCharacterState
         {
             get => _currentCharacterState;
-            set => SetCharacterState(value);
+            private set => SetCharacterState(value);
         }
 
         private bool _jumpSquat;
+        public bool JumpSquat
+        {
+            get => _jumpSquat;
+            set
+            {
+                if (_jumpSquat == value)
+                    return;
+                _jumpSquat = value;
+                if (value)
+                    PerformJumpSquatAsync();
+            }
+        }
+        private float _jumpSquatDuration;
+
         private bool _dashWindup;
+        public bool DashWindup
+        {
+            get => _dashWindup;
+            set
+            {
+                if (_dashWindup == value)
+                    return;
+                _dashWindup = value;
+                if (value)
+                    PerformDashWindupAsync();
+            }
+        }
+        private float _dashWindupDuration;
+        
         private bool _dashing;
 
         private bool _facingLeft;
@@ -65,6 +92,13 @@ namespace Gameplay
         
         private float wallClingMaxDuration => _movementConfigs.WallClingMaxDuration;
         public float WallClingTimer {get; private set;}
+
+        #endregion
+
+        #region DELEGATES
+
+        public Action JumpSquatStarted;
+        public Action DashWindupStarted;
 
         #endregion
 
@@ -136,6 +170,26 @@ namespace Gameplay
         #endregion
 
         #region INIT & UPDATE
+
+        private void Awake() => GetAnticipationStatesDurations();
+
+        private void GetAnticipationStatesDurations()
+        {
+            AnimationClip jumpSquatClip =
+                _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
+                    .FirstOrDefault(c => c.name == Constants.JumpSquatClipName);
+            AnimationClip dashWindupClip =
+                _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
+                    .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
+
+            if (jumpSquatClip == null)
+                throw new Exception("Could not find AnimationClip with name " + Constants.JumpSquatClipName);
+            if (dashWindupClip == null)
+                throw new Exception("Could not find AnimationClip with name " + Constants.JumpSquatClipName);
+
+            _jumpSquatDuration = jumpSquatClip.length;
+            _dashWindupDuration = dashWindupClip.length;
+        }
 
         public override void OnUpdate()
         { 
@@ -368,13 +422,51 @@ namespace Gameplay
             while (runTimer > 0)
             {
                 await Task.Yield();
-                
                 runTimer -= Time.deltaTime;
+                
                 if (CurrentCharacterState == CharacterState.Run)
                     return;
             }
             
             _characterMovement.RunCurveTracker.x = 0;
+        }
+
+        private async void PerformJumpSquatAsync()
+        {
+            JumpSquatStarted?.Invoke();
+            
+            float timer = _jumpSquatDuration;
+
+            while (timer > 0)
+            {
+                await Task.Yield();
+                timer -= Time.deltaTime;
+                
+                if (DashWindup)
+                {
+                    JumpSquat = false;
+                    return;
+                }
+            }
+
+            JumpSquat = false;
+            CurrentCharacterState = CharacterState.Rise;
+        }
+
+        private async void PerformDashWindupAsync()
+        {
+            DashWindupStarted?.Invoke();
+            
+            float timer = _dashWindupDuration;
+
+            while (timer > 0)
+            {
+                await Task.Yield();
+                timer -= Time.deltaTime;
+            }
+
+            DashWindup = false;
+            // TODO: call Dash logic
         }
 
         /// <summary>

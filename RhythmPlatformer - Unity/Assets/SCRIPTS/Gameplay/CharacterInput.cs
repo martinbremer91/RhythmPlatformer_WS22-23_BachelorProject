@@ -36,7 +36,9 @@ namespace Gameplay
 
             //temp
             _controls.GameplayDefault.Jump.performed +=
-                ctx => _characterStateController.CurrentCharacterState = CharacterState.Rise;
+                ctx => _characterStateController.JumpSquat = true;
+            _controls.GameplayDefault.Dash.performed +=
+                ctx => _characterStateController.DashWindup = true;
             
             _controls.Enable();
         }
