@@ -1,3 +1,4 @@
+using System;
 using Scriptable_Object_Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,11 +24,14 @@ namespace Gameplay
         public float RunVelocity { get; set; }
         public float LandVelocity { get; set; }
         public float WallSlideVelocity { get; set; }
+        public float DashSpeed { private get; set; }
 
+        private Vector2 _dashDirection;
         private Vector2 _dashVelocity;
         private Vector2 _riseVelocity;
         private Vector2 _fallVelocity;
 
+        public Vector2 DashDirection {get => _dashDirection; set => _dashDirection = value;}
         public Vector2 DashVelocity {get => _dashVelocity; set => _dashVelocity = value;}
         public Vector2 RiseVelocity {get => _riseVelocity; set => _riseVelocity = value;}
         public Vector2 FallVelocity {get => _fallVelocity; set => _fallVelocity = value;}
@@ -37,6 +41,7 @@ namespace Gameplay
         private float _fallTopSpeed;
         private float _wallSlideFallTopSpeed;
         private float _airDriftSpeed;
+        private float _dashTopSpeed;
 
         private float _riseSpeedMod;
 
@@ -80,6 +85,7 @@ namespace Gameplay
             _fallTopSpeed = _movementConfigs.FallTopSpeed;
             _wallSlideFallTopSpeed = _movementConfigs.WallSlideFallTopSpeed;
             _airDriftSpeed = _movementConfigs.AirDriftSpeed;
+            _dashTopSpeed = _movementConfigs.DashTopSpeed;
 
             _airDrag = _movementConfigs.AirDrag;
 
@@ -100,8 +106,9 @@ namespace Gameplay
             _characterVelocity = GetCharacterVelocity();
             _rigidbody2D.velocity = _characterVelocity;
 
-            Vector2 GetCharacterVelocity() => new (RunVelocity + LandVelocity + _fallVelocity.x + _riseVelocity.x, 
-                WallSlideVelocity + _fallVelocity.y + _riseVelocity.y);
+            Vector2 GetCharacterVelocity() => 
+                new (RunVelocity + LandVelocity + _fallVelocity.x + _riseVelocity.x + 
+                     _dashVelocity.x, WallSlideVelocity + _fallVelocity.y + _riseVelocity.y + _dashVelocity.y);
         }
 
         #endregion
@@ -163,6 +170,9 @@ namespace Gameplay
                 FallCurveTracker.x += Time.deltaTime;
         }
 
+        public void Dash() => DashVelocity = DashDirection * _dashTopSpeed *
+                                             _movementConfigs.DashAcceleration.Evaluate(DashCurveTracker.x);
+
         #endregion
 
         #region UTILITY FUNCTIONS
@@ -207,6 +217,39 @@ namespace Gameplay
 
             _characterVelocity = _riseVelocity;
         }
+        
+        public void SetDashDirection()
+        {
+            Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
+
+            if (inputDirection.y <= -.95f)
+            {
+                // Bounce on ground?
+                DashDirection = Vector2.zero;
+                return;
+            }
+
+            int directionX = inputDirection == Vector2.zero || inputDirection.y >= .95f ?
+                _characterStateController.FacingLeft ? -1 : 1 : inputDirection.x < 0 ? -1 : 1;
+            int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
+
+            if (_characterStateController.Walled && _characterStateController.NearWall_L && directionX < 0 ||
+                _characterStateController.NearWall_R && directionX > 0)
+            {
+                // dashing into wall while walled "bounces" you off it (gives you dashCurve.Evaluate(DashCurveTracker.y) *
+                // dashTopSpeed in opposite direction)
+                DashDirection = Vector2.zero;
+                return;
+            }
+
+            DashDirection = new Vector2(directionX, directionY).normalized;
+        }
+
+        public void FinalizeDash()
+        {
+            // check collisions (maybe call HandleCollisionStateChange?)
+            // throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -215,7 +258,7 @@ namespace Gameplay
         public void CancelHorizontalVelocity()
         {
             RunVelocity = 0;
-            _dashVelocity.x = 0;
+            _dashDirection.x = 0;
             _riseVelocity.x = 0;
             _fallVelocity.x = 0;
         }
@@ -223,7 +266,7 @@ namespace Gameplay
         public void CancelVerticalVelocity()
         {
             WallSlideVelocity = 0;
-            _dashVelocity.y = 0;
+            _dashDirection.y = 0;
             _riseVelocity.y = 0;
             _fallVelocity.y = 0;
         }

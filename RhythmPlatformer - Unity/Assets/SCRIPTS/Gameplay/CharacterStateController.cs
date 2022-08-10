@@ -139,6 +139,13 @@ namespace Gameplay
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
                     break;
+                case CharacterState.Dash:
+                    CheckFacingOrientation();
+                    _characterMovement.CancelHorizontalVelocity();
+                    _characterMovement.CancelVerticalVelocity();
+                    _characterMovement.DashCurveTracker.x = 0;
+                    _characterMovement.SetDashDirection();
+                    break;
             }
         }
 
@@ -161,6 +168,11 @@ namespace Gameplay
                     break;
                 case CharacterState.WallSlide:
                     _characterMovement.WallSlideVelocity = 0;
+                    break;
+                case CharacterState.Dash:
+                    _characterMovement.DashSpeed = 0;
+                    _characterMovement.DashDirection = Vector2.zero;
+                    _characterMovement.DashVelocity = Vector2.zero;
                     break;
             }
         }
@@ -204,7 +216,7 @@ namespace Gameplay
             switch (in_check)
             {
                 case CollisionCheck.Ground:
-                    if (!in_enter)
+                    if (!in_enter && CurrentCharacterState != CharacterState.Dash)
                         CurrentCharacterState = _characterMovement.CharacterVelocity.y > 0
                             ? CharacterState.Rise
                             : CharacterState.Fall;
@@ -286,6 +298,11 @@ namespace Gameplay
                     if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= .1f &&
                         _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
                         CurrentCharacterState = CharacterState.WallCling;
+                    break;
+                case CharacterState.Dash:
+                    //TODO: revise
+                    if (_characterMovement.DashCurveTracker.x >= _characterMovement.DashCurveTracker.y)
+                        _characterMovement.FinalizeDash();
                     break;
             }
             
@@ -375,6 +392,14 @@ namespace Gameplay
                 case CharacterState.WallSlide:
                     _characterMovement.WallSlide();
                     break;
+                case CharacterState.Dash:
+                    Vector2 dashTracker = _characterMovement.DashCurveTracker;
+                    if (dashTracker.x < dashTracker.y)
+                    {
+                        _characterMovement.DashCurveTracker.x += Time.deltaTime;
+                        _characterMovement.Dash();
+                    }
+                    break;
             }
 
             void DecrementWallClingTimer()
@@ -442,6 +467,7 @@ namespace Gameplay
                 
                 if (DashWindup)
                 {
+                    // TODO: call DashCanceledJump delegate
                     JumpSquat = false;
                     return;
                 }
@@ -464,7 +490,7 @@ namespace Gameplay
             }
 
             DashWindup = false;
-            // TODO: call Dash logic
+            CurrentCharacterState = CharacterState.Dash;
         }
         
         private void SetWalledState(bool in_RightWall)

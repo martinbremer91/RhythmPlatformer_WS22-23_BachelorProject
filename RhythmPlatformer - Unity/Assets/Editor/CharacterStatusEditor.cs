@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Debug_and_Tools;
 using Gameplay;
 using UnityEngine;
@@ -147,10 +148,13 @@ namespace Editor
             
             GUI.Label(new Rect (_inputStatePos + new Vector2(0, 105), new Vector2(300, 20)), 
                 _characterInput.InputState.DirectionalInput.ToString());
-            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 120),
+            GUI.Label(new Rect (_inputStatePos + new Vector2(0, 120), new Vector2(300, 20)), 
+                "Input Angle: " + Vector2.Angle(Vector2.right, _characterInput.InputState.DirectionalInput));
+
+            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 145),
                     new Vector2(200, 20)), 
                 _characterInput.InputState.DashButton == InputActionPhase.Performed, "DASH");
-            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 135),
+            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 160),
                     new Vector2(200, 20)), 
                 _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed, "WALL CLING");
         }
