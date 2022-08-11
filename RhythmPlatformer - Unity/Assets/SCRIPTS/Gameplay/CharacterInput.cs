@@ -40,6 +40,10 @@ namespace Gameplay
             _controls.GameplayDefault.Dash.performed +=
                 ctx => _characterStateController.DashWindup = true;
             
+#if UNITY_EDITOR
+            _controls.GameplayDefault.DebugToggle.performed += ctx => ToggleDebugMode();
+#endif
+            
             _controls.Enable();
         }
 
@@ -76,5 +80,13 @@ namespace Gameplay
             if (InputState.analogDeadzone)
                 InputState.DirectionalInput = in_digitalInput;
         }
+        
+#if UNITY_EDITOR
+        private void ToggleDebugMode()
+        {
+            GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
+            Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);
+        }
+#endif
     }
 }

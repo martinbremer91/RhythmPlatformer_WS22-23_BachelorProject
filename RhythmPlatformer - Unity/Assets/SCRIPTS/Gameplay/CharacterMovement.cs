@@ -1,5 +1,5 @@
-using System;
 using Scriptable_Object_Scripts;
+using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -103,6 +103,14 @@ namespace Gameplay
 
         public override void OnUpdate()
         {
+#if UNITY_EDITOR
+            if (GameStateManager.s_DebugMode)
+            {
+                _rigidbody2D.velocity = _characterInput.InputState.DirectionalInput * 10;
+                return;
+            }
+#endif
+            
             _characterVelocity = GetCharacterVelocity();
             _rigidbody2D.velocity = _characterVelocity;
 
