@@ -74,14 +74,14 @@ namespace Gameplay
         public bool Grounded =>
             CurrentCharacterState is CharacterState.Idle or CharacterState.Run or CharacterState.Land
                 or CharacterState.Crouch;
-        
+        public bool CeilingHit { get; private set; }
         public bool Airborne => CurrentCharacterState is CharacterState.Rise or CharacterState.Fall;
         public bool Walled => CurrentCharacterState is CharacterState.WallCling or CharacterState.WallSlide;
 
         private float _runTurnWindow => _movementConfigs.RunTurnWindow;
 
-        public bool NearWall_L { get; set; }
-        public bool NearWall_R { get; set; }
+        public bool NearWallLeft { get; set; }
+        public bool NearWallRight { get; set; }
         
         private bool _canWallCling = true; 
 #if UNITY_EDITOR
@@ -227,22 +227,23 @@ namespace Gameplay
                     }
                     break;
                 case CollisionCheck.Ceiling:
+                    CeilingHit = in_enter;
                     if (in_enter)
                     {
                         CurrentCharacterState = CharacterState.Fall;
                         _characterMovement.CancelVerticalVelocity();
                     }
                     break;
-                case CollisionCheck.LWall:
-                    NearWall_L = in_enter;
+                case CollisionCheck.LeftWall:
+                    NearWallLeft = in_enter;
                     if (in_enter && _characterMovement.CharacterVelocity.x < 0)
                     {
                         SetWalledState(false);
                         _characterMovement.CancelHorizontalVelocity();
                     }
                     break;
-                case CollisionCheck.RWall:
-                    NearWall_R = in_enter;
+                case CollisionCheck.RightWall:
+                    NearWallRight = in_enter;
                     if (in_enter && _characterMovement.CharacterVelocity.x > 0)
                     {
                         SetWalledState(true);
@@ -286,8 +287,8 @@ namespace Gameplay
                     if (_characterInput.InputState.WallClingTrigger != InputActionPhase.Performed)
                     {
                         float inputX = _characterInput.InputState.DirectionalInput.x;
-                        bool holdTowardsWall_L = NearWall_L && inputX < -.5f;
-                        bool holdTowardsWall_R = NearWall_R && inputX > .5f;
+                        bool holdTowardsWall_L = NearWallLeft && inputX < -.5f;
+                        bool holdTowardsWall_R = NearWallRight && inputX > .5f;
                         
                         CurrentCharacterState = holdTowardsWall_L || holdTowardsWall_R ? 
                             CharacterState.WallSlide : CharacterState.Fall;
@@ -306,9 +307,9 @@ namespace Gameplay
                     break;
             }
             
-            if (NearWall_L)
+            if (NearWallLeft)
                 SetWalledState(false);
-            else if (NearWall_R)
+            else if (NearWallRight)
                 SetWalledState(true);
 
             void HandleIdle()
@@ -341,7 +342,7 @@ namespace Gameplay
 
             void HandleWalled()
             {
-                if (!NearWall_L && !NearWall_R)
+                if (!NearWallLeft && !NearWallRight)
                     CurrentCharacterState = CharacterState.Fall;
             }
         }
@@ -495,8 +496,8 @@ namespace Gameplay
         
         private void SetWalledState(bool in_RightWall)
         {
-            bool leftWall = !in_RightWall || NearWall_L;
-            bool rightWall = in_RightWall || NearWall_R;
+            bool leftWall = !in_RightWall || NearWallLeft;
+            bool rightWall = in_RightWall || NearWallRight;
             
             float inputX = _characterInput.InputState.DirectionalInput.x;
             float velocityX = _characterMovement.CharacterVelocity.x;

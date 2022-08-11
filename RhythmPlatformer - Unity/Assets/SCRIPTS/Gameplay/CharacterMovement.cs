@@ -233,8 +233,8 @@ namespace Gameplay
                 _characterStateController.FacingLeft ? -1 : 1 : inputDirection.x < 0 ? -1 : 1;
             int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
 
-            if (_characterStateController.Walled && _characterStateController.NearWall_L && directionX < 0 ||
-                _characterStateController.NearWall_R && directionX > 0)
+            if (_characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
+                _characterStateController.NearWallRight && directionX > 0)
             {
                 // dashing into wall while walled "bounces" you off it (gives you dashCurve.Evaluate(DashCurveTracker.y) *
                 // dashTopSpeed in opposite direction)

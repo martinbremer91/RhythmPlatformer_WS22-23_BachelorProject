@@ -4,7 +4,7 @@ namespace Gameplay
     {
         Ground,
         Ceiling,
-        RWall,
-        LWall
+        RightWall,
+        LeftWall
     }
 }
