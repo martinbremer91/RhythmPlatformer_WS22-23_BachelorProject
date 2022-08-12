@@ -2,6 +2,7 @@ using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Gameplay
 {
@@ -9,12 +10,14 @@ namespace Gameplay
     {
         #region REFERENCES
 
-        [SerializeField] private CharacterStateController _characterStateController;
-        [SerializeField] private SettingsConfigs _settings;
+        [SerializeField] private CharacterStateController _characterStateController; 
+        [SerializeField] private ControlSettings _controlSettings;
 
         #endregion
 
         #region VARIABLES
+
+        public ControlSettings ControlSettings => _controlSettings;
 
         private DefaultControls _controls;
         public InputState InputState;
@@ -65,7 +68,7 @@ namespace Gameplay
 
         private void HandleAnalogMove(Vector2 in_input)
         {
-            InputState.analogDeadzone = in_input.magnitude <= _settings.InputDeadZone;
+            InputState.analogDeadzone = in_input.magnitude <= _controlSettings.InputDeadZone;
             if (InputState.analogDeadzone)
             {
                 InputState.DirectionalInput = Vector2.zero;

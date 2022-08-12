@@ -226,21 +226,39 @@ namespace Gameplay
             _characterVelocity = _riseVelocity;
         }
         
-        public void SetDashDirection()
+        /// <summary>
+        /// Checks for different cases, initializes appropriate velocities and sets appropriate state.
+        /// Possible states include Dash and Land.
+        /// </summary>
+        public void InitializeDash()
         {
+            CancelHorizontalVelocity();
+            CancelVerticalVelocity();
+
             Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
 
-            if (inputDirection.y <= -.95f)
+            int directionX = 
+                inputDirection.x <= _characterInput.ControlSettings.InputDeadZone ?
+                _characterStateController.FacingLeft ? -1 : 1 : 
+                inputDirection.x < 0 ? -1 : 1;
+            
+            int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
+            
+            // "Wavedash" (grounded Dash)
+            if (_characterStateController.Grounded && directionY < 1)
             {
-                // Bounce on ground?
-                DashDirection = Vector2.zero;
+                if (inputDirection.y <= -.95f)
+                {
+                    // Bounce on ground?
+                    DashDirection = Vector2.zero;
+                    return;
+                }
+                
+                _characterVelocity.x = (directionY < 0 ? .75f : 1) * _dashTopSpeed * directionX;
+                _characterStateController.SetCharacterState(CharacterState.Land);
                 return;
             }
-
-            int directionX = inputDirection == Vector2.zero || inputDirection.y >= .95f ?
-                _characterStateController.FacingLeft ? -1 : 1 : inputDirection.x < 0 ? -1 : 1;
-            int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
-
+            
             if (_characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
                 _characterStateController.NearWallRight && directionX > 0)
             {
@@ -251,6 +269,7 @@ namespace Gameplay
             }
 
             DashDirection = new Vector2(directionX, directionY).normalized;
+            _characterStateController.SetCharacterState(CharacterState.Dash);
         }
 
         public void FinalizeDash()

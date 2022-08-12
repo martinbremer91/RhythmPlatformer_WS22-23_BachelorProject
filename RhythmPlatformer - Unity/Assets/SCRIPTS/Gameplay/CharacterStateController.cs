@@ -75,7 +75,8 @@ namespace Gameplay
             CurrentCharacterState is CharacterState.Idle or CharacterState.Run or CharacterState.Land
                 or CharacterState.Crouch;
         public bool CeilingHit { get; private set; }
-        public bool Airborne => CurrentCharacterState is CharacterState.Rise or CharacterState.Fall;
+        public bool Airborne => 
+            CurrentCharacterState is CharacterState.Rise or CharacterState.Fall or CharacterState.Dash;
         public bool Walled => CurrentCharacterState is CharacterState.WallCling or CharacterState.WallSlide;
 
         private float _runTurnWindow => _movementConfigs.RunTurnWindow;
@@ -83,11 +84,9 @@ namespace Gameplay
         public bool NearWallLeft { get; set; }
         public bool NearWallRight { get; set; }
         
-        private bool _canWallCling = true; 
-#if UNITY_EDITOR
+        private bool _canWallCling = true;
         public bool CanWallCling => _canWallCling;
-#endif
-        
+
         private float wallClingMaxDuration => _movementConfigs.WallClingMaxDuration;
         public float WallClingTimer {get; private set;}
 
@@ -101,8 +100,8 @@ namespace Gameplay
         #endregion
 
         #region STATE CHANGE FUNCTIONS
-
-        private void SetCharacterState(CharacterState in_value)
+        
+        public void SetCharacterState(CharacterState in_value)
         {
             if (_currentCharacterState != CharacterState.Rise && _currentCharacterState == in_value)
                 return;
@@ -138,13 +137,6 @@ namespace Gameplay
                     CheckFacingOrientation(true, true);
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
-                    break;
-                case CharacterState.Dash:
-                    CheckFacingOrientation();
-                    _characterMovement.CancelHorizontalVelocity();
-                    _characterMovement.CancelVerticalVelocity();
-                    _characterMovement.DashCurveTracker.x = 0;
-                    _characterMovement.SetDashDirection();
                     break;
             }
         }
@@ -425,6 +417,11 @@ namespace Gameplay
 
         #region UTILITY FUNCTIONS
         
+        /// <summary>
+        /// Takes care of FacingLeft property only. Can take Walled state in to account by passing in in_walled param.
+        /// </summary>
+        /// <param name="in_walled"></param>
+        /// <param name="in_slide"></param>
         private void CheckFacingOrientation(bool in_walled = false, bool in_slide = false)
         {
             float turnParam = 
@@ -491,7 +488,8 @@ namespace Gameplay
             }
 
             DashWindup = false;
-            CurrentCharacterState = CharacterState.Dash;
+            CheckFacingOrientation();
+            _characterMovement.InitializeDash();
         }
         
         private void SetWalledState(bool in_RightWall)
@@ -507,6 +505,8 @@ namespace Gameplay
 
             if (CanWallCling && Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
+            else if (CurrentCharacterState == CharacterState.Dash)
+                CurrentCharacterState = CharacterState.Fall;
 
             if (CurrentCharacterState == CharacterState.WallSlide && 
                 _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
