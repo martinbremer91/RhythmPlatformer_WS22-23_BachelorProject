@@ -1,3 +1,4 @@
+using System;
 using Interfaces;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Systems
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
+
+        private void Awake() => Application.targetFrameRate = 60;
 
         private void Start() => s_ActiveUpdateType = _startUpdateType;
     }
