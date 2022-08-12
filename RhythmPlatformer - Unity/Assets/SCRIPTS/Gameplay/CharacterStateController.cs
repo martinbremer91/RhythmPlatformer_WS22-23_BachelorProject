@@ -427,9 +427,9 @@ namespace Gameplay
             float turnParam = 
                 in_slide ? _characterMovement.CharacterVelocity.x : _characterInput.InputState.DirectionalInput.x;
             
-            if (FacingLeft == !in_walled && turnParam > .1f)
+            if (FacingLeft == !in_walled && turnParam > 0)
                 FacingLeft = in_walled;
-            if (FacingLeft == in_walled && turnParam < -.1f)
+            if (FacingLeft == in_walled && turnParam < 0)
                 FacingLeft = !in_walled;
         }
 
@@ -465,7 +465,7 @@ namespace Gameplay
                 
                 if (DashWindup)
                 {
-                    // TODO: call DashCanceledJump delegate
+                    // TODO: call DashCanceledJump delegate (to trigger VFX feedback)
                     JumpSquat = false;
                     return;
                 }
