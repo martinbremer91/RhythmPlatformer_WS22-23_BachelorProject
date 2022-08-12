@@ -60,7 +60,9 @@ namespace Gameplay
             switch (in_collisionCheck)
             {
                 case CollisionCheck.Ground:
-                    if (in_enter && _characterStateController.CurrentCharacterState == CharacterState.Rise)
+                    if (in_enter && 
+                        (_characterStateController.CurrentCharacterState == CharacterState.Rise ||
+                        _characterStateController.CurrentCharacterState == CharacterState.Dash))
                         return false;
                     return in_enter != _characterStateController.Grounded;
                 case CollisionCheck.Ceiling:

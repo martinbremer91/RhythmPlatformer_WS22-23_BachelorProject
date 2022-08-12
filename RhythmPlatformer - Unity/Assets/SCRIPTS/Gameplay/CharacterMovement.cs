@@ -234,6 +234,7 @@ namespace Gameplay
         {
             CancelHorizontalVelocity();
             CancelVerticalVelocity();
+            DashVelocity = Vector2.zero;
 
             Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
 
@@ -270,12 +271,6 @@ namespace Gameplay
 
             DashDirection = new Vector2(directionX, directionY).normalized;
             _characterStateController.SetCharacterState(CharacterState.Dash);
-        }
-
-        public void FinalizeDash()
-        {
-            // check collisions (maybe call HandleCollisionStateChange?)
-            // throw new NotImplementedException();
         }
 
         #endregion

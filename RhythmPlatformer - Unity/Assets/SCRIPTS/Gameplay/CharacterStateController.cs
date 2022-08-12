@@ -293,9 +293,8 @@ namespace Gameplay
                         CurrentCharacterState = CharacterState.WallCling;
                     break;
                 case CharacterState.Dash:
-                    //TODO: revise
                     if (_characterMovement.DashCurveTracker.x >= _characterMovement.DashCurveTracker.y)
-                        _characterMovement.FinalizeDash();
+                        CurrentCharacterState = CharacterState.Fall;
                     break;
             }
             
@@ -499,7 +498,7 @@ namespace Gameplay
             
             float inputX = _characterInput.InputState.DirectionalInput.x;
             float velocityX = _characterMovement.CharacterVelocity.x;
-                
+
             bool holdTowardsWall_L = leftWall && inputX < -.5f && velocityX <= 0;
             bool holdTowardsWall_R = rightWall && inputX > .5f && velocityX >= 0;
 
