@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterStateController: {fileID: 1285793915}
-  _settings: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
+  _controlSettings: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
 --- !u!114 &1285793917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,6 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterStateController: {fileID: 1285793915}
+  _characterMovement: {fileID: 1285793917}
   _boxCollider: {fileID: 1285793914}
   _levelLayerMask:
     serializedVersion: 2

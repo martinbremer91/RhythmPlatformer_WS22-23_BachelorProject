@@ -323,10 +323,15 @@ namespace Gameplay
             void HandleRun()
             {
                 if (_characterInput.InputState.DirectionalInput.y > -.5f)
+                {
+                    if (_characterMovement.CharacterVelocity.x * _characterInput.InputState.DirectionalInput.x < 0)
+                        CheckFacingOrientation();
+                    
                     CurrentCharacterState =
                         Mathf.Abs(_characterInput.InputState.DirectionalInput.x) > .5f
                             ? CharacterState.Run
                             : CharacterState.Idle;
+                }
                 else
                     CurrentCharacterState = CharacterState.Crouch;
             }
@@ -350,10 +355,8 @@ namespace Gameplay
                 case CharacterState.Run:
                     Vector2 runTracker = _characterMovement.RunCurveTracker;
                     if (runTracker.x < runTracker.y || _characterMovement.RunVelocity == 0)
-                    {
                         _characterMovement.RunCurveTracker.x += Time.deltaTime;
-                        _characterMovement.Run();
-                    }
+                    _characterMovement.Run();
                     break;
                 case CharacterState.Crouch:
                     break;
@@ -421,7 +424,7 @@ namespace Gameplay
         /// </summary>
         /// <param name="in_walled"></param>
         /// <param name="in_slide"></param>
-        private void CheckFacingOrientation(bool in_walled = false, bool in_slide = false)
+        public void CheckFacingOrientation(bool in_walled = false, bool in_slide = false)
         {
             float turnParam = 
                 in_slide ? _characterMovement.CharacterVelocity.x : _characterInput.InputState.DirectionalInput.x;

@@ -6,6 +6,7 @@ namespace Gameplay
     public class CharacterCollisionDetector : GameplayComponent
     {
         [SerializeField] private CharacterStateController _characterStateController;
+        [SerializeField] private CharacterMovement _characterMovement;
         [SerializeField] private BoxCollider2D _boxCollider;
 
         [SerializeField] private LayerMask _levelLayerMask;
@@ -60,13 +61,11 @@ namespace Gameplay
             switch (in_collisionCheck)
             {
                 case CollisionCheck.Ground:
-                    if (in_enter && 
-                        (_characterStateController.CurrentCharacterState == CharacterState.Rise ||
-                        _characterStateController.CurrentCharacterState == CharacterState.Dash))
+                    if (in_enter && _characterMovement.CharacterVelocity.y > 0)
                         return false;
                     return in_enter != _characterStateController.Grounded;
                 case CollisionCheck.Ceiling:
-                    return in_enter != (_characterStateController.CurrentCharacterState == CharacterState.Fall);
+                    return in_enter != _characterStateController.CurrentCharacterState is CharacterState.Fall;
                 case CollisionCheck.LeftWall:
                     _characterStateController.NearWallLeft = in_enter;
                     if (in_enter && !_characterStateController.Airborne)

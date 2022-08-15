@@ -12,6 +12,8 @@ namespace Gameplay
             set => _directionalInput = value;
         }
 
+        public bool DigitalUp, DigitalDown, DigitalLeft, DigitalRight;
+        
         public bool directionalInputModifier;
         public bool analogDeadzone;
         

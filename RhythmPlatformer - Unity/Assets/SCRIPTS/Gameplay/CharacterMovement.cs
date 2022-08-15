@@ -125,10 +125,15 @@ namespace Gameplay
 
         public void Run()
         {
+            if (CharacterVelocity.x * _characterInput.InputState.DirectionalInput.x < 0)
+                _characterStateController.CheckFacingOrientation();
+
             int directionMod = _characterStateController.FacingLeft ? -1 : 1;
+            
+            // TODO: refactor so that RunAcceleration is not unnecessarily evaluate if RunCurveTracker x >= y
             float velocity = _movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * _runTopSpeed;
 
-            if (velocity > Mathf.Abs(RunVelocity))
+            if (velocity > Mathf.Abs(RunVelocity) || CharacterVelocity.x * _characterInput.InputState.DirectionalInput.x < 0)
                 RunVelocity = directionMod * velocity;
         }
 
@@ -170,7 +175,7 @@ namespace Gameplay
             
             float velocity = wallSlideFalling ? -_movementConfigs.FallAcceleration
                     .Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed : 
-                WallSlideVelocity; 
+                WallSlideVelocity;
             
             WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.deltaTime;
 
