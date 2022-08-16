@@ -6,7 +6,7 @@ namespace Interfaces
     public interface IUpdatable
     {
         public UpdateType UpdateType { get; }
-        
+
         public void OnUpdate();
 
         public void RegisterUpdatable() => UpdateManager.Instance.RegisterUpdatable(this);

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8b655bf0c2e46efaa967ba5a238190, type: 3}
+  m_Name: CustomOrderOfExecutions
+  m_EditorClassIdentifier: 
+  OrderedUpdatables:
+  - {fileID: 11500000, guid: fb146c95935bf454a9b53f26532d36ef, type: 3}
+  - {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
+  - {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
+  - {fileID: 11500000, guid: a18c8c08d2a74475491b0b95087c4818, type: 3}
+  - {fileID: 11500000, guid: c888d331d2aef4dd199534c5a1b9cd04, type: 3}
