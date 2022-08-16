@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8b655bf0c2e46efaa967ba5a238190, type: 3}
   m_Name: CustomOrderOfExecutions
   m_EditorClassIdentifier: 
-  OrderedUpdatables:
+  OrderedUpdatableScripts:
   - {fileID: 11500000, guid: fb146c95935bf454a9b53f26532d36ef, type: 3}
   - {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   - {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}

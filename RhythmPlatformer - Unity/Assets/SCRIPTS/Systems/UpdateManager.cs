@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Interfaces;
 using Scriptable_Object_Scripts;
-using UnityEditor;
+using TMPro;
 using UnityEngine;
 
 namespace Systems
@@ -15,6 +15,10 @@ namespace Systems
         [SerializeField] private CustomOrderOfExecutions _orderOfExecutions;
         private readonly List<IUpdatable> _updatables = new();
 
+        // temp
+        public TMP_Text text;
+        private bool textDone;
+
         private void OnEnable()
         {
             if (Instance == null)
@@ -25,40 +29,43 @@ namespace Systems
 
         private void Start()
         {
-            if (!CheckOrderedUpdatables())
-                throw new Exception("Non-IUpdatable type found in CustomOrderOfExecution.OrderedUpdatables");
+            if (_orderOfExecutions.OrderedUpdatableTypes == null || !_orderOfExecutions.OrderedUpdatableTypes.Any())
+                throw new Exception("Ordered Updatable Types is empty or null");
             
             _updatables.Sort(SortByClass);
-
+            
             int SortByClass(IUpdatable in_a, IUpdatable in_b)
             {
                 if (!CheckTypeInList(in_a) || !CheckTypeInList(in_b))
                     throw new Exception("IUpdatable type not found in CustomOrderOfExecution.OrderedUpdatables");
+            
+                Type aType =
+                    _orderOfExecutions.OrderedUpdatableTypes.FirstOrDefault(t => t == in_a.GetType());
+                Type bType =
+                    _orderOfExecutions.OrderedUpdatableTypes.FirstOrDefault(t => t == in_b.GetType());
 
-                MonoScript aType =
-                    _orderOfExecutions.OrderedUpdatables.FirstOrDefault(t => t.GetClass() == in_a.GetType());
-                MonoScript bType =
-                    _orderOfExecutions.OrderedUpdatables.FirstOrDefault(t => t.GetClass() == in_b.GetType());
-                
-                int aIndex = _orderOfExecutions.OrderedUpdatables.IndexOf(aType);
-                int bIndex = _orderOfExecutions.OrderedUpdatables.IndexOf(bType);
+                int aIndex = -1;
+                int bIndex = -1;
 
-                return aIndex > bIndex ? 1 : aIndex < bIndex ? -1 : 0;
-            }
-
-            bool CheckTypeInList(IUpdatable in_a) =>
-                _orderOfExecutions.OrderedUpdatables.Any(t => t.GetClass() == in_a.GetType());
-
-            bool CheckOrderedUpdatables()
-            {
-                foreach (MonoScript s in _orderOfExecutions.OrderedUpdatables)
+                for (int i = 0; i < _orderOfExecutions.OrderedUpdatableTypes.Length; i++)
                 {
-                    if (s.GetClass().GetInterface(nameof(IUpdatable)) == null)
-                        return false;
+                    if (aType == _orderOfExecutions.OrderedUpdatableTypes[i])
+                        aIndex = i;
+                    if (bType == _orderOfExecutions.OrderedUpdatableTypes[i])
+                        bIndex = i;
+
+                    if (aIndex >= 0 && bIndex >= 0)
+                        break;
                 }
 
-                return true;
+                if (aIndex < 0 || bIndex < 0)
+                    throw new Exception("Updatable type sorting failed");
+            
+                return aIndex > bIndex ? 1 : aIndex < bIndex ? -1 : 0;
             }
+            
+            bool CheckTypeInList(IUpdatable in_updatable) =>
+                _orderOfExecutions.OrderedUpdatableTypes.Any(t => t == in_updatable.GetType());
         }
 
         public void RegisterUpdatable(IUpdatable in_updatable) => _updatables.Add(in_updatable);
@@ -66,6 +73,7 @@ namespace Systems
 
         private void Update()
         {
+            //temp
             string order = "";
             
             foreach (IUpdatable updatable in _updatables)
@@ -73,10 +81,16 @@ namespace Systems
                 if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
                     updatable.OnUpdate();
 
-                order += updatable.ToString();
+                // temp
+                order += updatable.GetType().ToString() + ", ";
             }
-            
-            Debug.Log(order);
+
+            // temp
+            if (!textDone)
+            {
+                textDone = true;
+                text.text = order;
+            }
         }
     }
 }
