@@ -17,6 +17,8 @@ namespace Scriptable_Object_Scripts
         [SerializeField] private List<MonoScript> OrderedUpdatableScripts;
 #endif
 
+        [SerializeField] private TextAsset OrderedUpdatableTypesJson;
+        
         private Type[] _orderedUpdatableTypes;
         public Type[] OrderedUpdatableTypes
         {
@@ -31,7 +33,7 @@ namespace Scriptable_Object_Scripts
 
         private void LoadOrderedUpdatableTypes()
         {
-            string savedData = PlayerPrefs.GetString(Constants.OrderedUpdatableTypesKey);
+            string savedData = OrderedUpdatableTypesJson.text;
             string[] serializableTypeStrings = JsonArrayUtility.FromJson<string>(savedData);
 
             _orderedUpdatableTypes = new Type[serializableTypeStrings.Length];
@@ -67,9 +69,9 @@ namespace Scriptable_Object_Scripts
             
             string jsonData =
                 JsonArrayUtility.ToJson(serializableTypeStrings);
-            PlayerPrefs.SetString(Constants.OrderedUpdatableTypesKey, jsonData);
-            
-            Debug.Log(PlayerPrefs.GetString(Constants.OrderedUpdatableTypesKey));
+
+            System.IO.File.WriteAllText($"Assets/JsonData/{Constants.OrderedUpdatableTypesKey}.json",
+                jsonData);
 
             bool CheckOrderedUpdatables()
             {

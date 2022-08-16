@@ -18,3 +18,4 @@ MonoBehaviour:
   - {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
   - {fileID: 11500000, guid: a18c8c08d2a74475491b0b95087c4818, type: 3}
   - {fileID: 11500000, guid: c888d331d2aef4dd199534c5a1b9cd04, type: 3}
+  OrderedUpdatableTypesJson: {fileID: 4900000, guid: d14953f5cc51f49d89f0de1dd904c1a5, type: 3}
