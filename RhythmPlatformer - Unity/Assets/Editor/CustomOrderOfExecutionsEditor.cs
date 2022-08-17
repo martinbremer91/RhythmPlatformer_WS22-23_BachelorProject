@@ -7,12 +7,17 @@ namespace Editor
     [CustomEditor(typeof(CustomOrderOfExecutions))]
     public class CustomOrderOfExecutionsEditor : UnityEditor.Editor
     {
+        private CustomOrderOfExecutions obj;
+        
+        private void OnEnable()
+        {
+            obj = (CustomOrderOfExecutions)target;
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            CustomOrderOfExecutions obj = (CustomOrderOfExecutions)target;
-            
             if (GUILayout.Button("Refresh Ordered Updatable Types"))
                 obj.RefreshOrderedTypes();
         }
