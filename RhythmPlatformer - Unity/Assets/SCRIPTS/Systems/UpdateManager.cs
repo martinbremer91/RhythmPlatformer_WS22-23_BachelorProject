@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Interfaces;
 using Scriptable_Object_Scripts;
-using TMPro;
 using UnityEngine;
 
 namespace Systems
@@ -14,10 +13,6 @@ namespace Systems
 
         [SerializeField] private CustomOrderOfExecutions _orderOfExecutions;
         private readonly List<IUpdatable> _updatables = new();
-
-        // temp
-        public TMP_Text text;
-        private bool textDone;
 
         private void OnEnable()
         {
@@ -73,23 +68,10 @@ namespace Systems
 
         private void Update()
         {
-            //temp
-            string order = "";
-            
             foreach (IUpdatable updatable in _updatables)
             {
                 if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
                     updatable.OnUpdate();
-
-                // temp
-                order += updatable.GetType().ToString() + ", ";
-            }
-
-            // temp
-            if (!textDone)
-            {
-                textDone = true;
-                text.text = order;
             }
         }
     }
