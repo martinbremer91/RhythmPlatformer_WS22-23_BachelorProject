@@ -275,7 +275,10 @@ namespace Gameplay
             }
 
             DashDirection = new Vector2(directionX, directionY).normalized;
+            DashVelocity = new Vector2(DashDirection.x, DashDirection.y) * _dashTopSpeed;
+            
             _characterStateController.SetCharacterState(CharacterState.Dash);
+            _characterVelocity = DashVelocity;
         }
 
         #endregion
