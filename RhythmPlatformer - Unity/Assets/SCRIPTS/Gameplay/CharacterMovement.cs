@@ -24,7 +24,6 @@ namespace Gameplay
         public float RunVelocity { get; set; }
         public float LandVelocity { get; set; }
         public float WallSlideVelocity { get; set; }
-        public float DashSpeed { private get; set; }
 
         private Vector2 _dashDirection;
         private Vector2 _dashVelocity;
@@ -112,11 +111,15 @@ namespace Gameplay
 #endif
             
             _characterVelocity = GetCharacterVelocity();
+
+            if (_characterStateController.DashWindup)
+                _characterVelocity *= _movementConfigs.DashWindupVelocityMod;
+            
             _rigidbody2D.velocity = _characterVelocity;
 
-            Vector2 GetCharacterVelocity() => 
-                new (RunVelocity + LandVelocity + _fallVelocity.x + _riseVelocity.x + 
-                     _dashVelocity.x, WallSlideVelocity + _fallVelocity.y + _riseVelocity.y + _dashVelocity.y);
+            Vector2 GetCharacterVelocity() =>
+                new(RunVelocity + LandVelocity + _fallVelocity.x + _riseVelocity.x +
+                    _dashVelocity.x, WallSlideVelocity + _fallVelocity.y + _riseVelocity.y + _dashVelocity.y);
         }
 
         #endregion
@@ -130,8 +133,8 @@ namespace Gameplay
 
             int directionMod = _characterStateController.FacingLeft ? -1 : 1;
             
-            // TODO: refactor so that RunAcceleration is not unnecessarily evaluate if RunCurveTracker x >= y
-            float velocity = _movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * _runTopSpeed;
+            float velocity = RunCurveTracker.x < RunCurveTracker.y ?
+                _movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * _runTopSpeed : _runTopSpeed;
 
             if (velocity > Mathf.Abs(RunVelocity) || CharacterVelocity.x * _characterInput.InputState.DirectionalInput.x < 0)
                 RunVelocity = directionMod * velocity;
@@ -268,6 +271,8 @@ namespace Gameplay
             if (_characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
                 _characterStateController.NearWallRight && directionX > 0)
             {
+                // BREAK POINT HERE!!!
+                
                 // dashing into wall while walled "bounces" you off it (gives you dashCurve.Evaluate(DashCurveTracker.y) *
                 // dashTopSpeed in opposite direction)
                 DashDirection = Vector2.zero;

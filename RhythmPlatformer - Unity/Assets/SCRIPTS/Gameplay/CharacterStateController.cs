@@ -163,7 +163,6 @@ namespace Gameplay
                     _characterMovement.WallSlideVelocity = 0;
                     break;
                 case CharacterState.Dash:
-                    _characterMovement.DashSpeed = 0;
                     _characterMovement.DashCurveTracker.x = 0;
                     _characterMovement.DashDirection = Vector2.zero;
                     _characterMovement.DashVelocity = Vector2.zero;
