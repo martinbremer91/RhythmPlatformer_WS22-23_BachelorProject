@@ -18,7 +18,13 @@
 ## ### Deprecated
 ## - Soon to be changed
 
-## [Unreleased] (git.log)
+## [Unreleased] (terminal: git log)
+
+## [0.0.11] - 2022-09-06
+### Added
+- added basic music / beat system with accurate looping, beat events, and optional metronome
+### Fixed
+- improved movement configs
 
 ## [0.0.10] - 2022-08-17
 ### Added

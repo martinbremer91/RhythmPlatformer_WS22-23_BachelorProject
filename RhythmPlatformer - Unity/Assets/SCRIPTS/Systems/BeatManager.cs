@@ -32,6 +32,11 @@ namespace Systems
         public int ActiveSource => _activeSource;
         public int BeatTracker => _beatTracker;
 #endif
+        private struct LoopPoints
+        {
+            public double start;
+            public double end;
+        }
 
         private void Start()
         {
@@ -76,12 +81,6 @@ namespace Systems
                 else if (_metronomeOn)
                     _metronomeWeak.Play();
             }
-        }
-
-        private struct LoopPoints
-        {
-            public double start;
-            public double end;
         }
     }
 }
