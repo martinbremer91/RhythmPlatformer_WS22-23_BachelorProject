@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Scriptable_Object_Scripts;
+using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility_Scripts;
@@ -12,6 +13,7 @@ namespace Gameplay
     {
         #region REFERENCES
 
+        [SerializeField] private BeatManager _beatManager;
         [SerializeField] private CharacterSpriteController _spriteController;
         [SerializeField] private CharacterMovement _characterMovement;
         [SerializeField] private MovementConfigs _movementConfigs;
@@ -174,7 +176,11 @@ namespace Gameplay
 
         #region INIT & UPDATE
 
-        private void Awake() => GetAnticipationStatesDurations();
+        private void Awake()
+        {
+            GetAnticipationStatesDurations();
+            _beatManager.BeatEvent += PerformJumpSquatAsync;
+        }
 
         private void GetAnticipationStatesDurations()
         {
@@ -455,24 +461,24 @@ namespace Gameplay
             _characterMovement.RunCurveTracker.x = 0;
         }
 
-        private async void PerformJumpSquatAsync()
+        private void PerformJumpSquatAsync()
         {
-            JumpSquatStarted?.Invoke();
-            
-            float timer = _jumpSquatDuration;
-
-            while (timer > 0)
-            {
-                await Task.Yield();
-                timer -= Time.deltaTime;
-                
-                if (DashWindup)
-                {
-                    // TODO: call DashCanceledJump delegate (to trigger VFX feedback)
-                    JumpSquat = false;
-                    return;
-                }
-            }
+            // JumpSquatStarted?.Invoke();
+            //
+            // float timer = _jumpSquatDuration;
+            //
+            // while (timer > 0)
+            // {
+            //     await Task.Yield();
+            //     timer -= Time.deltaTime;
+            //     
+            //     if (DashWindup)
+            //     {
+            //         // TODO: call DashCanceledJump delegate (to trigger VFX feedback)
+            //         JumpSquat = false;
+            //         return;
+            //     }
+            // }
 
             JumpSquat = false;
             CurrentCharacterState = CharacterState.Rise;

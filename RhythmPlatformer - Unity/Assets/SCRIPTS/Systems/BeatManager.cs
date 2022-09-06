@@ -26,7 +26,7 @@ namespace Systems
         
         [SerializeField] private bool _metronomeOn;
 
-        private Action BeatEvent;
+        public Action BeatEvent;
         
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;

@@ -267,7 +267,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!61 &256681400
 BoxCollider2D:
@@ -378,7 +378,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!61 &407576367
 BoxCollider2D:
@@ -701,7 +701,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!61 &1208168526
 BoxCollider2D:
@@ -926,6 +926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _beatManager: {fileID: 1498452835}
   _spriteController: {fileID: 1285793918}
   _characterMovement: {fileID: 1285793917}
   _movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
@@ -1249,10 +1250,9 @@ MonoBehaviour:
   _trackAudioSources:
   - {fileID: 1347187015}
   - {fileID: 2097869296}
+  TrackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
   _metronomeStrong: {fileID: 611774261}
   _metronomeWeak: {fileID: 226212911}
-  TrackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
-  BeatTracker: 0
   _metronomeOn: 1
 --- !u!4 &1498452836
 Transform:
@@ -1365,7 +1365,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!212 &1525259335
 SpriteRenderer:
@@ -1476,7 +1476,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!61 &1686251356
 BoxCollider2D:
@@ -1587,7 +1587,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!61 &1711114519
 BoxCollider2D:

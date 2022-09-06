@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: TestTrackData
   m_EditorClassIdentifier: 
   BPM: 100
-  Meter: {x: 4, y: 4}
+  Meter: 4
+  IntroBars: 0
+  TailBars: 0
   EventBeats: 01000000
