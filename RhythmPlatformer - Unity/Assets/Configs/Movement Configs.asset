@@ -42,23 +42,23 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 5
-      outSlope: 5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2
-      value: 1
-      inSlope: 4.7380643
-      outSlope: -11.189308
+      inSlope: 0.86233
+      outSlope: 3.666869
       tangentMode: 1
       weightedMode: 0
-      inWeight: 0.12962544
-      outWeight: 0.13420568
+      inWeight: 0.33333334
+      outWeight: 0.6480403
     - serializedVersion: 3
-      time: 0.7383966
+      time: 0.05
+      value: 1
+      inSlope: 21.45792
+      outSlope: -Infinity
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.061997175
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25
       value: 0
       inSlope: Infinity
       outSlope: 0.023792375
@@ -67,7 +67,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.99
+      time: 0.29
       value: 0
       inSlope: 0.0030450982
       outSlope: 5.1029434
@@ -76,13 +76,13 @@ MonoBehaviour:
       inWeight: 0.13795671
       outWeight: 1
     - serializedVersion: 3
-      time: 1
-      value: 0.5
-      inSlope: 1.744849
-      outSlope: 1.744849
+      time: 0.3
+      value: 0.1
+      inSlope: 12.675079
+      outSlope: 12.675079
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.07994122
+      inWeight: 0.85227275
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -142,13 +142,14 @@ MonoBehaviour:
   WallSlideFallTopSpeed: 5
   AirDriftSpeed: 7
   AirDrag: 1
-  DefaultGroundDrag: 20
-  ReducedGroundDragFactor: 10
-  IncreasedGroundDragFactor: 40
-  DefaultWallDrag: 20
-  ReducedWallDrag: 16
+  DefaultGroundDrag: 30
+  ReducedGroundDragFactor: 20
+  IncreasedGroundDragFactor: 60
+  DefaultWallDrag: 30
+  ReducedWallDrag: 20
   IncreasedWallDrag: 60
   RunTurnWindow: 0.1
   WallClingMaxDuration: 3
   CrouchJumpSpeedModifier: 0.5
+  DashWindupVelocityMod: 0.1
   RiseAirDriftPoint: 0.25
