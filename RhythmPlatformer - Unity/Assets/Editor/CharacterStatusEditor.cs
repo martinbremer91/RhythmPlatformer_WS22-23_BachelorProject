@@ -157,6 +157,9 @@ namespace Editor
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 160),
                     new Vector2(200, 20)), 
                 _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed, "WALL CLING");
+            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 175),
+                    new Vector2(200, 20)), 
+                _characterMovement.FastFalling, "FAST FALL");
         }
     }
 }

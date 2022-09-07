@@ -37,6 +37,7 @@ namespace Scriptable_Object_Scripts
         public float RunTurnWindow = .1f;
         public float WallClingMaxDuration = .5f;
         public float CrouchJumpSpeedModifier;
+        public float FastFallSpeedModifier = 2;
         [Range(0,1)] public float DashWindupVelocityMod;
     }
 }

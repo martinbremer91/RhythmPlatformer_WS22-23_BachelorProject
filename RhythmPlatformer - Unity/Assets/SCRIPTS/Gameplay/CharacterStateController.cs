@@ -123,6 +123,8 @@ namespace Gameplay
                     CheckFacingOrientation();
                     break;
                 case CharacterState.Fall:
+                    _characterMovement.FastFalling = false;
+                    _characterMovement.YAxisReadyForFastFall = _characterInput.InputState.DirectionalInput.y >= -.5f;
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.FallVelocity = new(_characterMovement.CharacterVelocity.x, 0);
                     break;
@@ -159,6 +161,8 @@ namespace Gameplay
                     _characterMovement.RiseVelocity = Vector2.zero;
                     break;
                 case CharacterState.Fall:
+                    _characterMovement.FastFalling = false;
+                    _characterMovement.YAxisReadyForFastFall = false;
                     _characterMovement.FallVelocity = Vector2.zero;
                     break;
                 case CharacterState.WallSlide:

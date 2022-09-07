@@ -48,16 +48,13 @@ namespace Gameplay
             _controls.GameplayDefault.DigitalRight.canceled += ctx => 
                 HandleDigitalMove(Vector2.right, true);
             
-            // TODO: ADD CORRESPONDING BOOLEANS TO INPUT STATE
             _controls.GameplayDefault.Jump.performed +=
                 ctx => _characterStateController.JumpSquat = true;
             _controls.GameplayDefault.Dash.performed +=
                 ctx => _characterStateController.DashWindup = true;
-            
 #if UNITY_EDITOR
             _controls.GameplayDefault.DebugToggle.performed += ctx => ToggleDebugMode();
 #endif
-            
             _controls.Enable();
         }
 

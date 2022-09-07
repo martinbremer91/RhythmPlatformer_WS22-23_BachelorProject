@@ -58,6 +58,9 @@ namespace Gameplay
         private float _increasedWallDrag;
 
         private float _crouchJumpVerticalSpeedModifier;
+        private float _fastFallSpeedModifier;
+        public bool YAxisReadyForFastFall;
+        public bool FastFalling;
 
         // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
         [HideInInspector] public Vector2 RunCurveTracker;
@@ -96,6 +99,7 @@ namespace Gameplay
             _increasedWallDrag = _movementConfigs.IncreasedWallDrag;
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
+            _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
         }
 
         public override void OnUpdate()
@@ -145,8 +149,18 @@ namespace Gameplay
             float xVelocity = _fallVelocity.x == 0 ? drift : 
                 _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.deltaTime : 
                 _fallVelocity.x + (_airDrag + drift) * Time.deltaTime;
+
+            if (!FastFalling)
+            {
+                if (!YAxisReadyForFastFall && _characterInput.InputState.DirectionalInput.y >= -.5f)
+                    YAxisReadyForFastFall = true;
+                if (YAxisReadyForFastFall && _characterInput.InputState.DirectionalInput.y < -.5f)
+                    FastFalling = true;
+            }
             
-            float yVelocity = -_movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.x) * _fallTopSpeed; 
+            float yVelocity = 
+                -_movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.x) * 
+                (FastFalling ? _fastFallSpeedModifier : 1) * _fallTopSpeed; 
             
             _fallVelocity = new(xVelocity, yVelocity);
         }
@@ -260,7 +274,7 @@ namespace Gameplay
             {
                 if (inputDirection.y <= -.95f)
                 {
-                    // Bounce on ground?
+                    // Bounce on ground? handle in same way as straight up?
                     DashDirection = Vector2.zero;
                     return;
                 }
