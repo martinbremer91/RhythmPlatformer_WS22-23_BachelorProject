@@ -58,7 +58,6 @@ namespace Gameplay
         private float _increasedWallDrag;
 
         private float _crouchJumpVerticalSpeedModifier;
-        private float _riseAirDriftPoint;
 
         // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
         [HideInInspector] public Vector2 RunCurveTracker;
@@ -97,7 +96,6 @@ namespace Gameplay
             _increasedWallDrag = _movementConfigs.IncreasedWallDrag;
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
-            _riseAirDriftPoint = _movementConfigs.RiseAirDriftPoint;
         }
 
         public override void OnUpdate()
@@ -155,11 +153,15 @@ namespace Gameplay
 
         public void Rise()
         {
-            _riseVelocity = new(_riseVelocity.x,
-                _movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * _riseTopSpeed * _riseSpeedMod);
+            float drift = _characterInput.InputState.DirectionalInput.x * _airDriftSpeed;
 
-            if (RiseCurveTracker.x > _riseAirDriftPoint * RiseCurveTracker.y)
-                _riseVelocity.x += _characterInput.InputState.DirectionalInput.x * _airDriftSpeed * Time.deltaTime;
+            float xVelocity = _riseVelocity.x == 0 ? drift : 
+                _riseVelocity.x > 0 ? _riseVelocity.x - (_airDrag + drift) * Time.deltaTime : 
+                _riseVelocity.x + (_airDrag + drift) * Time.deltaTime;
+            
+            float yVelocity = _movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * _riseTopSpeed; 
+            
+            _riseVelocity = new(xVelocity, yVelocity);
         }
 
         public void Land()
