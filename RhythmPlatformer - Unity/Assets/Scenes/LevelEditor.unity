@@ -1664,6 +1664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentLevelCameraBoundsJson: {fileID: 0}
+  _roomName: 
 --- !u!4 &1761029465
 Transform:
   m_ObjectHideFlags: 0
