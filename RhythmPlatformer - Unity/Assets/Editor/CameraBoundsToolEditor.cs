@@ -47,6 +47,12 @@ namespace Editor
                     _obj.GenerateCamNodeNeighbors(_selection);
             }
 
+            if (_obj.CamNodeObjects.Any(n => n.VertN == null || n.HorN == null))
+            {
+                if (GUILayout.Button("Try to Close Node Loop"))
+                    _obj.TryCloseNodeLoop();
+            }
+
             if (_obj.CamNodeObjects.Any() || _obj.transform.childCount > 0)
             {
                 if (GUILayout.Button("Force Clear List"))

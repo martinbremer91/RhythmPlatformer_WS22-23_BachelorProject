@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Systems;
@@ -15,7 +16,7 @@ namespace Debug_and_Tools
 
         [Space(10)] [SerializeField] private string _roomName;
 
-        public struct CamNodeObject
+        public class CamNodeObject
         {
             public GameObject Go;
             public GameObject VertN;
@@ -33,8 +34,8 @@ namespace Debug_and_Tools
 
         public void SaveGameObjectPositionsAsPoints()
         {
-            
-            
+
+
             // check if _currentLevelCameraBoundsJson exists. If so, overwrite. If not, create and assign field
             // (name file after _roomName)
         }
@@ -49,9 +50,9 @@ namespace Debug_and_Tools
 
             if (!QueryDiscardAllChildren())
                 return;
-            
+
             Debug.Log("Creating objs");
-            
+
             // Update _roomName 
         }
 
@@ -71,21 +72,21 @@ namespace Debug_and_Tools
                 origin.name = "Node_0";
                 verticalNeighbor.name = "Node_1";
                 horizontalNeighbor.name = "Node_2";
-                
+
                 origin.transform.position = Vector3.zero;
                 verticalNeighbor.transform.position = new Vector3(0, 5, 0);
                 horizontalNeighbor.transform.position = new Vector3(5, 0, 0);
-                
+
                 origin.transform.SetParent(transform);
                 verticalNeighbor.transform.SetParent(transform);
                 horizontalNeighbor.transform.SetParent(transform);
-                
+
                 CamNodeObjects.Add(
                     new CamNodeObject(origin, verticalNeighbor, horizontalNeighbor));
-                
+
                 CamNodeObjects.Add(
                     new CamNodeObject(verticalNeighbor, origin, null));
-                
+
                 CamNodeObjects.Add(
                     new CamNodeObject(horizontalNeighbor, null, origin));
             }
@@ -93,6 +94,32 @@ namespace Debug_and_Tools
             void GenerateMissingNeighbors()
             {
                 CamNodeObject cno = GetCamNodeObjectFromGameObject(in_go);
+
+                if (cno.VertN == null)
+                {
+                    GameObject verticalNeighbor = new GameObject();
+
+                    verticalNeighbor.name = "Node_" + CamNodeObjects.Count;
+                    verticalNeighbor.transform.position = in_go.transform.position + new Vector3(0, 5, 0);
+                    verticalNeighbor.transform.SetParent(transform);
+
+                    cno.VertN = verticalNeighbor;
+                    CamNodeObjects.Add(
+                        new CamNodeObject(verticalNeighbor, in_go, null));
+                }
+
+                if (cno.HorN == null)
+                {
+                    GameObject horizontalNeighbor = new GameObject();
+
+                    horizontalNeighbor.name = "Node_" + CamNodeObjects.Count;
+                    horizontalNeighbor.transform.position = in_go.transform.position + new Vector3(5, 0, 0);
+                    horizontalNeighbor.transform.SetParent(transform);
+
+                    cno.HorN = horizontalNeighbor;
+                    CamNodeObjects.Add(
+                        new CamNodeObject(horizontalNeighbor, null, in_go));
+                }
             }
         }
 
@@ -105,6 +132,7 @@ namespace Debug_and_Tools
                 CamNodeObject horN = GetCamNodeObjectFromGameObject(cno.HorN);
                 horN.HorN = null;
             }
+
             if (cno.VertN != null)
             {
                 CamNodeObject vertN = GetCamNodeObjectFromGameObject(cno.VertN);
@@ -113,6 +141,46 @@ namespace Debug_and_Tools
 
             CamNodeObjects.Remove(cno);
             DestroyImmediate(cno.Go);
+        }
+
+        public void TryCloseNodeLoop()
+        {
+            CamNodeObject[] missingVertNs = CamNodeObjects.Where(n => n.VertN == null).ToArray();
+            CamNodeObject[] missingHorNs = CamNodeObjects.Where(n => n.HorN == null).ToArray();
+
+            float tolerance = .1f;
+            
+            foreach (CamNodeObject cno in missingVertNs)
+            {
+                if (cno.VertN != null) 
+                    continue;
+
+                CamNodeObject validN = missingVertNs.FirstOrDefault(
+                    n => n != cno && Math.Abs(
+                        n.Go.transform.position.x - cno.Go.transform.position.x) < tolerance);
+
+                if (validN == null)
+                    continue;
+
+                cno.VertN = validN.Go;
+                validN.VertN = cno.Go;
+            }
+            
+            foreach (CamNodeObject cno in missingHorNs)
+            {
+                if (cno.HorN != null) 
+                    continue;
+
+                CamNodeObject validN = missingHorNs.FirstOrDefault(
+                    n => n != cno && Math.Abs(
+                        n.Go.transform.position.y - cno.Go.transform.position.y) < tolerance);
+
+                if (validN == null)
+                    continue;
+
+                cno.HorN = validN.Go;
+                validN.HorN = cno.Go;
+            }
         }
 
         #endregion
@@ -149,6 +217,24 @@ namespace Debug_and_Tools
         {
             bool decision = EditorUtility.DisplayDialog("Confirmation Dialog", msg, "Yes", "No");
             return decision;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (CamNodeObjects == null || !CamNodeObjects.Any())
+                return;
+
+            Gizmos.color = Color.green;
+
+            for (int i = 0; i < CamNodeObjects.Count; i++)
+            {
+                if (CamNodeObjects[i].VertN != null && 
+                    CamNodeObjects.IndexOf(GetCamNodeObjectFromGameObject(CamNodeObjects[i].VertN)) > i)
+                    Gizmos.DrawLine(CamNodeObjects[i].Go.transform.position, CamNodeObjects[i].VertN.transform.position);
+                if (CamNodeObjects[i].HorN != null && 
+                    CamNodeObjects.IndexOf(GetCamNodeObjectFromGameObject(CamNodeObjects[i].HorN)) > i)
+                    Gizmos.DrawLine(CamNodeObjects[i].Go.transform.position, CamNodeObjects[i].HorN.transform.position);
+            }
         }
     }
 }
