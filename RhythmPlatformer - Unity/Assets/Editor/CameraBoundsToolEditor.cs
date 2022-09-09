@@ -24,7 +24,7 @@ namespace Editor
 
             GUILayout.Space(10);
 
-            if (_obj.CurrentLevelCameraBoundsJson != null)
+            if (_obj.CurrentRoomCamData != null)
             {
                 if (GUILayout.Button("Create GameObjects from points"))
                     _obj.CreateGameObjectsFromPoints();

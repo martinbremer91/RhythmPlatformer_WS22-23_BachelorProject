@@ -5,12 +5,13 @@ using System.Linq;
 using Systems;
 using UnityEngine;
 using UnityEditor;
+using Utility_Scripts;
 
 namespace Debug_and_Tools
 {
     public class CameraBoundsTool : MonoBehaviour
     {
-        public TextAsset CurrentLevelCameraBoundsJson;
+        public TextAsset CurrentRoomCamData;
 
         public readonly List<CamNodeObject> CamNodeObjects = new();
 
@@ -39,8 +40,7 @@ namespace Debug_and_Tools
                 ConfirmationDialog("Room Name must not be empty when saving", true);
                 return;
             }
-
-            // check if nodes are all ready for saving, try running TryCloseLoop if not. Check again
+            
             if (!CheckCamNodeObjectsValid())
             {
                 TryCloseNodeLoop();
@@ -51,13 +51,21 @@ namespace Debug_and_Tools
                     return;
                 }
             }
-            
-            Debug.Log("passed");
-            
-            // create CamNodes (which need to be serializable)
-            
-            // check if _currentLevelCameraBoundsJson exists. If so, overwrite. If not, create and assign field
-            // (name file after _roomName)
+
+            CamNode[] camNodes = new CamNode[CamNodeObjects.Count];
+
+            for (int i = 0; i < camNodes.Length; i++)
+            {
+                CamNodeObject cno = CamNodeObjects[i];
+                camNodes[i] = new CamNode(i, cno.Go.transform.position, 
+                    GetIndexOfCamNodeObjectByGameObject(cno.VertN), 
+                    GetIndexOfCamNodeObjectByGameObject(cno.HorN));
+            }
+
+            string jsonData = JsonArrayUtility.ToJson(camNodes);
+
+            System.IO.File.WriteAllText($"Assets/JsonData/{_roomName}_CamData.json",
+                jsonData);
 
             bool CheckCamNodeObjectsValid()
             {
@@ -267,6 +275,9 @@ namespace Debug_and_Tools
             return EditorUtility.DisplayDialog("Warning", msg, "OK");
         }
 
+        private int GetIndexOfCamNodeObjectByGameObject(GameObject in_go) => 
+            CamNodeObjects.IndexOf(GetCamNodeObjectFromGameObject(in_go));
+
         private void OnDrawGizmos()
         {
             if (CamNodeObjects == null || !CamNodeObjects.Any())
@@ -277,10 +288,10 @@ namespace Debug_and_Tools
             for (int i = 0; i < CamNodeObjects.Count; i++)
             {
                 if (CamNodeObjects[i].VertN != null && 
-                    CamNodeObjects.IndexOf(GetCamNodeObjectFromGameObject(CamNodeObjects[i].VertN)) > i)
+                    GetIndexOfCamNodeObjectByGameObject(CamNodeObjects[i].VertN) > i)
                     Gizmos.DrawLine(CamNodeObjects[i].Go.transform.position, CamNodeObjects[i].VertN.transform.position);
                 if (CamNodeObjects[i].HorN != null && 
-                    CamNodeObjects.IndexOf(GetCamNodeObjectFromGameObject(CamNodeObjects[i].HorN)) > i)
+                    GetIndexOfCamNodeObjectByGameObject(CamNodeObjects[i].HorN) > i)
                     Gizmos.DrawLine(CamNodeObjects[i].Go.transform.position, CamNodeObjects[i].HorN.transform.position);
             }
         }
