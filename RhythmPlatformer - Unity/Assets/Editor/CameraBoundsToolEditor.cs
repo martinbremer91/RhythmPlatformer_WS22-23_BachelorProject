@@ -23,11 +23,18 @@ namespace Editor
             base.OnInspectorGUI();
 
             GUILayout.Space(10);
+
+            if (_obj.CurrentLevelCameraBoundsJson != null)
+            {
+                if (GUILayout.Button("Create GameObjects from points"))
+                    _obj.CreateGameObjectsFromPoints();
+            }
             
-            if (GUILayout.Button("Create GameObjects from points"))
-                _obj.CreateGameObjectsFromPoints();
-            if (GUILayout.Button("Save GameObject positions as points"))
-                _obj.SaveGameObjectPositionsAsPoints();
+            if (_obj.CamNodeObjects != null && _obj.CamNodeObjects.Any())
+            {
+                if (GUILayout.Button("Save GameObject positions as points"))
+                    _obj.SaveGameObjectPositionsAsPoints();
+            }
 
             GUILayout.Space(10);
 
@@ -38,7 +45,7 @@ namespace Editor
                     _obj.RemoveNode(_selection);
             }
 
-            if (!_obj.CamNodeObjects.Any() || 
+            if (_obj.CamNodeObjects != null && !_obj.CamNodeObjects.Any() || 
                 _selection != null &&
                 _obj.CheckIfGameObjectIsOnCamNodeObjectsList(_selection) && 
                 _obj.CheckIfGameObjectNodeHasMissingNeighbors(_selection)) 
@@ -47,13 +54,13 @@ namespace Editor
                     _obj.GenerateCamNodeNeighbors(_selection);
             }
 
-            if (_obj.CamNodeObjects.Any(n => n.VertN == null || n.HorN == null))
+            if (_obj.CamNodeObjects != null && _obj.CamNodeObjects.Any(n => n.VertN == null || n.HorN == null))
             {
                 if (GUILayout.Button("Try to Close Node Loop"))
                     _obj.TryCloseNodeLoop();
             }
 
-            if (_obj.CamNodeObjects.Any() || _obj.transform.childCount > 0)
+            if (_obj.CamNodeObjects != null && _obj.CamNodeObjects.Any() || _obj.transform.childCount > 0)
             {
                 if (GUILayout.Button("Force Clear List"))
                     _obj.QueryDiscardAllChildren();

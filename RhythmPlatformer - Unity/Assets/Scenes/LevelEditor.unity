@@ -1663,8 +1663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db37b64033fd4e8b92e0316f8a55b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentLevelCameraBoundsJson: {fileID: 0}
-  _roomName: 
+  CurrentLevelCameraBoundsJson: {fileID: 0}
+  _roomName: Test
 --- !u!4 &1761029465
 Transform:
   m_ObjectHideFlags: 0

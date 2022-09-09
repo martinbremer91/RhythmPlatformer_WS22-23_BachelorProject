@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Systems
 {
+    [System.Serializable]
     public struct CamNode
     {
         public int Index;

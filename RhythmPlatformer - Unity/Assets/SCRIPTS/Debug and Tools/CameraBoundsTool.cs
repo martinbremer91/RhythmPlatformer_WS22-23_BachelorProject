@@ -10,7 +10,7 @@ namespace Debug_and_Tools
 {
     public class CameraBoundsTool : MonoBehaviour
     {
-        [SerializeField] private TextAsset _currentLevelCameraBoundsJson;
+        public TextAsset CurrentLevelCameraBoundsJson;
 
         public readonly List<CamNodeObject> CamNodeObjects = new();
 
@@ -34,20 +34,59 @@ namespace Debug_and_Tools
 
         public void SaveGameObjectPositionsAsPoints()
         {
+            if (_roomName == "" || _roomName == String.Empty)
+            {
+                ConfirmationDialog("Room Name must not be empty when saving", true);
+                return;
+            }
 
-
+            // check if nodes are all ready for saving, try running TryCloseLoop if not. Check again
+            if (!CheckCamNodeObjectsValid())
+            {
+                TryCloseNodeLoop();
+                if (!CheckCamNodeObjectsValid())
+                {
+                    ConfirmationDialog(
+                        "Invalid Cam Node Object(s) found. A single closed loop is required.", true);
+                    return;
+                }
+            }
+            
+            Debug.Log("passed");
+            
+            // create CamNodes (which need to be serializable)
+            
             // check if _currentLevelCameraBoundsJson exists. If so, overwrite. If not, create and assign field
             // (name file after _roomName)
+
+            bool CheckCamNodeObjectsValid()
+            {
+                bool closedLoop = 
+                    !CamNodeObjects.Any(n => n.Go == null || n.HorN == null || n.VertN == null);
+
+                if (!closedLoop)
+                    return false;
+
+                CamNodeObject neighbor = null;
+                int i = 0;
+                while (CamNodeObjects[0] != neighbor)
+                {
+                    if (neighbor == null)
+                        neighbor = CamNodeObjects[0];
+                    
+                    neighbor = i % 2 == 0
+                        ? GetCamNodeObjectFromGameObject(neighbor.HorN)
+                        : GetCamNodeObjectFromGameObject(neighbor.VertN);
+
+                    i++;
+                }
+                
+                return i == CamNodeObjects.Count;
+            }
         }
 
         public void CreateGameObjectsFromPoints()
         {
-            if (_currentLevelCameraBoundsJson == null)
-            {
-                Debug.LogWarning("Pass in JSON to generate Camera Bounds GameObjects");
-                return;
-            }
-
             if (!QueryDiscardAllChildren())
                 return;
 
@@ -181,22 +220,10 @@ namespace Debug_and_Tools
                 cno.HorN = validN.Go;
                 validN.HorN = cno.Go;
             }
+            
+            SceneView.RepaintAll();
         }
-
-        #endregion
-
-        private CamNodeObject GetCamNodeObjectFromGameObject(GameObject in_go) =>
-            CamNodeObjects.First(n => n.Go == in_go);
         
-        public bool CheckIfGameObjectIsOnCamNodeObjectsList(GameObject in_go) => 
-            CamNodeObjects.Any(n => n.Go == in_go);
-
-        public bool CheckIfGameObjectNodeHasMissingNeighbors(GameObject in_go)
-        {
-            CamNodeObject cno = GetCamNodeObjectFromGameObject(in_go);
-            return cno.VertN == null || cno.HorN == null;
-        }
-
         public bool QueryDiscardAllChildren()
         {
             if (transform.childCount > 0)
@@ -213,10 +240,31 @@ namespace Debug_and_Tools
             return true;
         }
 
-        private bool ConfirmationDialog(string msg = "Confirm?")
+        #endregion
+
+        #region UTILITY FUNCTIONS
+
+        private CamNodeObject GetCamNodeObjectFromGameObject(GameObject in_go) =>
+            CamNodeObjects.First(n => n.Go == in_go);
+        
+        public bool CheckIfGameObjectIsOnCamNodeObjectsList(GameObject in_go) => 
+            CamNodeObjects.Any(n => n.Go == in_go);
+
+        public bool CheckIfGameObjectNodeHasMissingNeighbors(GameObject in_go)
         {
-            bool decision = EditorUtility.DisplayDialog("Confirmation Dialog", msg, "Yes", "No");
-            return decision;
+            CamNodeObject cno = GetCamNodeObjectFromGameObject(in_go);
+            return cno.VertN == null || cno.HorN == null;
+        }
+
+        private bool ConfirmationDialog(string msg = "Confirm?", bool in_warning = false)
+        {
+            if (!in_warning)
+            {
+                bool decision = EditorUtility.DisplayDialog("Confirmation Dialog", msg, "Yes", "No");
+                return decision;
+            }
+            
+            return EditorUtility.DisplayDialog("Warning", msg, "OK");
         }
 
         private void OnDrawGizmos()
@@ -236,6 +284,8 @@ namespace Debug_and_Tools
                     Gizmos.DrawLine(CamNodeObjects[i].Go.transform.position, CamNodeObjects[i].HorN.transform.position);
             }
         }
+        
+        #endregion
     }
 }
 #endif
