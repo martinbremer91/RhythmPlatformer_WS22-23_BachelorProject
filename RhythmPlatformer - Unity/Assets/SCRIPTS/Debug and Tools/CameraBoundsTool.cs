@@ -98,9 +98,30 @@ namespace Debug_and_Tools
             if (!QueryDiscardAllChildren())
                 return;
 
-            Debug.Log("Creating objs");
+            string jsonData = CurrentRoomCamData.text;
+            CamNode[] camNodes = JsonArrayUtility.FromJson<CamNode>(jsonData);
+            GameObject[] gameObjects = new GameObject[camNodes.Length];
 
-            // Update _roomName 
+            for (int i = 0; i < camNodes.Length; i++)
+            {
+                GameObject go = new GameObject("Node_" + i);
+                go.transform.SetParent(transform);
+                gameObjects[i] = go;
+            }
+
+            for (int i = 0; i < camNodes.Length; i++)
+            {
+                CamNodeObject cno = new CamNodeObject(
+                    gameObjects[i], 
+                    gameObjects[camNodes[i].VerticalNeighborIndex], 
+                    gameObjects[camNodes[i].HorizontalNeighborIndex]);
+
+                gameObjects[i].transform.position = camNodes[i].Position;
+                
+                CamNodeObjects.Add(cno);
+            }
+
+            _roomName = CurrentRoomCamData.name.Remove(CurrentRoomCamData.name.Length - "_CamData".Length);
         }
 
         public void GenerateCamNodeNeighbors(GameObject in_go)
@@ -112,13 +133,9 @@ namespace Debug_and_Tools
 
             void GenerateStartingNodes()
             {
-                GameObject origin = new GameObject();
-                GameObject verticalNeighbor = new GameObject();
-                GameObject horizontalNeighbor = new GameObject();
-
-                origin.name = "Node_0";
-                verticalNeighbor.name = "Node_1";
-                horizontalNeighbor.name = "Node_2";
+                GameObject origin = new GameObject("Node_0");
+                GameObject verticalNeighbor = new GameObject("Node_1");
+                GameObject horizontalNeighbor = new GameObject("Node_2");
 
                 origin.transform.position = Vector3.zero;
                 verticalNeighbor.transform.position = new Vector3(0, 5, 0);
@@ -144,9 +161,8 @@ namespace Debug_and_Tools
 
                 if (cno.VertN == null)
                 {
-                    GameObject verticalNeighbor = new GameObject();
-
-                    verticalNeighbor.name = "Node_" + CamNodeObjects.Count;
+                    GameObject verticalNeighbor = new GameObject("Node_" + CamNodeObjects.Count);
+                    
                     verticalNeighbor.transform.position = in_go.transform.position + new Vector3(0, 5, 0);
                     verticalNeighbor.transform.SetParent(transform);
 
@@ -157,9 +173,8 @@ namespace Debug_and_Tools
 
                 if (cno.HorN == null)
                 {
-                    GameObject horizontalNeighbor = new GameObject();
-
-                    horizontalNeighbor.name = "Node_" + CamNodeObjects.Count;
+                    GameObject horizontalNeighbor = new GameObject("Node_" + CamNodeObjects.Count);
+                    
                     horizontalNeighbor.transform.position = in_go.transform.position + new Vector3(5, 0, 0);
                     horizontalNeighbor.transform.SetParent(transform);
 
