@@ -9,7 +9,7 @@ namespace Editor
         [MenuItem("Scenes/Load Test Scene")]
         private static void LoadTestScene()
         {
-            EditorSceneManager.OpenScene($"Assets/Scenes/{Constants.TestScene}.unity");
+            EditorSceneManager.OpenScene($"Assets/Scenes/{Constants.LevelEditor}.unity");
         }
     }
 }

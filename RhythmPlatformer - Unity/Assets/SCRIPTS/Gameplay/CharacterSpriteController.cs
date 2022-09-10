@@ -14,17 +14,43 @@ namespace Gameplay
         protected override void OnEnable()
         {
             base.OnEnable();
-            _characterStateController.JumpSquatStarted += SetJumpSquatTrigger;
             _characterStateController.DashWindupStarted += SetDashWindupTrigger;
         }
-
-        private void SetJumpSquatTrigger() => PlayerAnimator.SetTrigger(Constants.JumpSquatClipName);
+        
         private void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
+
+        public void HandleStateAnimation()
+        {
+            switch (_characterStateController.CurrentCharacterState)
+            {
+                case CharacterState.Idle:
+                    PlayerAnimator.SetTrigger(Constants.IdleClipName);
+                    break;
+                case CharacterState.Run:
+                    PlayerAnimator.SetTrigger(Constants.RunClipName);
+                    break;
+                case CharacterState.Land:
+                    PlayerAnimator.SetTrigger(Constants.LandClipName);
+                    break;
+                case CharacterState.Rise:
+                    PlayerAnimator.SetTrigger(Constants.RiseClipName);
+                    break;
+                case CharacterState.Fall:
+                    PlayerAnimator.SetTrigger(Constants.FallClipName);
+                    break;
+                case CharacterState.Dash:
+                    PlayerAnimator.SetTrigger(Constants.DashClipName);
+                    break;
+                case CharacterState.WallCling:
+                case CharacterState.WallSlide:
+                    PlayerAnimator.SetTrigger(Constants.WalledClipName);
+                    break;
+            }
+        }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            _characterStateController.JumpSquatStarted -= SetJumpSquatTrigger;
             _characterStateController.DashWindupStarted -= SetDashWindupTrigger;
         }
     }

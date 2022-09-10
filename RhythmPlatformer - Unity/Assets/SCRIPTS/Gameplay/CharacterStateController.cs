@@ -113,6 +113,7 @@ namespace Gameplay
             ChangeOutOfState();
             
             _currentCharacterState = in_value;
+            _spriteController.HandleStateAnimation();
         }
 
         private void ChangeIntoState(CharacterState in_value)
@@ -188,19 +189,13 @@ namespace Gameplay
 
         private void GetAnticipationStatesDurations()
         {
-            AnimationClip jumpSquatClip =
-                _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
-                    .FirstOrDefault(c => c.name == Constants.JumpSquatClipName);
             AnimationClip dashWindupClip =
                 _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
                     .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
-
-            if (jumpSquatClip == null)
-                throw new Exception("Could not find AnimationClip with name " + Constants.JumpSquatClipName);
+            
             if (dashWindupClip == null)
-                throw new Exception("Could not find AnimationClip with name " + Constants.JumpSquatClipName);
-
-            _jumpSquatDuration = jumpSquatClip.length;
+                throw new Exception("Could not find AnimationClip with name " + Constants.DashWindupClipName);
+            
             _dashWindupDuration = dashWindupClip.length;
         }
 
