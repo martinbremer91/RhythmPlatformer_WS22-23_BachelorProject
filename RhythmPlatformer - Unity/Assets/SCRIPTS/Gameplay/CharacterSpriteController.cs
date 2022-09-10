@@ -24,7 +24,11 @@ namespace Gameplay
             switch (_characterStateController.CurrentCharacterState)
             {
                 case CharacterState.Idle:
+                    PlayerAnimator.ResetTrigger(Constants.LandClipName);
                     PlayerAnimator.SetTrigger(Constants.IdleClipName);
+                    break;
+                case CharacterState.Crouch:
+                    PlayerAnimator.SetTrigger(Constants.LandClipName);
                     break;
                 case CharacterState.Run:
                     PlayerAnimator.SetTrigger(Constants.RunClipName);

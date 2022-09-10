@@ -741,8 +741,8 @@ TextureImporter:
         y: 788
         width: 54
         height: 75
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -762,8 +762,8 @@ TextureImporter:
         y: 791
         width: 53
         height: 72
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -783,8 +783,8 @@ TextureImporter:
         y: 791
         width: 54
         height: 72
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.6, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -993,8 +993,8 @@ TextureImporter:
         y: 709
         width: 54
         height: 72
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1014,8 +1014,8 @@ TextureImporter:
         y: 706
         width: 54
         height: 75
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1035,8 +1035,8 @@ TextureImporter:
         y: 709
         width: 54
         height: 72
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2888,7 +2888,7 @@ TextureImporter:
     nameFileIdTable:
       HollowKnightSpriteSheet_80: -802833553
       HollowKnightSpriteSheet_90: 1062589863
-      HollowKnightSpriteSheet_56: 656416936
+      HollowKnightSpriteSheet_78: -748378195
       HollowKnightSpriteSheet_62: -1870832745
       HollowKnightSpriteSheet_77: 1577447361
       HollowKnightSpriteSheet_88: 1724754885
@@ -3017,7 +3017,7 @@ TextureImporter:
       HollowKnightSpriteSheet_14: 1005225891
       HollowKnightSpriteSheet_64: 1511386492
       HollowKnightSpriteSheet_58: -1032014847
-      HollowKnightSpriteSheet_78: -748378195
+      HollowKnightSpriteSheet_56: 656416936
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

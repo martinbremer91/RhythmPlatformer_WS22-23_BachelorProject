@@ -11,6 +11,7 @@ namespace Utility_Scripts
     
         // ANIMATION PARAMETERS
         public const string IdleClipName = "Idle";
+        public const string CrouchClipName = "Crouch";
         public const string RunClipName = "Run";
         public const string LandClipName = "Land";
         public const string RiseClipName = "Rise";
