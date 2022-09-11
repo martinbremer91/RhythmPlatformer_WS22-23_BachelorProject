@@ -348,10 +348,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcce0c5ab5a594be0b8682e22ff58032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cam: {fileID: 0}
+  _cam: {fileID: 519420031}
   _camBoundsData: {fileID: 4900000, guid: 3dda479b4c1984c68ae7add94930a7d2, type: 3}
   _characterTf: {fileID: 1285793913}
   _characterMovementBoundaries: {x: 3, y: 1, z: 0}
+  _camSize: {x: 0, y: 0}
   _smoothTime: 0.2
   _maxSpeed: 10
 --- !u!1 &611774260

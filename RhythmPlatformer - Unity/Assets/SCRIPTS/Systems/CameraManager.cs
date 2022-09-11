@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -23,6 +24,13 @@ namespace Systems
         private Vector2 _currentNE;
         private Vector2 _currentSW;
         private Vector2 _currentSE;
+
+        private float _maxY;
+        private float _minY;
+        private float _minX;
+        private float _maxX;
+
+        private Vector2 _camSize;
 
         private bool _characterInBoundaries;
         private Vector3 _velocity;
@@ -62,6 +70,9 @@ namespace Systems
                     CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
                     _nodeDistances[i] = Vector3.Distance(cn.Position, transform.position);
                 }
+
+                _camSize.y = _cam.orthographicSize;
+                _camSize.x = _camSize.y * _cam.aspect;
             }
 
             _currentNW = 
@@ -72,6 +83,11 @@ namespace Systems
                 GetClosestNode(_camNodes.Where(n => n.Position.x <= position.x && n.Position.y <= position.y));
             _currentSE = 
                 GetClosestNode(_camNodes.Where(n => n.Position.x >= position.x && n.Position.y <= position.y));
+
+            _maxY = Mathf.Max(_currentNW.y, _currentNE.y);
+            _minY = Mathf.Min(_currentSW.y, _currentSE.y);
+            _minX = Mathf.Min(_currentNW.x, _currentSW.x);
+            _maxX = Mathf.Max(_currentNE.x, _currentSE.x);
 
             Vector2 GetClosestNode(IEnumerable<CamNode> nodes)
             {
@@ -84,14 +100,22 @@ namespace Systems
         {
             if (_characterInBoundaries)
                 return;
-            
-            // TODO: instead of following the player, calculate valid target position
-            
-            Vector3 characterPos = _characterTf.position;
+
+            Vector3 targetPos = _characterTf.position;
             Vector3 position = transform.position;
+
+            if (targetPos.x + _camSize.x > _maxX)
+                targetPos.x = _maxX - _camSize.x;
+            else if (targetPos.x - _camSize.x < _minX)
+                targetPos.x = _minX + _camSize.x;
+
+            if (targetPos.y + _camSize.y > _maxY)
+                targetPos.y = _maxY - _camSize.y;
+            else if (targetPos.y - _camSize.y < _minY)
+                targetPos.y = _minY + _camSize.y;
             
             position = 
-                Vector3.SmoothDamp(position, new Vector3(characterPos.x, characterPos.y, position.z), 
+                Vector3.SmoothDamp(position, new Vector3(targetPos.x, targetPos.y, position.z), 
                     ref _velocity, _smoothTime, _maxSpeed);
             
             transform.position = position;
@@ -104,7 +128,8 @@ namespace Systems
             if (Selection.activeObject != gameObject)
                 return;
 
-            Vector2 position = transform.position;
+            var pos = transform.position;
+            Vector2 position = pos;
             
             Vector2 upperLeft = 
                 position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
@@ -127,6 +152,13 @@ namespace Systems
             Gizmos.DrawWireSphere(_currentNE, .5f);
             Gizmos.DrawWireSphere(_currentSW, .5f);
             Gizmos.DrawWireSphere(_currentSE, .5f);
+            
+            Gizmos.color = Color.magenta;
+            
+            Gizmos.DrawWireSphere(new Vector3(pos.x, _maxY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(pos.x, _minY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_minX, pos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_maxX, pos.y, 0), .5f);
         }
 #endif
     }
