@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -12,38 +13,36 @@ namespace Systems
         // TODO: maybe put this in a level manager in the future?
         [SerializeField] private TextAsset _camBoundsData;
 
-        // DEBUG VALUES ;; TODO: DELETE
-        private Vector2 _lowerLeftBounds;
-        private Vector2 _upperLeftBounds;
-        private Vector2 _upperRightBounds;
-        private Vector2 _lowerRightBounds;
-
         [SerializeField] private Transform _characterTf;
         [SerializeField] private Vector3 _characterMovementBoundaries;
 
         private CamNode[] _camNodes;
-        private float[] _nodeCoordsX;
-        private float[] _nodeCoordsY;
+
+        private List<float> _nodeDistances = new();
+        private Vector2 _currentNW;
+        private Vector2 _currentNE;
+        private Vector2 _currentSW;
+        private Vector2 _currentSE;
 
         private bool _characterInBoundaries;
         private Vector3 _velocity;
+        private Vector3 _lastFramePos;
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _maxSpeed;
 
         private void Awake()
         {
             GetCamNodesFromJson();
-            GetNodeCoords();
+
+            for (int i = 0; i < _camNodes.Length; i++)
+            {
+                CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
+                _nodeDistances.Add(Vector3.Distance(cn.Position, transform.position));
+            }
         }
 
         private void GetCamNodesFromJson() =>
             _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
-
-        private void GetNodeCoords()
-        {
-            _nodeCoordsX = _camNodes.Select(n => n.Position.x).Distinct().ToArray();
-            _nodeCoordsY = _camNodes.Select(n => n.Position.y).Distinct().ToArray();
-        }
 
         private void Update()
         {
@@ -55,18 +54,30 @@ namespace Systems
                 characterPosition.y >= position.y - _characterMovementBoundaries.y && 
                 characterPosition.y <= position.y + _characterMovementBoundaries.y;
 
-            float maxX, minX, maxY, minY;
+            float tolerance = .1f;
+            if (Vector3.Distance(_lastFramePos, position) > tolerance)
+            {
+                for (int i = 0; i < _camNodes.Length; i++)
+                {
+                    CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
+                    _nodeDistances[i] = Vector3.Distance(cn.Position, transform.position);
+                }
+            }
 
-            maxX = _nodeCoordsX.Where(x => x > position.x).Min();
-            minX = _nodeCoordsX.Where(x => x < position.x).Max();
-            maxY = _nodeCoordsY.Where(y => y > position.y).Min();
-            minY = _nodeCoordsY.Where(y => y < position.y).Max();
+            _currentNW = 
+                GetClosestNode(_camNodes.Where(n => n.Position.x <= position.x && n.Position.y >= position.y));
+            _currentNE = 
+                GetClosestNode(_camNodes.Where(n => n.Position.x >= position.x && n.Position.y >= position.y));
+            _currentSW = 
+                GetClosestNode(_camNodes.Where(n => n.Position.x <= position.x && n.Position.y <= position.y));
+            _currentSE = 
+                GetClosestNode(_camNodes.Where(n => n.Position.x >= position.x && n.Position.y <= position.y));
 
-            // temp DEBUG
-            // _lowerLeftBounds;
-            // _upperLeftBounds;
-            // _upperRightBounds;
-            // _lowerRightBounds;
+            Vector2 GetClosestNode(IEnumerable<CamNode> nodes)
+            {
+                return nodes.Aggregate((minD, n) => 
+                        _nodeDistances[n.Index] < _nodeDistances[minD.Index] ? n : minD).Position;
+            }
         }
 
         private void LateUpdate()
@@ -84,6 +95,7 @@ namespace Systems
                     ref _velocity, _smoothTime, _maxSpeed);
             
             transform.position = position;
+            _lastFramePos = position;
         }
 
 #if UNITY_EDITOR
@@ -109,9 +121,12 @@ namespace Systems
             Gizmos.DrawLine(upperRight, lowerRight);
             Gizmos.DrawLine(lowerLeft, lowerRight);
             
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.blue;
             
-            
+            Gizmos.DrawWireSphere(_currentNW, .5f);
+            Gizmos.DrawWireSphere(_currentNE, .5f);
+            Gizmos.DrawWireSphere(_currentSW, .5f);
+            Gizmos.DrawWireSphere(_currentSE, .5f);
         }
 #endif
     }

@@ -8,7 +8,7 @@ namespace Systems
     {
         public int Index;
         public Vector2 Position;
-        
+
         public int VerticalNeighborIndex;
         public int HorizontalNeighborIndex;
 
