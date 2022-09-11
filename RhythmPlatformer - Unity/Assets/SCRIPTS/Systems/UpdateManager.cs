@@ -26,14 +26,18 @@ namespace Systems
         {
             if (_orderOfExecutions.OrderedUpdatableTypes == null || !_orderOfExecutions.OrderedUpdatableTypes.Any())
                 throw new Exception("Ordered Updatable Types is empty or null");
+
+            foreach (IUpdatable updatable in _updatables)
+            {
+                if (!CheckTypeInList(updatable))
+                    throw new Exception(
+                        "IUpdatable type not found in CustomOrderOfExecution.OrderedUpdatables: " + updatable);
+            }
             
             _updatables.Sort(SortByClass);
-            
+
             int SortByClass(IUpdatable in_a, IUpdatable in_b)
             {
-                if (!CheckTypeInList(in_a) || !CheckTypeInList(in_b))
-                    throw new Exception("IUpdatable type not found in CustomOrderOfExecution.OrderedUpdatables");
-            
                 Type aType =
                     _orderOfExecutions.OrderedUpdatableTypes.FirstOrDefault(t => t == in_a.GetType());
                 Type bType =
