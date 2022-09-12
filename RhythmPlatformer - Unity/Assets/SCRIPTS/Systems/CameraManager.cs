@@ -61,25 +61,25 @@ namespace Systems
             _camSize.y = _cam.orthographicSize;
             _camSize.x = _camSize.y * _cam.aspect;
 
-            _centerBounds = GetCamBounds(position);
+            _centerBounds = GetCamBounds(_centerBounds, position, true, true);
             
             Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
             if (CheckPointInBounds(northPos, _centerBounds))
-                _northBounds = GetCamBounds(northPos);
+                _northBounds = GetCamBounds(_northBounds, northPos, true, false);
             
             Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
             if(CheckPointInBounds(westPos, _centerBounds))
-                _westBounds = GetCamBounds(westPos);
+                _westBounds = GetCamBounds(_westBounds, westPos, false, true);
             
             Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
             if (CheckPointInBounds(southPos, _centerBounds))
-                _southBounds = GetCamBounds(southPos);
+                _southBounds = GetCamBounds(_southBounds, southPos, true, false);
             
             Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
             if(CheckPointInBounds(eastPos, _centerBounds))
-                _eastBounds = GetCamBounds(eastPos);
+                _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
 
-            CameraBounds GetCamBounds(Vector3 in_pos)
+            CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
             {
                 CameraBounds camBounds = new CameraBounds();
                 
@@ -89,22 +89,29 @@ namespace Systems
                     _nodeDistances[i] = Vector3.Distance(cn.Position, in_pos);
                 }
 
-                // TODO: these variables can probably be local, since the only
-                // TODO: thing that uses them out of scope is OnDrawGizmos
-                camBounds.CurrentNW =
-                    GetClosestNode(_camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y >= in_pos.y));
-                camBounds.CurrentNE = 
-                    GetClosestNode(_camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y >= in_pos.y));
-                camBounds.CurrentSW = 
-                    GetClosestNode(_camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y <= in_pos.y));
-                camBounds.CurrentSE = 
-                    GetClosestNode(_camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y <= in_pos.y));
+                CamNode[] nwNodes = _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y >= in_pos.y).ToArray();
+                CamNode[] neNodes = _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y >= in_pos.y).ToArray();
+                CamNode[] swNodes = _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y <= in_pos.y).ToArray();
+                CamNode[] seNodes = _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y <= in_pos.y).ToArray();
 
-                // TODO: only _centerBounds needs all these values. E.g. _westBounds only needs MaxY and MinY
-                camBounds.MaxY = Mathf.Max(camBounds.CurrentNW.y, camBounds.CurrentNE.y);
-                camBounds.MinY = Mathf.Min(camBounds.CurrentSW.y, camBounds.CurrentSE.y);
-                camBounds.MinX = Mathf.Min(camBounds.CurrentNW.x, camBounds.CurrentSW.x);
-                camBounds.MaxX = Mathf.Max(camBounds.CurrentNE.x, camBounds.CurrentSE.x);
+                if (!nwNodes.Any() || !neNodes.Any() || !swNodes.Any() || !seNodes.Any())
+                    return in_default;
+                
+                Vector2 currentNW = GetClosestNode(nwNodes);
+                Vector2 currentNE = GetClosestNode(neNodes);
+                Vector2 currentSW = GetClosestNode(swNodes);
+                Vector2 currentSE = GetClosestNode(seNodes);
+                
+                if (in_getY)
+                {
+                    camBounds.MaxY = Mathf.Max(currentNW.y, currentNE.y);
+                    camBounds.MinY = Mathf.Min(currentSW.y, currentSE.y);
+                }
+                if (in_getX)
+                {
+                    camBounds.MinX = Mathf.Min(currentNW.x, currentSW.x);
+                    camBounds.MaxX = Mathf.Max(currentNE.x, currentSE.x);
+                }
 
                 return camBounds;
             }
@@ -156,60 +163,53 @@ namespace Systems
             _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
         }
 
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            if (Selection.activeObject != gameObject)
-                return;
-
-            var pos = transform.position;
-            Vector2 position = pos;
-            
-            Vector2 upperLeft = 
-                position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
-            Vector2 lowerLeft = 
-                position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
-            Vector2 upperRight = 
-                position + new Vector2(_characterMovementBoundaries.x, _characterMovementBoundaries.y);
-            Vector2 lowerRight =
-                position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
-            
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(upperLeft, lowerLeft);
-            Gizmos.DrawLine(upperLeft, upperRight);
-            Gizmos.DrawLine(upperRight, lowerRight);
-            Gizmos.DrawLine(lowerLeft, lowerRight);
-            
-            Gizmos.color = Color.blue;
-            
-            Gizmos.DrawWireSphere(_centerBounds.CurrentNW, .5f);
-            Gizmos.DrawWireSphere(_centerBounds.CurrentNE, .5f);
-            Gizmos.DrawWireSphere(_centerBounds.CurrentSW, .5f);
-            Gizmos.DrawWireSphere(_centerBounds.CurrentSE, .5f);
-            
-            Gizmos.color = Color.magenta;
-            
-            Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MaxY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MinY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_centerBounds.MinX, pos.y, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_centerBounds.MaxX, pos.y, 0), .5f);
-            
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(_northBounds.MaxX, position.y + _camSize.y, 0), .3f);
-            
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MinY, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MaxY, 0), .3f);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(new Vector3(_southBounds.MinX, position.y - _camSize.y, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(_southBounds.MaxX, position.y - _camSize.y, 0), .3f);
-            
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
-        }
-#endif
+// #if UNITY_EDITOR
+//         private void OnDrawGizmos()
+//         {
+//             if (Selection.activeObject != gameObject)
+//                 return;
+//
+//             var pos = transform.position;
+//             Vector2 position = pos;
+//             
+//             Vector2 upperLeft = 
+//                 position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+//             Vector2 lowerLeft = 
+//                 position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
+//             Vector2 upperRight = 
+//                 position + new Vector2(_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+//             Vector2 lowerRight =
+//                 position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
+//             
+//             Gizmos.color = Color.red;
+//             Gizmos.DrawLine(upperLeft, lowerLeft);
+//             Gizmos.DrawLine(upperLeft, upperRight);
+//             Gizmos.DrawLine(upperRight, lowerRight);
+//             Gizmos.DrawLine(lowerLeft, lowerRight);
+//
+//             Gizmos.color = Color.magenta;
+//             
+//             Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MaxY, 0), .5f);
+//             Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MinY, 0), .5f);
+//             Gizmos.DrawWireSphere(new Vector3(_centerBounds.MinX, pos.y, 0), .5f);
+//             Gizmos.DrawWireSphere(new Vector3(_centerBounds.MaxX, pos.y, 0), .5f);
+//             
+//             Gizmos.color = Color.cyan;
+//             Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
+//             Gizmos.DrawWireSphere(new Vector3(_northBounds.MaxX, position.y + _camSize.y, 0), .3f);
+//             
+//             Gizmos.color = Color.green;
+//             Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MinY, 0), .3f);
+//             Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MaxY, 0), .3f);
+//             
+//             Gizmos.color = Color.yellow;
+//             Gizmos.DrawWireSphere(new Vector3(_southBounds.MinX, position.y - _camSize.y, 0), .3f);
+//             Gizmos.DrawWireSphere(new Vector3(_southBounds.MaxX, position.y - _camSize.y, 0), .3f);
+//             
+//             Gizmos.color = Color.white;
+//             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
+//             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
+//         }
+// #endif
     }
 }

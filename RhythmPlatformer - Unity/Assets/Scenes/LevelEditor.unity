@@ -351,10 +351,9 @@ MonoBehaviour:
   _cam: {fileID: 519420031}
   _camBoundsData: {fileID: 4900000, guid: 3dda479b4c1984c68ae7add94930a7d2, type: 3}
   _characterTf: {fileID: 1285793913}
-  _characterMovementBoundaries: {x: 3, y: 1, z: 0}
-  _camSize: {x: 0, y: 0}
-  _smoothTime: 0.2
-  _maxSpeed: 10
+  _characterMovementBoundaries: {x: 1.5, y: 0.5, z: 0}
+  _smoothTime: 0.5
+  _maxSpeed: 20
 --- !u!1 &611774260
 GameObject:
   m_ObjectHideFlags: 0
