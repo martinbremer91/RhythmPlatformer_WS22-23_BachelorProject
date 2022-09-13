@@ -40,7 +40,13 @@ namespace Debug_and_Tools
                 ConfirmationDialog("Room Name must not be empty when saving", true);
                 return;
             }
-            
+
+            if (System.IO.File.Exists($"Assets/JsonData/{_roomName}_CamData.json"))
+            {
+                if (!ConfirmationDialog($"Are you sure you want to overwrite {_roomName}_CamData?"))
+                    return;
+            }
+
             if (!CheckCamNodeObjectsValid())
             {
                 TryCloseNodeLoop();
@@ -66,6 +72,10 @@ namespace Debug_and_Tools
 
             System.IO.File.WriteAllText($"Assets/JsonData/{_roomName}_CamData.json",
                 jsonData);
+            
+            Debug.Log($"Saved Camera Bounds to Assets/JsonData/{_roomName}_CamData.json.\n" +
+                      $"If the file doesn't show up right away, switch to another program and then back to Unity. " +
+                      $"Or just give it a minute");
 
             bool CheckCamNodeObjectsValid()
             {

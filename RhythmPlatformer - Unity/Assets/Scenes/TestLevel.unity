@@ -246,8 +246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db37b64033fd4e8b92e0316f8a55b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentRoomCamData: {fileID: 4900000, guid: 3dda479b4c1984c68ae7add94930a7d2, type: 3}
-  _roomName: Test
+  CurrentRoomCamData: {fileID: 0}
+  _roomName: Test01
 --- !u!4 &1761029465
 Transform:
   m_ObjectHideFlags: 0
