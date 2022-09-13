@@ -196,8 +196,7 @@ namespace Gameplay
             float drag = wallSlideFalling ? 0 : GetCurrentWallDrag();
             
             float velocity = wallSlideFalling ? -_movementConfigs.FallAcceleration
-                    .Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed : 
-                WallSlideVelocity;
+                    .Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed : WallSlideVelocity;
             
             WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.deltaTime;
 
