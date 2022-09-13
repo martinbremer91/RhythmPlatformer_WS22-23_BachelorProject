@@ -9,7 +9,6 @@ namespace Gameplay
     {
         #region REFERENCES
         
-        [SerializeField] private MovementConfigs _movementConfigs;
         [SerializeField] private CharacterStateController _characterStateController;
         [SerializeField] private CharacterInput _characterInput;
         [SerializeField] private Rigidbody2D _rigidbody2D;
@@ -18,6 +17,8 @@ namespace Gameplay
 
         #region VARIABLES
 
+        private MovementConfigs _movementConfigs;
+        
         private Vector2 _characterVelocity;
         public Vector2 CharacterVelocity => _characterVelocity;
 
@@ -76,6 +77,8 @@ namespace Gameplay
 
         private void GetMovementData()
         {
+            _movementConfigs = GameplayReferenceManager.s_Instance.MovementConfigs;
+            
             RunCurveTracker.y = _movementConfigs.RunAcceleration.keys[^1].time;
             DashCurveTracker.y = _movementConfigs.DashAcceleration.keys[^1].time;
             RiseCurveTracker.y = _movementConfigs.RiseAcceleration.keys[^1].time;

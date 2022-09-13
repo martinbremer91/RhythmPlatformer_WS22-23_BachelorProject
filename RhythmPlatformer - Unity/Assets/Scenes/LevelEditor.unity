@@ -615,7 +615,6 @@ MonoBehaviour:
   _beatManager: {fileID: 1498452835}
   _spriteController: {fileID: 1285793918}
   _characterMovement: {fileID: 1285793917}
-  _movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
   _characterInput: {fileID: 1285793916}
 --- !u!114 &1285793916
 MonoBehaviour:
@@ -630,7 +629,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterStateController: {fileID: 1285793915}
-  _controlSettings: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
 --- !u!114 &1285793917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18c8c08d2a74475491b0b95087c4818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
   _characterStateController: {fileID: 1285793915}
   _characterInput: {fileID: 1285793916}
   _rigidbody2D: {fileID: 1285793919}
@@ -965,6 +962,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1513798204}
+  - component: {fileID: 1513798206}
   - component: {fileID: 1513798203}
   - component: {fileID: 1513798201}
   - component: {fileID: 1513798205}
@@ -1032,6 +1030,20 @@ MonoBehaviour:
   CharacterMovement: {fileID: 1285793917}
   CharacterStateController: {fileID: 1285793915}
   CharacterInput: {fileID: 1285793916}
+--- !u!114 &1513798206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513798200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f481aebe3b6694ddcb3208fa8cf36500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MovementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
+  ControlSettings: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
 --- !u!1 &1761029463
 GameObject:
   m_ObjectHideFlags: 0

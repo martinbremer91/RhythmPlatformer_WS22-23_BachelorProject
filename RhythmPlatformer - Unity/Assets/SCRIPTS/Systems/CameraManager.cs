@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using Utility_Scripts;
 
@@ -10,7 +9,7 @@ namespace Systems
     {
         [SerializeField] private Camera _cam;
 
-        // TODO: maybe put this in a level manager in the future?
+        // TODO: Eventually move this to GameplayReferenceManager
         [SerializeField] private TextAsset _camBoundsData;
 
         [SerializeField] private Transform _characterTf;
@@ -163,6 +162,8 @@ namespace Systems
             _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
         }
 
+        #region DEBUG / GIZMOS
+
 // #if UNITY_EDITOR
 //         private void OnDrawGizmos()
 //         {
@@ -211,5 +212,7 @@ namespace Systems
 //             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
 //         }
 // #endif
+
+        #endregion
     }
 }

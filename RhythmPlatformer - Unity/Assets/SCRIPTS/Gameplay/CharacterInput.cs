@@ -2,7 +2,6 @@ using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Debug = UnityEngine.Debug;
 
 namespace Gameplay
 {
@@ -11,12 +10,12 @@ namespace Gameplay
         #region REFERENCES
 
         [SerializeField] private CharacterStateController _characterStateController; 
-        [SerializeField] private ControlSettings _controlSettings;
 
         #endregion
 
         #region VARIABLES
 
+        private ControlSettings _controlSettings;
         public ControlSettings ControlSettings => _controlSettings;
 
         private DefaultControls _controls;
@@ -27,33 +26,28 @@ namespace Gameplay
         private void Awake()
         {
             _controls = new DefaultControls();
+            _controlSettings = GameplayReferenceManager.s_Instance.ControlSettings;
 
             _controls.GameplayDefault.AnalogMove.performed += 
                 ctx => HandleAnalogMove(ctx.ReadValue<Vector2>());
             _controls.GameplayDefault.AnalogMove.canceled += 
-                ctx => InputState.DirectionalInput = Vector2.zero;
+                _ => InputState.DirectionalInput = Vector2.zero;
             InputState.analogDeadzone = true;
 
-            _controls.GameplayDefault.DigitalUp.performed += ctx => HandleDigitalMove(Vector2.up);
-            _controls.GameplayDefault.DigitalDown.performed += ctx => HandleDigitalMove(Vector2.down);
-            _controls.GameplayDefault.DigitalLeft.performed += ctx => HandleDigitalMove(Vector2.left);
-            _controls.GameplayDefault.DigitalRight.performed += ctx => HandleDigitalMove(Vector2.right);
+            _controls.GameplayDefault.DigitalUp.performed += _ => HandleDigitalMove(Vector2.up);
+            _controls.GameplayDefault.DigitalDown.performed += _ => HandleDigitalMove(Vector2.down);
+            _controls.GameplayDefault.DigitalLeft.performed += _ => HandleDigitalMove(Vector2.left);
+            _controls.GameplayDefault.DigitalRight.performed += _ => HandleDigitalMove(Vector2.right);
             
-            _controls.GameplayDefault.DigitalUp.canceled += ctx => 
-                HandleDigitalMove(Vector2.up, true);
-            _controls.GameplayDefault.DigitalDown.canceled += ctx => 
-                HandleDigitalMove(Vector2.down, true);
-            _controls.GameplayDefault.DigitalLeft.canceled += ctx => 
-                HandleDigitalMove(Vector2.left, true);
-            _controls.GameplayDefault.DigitalRight.canceled += ctx => 
-                HandleDigitalMove(Vector2.right, true);
+            _controls.GameplayDefault.DigitalUp.canceled += _ => HandleDigitalMove(Vector2.up, true);
+            _controls.GameplayDefault.DigitalDown.canceled += _ => HandleDigitalMove(Vector2.down, true);
+            _controls.GameplayDefault.DigitalLeft.canceled += _ => HandleDigitalMove(Vector2.left, true);
+            _controls.GameplayDefault.DigitalRight.canceled += _ => HandleDigitalMove(Vector2.right, true);
             
-            _controls.GameplayDefault.Jump.performed +=
-                ctx => _characterStateController.JumpSquat = true;
-            _controls.GameplayDefault.Dash.performed +=
-                ctx => _characterStateController.DashWindup = true;
+            _controls.GameplayDefault.Jump.performed += _ => _characterStateController.JumpSquat = true;
+            _controls.GameplayDefault.Dash.performed += _ => _characterStateController.DashWindup = true;
 #if UNITY_EDITOR
-            _controls.GameplayDefault.DebugToggle.performed += ctx => ToggleDebugMode();
+            _controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
 #endif
             _controls.Enable();
         }

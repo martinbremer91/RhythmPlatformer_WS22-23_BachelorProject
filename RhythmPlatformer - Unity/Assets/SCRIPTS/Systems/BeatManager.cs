@@ -14,6 +14,7 @@ namespace Systems
         private int _nextSource => _activeSource == 0 ? 1 : 0;
         private double _nextTrackTime;
         
+        // TODO: eventually move this to GameplayReferenceManager
         public TrackData TrackData;
         private LoopPoints _loopPoints;
 
