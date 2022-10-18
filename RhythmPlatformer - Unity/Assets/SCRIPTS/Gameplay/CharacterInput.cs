@@ -18,58 +18,73 @@ namespace Gameplay
         private ControlSettings _controlSettings;
         public ControlSettings ControlSettings => _controlSettings;
 
-        private DefaultControls _controls;
+        private static DefaultControls _controls;
+        public static DefaultControls s_Controls
+        {
+            get
+            {
+                if (_controls == null)
+                    _controls = new DefaultControls();
+                return _controls;
+            }
+        }
+        
         public InputState InputState;
 
         #endregion
 
         private void Awake()
         {
-            _controls = new DefaultControls();
             _controlSettings = GameplayReferenceManager.s_Instance.ControlSettings;
 
-            _controls.GameplayDefault.AnalogMove.performed += 
+            s_Controls.GameplayDefault.AnalogMove.performed += 
                 ctx => HandleAnalogMove(ctx.ReadValue<Vector2>());
-            _controls.GameplayDefault.AnalogMove.canceled += 
+            s_Controls.GameplayDefault.AnalogMove.canceled += 
                 _ => InputState.DirectionalInput = Vector2.zero;
             InputState.analogDeadzone = true;
 
-            _controls.GameplayDefault.DigitalUp.performed += _ => HandleDigitalMove(Vector2.up);
-            _controls.GameplayDefault.DigitalDown.performed += _ => HandleDigitalMove(Vector2.down);
-            _controls.GameplayDefault.DigitalLeft.performed += _ => HandleDigitalMove(Vector2.left);
-            _controls.GameplayDefault.DigitalRight.performed += _ => HandleDigitalMove(Vector2.right);
+            s_Controls.GameplayDefault.DigitalUp.performed += _ => HandleDigitalMove(Vector2.up);
+            s_Controls.GameplayDefault.DigitalDown.performed += _ => HandleDigitalMove(Vector2.down);
+            s_Controls.GameplayDefault.DigitalLeft.performed += _ => HandleDigitalMove(Vector2.left);
+            s_Controls.GameplayDefault.DigitalRight.performed += _ => HandleDigitalMove(Vector2.right);
             
-            _controls.GameplayDefault.DigitalUp.canceled += _ => HandleDigitalMove(Vector2.up, true);
-            _controls.GameplayDefault.DigitalDown.canceled += _ => HandleDigitalMove(Vector2.down, true);
-            _controls.GameplayDefault.DigitalLeft.canceled += _ => HandleDigitalMove(Vector2.left, true);
-            _controls.GameplayDefault.DigitalRight.canceled += _ => HandleDigitalMove(Vector2.right, true);
+            s_Controls.GameplayDefault.DigitalUp.canceled += _ => HandleDigitalMove(Vector2.up, true);
+            s_Controls.GameplayDefault.DigitalDown.canceled += _ => HandleDigitalMove(Vector2.down, true);
+            s_Controls.GameplayDefault.DigitalLeft.canceled += _ => HandleDigitalMove(Vector2.left, true);
+            s_Controls.GameplayDefault.DigitalRight.canceled += _ => HandleDigitalMove(Vector2.right, true);
             
-            _controls.GameplayDefault.Jump.performed += _ => _characterStateController.JumpSquat = true;
-            _controls.GameplayDefault.Dash.performed += _ => _characterStateController.DashWindup = true;
+            s_Controls.GameplayDefault.Jump.performed += _ => _characterStateController.JumpSquat = true;
+            s_Controls.GameplayDefault.Dash.performed += _ => _characterStateController.DashWindup = true;
 #if UNITY_EDITOR
-            _controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
+            s_Controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
 #endif
-            _controls.Enable();
+            s_Controls.Enable();
         }
 
         private void Update()
         {
+            if (InputPlaybackManager.s_PlaybackActive)
+                return;
+            
             InputStateButtonsUpdate();
 
             void InputStateButtonsUpdate()
             {
-                InputState.DashButton = _controls.GameplayDefault.Dash.phase;
-                InputState.JumpButton = _controls.GameplayDefault.Jump.phase;
-                InputState.WallClingTrigger = _controls.GameplayDefault.WallCling.phase;
+                InputState.DashButton = s_Controls.GameplayDefault.Dash.phase;
+                InputState.JumpButton = s_Controls.GameplayDefault.Jump.phase;
+                InputState.WallClingTrigger = s_Controls.GameplayDefault.WallCling.phase;
 
                 InputState.directionalInputModifier = 
-                    _controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
+                    s_Controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
                     InputState.analogDeadzone;
             }
         }
 
         private void HandleAnalogMove(Vector2 in_input)
         {
+            if (InputPlaybackManager.s_PlaybackActive)
+                return;
+            
             InputState.analogDeadzone = in_input.magnitude <= _controlSettings.InputDeadZone;
             
             if (InputState.analogDeadzone)
@@ -83,6 +98,9 @@ namespace Gameplay
 
         private void HandleDigitalMove(Vector2 in_digitalInput, bool in_cancel = false)
         {
+            if (InputPlaybackManager.s_PlaybackActive)
+                return;
+            
             RecordInputState();
             SetDigitalDirection();
 
@@ -120,6 +138,9 @@ namespace Gameplay
 #if UNITY_EDITOR
         private void ToggleDebugMode()
         {
+            if (InputPlaybackManager.s_PlaybackActive)
+                return;
+            
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
             Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);
         }

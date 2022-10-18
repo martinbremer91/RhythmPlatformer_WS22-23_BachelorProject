@@ -1,1 +1,1 @@
-{"Items":["Systems.BeatManager","Gameplay.CharacterInput","Gameplay.CharacterCollisionDetector","Gameplay.CharacterStateController","Gameplay.CharacterMovement","Gameplay.CharacterSpriteController"]}
+{"Items":["Systems.BeatManager","Systems.InputPlaybackManager","Gameplay.CharacterInput","Gameplay.CharacterCollisionDetector","Gameplay.CharacterStateController","Gameplay.CharacterMovement","Gameplay.CharacterSpriteController"]}

@@ -58,6 +58,11 @@ namespace Systems
 
         public override void OnUpdate()
         {
+            // temp
+            if (InputPlaybackManager.s_PlaybackActive)
+                return;
+            //
+            
             double time = AudioSettings.dspTime;
             
             if (time >= _nextTrackTime)

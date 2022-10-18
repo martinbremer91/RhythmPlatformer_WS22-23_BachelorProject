@@ -100,13 +100,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.16678119
     - serializedVersion: 3
-      time: 0.25
+      time: 0.4
       value: 0
-      inSlope: -11.907714
-      outSlope: -11.907714
+      inSlope: -6.1919107
+      outSlope: -6.1919107
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.034090936
+      inWeight: 0.037144423
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -137,13 +137,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   RunTopSpeed: 10
   DashTopSpeed: 20
-  RiseTopSpeed: 14
+  RiseTopSpeed: 8
   FallTopSpeed: 10
   WallSlideFallTopSpeed: 5
   AirDriftSpeed: 10
   AirDrag: 1
-  DefaultGroundDrag: 30
-  ReducedGroundDragFactor: 20
+  DefaultGroundDrag: 40
+  ReducedGroundDragFactor: 30
   IncreasedGroundDragFactor: 60
   DefaultWallDrag: 30
   ReducedWallDrag: 20
@@ -151,5 +151,5 @@ MonoBehaviour:
   RunTurnWindow: 0.1
   WallClingMaxDuration: 3
   CrouchJumpSpeedModifier: 0.5
-  FastFallModifier: 2
+  FastFallSpeedModifier: 2
   DashWindupVelocityMod: 0.1

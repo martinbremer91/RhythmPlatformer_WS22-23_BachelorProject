@@ -12,12 +12,12 @@ namespace Gameplay
         [SerializeField] private CharacterStateController _characterStateController;
         [SerializeField] private CharacterInput _characterInput;
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        
+        private MovementConfigs _movementConfigs;
 
         #endregion
 
         #region VARIABLES
-
-        private MovementConfigs _movementConfigs;
         
         private Vector2 _characterVelocity;
         public Vector2 CharacterVelocity => _characterVelocity;
@@ -302,6 +302,49 @@ namespace Gameplay
             
             _characterStateController.SetCharacterState(CharacterState.Dash);
             _characterVelocity = DashVelocity;
+        }
+
+        public MovementSnapshot GetMovementSnapshot()
+        {
+            MovementSnapshot ms = new()
+            {
+                mss_CharacterVelocity = _characterVelocity,
+                mss_RunVelocity = RunVelocity,
+                mss_LandVelocity = LandVelocity,
+                mss_WallSlideVelocity = WallSlideVelocity,
+                mss_DashDirection = _dashDirection,
+                mss_DashVelocity = _dashVelocity,
+                mss_RiseVelocity = _riseVelocity,
+                mss_FallVelocity = _fallVelocity,
+                mss_RiseSpeedMod = _riseSpeedMod,
+                mss_YAxisReadyForFastFall = YAxisReadyForFastFall,
+                mss_FastFalling = FastFalling,
+                mss_RunCurveTrackerX = RunCurveTracker.x,
+                mss_DashCurveTrackerX = DashCurveTracker.x,
+                mss_RiseCurveTrackerX = RiseCurveTracker.x,
+                mss_FallCurveTrackerX = FallCurveTracker.x
+            };
+
+            return ms;
+        }
+
+        public void ApplyMovementSnapshot(MovementSnapshot in_mss)
+        {
+            _characterVelocity = in_mss.mss_CharacterVelocity;
+            RunVelocity = in_mss.mss_RunVelocity;
+            LandVelocity = in_mss.mss_LandVelocity;
+            WallSlideVelocity = in_mss.mss_WallSlideVelocity;
+            _dashDirection = in_mss.mss_DashDirection;
+            _dashVelocity = in_mss.mss_DashVelocity;
+            _riseVelocity = in_mss.mss_RiseVelocity;
+            _fallVelocity = in_mss.mss_FallVelocity;
+            _riseSpeedMod = in_mss.mss_RiseSpeedMod;
+            YAxisReadyForFastFall = in_mss.mss_YAxisReadyForFastFall;
+            FastFalling = in_mss.mss_FastFalling;
+            RunCurveTracker.x = in_mss.mss_RunCurveTrackerX;
+            DashCurveTracker.x = in_mss.mss_DashCurveTrackerX;
+            RiseCurveTracker.x = in_mss.mss_RiseCurveTrackerX;
+            FallCurveTracker.x = in_mss.mss_FallCurveTrackerX;
         }
 
         #endregion

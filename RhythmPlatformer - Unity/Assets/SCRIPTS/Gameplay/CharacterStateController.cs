@@ -28,7 +28,7 @@ namespace Gameplay
         public CharacterState CurrentCharacterState
         {
             get => _currentCharacterState;
-            private set => SetCharacterState(value);
+            set => SetCharacterState(value);
         }
 
         private bool _jumpSquat;
