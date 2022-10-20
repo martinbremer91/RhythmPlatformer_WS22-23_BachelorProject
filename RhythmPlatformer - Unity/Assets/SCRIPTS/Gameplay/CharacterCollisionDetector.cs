@@ -12,7 +12,7 @@ namespace Gameplay
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
-        public override void OnFixedUpdate()
+        public override void CustomUpdate()
         {
             DetectCollision(CollisionCheck.Ground, !_characterStateController.Grounded);
 

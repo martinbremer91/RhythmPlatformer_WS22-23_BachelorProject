@@ -111,7 +111,7 @@ namespace Systems
             foreach (IUpdatable updatable in _updatables)
             {
                 if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
-                    updatable.OnUpdate();
+                    updatable.CustomUpdate();
             }
         }
         
@@ -120,7 +120,7 @@ namespace Systems
             foreach (IUpdatable updatable in _fixedUpdatables)
             {
                 if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
-                    updatable.OnFixedUpdate();
+                    updatable.CustomUpdate();
             }
         }
     }

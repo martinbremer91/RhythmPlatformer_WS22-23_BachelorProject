@@ -7,8 +7,7 @@ namespace Interfaces
     {
         public UpdateType UpdateType { get; }
 
-        public void OnUpdate();
-        public void OnFixedUpdate();
+        public void CustomUpdate();
 
         public void RegisterUpdatable(bool in_fixedUpdate) => 
             UpdateManager.Instance.RegisterUpdatable(this, true);

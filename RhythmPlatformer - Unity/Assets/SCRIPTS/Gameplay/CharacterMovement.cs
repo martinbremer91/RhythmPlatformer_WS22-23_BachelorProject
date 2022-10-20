@@ -103,7 +103,7 @@ namespace Gameplay
             _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
         }
 
-        public override void OnFixedUpdate()
+        public override void CustomUpdate()
         {
 #if UNITY_EDITOR
             if (GameStateManager.s_DebugMode)

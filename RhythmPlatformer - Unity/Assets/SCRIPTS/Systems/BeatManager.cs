@@ -56,7 +56,7 @@ namespace Systems
             _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
         }
 
-        public override void OnFixedUpdate()
+        public override void CustomUpdate()
         {
             // temp
             if (InputPlaybackManager.s_PlaybackActive)

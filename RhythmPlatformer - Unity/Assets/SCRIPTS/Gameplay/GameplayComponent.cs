@@ -10,7 +10,9 @@ namespace Gameplay
         protected virtual void OnEnable() => (this as IUpdatable).RegisterUpdatable(true);
         protected virtual void OnDisable() => (this as IUpdatable).DeregisterUpdatable(true);
 
-        public virtual void OnUpdate() {}
-        public abstract void OnFixedUpdate();
+        /// <summary>
+        /// GameplayComponent CustomUpdates are called in UpdateManager.FixedUpdate
+        /// </summary>
+        public abstract void CustomUpdate();
     }
 }

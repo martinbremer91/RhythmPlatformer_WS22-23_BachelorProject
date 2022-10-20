@@ -199,7 +199,7 @@ namespace Gameplay
             _dashWindupDuration = dashWindupClip.length;
         }
 
-        public override void OnFixedUpdate()
+        public override void CustomUpdate()
         { 
             HandleInputStateChange();
             ApplyStateMovement();

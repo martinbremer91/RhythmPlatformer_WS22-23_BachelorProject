@@ -57,7 +57,7 @@ namespace Gameplay
             s_Controls.Enable();
         }
 
-        public override void OnFixedUpdate()
+        public override void CustomUpdate()
         {
             if (InputPlaybackManager.s_PlaybackActive)
                 return;

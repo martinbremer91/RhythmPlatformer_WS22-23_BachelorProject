@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using Interfaces;
 using UnityEngine;
 using Utility_Scripts;
 
 namespace Systems
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : MonoBehaviour, IUpdatable
     {
+        public UpdateType UpdateType => UpdateType.GamePlay;
+        
         [SerializeField] private Camera _cam;
-
-        // TODO: Eventually move this to GameplayReferenceManager
         [SerializeField] private TextAsset _camBoundsData;
 
         [SerializeField] private Transform _characterTf;
@@ -46,7 +47,7 @@ namespace Systems
         private void GetCamNodesFromJson() =>
             _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
 
-        private void Update()
+        public void CustomUpdate()
         {
             Vector3 position = transform.position;
             
