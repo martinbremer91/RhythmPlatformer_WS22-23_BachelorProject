@@ -8,6 +8,7 @@ namespace Utility_Scripts
         
         // JSON KEYS
         public const string OrderedUpdatableTypesKey = "OrderedUpdatableTypes";
+        public const string OrderedFixedUpdatableTypesKey = "OrderedFixedUpdatableTypes";
     
         // ANIMATION PARAMETERS
         public const string IdleClipName = "Idle";

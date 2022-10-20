@@ -12,7 +12,9 @@ namespace Systems
         public static UpdateManager Instance;
 
         [SerializeField] private CustomOrderOfExecutions _orderOfExecutions;
+        
         private readonly List<IUpdatable> _updatables = new();
+        private readonly List<IUpdatable> _fixedUpdatables = new();
 
         private void OnEnable()
         {
@@ -24,33 +26,57 @@ namespace Systems
 
         private void Start()
         {
-            if (_orderOfExecutions.OrderedUpdatableTypes == null || !_orderOfExecutions.OrderedUpdatableTypes.Any())
-                throw new Exception("Ordered Updatable Types is empty or null");
+            if (_orderOfExecutions.OrderedUpdatableTypes == null || _orderOfExecutions.OrderedFixedUpdatableTypes == null)
+                throw new Exception("An Ordered Updatable Types list is null");
 
-            foreach (IUpdatable updatable in _updatables)
+            bool fixedUpdate = false;
+            
+            if (_updatables.Any())
             {
-                if (!CheckTypeInList(updatable))
-                    throw new Exception(
-                        "IUpdatable type not found in CustomOrderOfExecution.OrderedUpdatables: " + updatable);
+                foreach (IUpdatable updatable in _updatables)
+                {
+                    if (!CheckTypeInList(updatable, _orderOfExecutions.OrderedUpdatableTypes))
+                        throw new Exception(
+                            "IUpdatable type not found in corresponding CustomOrderOfExecution list: " + updatable);
+                }
+                
+                _updatables.Sort(SortByClass);
+            }
+
+            fixedUpdate = true;
+            
+            if (_fixedUpdatables.Any())
+            {
+                foreach (IUpdatable updatable in _fixedUpdatables)
+                {
+                    if (!CheckTypeInList(updatable, _orderOfExecutions.OrderedFixedUpdatableTypes))
+                        throw new Exception(
+                            "IUpdatable type not found in corresponding CustomOrderOfExecution list: " + updatable);
+                }
+
+                _fixedUpdatables.Sort(SortByClass);
             }
             
-            _updatables.Sort(SortByClass);
-
+            bool CheckTypeInList(IUpdatable in_updatable, Type[] in_typesArray) =>
+                in_typesArray.Any(t => t == in_updatable.GetType());
+            
             int SortByClass(IUpdatable in_a, IUpdatable in_b)
             {
-                Type aType =
-                    _orderOfExecutions.OrderedUpdatableTypes.FirstOrDefault(t => t == in_a.GetType());
-                Type bType =
-                    _orderOfExecutions.OrderedUpdatableTypes.FirstOrDefault(t => t == in_b.GetType());
+                Type[] typesArray = fixedUpdate
+                    ? _orderOfExecutions.OrderedFixedUpdatableTypes
+                    : _orderOfExecutions.OrderedUpdatableTypes;
+                
+                Type aType = typesArray.FirstOrDefault(t => t == in_a.GetType());
+                Type bType = typesArray.FirstOrDefault(t => t == in_b.GetType());
 
                 int aIndex = -1;
                 int bIndex = -1;
 
-                for (int i = 0; i < _orderOfExecutions.OrderedUpdatableTypes.Length; i++)
+                for (int i = 0; i < typesArray.Length; i++)
                 {
-                    if (aType == _orderOfExecutions.OrderedUpdatableTypes[i])
+                    if (aType == typesArray[i])
                         aIndex = i;
-                    if (bType == _orderOfExecutions.OrderedUpdatableTypes[i])
+                    if (bType == typesArray[i])
                         bIndex = i;
 
                     if (aIndex >= 0 && bIndex >= 0)
@@ -62,13 +88,23 @@ namespace Systems
             
                 return aIndex > bIndex ? 1 : aIndex < bIndex ? -1 : 0;
             }
-            
-            bool CheckTypeInList(IUpdatable in_updatable) =>
-                _orderOfExecutions.OrderedUpdatableTypes.Any(t => t == in_updatable.GetType());
         }
 
-        public void RegisterUpdatable(IUpdatable in_updatable) => _updatables.Add(in_updatable);
-        public void DeregisterUpdatable(IUpdatable in_updatable) => _updatables.Remove(in_updatable);
+        public void RegisterUpdatable(IUpdatable in_updatable, bool in_fixedUpdate)
+        {
+            if (!in_fixedUpdate)
+                _updatables.Add(in_updatable);
+            else
+                _fixedUpdatables.Add(in_updatable);
+        }
+
+        public void DeregisterUpdatable(IUpdatable in_updatable, bool in_fixedUpdate)
+        {
+            if (!in_fixedUpdate)
+                _updatables.Remove(in_updatable);
+            else
+                _fixedUpdatables.Remove(in_updatable);
+        }
 
         private void Update()
         {
@@ -76,6 +112,15 @@ namespace Systems
             {
                 if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
                     updatable.OnUpdate();
+            }
+        }
+        
+        private void FixedUpdate()
+        {
+            foreach (IUpdatable updatable in _fixedUpdatables)
+            {
+                if (GameStateManager.s_ActiveUpdateType.HasFlag(updatable.UpdateType))
+                    updatable.OnFixedUpdate();
             }
         }
     }

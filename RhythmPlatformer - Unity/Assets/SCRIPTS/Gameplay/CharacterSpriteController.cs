@@ -3,7 +3,7 @@ using Utility_Scripts;
 
 namespace Gameplay
 {
-    public class CharacterSpriteController : GameplayComponent
+    public class CharacterSpriteController : MonoBehaviour
     {
         [SerializeField] private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -11,12 +11,9 @@ namespace Gameplay
 
         public void SetCharacterOrientation(bool in_faceLeft) => _spriteRenderer.flipX = in_faceLeft;
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            _characterStateController.DashWindupStarted += SetDashWindupTrigger;
-        }
-        
+        protected void OnEnable() => _characterStateController.DashWindupStarted += SetDashWindupTrigger;
+        protected void OnDisable() => _characterStateController.DashWindupStarted -= SetDashWindupTrigger;
+
         private void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
 
         public void HandleStateAnimation()
@@ -50,12 +47,6 @@ namespace Gameplay
                     PlayerAnimator.SetTrigger(Constants.WalledClipName);
                     break;
             }
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            _characterStateController.DashWindupStarted -= SetDashWindupTrigger;
         }
     }
 }

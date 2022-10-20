@@ -12,7 +12,7 @@ namespace Gameplay
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
-        public override void OnUpdate()
+        public override void OnFixedUpdate()
         {
             DetectCollision(CollisionCheck.Ground, !_characterStateController.Grounded);
 
@@ -40,8 +40,8 @@ namespace Gameplay
             bool collision = hit.collider != null;
 
             // COLLISION DEBUGGING
-            Color color = collision ? Color.green : Color.red;
-            Debug.DrawRay(bounds.center, detectDirection, color);
+            // Color color = collision ? Color.green : Color.red;
+            // Debug.DrawRay(bounds.center, detectDirection, color);
 
             if (!collision == in_detectEnter)
                 return;

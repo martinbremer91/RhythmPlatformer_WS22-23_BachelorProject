@@ -45,7 +45,7 @@ namespace Systems
             _playbackControls.Playback.TogglePlayback.performed += _ => HandlePlaybackInput();
         }
 
-        public override void OnUpdate()
+        public override void OnFixedUpdate()
         {
             HandleRecording();
             HandlePlayback();

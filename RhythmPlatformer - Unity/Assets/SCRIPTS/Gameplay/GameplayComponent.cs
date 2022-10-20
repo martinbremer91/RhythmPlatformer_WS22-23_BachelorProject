@@ -7,9 +7,10 @@ namespace Gameplay
     {
         public virtual UpdateType UpdateType => UpdateType.GamePlay;
 
-        protected virtual void OnEnable() => (this as IUpdatable).RegisterUpdatable();
-        protected virtual void OnDisable() => (this as IUpdatable).DeregisterUpdatable();
+        protected virtual void OnEnable() => (this as IUpdatable).RegisterUpdatable(true);
+        protected virtual void OnDisable() => (this as IUpdatable).DeregisterUpdatable(true);
 
-        public virtual void OnUpdate() { }
+        public virtual void OnUpdate() {}
+        public abstract void OnFixedUpdate();
     }
 }

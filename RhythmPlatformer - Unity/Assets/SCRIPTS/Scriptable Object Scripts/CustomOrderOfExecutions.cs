@@ -15,9 +15,11 @@ namespace Scriptable_Object_Scripts
     {
 #if UNITY_EDITOR
         [SerializeField] private List<MonoScript> OrderedUpdatableScripts;
+        [SerializeField] private List<MonoScript> OrderedFixedUpdatableScripts;
 #endif
 
         [SerializeField] private TextAsset OrderedUpdatableTypesJson;
+        [SerializeField] private TextAsset OrderedFixedUpdatableTypesJson;
         
         private Type[] _orderedUpdatableTypes;
         public Type[] OrderedUpdatableTypes
@@ -25,24 +27,43 @@ namespace Scriptable_Object_Scripts
             get
             {
                 if (_orderedUpdatableTypes == null)
-                    LoadOrderedUpdatableTypes();
+                    LoadOrderedUpdatableTypes(false);
 
                 return _orderedUpdatableTypes;
             }
         }
-
-        private void LoadOrderedUpdatableTypes()
+        
+        private Type[] _orderedFixedUpdatableTypes;
+        public Type[] OrderedFixedUpdatableTypes
         {
-            string savedData = OrderedUpdatableTypesJson.text;
+            get
+            {
+                if (_orderedFixedUpdatableTypes == null)
+                    LoadOrderedUpdatableTypes(true);
+
+                return _orderedFixedUpdatableTypes;
+            }
+        }
+
+        private void LoadOrderedUpdatableTypes(bool in_fixedUpdate)
+        {
+            string savedData = 
+                in_fixedUpdate ? OrderedFixedUpdatableTypesJson.text : OrderedUpdatableTypesJson.text;
+            
             string[] serializableTypeStrings = JsonArrayUtility.FromJson<string>(savedData);
 
-            _orderedUpdatableTypes = new Type[serializableTypeStrings.Length];
-            
-            for (int i = 0; i < serializableTypeStrings.Length; i++)
-                _orderedUpdatableTypes[i] = GetTypeByName(serializableTypeStrings[i]);
+            Type[] orderedTypes = new Type[serializableTypeStrings.Length];
 
-            if (_orderedUpdatableTypes == null || !_orderedUpdatableTypes.Any())
-                throw new Exception("Could not load OrderedUpdatableTypes from PlayerPrefs or is empty");
+            for (int i = 0; i < serializableTypeStrings.Length; i++)
+                orderedTypes[i] = GetTypeByName(serializableTypeStrings[i]);
+
+            if (orderedTypes == null)
+                throw new Exception("Could not load OrderedUpdatableTypes from json");
+
+            if (in_fixedUpdate)
+                _orderedFixedUpdatableTypes = orderedTypes;
+            else
+                _orderedUpdatableTypes = orderedTypes;
             
             Type GetTypeByName(string typeName)
             {
@@ -59,23 +80,29 @@ namespace Scriptable_Object_Scripts
         } 
 
 #if UNITY_EDITOR
-        public void RefreshOrderedTypes()
+        public void RefreshOrderedTypes(bool in_fixedUpdate)
         {
+            List<MonoScript> scriptsToRefresh = 
+                in_fixedUpdate ? OrderedFixedUpdatableScripts : OrderedUpdatableScripts;
+
             if (!CheckOrderedUpdatables())
-                throw new Exception("Non-IUpdatable type found in OrderedUpdatableScripts");
+                throw new Exception("Non-IUpdatable type found in scripts to refresh");
 
             string[] serializableTypeStrings = 
-                OrderedUpdatableScripts.Select(s => s.GetClass().ToString()).ToArray();
+                scriptsToRefresh.Select(s => s.GetClass().ToString()).ToArray();
             
             string jsonData =
                 JsonArrayUtility.ToJson(serializableTypeStrings);
 
-            System.IO.File.WriteAllText($"Assets/JsonData/{Constants.OrderedUpdatableTypesKey}.json",
+            string fileName = 
+                in_fixedUpdate ? Constants.OrderedFixedUpdatableTypesKey : Constants.OrderedUpdatableTypesKey;
+            
+            System.IO.File.WriteAllText($"Assets/JsonData/{fileName}.json",
                 jsonData);
 
             bool CheckOrderedUpdatables()
             {
-                foreach (MonoScript s in OrderedUpdatableScripts)
+                foreach (MonoScript s in scriptsToRefresh)
                 {
                     if (s.GetClass().GetInterface(nameof(IUpdatable)) == null)
                         return false;

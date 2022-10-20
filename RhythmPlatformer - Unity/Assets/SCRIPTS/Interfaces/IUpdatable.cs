@@ -8,9 +8,12 @@ namespace Interfaces
         public UpdateType UpdateType { get; }
 
         public void OnUpdate();
+        public void OnFixedUpdate();
 
-        public void RegisterUpdatable() => UpdateManager.Instance.RegisterUpdatable(this);
-        public void DeregisterUpdatable() => UpdateManager.Instance.DeregisterUpdatable(this);
+        public void RegisterUpdatable(bool in_fixedUpdate) => 
+            UpdateManager.Instance.RegisterUpdatable(this, true);
+        public void DeregisterUpdatable(bool in_fixedUpdate) => 
+            UpdateManager.Instance.DeregisterUpdatable(this, true);
     }
 
     [Flags]

@@ -105,7 +105,7 @@ namespace Gameplay
             _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
         }
 
-        public override void OnUpdate()
+        public override void OnFixedUpdate()
         {
 #if UNITY_EDITOR
             if (GameStateManager.s_DebugMode)
@@ -150,8 +150,8 @@ namespace Gameplay
             float drift = _characterInput.InputState.DirectionalInput.x * _airDriftSpeed;
 
             float xVelocity = _fallVelocity.x == 0 ? drift : 
-                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.deltaTime : 
-                _fallVelocity.x + (_airDrag + drift) * Time.deltaTime;
+                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
+                _fallVelocity.x + (_airDrag + drift) * Time.fixedDeltaTime;
 
             if (!FastFalling)
             {
@@ -173,8 +173,8 @@ namespace Gameplay
             float drift = _characterInput.InputState.DirectionalInput.x * _airDriftSpeed;
 
             float xVelocity = _riseVelocity.x == 0 ? drift : 
-                _riseVelocity.x > 0 ? _riseVelocity.x - (_airDrag + drift) * Time.deltaTime : 
-                _riseVelocity.x + (_airDrag + drift) * Time.deltaTime;
+                _riseVelocity.x > 0 ? _riseVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
+                _riseVelocity.x + (_airDrag + drift) * Time.fixedDeltaTime;
             
             float yVelocity = _movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * _riseTopSpeed; 
             
@@ -185,7 +185,7 @@ namespace Gameplay
         {
             int directionMod = _characterVelocity.x > 0 ? 1 : -1;
             LandVelocity = Mathf.Abs(LandVelocity) > .05f ? 
-                LandVelocity - directionMod * GetCurrentGroundDrag() * Time.deltaTime : 0;
+                LandVelocity - directionMod * GetCurrentGroundDrag() * Time.fixedDeltaTime : 0;
         }
         
         public void WallSlide()
@@ -198,10 +198,10 @@ namespace Gameplay
             float velocity = wallSlideFalling ? -_movementConfigs.FallAcceleration
                     .Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed : WallSlideVelocity;
             
-            WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.deltaTime;
+            WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.fixedDeltaTime;
 
             if (wallSlideFalling && FallCurveTracker.x < FallCurveTracker.y)
-                FallCurveTracker.x += Time.deltaTime;
+                FallCurveTracker.x += Time.fixedDeltaTime;
         }
 
         public void Dash() => DashVelocity = DashDirection * _dashTopSpeed *

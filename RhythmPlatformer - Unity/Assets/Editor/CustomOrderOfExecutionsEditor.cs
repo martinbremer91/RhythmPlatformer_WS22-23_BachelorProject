@@ -19,7 +19,9 @@ namespace Editor
             base.OnInspectorGUI();
 
             if (GUILayout.Button("Refresh Ordered Updatable Types"))
-                obj.RefreshOrderedTypes();
+                obj.RefreshOrderedTypes(false);
+            if (GUILayout.Button("Refresh Ordered Fixed Updatable Types"))
+                obj.RefreshOrderedTypes(true);
         }
     }
 }

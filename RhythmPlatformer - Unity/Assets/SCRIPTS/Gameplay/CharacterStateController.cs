@@ -201,7 +201,7 @@ namespace Gameplay
             _dashWindupDuration = dashWindupClip.length;
         }
 
-        public override void OnUpdate()
+        public override void OnFixedUpdate()
         { 
             HandleInputStateChange();
             ApplyStateMovement();
@@ -363,7 +363,7 @@ namespace Gameplay
                 case CharacterState.Run:
                     Vector2 runTracker = _characterMovement.RunCurveTracker;
                     if (runTracker.x < runTracker.y || _characterMovement.RunVelocity == 0)
-                        _characterMovement.RunCurveTracker.x += Time.deltaTime;
+                        _characterMovement.RunCurveTracker.x += Time.fixedDeltaTime;
                     _characterMovement.Run();
                     break;
                 case CharacterState.Crouch:
@@ -375,7 +375,7 @@ namespace Gameplay
                     Vector2 riseTracker = _characterMovement.RiseCurveTracker;
                     if (riseTracker.x < riseTracker.y)
                     {
-                        _characterMovement.RiseCurveTracker.x += Time.deltaTime * (1 / _characterMovement.RiseSpeedMod);
+                        _characterMovement.RiseCurveTracker.x += Time.fixedDeltaTime * (1 / _characterMovement.RiseSpeedMod);
                         _characterMovement.Rise();
                     }
                     else
@@ -385,7 +385,7 @@ namespace Gameplay
                     Vector2 fallTracker = _characterMovement.FallCurveTracker;
                     if (fallTracker.x < fallTracker.y)
                     {
-                        _characterMovement.FallCurveTracker.x += Time.deltaTime;
+                        _characterMovement.FallCurveTracker.x += Time.fixedDeltaTime;
                         _characterMovement.Fall();
                     }
                     break;
@@ -399,7 +399,7 @@ namespace Gameplay
                     Vector2 dashTracker = _characterMovement.DashCurveTracker;
                     if (dashTracker.x < dashTracker.y)
                     {
-                        _characterMovement.DashCurveTracker.x += Time.deltaTime;
+                        _characterMovement.DashCurveTracker.x += Time.fixedDeltaTime;
                         _characterMovement.Dash();
                     }
                     break;
@@ -407,7 +407,7 @@ namespace Gameplay
 
             void DecrementWallClingTimer()
             {
-                WallClingTimer = Mathf.Max(WallClingTimer - Time.deltaTime, 0);
+                WallClingTimer = Mathf.Max(WallClingTimer - Time.fixedDeltaTime, 0);
                 if (WallClingTimer <= 0)
                     _canWallCling = true;
             }
@@ -415,7 +415,7 @@ namespace Gameplay
         
         public void IncrementWallClingTimer()
         {
-            WallClingTimer = Mathf.Min(WallClingTimer + Time.deltaTime, wallClingMaxDuration);
+            WallClingTimer = Mathf.Min(WallClingTimer + Time.fixedDeltaTime, wallClingMaxDuration);
             if (WallClingTimer >= wallClingMaxDuration)
             {
                 _canWallCling = false;
@@ -453,7 +453,7 @@ namespace Gameplay
             while (runTimer > 0)
             {
                 await Task.Yield();
-                runTimer -= Time.deltaTime;
+                runTimer -= Time.fixedDeltaTime;
                 
                 if (CurrentCharacterState == CharacterState.Run)
                     return;
@@ -471,7 +471,7 @@ namespace Gameplay
             // while (timer > 0)
             // {
             //     await Task.Yield();
-            //     timer -= Time.deltaTime;
+            //     timer -= Time.fixedDeltaTime;
             //     
             //     if (DashWindup)
             //     {
@@ -494,7 +494,7 @@ namespace Gameplay
             while (timer > 0)
             {
                 await Task.Yield();
-                timer -= Time.deltaTime;
+                timer -= Time.fixedDeltaTime;
             }
 
             DashWindup = false;
