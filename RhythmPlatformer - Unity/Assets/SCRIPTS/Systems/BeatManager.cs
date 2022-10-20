@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Gameplay;
 using Scriptable_Object_Scripts;
@@ -8,13 +7,13 @@ namespace Systems
 {
     public class BeatManager : GameplayComponent
     {
+        [SerializeField] private CharacterInput _characterInput;
         [SerializeField] private AudioSource[] _trackAudioSources;
         
         private int _activeSource;
         private int _nextSource => _activeSource == 0 ? 1 : 0;
         private double _nextTrackTime;
         
-        // TODO: eventually move this to GameplayReferenceManager
         public TrackData TrackData;
         private LoopPoints _loopPoints;
 
@@ -27,8 +26,6 @@ namespace Systems
         
         [SerializeField] private bool _metronomeOn;
 
-        public Action BeatEvent;
-        
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;
         public int BeatTracker => _beatTracker;
@@ -81,8 +78,8 @@ namespace Systems
                 {
                     if (_metronomeOn)
                         _metronomeStrong.Play();
-                    
-                    BeatEvent?.Invoke();
+
+                    _characterInput.InputState.JumpSquat = true;
                 } 
                 else if (_metronomeOn)
                     _metronomeWeak.Play();

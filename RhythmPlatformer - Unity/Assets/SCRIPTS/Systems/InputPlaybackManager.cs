@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Gameplay;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Systems
 {
@@ -77,10 +76,6 @@ namespace Systems
              void RecordInput()
              {
                  InputState inputState = _characterInput.InputState;
-
-                 if (_characterStateController.JumpSquat)
-                     inputState.JumpButton = InputActionPhase.Performed;
-                 
                  PlaybackQueue.Enqueue(inputState);
              }
          }
@@ -117,10 +112,6 @@ namespace Systems
                  }
 
                  InputState inputState = PlaybackQueue.Dequeue();
-
-                 if (inputState.JumpButton == InputActionPhase.Performed)
-                     _characterStateController.JumpSquat = true;
-                 
                  _characterInput.InputState = inputState;
              }
          }

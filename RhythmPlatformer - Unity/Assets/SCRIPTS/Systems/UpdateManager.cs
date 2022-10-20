@@ -93,15 +93,9 @@ namespace Systems
         public void RegisterUpdatable(IUpdatable in_updatable, bool in_fixedUpdate = false)
         {
             if (!in_fixedUpdate)
-            {
                 _updatables.Add(in_updatable);
-                Debug.Log("regular: " + in_updatable);
-            }
             else
-            {
                 _fixedUpdatables.Add(in_updatable);
-                Debug.Log("fixed: " + in_updatable);
-            }
         }
 
         public void DeregisterUpdatable(IUpdatable in_updatable, bool in_fixedUpdate = false)

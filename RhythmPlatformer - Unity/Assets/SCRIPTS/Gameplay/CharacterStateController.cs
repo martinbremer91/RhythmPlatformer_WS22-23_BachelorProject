@@ -30,17 +30,19 @@ namespace Gameplay
             set => SetCharacterState(value);
         }
 
-        private bool _jumpSquat;
-        public bool JumpSquat
+        private bool m_jumpSquat;
+        private bool _jumpSquat
         {
-            get => _jumpSquat;
+            get => m_jumpSquat;
             set
             {
-                if (_jumpSquat == value)
+                if (m_jumpSquat == value)
                     return;
-                _jumpSquat = value;
+                m_jumpSquat = value;
                 if (value)
                     PerformJumpSquatAsync();
+                else
+                    _characterInput.InputState.JumpSquat = false;
             }
         }
         private float _jumpSquatDuration;
@@ -49,13 +51,15 @@ namespace Gameplay
         public bool DashWindup
         {
             get => _dashWindup;
-            set
+            private set
             {
                 if (_dashWindup == value)
                     return;
                 _dashWindup = value;
                 if (value)
                     PerformDashWindupAsync();
+                else
+                    _characterInput.InputState.DashWindup = false;
             }
         }
         private float _dashWindupDuration;
@@ -181,11 +185,7 @@ namespace Gameplay
 
         #region INIT & UPDATE
 
-        private void Awake()
-        {
-            GetAnticipationStatesDurations();
-            _beatManager.BeatEvent += PerformJumpSquatAsync;
-        }
+        private void Awake() => GetAnticipationStatesDurations();
 
         private void GetAnticipationStatesDurations()
         {
@@ -200,7 +200,12 @@ namespace Gameplay
         }
 
         public override void CustomUpdate()
-        { 
+        {
+            if (_characterInput.InputState.JumpSquat)
+                _jumpSquat = true;
+            if (_characterInput.InputState.DashWindup)
+                DashWindup = true;
+            
             HandleInputStateChange();
             ApplyStateMovement();
         }
@@ -462,6 +467,8 @@ namespace Gameplay
 
         private void PerformJumpSquatAsync()
         {
+            // TODO: change jump squat to happen at t - jumpSquatDuration
+            
             // JumpSquatStarted?.Invoke();
             //
             // float timer = _jumpSquatDuration;
@@ -474,12 +481,12 @@ namespace Gameplay
             //     if (DashWindup)
             //     {
             //         // TODO: call DashCanceledJump delegate (to trigger VFX feedback)
-            //         JumpSquat = false;
+            //         _jumpSquat = false;
             //         return;
             //     }
             // }
 
-            JumpSquat = false;
+            _jumpSquat = false;
             CurrentCharacterState = CharacterState.Rise;
         }
 

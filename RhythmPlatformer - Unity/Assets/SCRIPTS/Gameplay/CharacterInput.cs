@@ -8,8 +8,7 @@ namespace Gameplay
     public class CharacterInput : GameplayComponent
     {
         #region REFERENCES
-
-        [SerializeField] private CharacterStateController _characterStateController;
+        
         public ControlSettings ControlSettings;
 
         #endregion
@@ -49,8 +48,8 @@ namespace Gameplay
             s_Controls.GameplayDefault.DigitalLeft.canceled += _ => HandleDigitalMove(Vector2.left, true);
             s_Controls.GameplayDefault.DigitalRight.canceled += _ => HandleDigitalMove(Vector2.right, true);
             
-            s_Controls.GameplayDefault.Jump.performed += _ => _characterStateController.JumpSquat = true;
-            s_Controls.GameplayDefault.Dash.performed += _ => _characterStateController.DashWindup = true;
+            s_Controls.GameplayDefault.Jump.performed += _ => InputState.JumpSquat = true;
+            s_Controls.GameplayDefault.Dash.performed += _ => InputState.DashWindup = true;
 #if UNITY_EDITOR
             s_Controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
 #endif

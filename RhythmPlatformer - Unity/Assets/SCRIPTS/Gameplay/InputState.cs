@@ -18,7 +18,10 @@ namespace Gameplay
         public bool analogDeadzone;
         
         public InputActionPhase DashButton;
-        public InputActionPhase WallClingTrigger;
         public InputActionPhase JumpButton;
+        public InputActionPhase WallClingTrigger;
+        
+        public bool JumpSquat;
+        public bool DashWindup;
     }
 }
