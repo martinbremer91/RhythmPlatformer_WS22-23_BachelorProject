@@ -1,5 +1,6 @@
 using System;
 using Systems;
+using Unity.VisualScripting;
 
 namespace Interfaces
 {
@@ -9,10 +10,10 @@ namespace Interfaces
 
         public void CustomUpdate();
 
-        public void RegisterUpdatable(bool in_fixedUpdate) => 
-            UpdateManager.Instance.RegisterUpdatable(this, true);
-        public void DeregisterUpdatable(bool in_fixedUpdate) => 
-            UpdateManager.Instance.DeregisterUpdatable(this, true);
+        public void RegisterUpdatable(bool in_fixedUpdate = false) => 
+            UpdateManager.Instance.RegisterUpdatable(this, in_fixedUpdate);
+        public void DeregisterUpdatable(bool in_fixedUpdate = false) => 
+            UpdateManager.Instance.DeregisterUpdatable(this, in_fixedUpdate);
     }
 
     [Flags]

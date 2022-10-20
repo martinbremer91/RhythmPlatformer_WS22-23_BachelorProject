@@ -60,10 +60,9 @@ namespace Gameplay
 
         private float _crouchJumpVerticalSpeedModifier;
         private float _fastFallSpeedModifier;
-        public bool YAxisReadyForFastFall;
-        public bool FastFalling;
-
-        // X = current time along animation curve. Y = time of last key in animation curve (i.e. length)
+        [HideInInspector] public bool YAxisReadyForFastFall;
+        [HideInInspector] public bool FastFalling;
+        
         [HideInInspector] public Vector2 RunCurveTracker;
         [HideInInspector] public Vector2 DashCurveTracker;
         [HideInInspector] public Vector2 RiseCurveTracker;

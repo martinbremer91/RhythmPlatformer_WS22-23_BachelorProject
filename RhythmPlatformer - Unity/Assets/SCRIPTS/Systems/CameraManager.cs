@@ -4,6 +4,10 @@ using Interfaces;
 using UnityEngine;
 using Utility_Scripts;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Systems
 {
     public class CameraManager : MonoBehaviour, IUpdatable
@@ -33,6 +37,9 @@ namespace Systems
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _maxSpeed;
 
+        private void OnEnable() => (this as IUpdatable).RegisterUpdatable();
+        private void OnDisable() => (this as IUpdatable).DeregisterUpdatable();
+
         private void Awake()
         {
             GetCamNodesFromJson();
@@ -47,6 +54,8 @@ namespace Systems
         private void GetCamNodesFromJson() =>
             _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
 
+        //public void CustomUpdate(){}
+        
         public void CustomUpdate()
         {
             Vector3 position = transform.position;
@@ -165,54 +174,54 @@ namespace Systems
 
         #region DEBUG / GIZMOS
 
-// #if UNITY_EDITOR
-//         private void OnDrawGizmos()
-//         {
-//             if (Selection.activeObject != gameObject)
-//                 return;
-//
-//             var pos = transform.position;
-//             Vector2 position = pos;
-//             
-//             Vector2 upperLeft = 
-//                 position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
-//             Vector2 lowerLeft = 
-//                 position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
-//             Vector2 upperRight = 
-//                 position + new Vector2(_characterMovementBoundaries.x, _characterMovementBoundaries.y);
-//             Vector2 lowerRight =
-//                 position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
-//             
-//             Gizmos.color = Color.red;
-//             Gizmos.DrawLine(upperLeft, lowerLeft);
-//             Gizmos.DrawLine(upperLeft, upperRight);
-//             Gizmos.DrawLine(upperRight, lowerRight);
-//             Gizmos.DrawLine(lowerLeft, lowerRight);
-//
-//             Gizmos.color = Color.magenta;
-//             
-//             Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MaxY, 0), .5f);
-//             Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MinY, 0), .5f);
-//             Gizmos.DrawWireSphere(new Vector3(_centerBounds.MinX, pos.y, 0), .5f);
-//             Gizmos.DrawWireSphere(new Vector3(_centerBounds.MaxX, pos.y, 0), .5f);
-//             
-//             Gizmos.color = Color.cyan;
-//             Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
-//             Gizmos.DrawWireSphere(new Vector3(_northBounds.MaxX, position.y + _camSize.y, 0), .3f);
-//             
-//             Gizmos.color = Color.green;
-//             Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MinY, 0), .3f);
-//             Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MaxY, 0), .3f);
-//             
-//             Gizmos.color = Color.yellow;
-//             Gizmos.DrawWireSphere(new Vector3(_southBounds.MinX, position.y - _camSize.y, 0), .3f);
-//             Gizmos.DrawWireSphere(new Vector3(_southBounds.MaxX, position.y - _camSize.y, 0), .3f);
-//             
-//             Gizmos.color = Color.white;
-//             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
-//             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
-//         }
-// #endif
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            if (Selection.activeObject != gameObject)
+                return;
+
+            var pos = transform.position;
+            Vector2 position = pos;
+            
+            Vector2 upperLeft = 
+                position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+            Vector2 lowerLeft = 
+                position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
+            Vector2 upperRight = 
+                position + new Vector2(_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+            Vector2 lowerRight =
+                position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(upperLeft, lowerLeft);
+            Gizmos.DrawLine(upperLeft, upperRight);
+            Gizmos.DrawLine(upperRight, lowerRight);
+            Gizmos.DrawLine(lowerLeft, lowerRight);
+
+            Gizmos.color = Color.magenta;
+            
+            Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MaxY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MinY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_centerBounds.MinX, pos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_centerBounds.MaxX, pos.y, 0), .5f);
+            
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
+            Gizmos.DrawWireSphere(new Vector3(_northBounds.MaxX, position.y + _camSize.y, 0), .3f);
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MinY, 0), .3f);
+            Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MaxY, 0), .3f);
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(new Vector3(_southBounds.MinX, position.y - _camSize.y, 0), .3f);
+            Gizmos.DrawWireSphere(new Vector3(_southBounds.MaxX, position.y - _camSize.y, 0), .3f);
+            
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
+            Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
+        }
+#endif
 
         #endregion
     }
