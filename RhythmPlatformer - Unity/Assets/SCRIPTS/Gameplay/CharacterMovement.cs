@@ -1,3 +1,4 @@
+using Interfaces;
 using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CharacterMovement : GameplayComponent
+    public class CharacterMovement : GameplayComponent, IPhysicsPause
     {
         #region REFERENCES
         
@@ -71,7 +72,19 @@ namespace Gameplay
         #endregion
 
         #region INIT & UPDATE
-        
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GameStateManager.TogglePause += TogglePausePhysics;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            GameStateManager.TogglePause -= TogglePausePhysics;
+        }
+
         private void Awake() => GetMovementData();
 
         private void GetMovementData()
@@ -207,7 +220,9 @@ namespace Gameplay
         #endregion
 
         #region UTILITY FUNCTIONS
-        
+
+        public void TogglePausePhysics(bool pause) => _rigidbody2D.velocity = pause ? Vector2.zero : CharacterVelocity;
+
         private float GetCurrentGroundDrag()
         {
             float slideAxisInput = _characterInput.InputState.DirectionalInput.x;

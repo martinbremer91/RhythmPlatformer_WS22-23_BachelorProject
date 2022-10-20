@@ -37,6 +37,8 @@ namespace Systems
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _maxSpeed;
 
+        private bool _hasBounds;
+
         private void OnEnable() => (this as IUpdatable).RegisterUpdatable();
         private void OnDisable() => (this as IUpdatable).DeregisterUpdatable();
 
@@ -54,8 +56,6 @@ namespace Systems
         private void GetCamNodesFromJson() =>
             _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
 
-        //public void CustomUpdate(){}
-        
         public void CustomUpdate()
         {
             Vector3 position = transform.position;
@@ -88,6 +88,8 @@ namespace Systems
             if(CheckPointInBounds(eastPos, _centerBounds))
                 _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
 
+            _hasBounds = true;
+            
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
             {
                 CameraBounds camBounds = new CameraBounds();
@@ -140,9 +142,11 @@ namespace Systems
 
         private void LateUpdate()
         {
-            if (_characterInBoundaries)
+            if (!_hasBounds || _characterInBoundaries)
                 return;
 
+            _hasBounds = false;
+            
             Vector3 targetPos = _characterTf.position;
             Vector3 position = transform.position;
 

@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay;
+using Interfaces;
 using UnityEngine;
 
 namespace Systems
 {
-    public class InputPlaybackManager : GameplayComponent
+    public class InputPlaybackManager : MonoBehaviour, IUpdatable
     {
         #region  REFERENCES
 
@@ -19,6 +21,8 @@ namespace Systems
         #endregion
 
         #region VARIABLES
+
+        public UpdateType UpdateType => UpdateType.Always;
 
         public static bool s_PlaybackActive;
         private bool _playbackToggle;
@@ -34,7 +38,14 @@ namespace Systems
 
         private DefaultControls _playbackControls;
 
+#if UNITY_EDITOR
+        public static bool s_FrameByFrameMode;
+        public static bool s_FrameAdvance;
+#endif
         #endregion
+
+        private void OnEnable() => (this as IUpdatable).RegisterUpdatable(true);
+        private void OnDisable() => (this as IUpdatable).DeregisterUpdatable(true);
 
         private void Awake()
         {
@@ -44,7 +55,7 @@ namespace Systems
             _playbackControls.Playback.TogglePlayback.performed += _ => HandlePlaybackInput();
         }
 
-        public override void CustomUpdate()
+        public void CustomUpdate()
         {
             HandleRecording();
             HandlePlayback();
@@ -66,7 +77,7 @@ namespace Systems
                      _movementSnapshot = _characterMovement.GetMovementSnapshot();
                      _playerState = _characterStateController.CurrentCharacterState;
 
-                     // TODO: get  current track data
+                     // TODO: get  current track data (pos within current bar)
                  }
              }
 
@@ -82,6 +93,18 @@ namespace Systems
 
          private void HandlePlayback()
          {
+             if (s_FrameByFrameMode)
+             {
+                 if (!s_FrameAdvance)
+                 {
+                     GameStateManager.s_ActiveUpdateType = UpdateType.Paused;
+                     return; 
+                 }
+                 
+                GameStateManager.s_ActiveUpdateType = UpdateType.GamePlay;
+                s_FrameAdvance = false;
+             }
+             
              if (_playbackToggle)
              {
                  _playbackToggle = false;
@@ -91,11 +114,17 @@ namespace Systems
                  
                  s_PlaybackActive = !s_PlaybackActive;
                  playIcon.SetActive(s_PlaybackActive);
-
+#if UNITY_EDITOR
+                 if (!s_PlaybackActive)
+                 {
+                     s_FrameByFrameMode = false;
+                     GameStateManager.s_ActiveUpdateType = UpdateType.GamePlay;
+                 }
+#endif
                  _characterStateController.transform.position = _playerPosition;
                  _characterMovement.ApplyMovementSnapshot(_movementSnapshot);
                  _characterStateController.CurrentCharacterState = _playerState;
-                 
+
                  // TODO: sync with track data (skip to starting point or wait)
              }
             
@@ -108,6 +137,10 @@ namespace Systems
                  {
                      s_PlaybackActive = false;
                      playIcon.SetActive(false);
+#if UNITY_EDITOR
+                     s_FrameByFrameMode = false;
+                     GameStateManager.s_ActiveUpdateType = UpdateType.GamePlay;
+#endif
                      return;
                  }
 

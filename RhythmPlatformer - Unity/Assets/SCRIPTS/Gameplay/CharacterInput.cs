@@ -1,3 +1,4 @@
+using Interfaces;
 using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
@@ -49,7 +50,7 @@ namespace Gameplay
             s_Controls.GameplayDefault.DigitalRight.canceled += _ => HandleDigitalMove(Vector2.right, true);
             
             s_Controls.GameplayDefault.Jump.performed += _ => InputState.JumpSquat = true;
-            s_Controls.GameplayDefault.Dash.performed += _ => InputState.DashWindup = true;
+            s_Controls.GameplayDefault.Dash.performed += _ => HandleDashButton();
 #if UNITY_EDITOR
             s_Controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
 #endif
@@ -129,12 +130,29 @@ namespace Gameplay
                     InputState.DigitalRight = !in_cancel;
             }
         }
+
+        private void HandleDashButton()
+        {
+#if UNITY_EDITOR
+            if (InputPlaybackManager.s_FrameByFrameMode)
+            {
+                InputPlaybackManager.s_FrameAdvance = true;
+                return;
+            }
+#endif
+            InputState.DashWindup = true;
+        }
         
 #if UNITY_EDITOR
         private void ToggleDebugMode()
         {
             if (InputPlaybackManager.s_PlaybackActive)
+            {
+                InputPlaybackManager.s_FrameByFrameMode = !InputPlaybackManager.s_FrameByFrameMode;
+                GameStateManager.s_ActiveUpdateType =
+                    InputPlaybackManager.s_FrameByFrameMode ? UpdateType.Paused : UpdateType.GamePlay;
                 return;
+            }
             
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
             Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);
