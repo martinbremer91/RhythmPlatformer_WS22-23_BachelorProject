@@ -17,12 +17,11 @@ namespace Gameplay
         [SerializeField] private CharacterSpriteController _spriteController;
         [SerializeField] private CharacterMovement _characterMovement;
         [SerializeField] private CharacterInput _characterInput;
+        [SerializeField] private MovementConfigs _movementConfigs;
 
         #endregion
         
         #region VARIABLES
-
-        private MovementConfigs _movementConfigs;
         
         private CharacterState _currentCharacterState;
         public CharacterState CurrentCharacterState
@@ -184,7 +183,6 @@ namespace Gameplay
 
         private void Awake()
         {
-            _movementConfigs = GameplayReferenceManager.s_Instance.MovementConfigs;
             GetAnticipationStatesDurations();
             _beatManager.BeatEvent += PerformJumpSquatAsync;
         }

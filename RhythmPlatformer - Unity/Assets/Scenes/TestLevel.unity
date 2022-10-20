@@ -2238,6 +2238,10 @@ PrefabInstance:
       propertyPath: _beatManager
       value: 
       objectReference: {fileID: 1498452835}
+    - target: {fileID: 5562756899129024184, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: _movementConfigs
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
     - target: {fileID: 5562756899129024186, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2282,6 +2286,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024190, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: _movementConfigs
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
+    - target: {fileID: 5562756899129024191, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: ControlSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
 --- !u!1001 &9197381173152371751

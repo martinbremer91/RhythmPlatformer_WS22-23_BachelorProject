@@ -9,14 +9,12 @@ namespace Gameplay
     {
         #region REFERENCES
 
-        [SerializeField] private CharacterStateController _characterStateController; 
+        [SerializeField] private CharacterStateController _characterStateController;
+        public ControlSettings ControlSettings;
 
         #endregion
 
         #region VARIABLES
-
-        private ControlSettings _controlSettings;
-        public ControlSettings ControlSettings => _controlSettings;
 
         private static DefaultControls _controls;
         public static DefaultControls s_Controls
@@ -35,8 +33,6 @@ namespace Gameplay
 
         private void Awake()
         {
-            _controlSettings = GameplayReferenceManager.s_Instance.ControlSettings;
-
             s_Controls.GameplayDefault.AnalogMove.performed += 
                 ctx => HandleAnalogMove(ctx.ReadValue<Vector2>());
             s_Controls.GameplayDefault.AnalogMove.canceled += 
@@ -85,7 +81,7 @@ namespace Gameplay
             if (InputPlaybackManager.s_PlaybackActive)
                 return;
             
-            InputState.analogDeadzone = in_input.magnitude <= _controlSettings.InputDeadZone;
+            InputState.analogDeadzone = in_input.magnitude <= ControlSettings.InputDeadZone;
             
             if (InputState.analogDeadzone)
             {
