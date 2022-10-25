@@ -706,6 +706,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1835730511 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+  m_PrefabInstance: {fileID: 9197381173152371751}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8715493fb1354ba0b8b5366f6099841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1916168898
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +780,7 @@ GameObject:
   - component: {fileID: 2003213511}
   - component: {fileID: 2003213510}
   - component: {fileID: 2003213509}
+  - component: {fileID: 2003213513}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -860,6 +872,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2003213513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003213508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603be79500cfe474998d35eebacc9884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: Canvas
 --- !u!1 &2093921680
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2553,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: CameraManager
+      value: 
+      objectReference: {fileID: 851463575}
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: CharacterInput
+      value: 
+      objectReference: {fileID: 1285793916}
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: CharacterMovement
+      value: 
+      objectReference: {fileID: 1285793917}
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: InputPlaybackManager
+      value: 
+      objectReference: {fileID: 1143932733}
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: CharacterStateController
+      value: 
+      objectReference: {fileID: 1285793915}
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: CharacterSpriteController
+      value: 
+      objectReference: {fileID: 1285793919}
+    - target: {fileID: 4108841640019639736, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: CharacterCollisionDetector
+      value: 
+      objectReference: {fileID: 1285793920}
     - target: {fileID: 9197381171710160410, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: BeatManager
       value: 
@@ -2616,6 +2669,10 @@ PrefabInstance:
       propertyPath: CharacterMovement
       value: 
       objectReference: {fileID: 1285793917}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: _referenceContainer
+      value: 
+      objectReference: {fileID: 1835730511}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: InputPlaybackManager
       value: 

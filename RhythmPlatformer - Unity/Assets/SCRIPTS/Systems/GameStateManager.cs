@@ -7,23 +7,24 @@ namespace Systems
 {
     public class GameStateManager : MonoBehaviour
     {
-        private static GameStateManager s_Instance;
-        
+        public static GameStateManager s_Instance;
+
         #region REFERENCES
 
+        [SerializeField] private GameManagerReferenceContainer _referenceContainer;
+        
         public UpdateManager UpdateManager;
         public PauseMenu PauseMenu;
 
-        public CameraManager CameraManager;
         public BeatManager BeatManager;
+        [HideInInspector] public CameraManager CameraManager;
 
-        public CharacterInput CharacterInput;
-        public CharacterCollisionDetector CharacterCollisionDetector;
-        public CharacterStateController CharacterStateController;
-        public CharacterMovement CharacterMovement;
-        public CharacterSpriteController CharacterSpriteController;
-
-        public InputPlaybackManager InputPlaybackManager;
+        [HideInInspector] public CharacterInput CharacterInput;
+        [HideInInspector] public CharacterCollisionDetector CharacterCollisionDetector;
+        [HideInInspector] public CharacterStateController CharacterStateController;
+        [HideInInspector] public CharacterMovement CharacterMovement;
+        [HideInInspector] public CharacterSpriteController CharacterSpriteController;
+        [HideInInspector] public InputPlaybackManager InputPlaybackManager;
 
         public MovementConfigs MovementConfigs;
         public GameplayControlConfigs GameplayControlConfigs;
@@ -53,8 +54,9 @@ namespace Systems
 
             s_ActiveUpdateType = _startUpdateType;
             
-            UpdateManager.Init(this);
+            _referenceContainer.Init(this);
             
+            UpdateManager.Init(this);
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
             
