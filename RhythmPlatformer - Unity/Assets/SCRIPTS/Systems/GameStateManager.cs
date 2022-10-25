@@ -11,7 +11,7 @@ namespace Systems
 
         #region REFERENCES
 
-        [SerializeField] private GameManagerReferenceContainer _referenceContainer;
+        [SerializeField] private DependencyInjector _dependencyInjector;
         
         public UpdateManager UpdateManager;
         public PauseMenu PauseMenu;
@@ -54,13 +54,15 @@ namespace Systems
 
             s_ActiveUpdateType = _startUpdateType;
             
-            _referenceContainer.Init(this);
+            _dependencyInjector.Init(this);
             
+            // TODO: this next block of init functions are all for DontDestroyOnLoads
+            // TODO: (add check to see if they're already initialized)
             UpdateManager.Init(this);
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
             
-            // TODO: add logic that checks if character is present in scene
+            // TODO: add switch that only initializes elements of loaded scene
             // TODO: externalize these init calls
             
             InputPlaybackManager.Init(this);
