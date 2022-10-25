@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CharacterMovement : GameplayComponent, IPhysicsPause, IInit<GameStateManager>
+    public class CharacterMovement : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         #region REFERENCES
         
@@ -19,6 +19,8 @@ namespace Gameplay
         #endregion
 
         #region VARIABLES
+        
+        public UpdateType UpdateType => UpdateType.GamePlay;
         
         private Vector2 _characterVelocity;
         public Vector2 CharacterVelocity => _characterVelocity;
@@ -73,18 +75,6 @@ namespace Gameplay
 
         #region INIT & UPDATE
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            GameStateManager.TogglePause += TogglePausePhysics;
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            GameStateManager.TogglePause -= TogglePausePhysics;
-        }
-
         public void Init(GameStateManager in_gameStateManager)
         {
             _characterStateController = in_gameStateManager.CharacterStateController;
@@ -122,7 +112,7 @@ namespace Gameplay
             _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
         }
 
-        public override void CustomUpdate()
+        public void CustomUpdate()
         {
 #if UNITY_EDITOR
             if (GameStateManager.s_DebugMode)

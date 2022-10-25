@@ -6,9 +6,6 @@ namespace Systems
     {
         [SerializeField] private GameObject _pausePanel;
 
-        public void TogglePause()
-        {
-            
-        }
+        public void TogglePauseMenu(bool in_paused) => _pausePanel.SetActive(in_paused);
     }
 }

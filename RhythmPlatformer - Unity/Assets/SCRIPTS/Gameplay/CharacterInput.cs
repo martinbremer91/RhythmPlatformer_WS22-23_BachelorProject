@@ -6,15 +6,17 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CharacterInput : GameplayComponent, IInit<GameStateManager>
+    public class CharacterInput : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         #region REFERENCES
         
-        [HideInInspector] public GameplayControlConfigs GameplayControlConfigs;
+        public GameplayControlConfigs GameplayControlConfigs;
 
         #endregion
-
+        
         #region VARIABLES
+
+        public UpdateType UpdateType => UpdateType.GamePlay;
 
         private DefaultControls _controls;
         
@@ -52,7 +54,7 @@ namespace Gameplay
             _controls.Enable();
         }
 
-        public override void CustomUpdate()
+        public void CustomUpdate()
         {
             if (InputPlaybackManager.s_PlaybackActive)
                 return;

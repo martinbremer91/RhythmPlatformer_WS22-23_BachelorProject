@@ -10,7 +10,7 @@ using Utility_Scripts;
 
 namespace Gameplay
 {
-    public class CharacterStateController : GameplayComponent, IInit<GameStateManager>
+    public class CharacterStateController : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         #region REFERENCES
         
@@ -22,6 +22,8 @@ namespace Gameplay
         #endregion
         
         #region VARIABLES
+        
+        public UpdateType UpdateType => UpdateType.GamePlay;
         
         private CharacterState _currentCharacterState;
         public CharacterState CurrentCharacterState
@@ -207,7 +209,7 @@ namespace Gameplay
             _dashWindupDuration = dashWindupClip.length;
         }
 
-        public override void CustomUpdate()
+        public void CustomUpdate()
         {
             if (_characterInput.InputState.JumpSquat)
                 _jumpSquat = true;

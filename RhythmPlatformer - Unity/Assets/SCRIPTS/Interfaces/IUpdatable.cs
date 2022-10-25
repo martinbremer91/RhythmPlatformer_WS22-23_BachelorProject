@@ -8,11 +8,6 @@ namespace Interfaces
         public UpdateType UpdateType { get; }
 
         public void CustomUpdate();
-
-        public void RegisterUpdatable(bool in_fixedUpdate = false) => 
-            UpdateManager.Instance.RegisterUpdatable(this, in_fixedUpdate);
-        public void DeregisterUpdatable(bool in_fixedUpdate = false) => 
-            UpdateManager.Instance.DeregisterUpdatable(this, in_fixedUpdate);
     }
 
     [Flags]

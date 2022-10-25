@@ -1,20 +1,24 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using Gameplay;
 using Interfaces;
-using Scriptable_Object_Scripts;
 using UnityEngine;
 
 namespace Systems
 {
-    public class UpdateManager : MonoBehaviour
+    public class UpdateManager : MonoBehaviour, IInit<GameStateManager>
     {
-        public static UpdateManager Instance;
+        private static UpdateManager Instance;
 
-        [SerializeField] private CustomOrderOfExecutions _orderOfExecutions;
-        
         private readonly List<IUpdatable> _updatables = new();
         private readonly List<IUpdatable> _fixedUpdatables = new();
+
+        private CameraManager CameraManager;
+        private BeatManager BeatManager;
+        private InputPlaybackManager InputPlaybackManager;
+        private CharacterInput CharacterInput;
+        private CharacterCollisionDetector CharacterCollisionDetector;
+        private CharacterStateController CharacterStateController;
+        private CharacterMovement CharacterMovement;
 
         private void OnEnable()
         {
@@ -24,104 +28,31 @@ namespace Systems
                 Destroy(gameObject);
         }
 
-        private void Start()
+        public void Init(GameStateManager in_gameStateManager)
         {
-            if (_orderOfExecutions.OrderedUpdatableTypes == null || _orderOfExecutions.OrderedFixedUpdatableTypes == null)
-                throw new Exception("An Ordered Updatable Types list is null");
-
-            bool fixedUpdate = false;
+            BeatManager = in_gameStateManager.BeatManager;
+            CameraManager = in_gameStateManager.CameraManager;
             
-            if (_updatables.Any())
-            {
-                foreach (IUpdatable updatable in _updatables)
-                {
-                    if (!CheckTypeInList(updatable, _orderOfExecutions.OrderedUpdatableTypes))
-                        throw new Exception(
-                            "IUpdatable type not found in corresponding CustomOrderOfExecution list: " + updatable);
-                }
-                
-                _updatables.Sort(SortByClass);
-            }
-
-            fixedUpdate = true;
-            
-            if (_fixedUpdatables.Any())
-            {
-                foreach (IUpdatable updatable in _fixedUpdatables)
-                {
-                    if (!CheckTypeInList(updatable, _orderOfExecutions.OrderedFixedUpdatableTypes))
-                        throw new Exception(
-                            "IUpdatable type not found in corresponding CustomOrderOfExecution list: " + updatable);
-                }
-
-                _fixedUpdatables.Sort(SortByClass);
-            }
-            
-            bool CheckTypeInList(IUpdatable in_updatable, Type[] in_typesArray) =>
-                in_typesArray.Any(t => t == in_updatable.GetType());
-            
-            int SortByClass(IUpdatable in_a, IUpdatable in_b)
-            {
-                Type[] typesArray = fixedUpdate
-                    ? _orderOfExecutions.OrderedFixedUpdatableTypes
-                    : _orderOfExecutions.OrderedUpdatableTypes;
-                
-                Type aType = typesArray.FirstOrDefault(t => t == in_a.GetType());
-                Type bType = typesArray.FirstOrDefault(t => t == in_b.GetType());
-
-                int aIndex = -1;
-                int bIndex = -1;
-
-                for (int i = 0; i < typesArray.Length; i++)
-                {
-                    if (aType == typesArray[i])
-                        aIndex = i;
-                    if (bType == typesArray[i])
-                        bIndex = i;
-
-                    if (aIndex >= 0 && bIndex >= 0)
-                        break;
-                }
-
-                if (aIndex < 0 || bIndex < 0)
-                    throw new Exception("Updatable type sorting failed");
-            
-                return aIndex > bIndex ? 1 : aIndex < bIndex ? -1 : 0;
-            }
-        }
-
-        public void RegisterUpdatable(IUpdatable in_updatable, bool in_fixedUpdate = false)
-        {
-            if (!in_fixedUpdate)
-                _updatables.Add(in_updatable);
-            else
-                _fixedUpdatables.Add(in_updatable);
-        }
-
-        public void DeregisterUpdatable(IUpdatable in_updatable, bool in_fixedUpdate = false)
-        {
-            if (!in_fixedUpdate)
-                _updatables.Remove(in_updatable);
-            else
-                _fixedUpdatables.Remove(in_updatable);
+            InputPlaybackManager = in_gameStateManager.InputPlaybackManager;
+            CharacterInput = in_gameStateManager.CharacterInput;
+            CharacterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
+            CharacterStateController = in_gameStateManager.CharacterStateController;
+            CharacterMovement = in_gameStateManager.CharacterMovement;
         }
 
         private void Update()
         {
-            foreach (IUpdatable updatable in _updatables)
-            {
-                if (updatable.UpdateType.HasFlag(GameStateManager.s_ActiveUpdateType))
-                    updatable.CustomUpdate();
-            }
+            BeatManager.CustomUpdate();
+            CameraManager.CustomUpdate();
         }
         
         private void FixedUpdate()
         {
-            foreach (IUpdatable updatable in _fixedUpdatables)
-            {
-                if (updatable.UpdateType.HasFlag(GameStateManager.s_ActiveUpdateType))
-                    updatable.CustomUpdate();
-            }
+            InputPlaybackManager.CustomUpdate();
+            CharacterInput.CustomUpdate();
+            CharacterCollisionDetector.CustomUpdate();
+            CharacterStateController.CustomUpdate();
+            CharacterMovement.CustomUpdate();
         }
     }
 }

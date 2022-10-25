@@ -39,9 +39,6 @@ namespace Systems
 
         private bool _hasBounds;
 
-        private void OnEnable() => (this as IUpdatable).RegisterUpdatable();
-        private void OnDisable() => (this as IUpdatable).DeregisterUpdatable();
-
         private void Awake()
         {
             GetCamNodesFromJson();

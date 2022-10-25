@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Systems
 {
-    public class InputPlaybackManager : MonoBehaviour, IUpdatable
+    public class InputPlaybackManager : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         #region  REFERENCES
 
-        [SerializeField] private CharacterInput _characterInput;
-        [SerializeField] private CharacterStateController _characterStateController;
-        [SerializeField] private CharacterMovement _characterMovement;
+        private CharacterInput _characterInput;
+        private CharacterStateController _characterStateController;
+        private CharacterMovement _characterMovement;
 
         [SerializeField] private GameObject playIcon;
         [SerializeField] private GameObject recordIcon;
@@ -43,11 +43,12 @@ namespace Systems
 #endif
         #endregion
 
-        private void OnEnable() => (this as IUpdatable).RegisterUpdatable(true);
-        private void OnDisable() => (this as IUpdatable).DeregisterUpdatable(true);
-
-        private void Awake()
+        public void Init(GameStateManager in_gameStateManager)
         {
+            _characterInput = in_gameStateManager.CharacterInput;
+            _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterMovement = in_gameStateManager.CharacterMovement;
+            
             _playbackControls = UniversalInputManager.s_Controls;
             
             _playbackControls.Playback.ToggleRecording.performed += _ => HandleRecordingInput();
@@ -96,11 +97,11 @@ namespace Systems
              {
                  if (!s_FrameAdvance)
                  {
-                     GameStateManager.s_ActiveUpdateType = UpdateType.Paused;
+                     _characterMovement.TogglePausePhysics(true);
                      return; 
                  }
                  
-                GameStateManager.s_ActiveUpdateType = UpdateType.GamePlay;
+                _characterMovement.TogglePausePhysics(false);
                 s_FrameAdvance = false;
              }
              
@@ -117,7 +118,7 @@ namespace Systems
                  if (!s_PlaybackActive)
                  {
                      s_FrameByFrameMode = false;
-                     GameStateManager.s_ActiveUpdateType = UpdateType.GamePlay;
+                     _characterMovement.TogglePausePhysics(false);
                  }
 #endif
                  _characterStateController.transform.position = _playerPosition;
@@ -138,7 +139,7 @@ namespace Systems
                      playIcon.SetActive(false);
 #if UNITY_EDITOR
                      s_FrameByFrameMode = false;
-                     GameStateManager.s_ActiveUpdateType = UpdateType.GamePlay;
+                     _characterMovement.TogglePausePhysics(false);
 #endif
                      return;
                  }

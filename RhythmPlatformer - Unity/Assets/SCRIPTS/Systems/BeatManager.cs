@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Gameplay;
 using Interfaces;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Systems
 {
-    public class BeatManager : GameplayComponent, IInit<GameStateManager>
+    public class BeatManager : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         private static BeatManager s_Instance;
         
@@ -16,6 +17,10 @@ namespace Systems
         [SerializeField] private AudioSource[] _trackAudioSources;
 
         #endregion
+
+        public UpdateType UpdateType => UpdateType.Always;
+
+        public static BeatState BeatState;
         
         private int _activeSource;
         private int _nextSource => _activeSource == 0 ? 1 : 0;
@@ -32,6 +37,8 @@ namespace Systems
         private int _beatTracker;
         
         [SerializeField] private bool _metronomeOn;
+
+        public Action BeatAction;
 
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;
@@ -55,7 +62,12 @@ namespace Systems
                 Destroy(gameObject);
                 return;
             }
+            
+            
 
+            // TODO: starting value will have to change to BeatState.StandBy in levels and BeatState.Off in menus
+            BeatState = BeatState.Active;
+            
             _characterInput = in_gameStateManager.CharacterInput;
             
             _beatLength = 60 / (double) TrackData.BPM;
@@ -73,7 +85,7 @@ namespace Systems
             _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
         }
 
-        public override void CustomUpdate()
+        public void CustomUpdate()
         {
             // temp
             if (InputPlaybackManager.s_PlaybackActive)
@@ -91,6 +103,8 @@ namespace Systems
 
             if (time >= _nextBeatTime)
             {
+                BeatAction?.Invoke();
+                
                 _nextBeatTime += _beatLength;
                 _beatTracker = _beatTracker < TrackData.Meter ? _beatTracker + 1 : 1;
 

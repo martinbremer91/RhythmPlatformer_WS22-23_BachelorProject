@@ -4,20 +4,20 @@ namespace Systems
     {
         #region REFERENCES
 
-        private static PauseMenu s_pauseMenu;
+        private static GameStateManager s_gameStateManager;
 
         #endregion
-
-        private static DefaultControls _controls;
+        
+        private static DefaultControls s_controls;
         public static DefaultControls s_Controls
         {
-            get { return _controls ??= new DefaultControls(); }
+            get { return s_controls ??= new DefaultControls(); }
         }
 
         public static void Init(GameStateManager in_gameStateManager)
         {
-            s_Controls.UniversalInputs.PauseToggle.performed += _ => s_pauseMenu.TogglePause();
-            s_pauseMenu = in_gameStateManager.PauseMenu;
+            s_gameStateManager = in_gameStateManager;
+            s_Controls.UniversalInputs.PauseToggle.performed += _ => s_gameStateManager.ScheduleTogglePause();
         }
     }
 }

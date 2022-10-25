@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class CharacterCollisionDetector : GameplayComponent, IInit<GameStateManager>
+    public class CharacterCollisionDetector : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
+        public UpdateType UpdateType => UpdateType.GamePlay;
+        
         private CharacterStateController _characterStateController;
         private CharacterMovement _characterMovement;
         [SerializeField] private BoxCollider2D _boxCollider;
@@ -20,7 +22,7 @@ namespace Gameplay
             _characterMovement = in_gameStateManager.CharacterMovement;
         }
         
-        public override void CustomUpdate()
+        public void CustomUpdate()
         {
             DetectCollision(CollisionCheck.Ground, !_characterStateController.Grounded);
 
