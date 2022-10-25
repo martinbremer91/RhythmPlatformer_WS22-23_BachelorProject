@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Gameplay;
 using Interfaces;
 using UnityEngine;
@@ -8,9 +7,6 @@ namespace Systems
     public class UpdateManager : MonoBehaviour, IInit<GameStateManager>
     {
         private static UpdateManager Instance;
-
-        private readonly List<IUpdatable> _updatables = new();
-        private readonly List<IUpdatable> _fixedUpdatables = new();
 
         private CameraManager CameraManager;
         private BeatManager BeatManager;
@@ -23,7 +19,10 @@ namespace Systems
         private void OnEnable()
         {
             if (Instance == null)
+            {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
             else
                 Destroy(gameObject);
         }
