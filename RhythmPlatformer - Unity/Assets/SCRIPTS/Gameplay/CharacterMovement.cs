@@ -6,12 +6,12 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CharacterMovement : GameplayComponent, IPhysicsPause
+    public class CharacterMovement : GameplayComponent, IPhysicsPause, IInit<GameStateManager>
     {
         #region REFERENCES
         
-        [SerializeField] private CharacterStateController _characterStateController;
-        [SerializeField] private CharacterInput _characterInput;
+        private CharacterStateController _characterStateController;
+        private CharacterInput _characterInput;
         [SerializeField] private Rigidbody2D _rigidbody2D;
         
         [SerializeField] private MovementConfigs _movementConfigs;
@@ -85,7 +85,14 @@ namespace Gameplay
             GameStateManager.TogglePause -= TogglePausePhysics;
         }
 
-        private void Awake() => GetMovementData();
+        public void Init(GameStateManager in_gameStateManager)
+        {
+            _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterInput = in_gameStateManager.CharacterInput;
+            _movementConfigs = in_gameStateManager.MovementConfigs;
+            
+            GetMovementData();
+        } 
 
         private void GetMovementData()
         {
@@ -277,7 +284,7 @@ namespace Gameplay
             Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
 
             int directionX = 
-                inputDirection.x <= _characterInput.ControlSettings.InputDeadZone ?
+                inputDirection.x <= _characterInput.GameplayControlConfigs.InputDeadZone ?
                 _characterStateController.FacingLeft ? -1 : 1 : 
                 inputDirection.x < 0 ? -1 : 1;
             

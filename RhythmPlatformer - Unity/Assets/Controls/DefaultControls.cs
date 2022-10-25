@@ -465,6 +465,45 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UniversalInputs"",
+            ""id"": ""496535aa-50d2-4881-b37b-8727a36094e7"",
+            ""actions"": [
+                {
+                    ""name"": ""PauseToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""e3dd39a8-d5fd-4be6-a5fc-7918663e05ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ae2a51db-1ae5-4bc8-be62-ed30c0e848b4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2584c18-3ebb-4542-ad08-6b53c2c0c20c"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -485,6 +524,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_Playback = asset.FindActionMap("Playback", throwIfNotFound: true);
         m_Playback_ToggleRecording = m_Playback.FindAction("ToggleRecording", throwIfNotFound: true);
         m_Playback_TogglePlayback = m_Playback.FindAction("TogglePlayback", throwIfNotFound: true);
+        // UniversalInputs
+        m_UniversalInputs = asset.FindActionMap("UniversalInputs", throwIfNotFound: true);
+        m_UniversalInputs_PauseToggle = m_UniversalInputs.FindAction("PauseToggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -686,6 +728,39 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         }
     }
     public PlaybackActions @Playback => new PlaybackActions(this);
+
+    // UniversalInputs
+    private readonly InputActionMap m_UniversalInputs;
+    private IUniversalInputsActions m_UniversalInputsActionsCallbackInterface;
+    private readonly InputAction m_UniversalInputs_PauseToggle;
+    public struct UniversalInputsActions
+    {
+        private @DefaultControls m_Wrapper;
+        public UniversalInputsActions(@DefaultControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PauseToggle => m_Wrapper.m_UniversalInputs_PauseToggle;
+        public InputActionMap Get() { return m_Wrapper.m_UniversalInputs; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UniversalInputsActions set) { return set.Get(); }
+        public void SetCallbacks(IUniversalInputsActions instance)
+        {
+            if (m_Wrapper.m_UniversalInputsActionsCallbackInterface != null)
+            {
+                @PauseToggle.started -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnPauseToggle;
+                @PauseToggle.performed -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnPauseToggle;
+                @PauseToggle.canceled -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnPauseToggle;
+            }
+            m_Wrapper.m_UniversalInputsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @PauseToggle.started += instance.OnPauseToggle;
+                @PauseToggle.performed += instance.OnPauseToggle;
+                @PauseToggle.canceled += instance.OnPauseToggle;
+            }
+        }
+    }
+    public UniversalInputsActions @UniversalInputs => new UniversalInputsActions(this);
     public interface IGameplayDefaultActions
     {
         void OnDigitalUp(InputAction.CallbackContext context);
@@ -703,5 +778,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     {
         void OnToggleRecording(InputAction.CallbackContext context);
         void OnTogglePlayback(InputAction.CallbackContext context);
+    }
+    public interface IUniversalInputsActions
+    {
+        void OnPauseToggle(InputAction.CallbackContext context);
     }
 }

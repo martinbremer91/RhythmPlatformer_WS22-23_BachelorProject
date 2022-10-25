@@ -1,17 +1,25 @@
 using System;
+using Interfaces;
+using Systems;
 using UnityEngine;
 
 namespace Gameplay
 {
-    public class CharacterCollisionDetector : GameplayComponent
+    public class CharacterCollisionDetector : GameplayComponent, IInit<GameStateManager>
     {
-        [SerializeField] private CharacterStateController _characterStateController;
-        [SerializeField] private CharacterMovement _characterMovement;
+        private CharacterStateController _characterStateController;
+        private CharacterMovement _characterMovement;
         [SerializeField] private BoxCollider2D _boxCollider;
 
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
+        public void Init(GameStateManager in_gameStateManager)
+        {
+            _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterMovement = in_gameStateManager.CharacterMovement;
+        }
+        
         public override void CustomUpdate()
         {
             DetectCollision(CollisionCheck.Ground, !_characterStateController.Grounded);

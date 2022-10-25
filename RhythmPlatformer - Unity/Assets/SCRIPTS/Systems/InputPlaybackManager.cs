@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay;
@@ -49,7 +48,7 @@ namespace Systems
 
         private void Awake()
         {
-            _playbackControls = CharacterInput.s_Controls;
+            _playbackControls = UniversalInputManager.s_Controls;
             
             _playbackControls.Playback.ToggleRecording.performed += _ => HandleRecordingInput();
             _playbackControls.Playback.TogglePlayback.performed += _ => HandlePlaybackInput();

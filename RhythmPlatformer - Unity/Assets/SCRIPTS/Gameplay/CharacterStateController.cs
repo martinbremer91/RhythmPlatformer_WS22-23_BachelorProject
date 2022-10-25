@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Interfaces;
 using Scriptable_Object_Scripts;
 using Systems;
 using UnityEngine;
@@ -9,15 +10,14 @@ using Utility_Scripts;
 
 namespace Gameplay
 {
-    public class CharacterStateController : GameplayComponent
+    public class CharacterStateController : GameplayComponent, IInit<GameStateManager>
     {
         #region REFERENCES
-
-        [SerializeField] private BeatManager _beatManager;
-        [SerializeField] private CharacterSpriteController _spriteController;
-        [SerializeField] private CharacterMovement _characterMovement;
-        [SerializeField] private CharacterInput _characterInput;
-        [SerializeField] private MovementConfigs _movementConfigs;
+        
+        private CharacterSpriteController _spriteController;
+        private CharacterMovement _characterMovement;
+        private CharacterInput _characterInput;
+        private MovementConfigs _movementConfigs;
 
         #endregion
         
@@ -185,7 +185,15 @@ namespace Gameplay
 
         #region INIT & UPDATE
 
-        private void Awake() => GetAnticipationStatesDurations();
+        public void Init(GameStateManager in_gameStateManager)
+        {
+            _characterInput = in_gameStateManager.CharacterInput;
+            _characterMovement = in_gameStateManager.CharacterMovement;
+            _movementConfigs = in_gameStateManager.MovementConfigs;
+            _spriteController = in_gameStateManager.CharacterSpriteController;
+            
+            GetAnticipationStatesDurations();
+        } 
 
         private void GetAnticipationStatesDurations()
         {

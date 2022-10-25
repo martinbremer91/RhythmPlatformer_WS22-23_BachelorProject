@@ -1,18 +1,27 @@
+using Interfaces;
+using Systems;
 using UnityEngine;
 using Utility_Scripts;
 
 namespace Gameplay
 {
-    public class CharacterSpriteController : MonoBehaviour
+    public class CharacterSpriteController : MonoBehaviour, IInit<GameStateManager>
     {
-        [SerializeField] private CharacterStateController _characterStateController;
+        #region REFERENCES
+
+        private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         public Animator PlayerAnimator;
+
+        #endregion
 
         public void SetCharacterOrientation(bool in_faceLeft) => _spriteRenderer.flipX = in_faceLeft;
 
         protected void OnEnable() => _characterStateController.DashWindupStarted += SetDashWindupTrigger;
         protected void OnDisable() => _characterStateController.DashWindupStarted -= SetDashWindupTrigger;
+
+        public void Init(GameStateManager in_gameStateManager) =>
+            _characterStateController = in_gameStateManager.CharacterStateController;
 
         private void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
 

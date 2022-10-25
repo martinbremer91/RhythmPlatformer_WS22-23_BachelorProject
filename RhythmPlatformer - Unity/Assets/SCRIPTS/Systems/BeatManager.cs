@@ -1,14 +1,21 @@
 using System.Linq;
 using Gameplay;
+using Interfaces;
 using Scriptable_Object_Scripts;
 using UnityEngine;
 
 namespace Systems
 {
-    public class BeatManager : GameplayComponent
+    public class BeatManager : GameplayComponent, IInit<GameStateManager>
     {
-        [SerializeField] private CharacterInput _characterInput;
+        private static BeatManager s_Instance;
+        
+        #region REFERENCES
+
+        private CharacterInput _characterInput;
         [SerializeField] private AudioSource[] _trackAudioSources;
+
+        #endregion
         
         private int _activeSource;
         private int _nextSource => _activeSource == 0 ? 1 : 0;
@@ -36,8 +43,21 @@ namespace Systems
             public double end;
         }
 
-        private void Start()
+        public void Init(GameStateManager in_gameStateManager)
         {
+            if (s_Instance == null)
+            {
+                s_Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            _characterInput = in_gameStateManager.CharacterInput;
+            
             _beatLength = 60 / (double) TrackData.BPM;
             double barLength = _beatLength * TrackData.Meter;
 
@@ -85,5 +105,12 @@ namespace Systems
                     _metronomeWeak.Play();
             }
         }
+    }
+
+    public enum BeatState
+    {
+        Off,
+        Active,
+        Standby
     }
 }
