@@ -1,6 +1,6 @@
 using System;
-using Interfaces;
-using Systems;
+using GlobalSystems;
+using Interfaces_and_Enums;
 using UnityEngine;
 
 namespace Gameplay

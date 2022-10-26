@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Interfaces;
+using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
-using Systems;
+using GlobalSystems;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utility_Scripts;

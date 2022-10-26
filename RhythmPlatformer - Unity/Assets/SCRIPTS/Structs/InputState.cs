@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Gameplay
+namespace Structs
 {
     public struct InputState
     {

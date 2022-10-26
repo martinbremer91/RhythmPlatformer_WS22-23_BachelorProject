@@ -1,4 +1,4 @@
-namespace Systems
+namespace GlobalSystems
 {
     public static class UniversalInputManager
     {

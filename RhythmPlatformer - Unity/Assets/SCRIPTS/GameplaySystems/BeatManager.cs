@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
 using Gameplay;
-using Interfaces;
+using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
+using GlobalSystems;
 using UnityEngine;
 
-namespace Systems
+namespace GameplaySystems
 {
     public class BeatManager : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
@@ -119,12 +120,5 @@ namespace Systems
                     _metronomeWeak.Play();
             }
         }
-    }
-
-    public enum BeatState
-    {
-        Off,
-        Active,
-        Standby
     }
 }

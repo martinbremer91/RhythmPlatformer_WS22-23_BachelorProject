@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay;
-using Interfaces;
+using Interfaces_and_Enums;
+using Structs;
+using GlobalSystems;
 using UnityEngine;
 
-namespace Systems
+namespace GameplaySystems
 {
     public class InputPlaybackManager : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay
+namespace Structs
 {
     public struct MovementSnapshot
     {

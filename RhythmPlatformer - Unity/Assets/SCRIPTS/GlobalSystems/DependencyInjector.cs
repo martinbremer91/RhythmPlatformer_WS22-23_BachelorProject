@@ -1,8 +1,9 @@
 using Gameplay;
-using Interfaces;
+using GameplaySystems;
+using Interfaces_and_Enums;
 using UnityEngine;
 
-namespace Systems
+namespace GlobalSystems
 {
     public class DependencyInjector : MonoBehaviour, IInit<GameStateManager>
     {

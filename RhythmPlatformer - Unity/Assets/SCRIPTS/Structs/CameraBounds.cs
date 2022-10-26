@@ -1,5 +1,5 @@
 
-namespace Systems
+namespace Structs
 {
     public struct CameraBounds
     {

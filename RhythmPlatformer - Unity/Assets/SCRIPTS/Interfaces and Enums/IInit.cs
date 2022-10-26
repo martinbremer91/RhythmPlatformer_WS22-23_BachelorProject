@@ -1,4 +1,4 @@
-namespace Interfaces
+namespace Interfaces_and_Enums
 {
     public interface IInit
     {

@@ -1,9 +1,10 @@
 using Gameplay;
-using Interfaces;
+using GameplaySystems;
+using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
 using UnityEngine;
 
-namespace Systems
+namespace GlobalSystems
 {
     public class GameStateManager : MonoBehaviour
     {

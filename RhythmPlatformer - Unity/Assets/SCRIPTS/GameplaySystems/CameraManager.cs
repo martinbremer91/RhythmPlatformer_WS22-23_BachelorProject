@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Interfaces;
+using Interfaces_and_Enums;
+using Structs;
 using UnityEngine;
 using Utility_Scripts;
 
@@ -8,7 +9,7 @@ using Utility_Scripts;
 using UnityEditor;
 #endif
 
-namespace Systems
+namespace GameplaySystems
 {
     public class CameraManager : MonoBehaviour, IUpdatable
     {

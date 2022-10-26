@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Systems
+namespace GameplaySystems
 {
     public class PauseMenu : MonoBehaviour
     {

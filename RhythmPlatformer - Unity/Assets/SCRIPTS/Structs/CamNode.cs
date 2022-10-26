@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace Systems
+namespace Structs
 {
     [Serializable]
     public struct CamNode
