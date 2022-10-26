@@ -12,7 +12,7 @@ namespace GlobalSystems
 
         #region REFERENCES
 
-        [SerializeField] private DependencyInjector _dependencyInjector;
+        [HideInInspector] public DependencyInjector DependencyInjector;
         
         public UpdateManager UpdateManager;
         public PauseMenu PauseMenu;
@@ -31,6 +31,8 @@ namespace GlobalSystems
         public GameplayControlConfigs GameplayControlConfigs;
 
         #endregion
+
+        [HideInInspector] public SceneType LoadedSceneType;
         
         [SerializeField] private UpdateType _startUpdateType;
         private static UpdateType s_activeUpdateType;
@@ -47,31 +49,45 @@ namespace GlobalSystems
                 s_Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
-            else
+            else if (s_Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
-
+            
             s_ActiveUpdateType = _startUpdateType;
+            DependencyInjector.Init(this);
             
-            _dependencyInjector.Init(this);
-            
-            // TODO: this next block of init functions are all for DontDestroyOnLoads
-            // TODO: (add check to see if they're already initialized)
             UpdateManager.Init(this);
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
             
-            // TODO: add switch that only initializes elements of loaded scene
-            // TODO: externalize these init calls
+            SceneInit();
+        }
+
+        private void SceneInit()
+        {
+            switch (LoadedSceneType)
+            {
+                case SceneType.MainMenu:
+                    InitMainMenuScene();
+                    break;
+                case SceneType.Level:
+                    InitLevelScene();
+                    break;
+            }
+
+            void InitMainMenuScene(){}
             
-            InputPlaybackManager.Init(this);
-            CharacterInput.Init(this);
-            CharacterCollisionDetector.Init(this);
-            CharacterStateController.Init(this);
-            CharacterMovement.Init(this);
-            CharacterSpriteController.Init(this);
+            void InitLevelScene()
+            {
+                InputPlaybackManager.Init(this);
+                CharacterInput.Init(this);
+                CharacterCollisionDetector.Init(this);
+                CharacterStateController.Init(this);
+                CharacterMovement.Init(this);
+                CharacterSpriteController.Init(this);
+            }
         }
 
         public void ScheduleTogglePause()

@@ -37,4 +37,10 @@ namespace Interfaces_and_Enums
         WallSlide = 7,
         Dash = 8
     }
+
+    public enum SceneType
+    {
+        MainMenu,
+        Level
+    }
 }
