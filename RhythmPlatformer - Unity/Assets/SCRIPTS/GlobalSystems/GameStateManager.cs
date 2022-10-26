@@ -1,3 +1,4 @@
+using System;
 using Gameplay;
 using GameplaySystems;
 using Interfaces_and_Enums;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace GlobalSystems
 {
-    public class GameStateManager : MonoBehaviour
+    public class GameStateManager : MonoBehaviour, IRefreshable
     {
         public static GameStateManager s_Instance;
 
@@ -41,6 +42,9 @@ namespace GlobalSystems
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
+        
+        private void OnEnable() => (this as IRefreshable).RegisterRefreshable();
+        private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();
 
         private void Awake()
         {
@@ -88,6 +92,11 @@ namespace GlobalSystems
                 CharacterMovement.Init(this);
                 CharacterSpriteController.Init(this);
             }
+        }
+
+        public void SceneRefresh()
+        {
+            // TODO: make sure to set s_ActiveUpdateType here!
         }
 
         public void ScheduleTogglePause()

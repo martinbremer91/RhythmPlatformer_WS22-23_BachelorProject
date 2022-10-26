@@ -366,38 +366,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_UI Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
 --- !u!114 &340009739 stripped

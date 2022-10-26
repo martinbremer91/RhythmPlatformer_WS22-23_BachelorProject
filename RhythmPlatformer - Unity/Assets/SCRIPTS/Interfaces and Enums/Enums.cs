@@ -5,8 +5,10 @@ namespace Interfaces_and_Enums
     [Flags]
     public enum UpdateType
     {
-        GamePlay = 1,
-        Paused = 2,
+        Nothing = 0,
+        MainMenu = 1,
+        GamePlay = 2,
+        Paused = 3,
         Always = ~0
     }
     

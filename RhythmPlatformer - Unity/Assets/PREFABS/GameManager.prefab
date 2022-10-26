@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c29313c082d4febae8df23a4772ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _referenceContainer: {fileID: 0}
+  DependencyInjector: {fileID: 0}
   UpdateManager: {fileID: 9197381171710160414}
   PauseMenu: {fileID: 0}
   BeatManager: {fileID: 0}
@@ -58,6 +58,7 @@ MonoBehaviour:
   InputPlaybackManager: {fileID: 0}
   MovementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
   GameplayControlConfigs: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
+  LoadedSceneType: 0
   _startUpdateType: 1
 --- !u!114 &9197381171710160414
 MonoBehaviour:

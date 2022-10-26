@@ -1,13 +1,14 @@
+using System;
 using Gameplay;
-using GameplaySystems;
+using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
 
-namespace GlobalSystems
+namespace GameplaySystems
 {
-    public class UpdateManager : MonoBehaviour, IInit<GameStateManager>
+    public class UpdateManager : MonoBehaviour, IInit<GameStateManager>, IRefreshable
     {
-        private static UpdateManager Instance;
+        private static UpdateManager s_Instance;
 
         private CameraManager CameraManager;
         private BeatManager BeatManager;
@@ -19,14 +20,17 @@ namespace GlobalSystems
 
         private void OnEnable()
         {
-            if (Instance == null)
+            if (s_Instance == null)
             {
-                Instance = this;
+                s_Instance = this;
                 DontDestroyOnLoad(gameObject);
+                (this as IRefreshable).RegisterRefreshable();
             }
             else
                 Destroy(gameObject);
         }
+
+        private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();
 
         public void Init(GameStateManager in_gameStateManager)
         {
@@ -40,6 +44,11 @@ namespace GlobalSystems
             CharacterMovement = in_gameStateManager.CharacterMovement;
         }
 
+        public void SceneRefresh()
+        {
+            
+        }
+        
         private void Update()
         {
             BeatManager.CustomUpdate();
