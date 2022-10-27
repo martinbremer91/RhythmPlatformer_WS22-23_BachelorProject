@@ -6,7 +6,7 @@ namespace Interfaces_and_Enums
     public enum UpdateType
     {
         Nothing = 0,
-        MainMenu = 1,
+        MenuTransition = 1,
         GamePlay = 2,
         Paused = 3,
         Always = ~0

@@ -54,6 +54,12 @@ namespace GameplaySystems
             public double end;
         }
 
+        private void OnEnable()
+        {
+            if (s_Instance != null && s_Instance != this)
+                Destroy(gameObject);
+        }
+
         public void Init(GameStateManager in_gameStateManager)
         {
             if (s_Instance == null)
@@ -61,7 +67,7 @@ namespace GameplaySystems
                 s_Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
-            else
+            else if (s_Instance != this)
             {
                 Destroy(gameObject);
                 return;

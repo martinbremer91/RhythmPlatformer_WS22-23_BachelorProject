@@ -10,17 +10,23 @@ namespace GlobalSystems
         private SceneType SceneType => GetSceneType();
         protected abstract SceneType GetSceneType();
 
+        private UpdateType UpdateType => GetUpdateType();
+        protected abstract UpdateType GetUpdateType();
+
         private void OnEnable()
         {
             if (GameStateManager.s_Instance == null)
                 GameStateManager.s_Instance = _gameStateManager;
+            else
+                _gameStateManager = GameStateManager.s_Instance;
 
             _gameStateManager.Init(this);
         }
 
         public virtual void Init(GameStateManager in_gameStateManager)
         {
-            in_gameStateManager.LoadedSceneType = SceneType;
+            GameStateManager.s_LoadedSceneType = SceneType;
+            GameStateManager.s_ActiveUpdateType = UpdateType;
             Destroy(gameObject);
         }
     }

@@ -14,9 +14,7 @@ namespace GlobalSystems
         public static void RefreshGlobalObjects()
         {
             foreach (IRefreshable refreshable in s_Refreshables)
-            {
                 refreshable.SceneRefresh();
-            }
         }
 
         public static IEnumerator LoadSceneCoroutine(string in_sceneName)

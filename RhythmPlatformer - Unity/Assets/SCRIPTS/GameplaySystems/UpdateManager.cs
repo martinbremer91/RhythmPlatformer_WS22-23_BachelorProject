@@ -47,7 +47,7 @@ namespace GameplaySystems
         }
 
         public void SceneRefresh() => 
-            _updateActive = GameStateManager.s_Instance.LoadedSceneType == SceneType.Level;
+            _updateActive = GameStateManager.s_LoadedSceneType == SceneType.Level;
 
         private void Update()
         {

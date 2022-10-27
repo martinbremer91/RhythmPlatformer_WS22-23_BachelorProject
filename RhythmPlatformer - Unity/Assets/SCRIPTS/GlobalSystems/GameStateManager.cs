@@ -1,7 +1,7 @@
-using System;
 using Gameplay;
 using GameplaySystems;
 using Interfaces_and_Enums;
+using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
 using UnityEngine;
 
@@ -19,6 +19,7 @@ namespace GlobalSystems
         public PauseMenu PauseMenu;
 
         public BeatManager BeatManager;
+        public UiManager UiManager;
         [HideInInspector] public CameraManager CameraManager;
 
         [HideInInspector] public CharacterInput CharacterInput;
@@ -33,9 +34,8 @@ namespace GlobalSystems
 
         #endregion
 
-        [HideInInspector] public SceneType LoadedSceneType;
+        public static SceneType s_LoadedSceneType;
         
-        [SerializeField] private UpdateType _startUpdateType;
         private static UpdateType s_activeUpdateType;
         public static UpdateType s_ActiveUpdateType;
 
@@ -59,14 +59,13 @@ namespace GlobalSystems
                 return;
             }
 
-            s_ActiveUpdateType = _startUpdateType;
-
             DependencyInjector = in_dependencyInjector;
             DependencyInjector.Init(this);
             
             UpdateManager.Init(this);
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
+            UiManager.Init();
             
             SceneInit();
             SceneLoadManager.RefreshGlobalObjects();
@@ -74,7 +73,7 @@ namespace GlobalSystems
 
         private void SceneInit()
         {
-            switch (LoadedSceneType)
+            switch (s_LoadedSceneType)
             {
                 case SceneType.MainMenu:
                     InitMainMenuScene();

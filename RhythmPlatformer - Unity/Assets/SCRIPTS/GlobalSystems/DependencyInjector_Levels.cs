@@ -7,6 +7,7 @@ namespace GlobalSystems
     public class DependencyInjector_Levels : DependencyInjector
     {
         protected override SceneType GetSceneType() => SceneType.Level;
+        protected override UpdateType GetUpdateType() => UpdateType.GamePlay;
 
         public CameraManager CameraManager;
         public CharacterInput CharacterInput;
