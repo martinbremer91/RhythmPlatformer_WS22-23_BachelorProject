@@ -2,7 +2,7 @@
 
 ## Format
 
-## ## [0.0.1] - 2022-08-25
+## ## [0.0.X] - 2022-xx-xx
 ## ### Added
 ## - Changes
 ## 
@@ -18,7 +18,62 @@
 ## ### Deprecated
 ## - Soon to be changed
 
-## [Unreleased] (terminal: git log)
+## [Unreleased] (terminal: git log; hold enter to go farther back in commit history)
+
+## [0.0.15] - 2022-10-27
+### Added
+- Main Menu scene
+- IRefreshable interface
+- SceneRefresh reference-update system for persistent objects
+- SceneLoadManager
+### Changed
+- Swapped Singleton pattern for Dependency Injection referencing pattern
+- Made common objects persistent across scene loads (GameStateManager, UpdateManager, UiManager, BeatManager)
+- Reorganized namespaces
+### Removed
+- Order of executions system for Update Manager
+
+## [0.0.14] - 2022-10-20
+### Added
+- Input Playback System
+- jumpSquat and dashWindup bools to InputState (improved / fixed input playback accuracy)
+- Frame-by-frame mode for input playback system
+### Changed
+- GameplayComponents now use FixedUpdate
+### Removed
+- ReferenceManager singleton
+### Fixed
+- IUpdatable to avoid unnecessary calls to unused update functions
+- Updatable registration issue
+
+## [0.0.13] - 2022-14-09
+### Added
+- Placeholder tilemap
+- Unity tilemap system (rule tiles)
+- Placeholder character sprites
+- Character animation triggers
+- Dynamic bounds finder function for cam manager
+- Camera player-follow function
+- Camera zoom function (using camera bounds)
+- GameplayReferenceManager to centralize config references
+- tooltips to all fields in movement configs
+- Test level
+### Changed
+- Turned common gameobjects into prefabs
+- Moved config references to GameplayReferenceManager
+
+## [0.0.12] - 2022-09-09
+### Added
+- Jump trigger with Beat event
+- Basic fast fall
+- Camera Manager
+- Camera bounds tool
+- Json save and load systems for Camera Bounds data
+### Removed
+- rise air drift point
+- Graph visualizer (not useful anymore)
+### Fixed
+- Rise function
 
 ## [0.0.11] - 2022-09-06
 ### Added
