@@ -10,6 +10,9 @@ namespace GlobalSystems
         
         [SerializeField] private GameObject _menuUI;
         [SerializeField] private GameObject _gameplayUI;
+        
+        public GameObject PlayIcon;
+        public GameObject RecordIcon;
 
         private void OnEnable()
         {

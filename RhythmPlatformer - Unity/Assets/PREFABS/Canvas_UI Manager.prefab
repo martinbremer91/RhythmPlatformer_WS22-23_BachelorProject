@@ -1075,6 +1075,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuUI: {fileID: 1686135452945456200}
   _gameplayUI: {fileID: 4485866933189822799}
+  PlayIcon: {fileID: 2095723733075492770}
+  RecordIcon: {fileID: 2095723733063135339}
 --- !u!223 &2095723733825027418
 Canvas:
   m_ObjectHideFlags: 0

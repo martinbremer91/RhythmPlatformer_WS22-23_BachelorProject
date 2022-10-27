@@ -16,8 +16,8 @@ namespace GameplaySystems
         private CharacterStateController _characterStateController;
         private CharacterMovement _characterMovement;
 
-        [SerializeField] private GameObject playIcon;
-        [SerializeField] private GameObject recordIcon;
+        private GameObject _playIcon;
+        private GameObject _recordIcon;
         
         #endregion
 
@@ -52,6 +52,9 @@ namespace GameplaySystems
             _characterMovement = in_gameStateManager.CharacterMovement;
             
             _playbackControls = UniversalInputManager.s_Controls;
+
+            _playIcon = in_gameStateManager.UiManager.PlayIcon;
+            _recordIcon = in_gameStateManager.UiManager.RecordIcon;
             
             _playbackControls.Playback.ToggleRecording.performed += _ => HandleRecordingInput();
             _playbackControls.Playback.TogglePlayback.performed += _ => HandlePlaybackInput();
@@ -69,7 +72,7 @@ namespace GameplaySystems
              {
                  _recordToggle = false;
                  _recording = !_recording;
-                 recordIcon.SetActive(_recording);
+                 _recordIcon.SetActive(_recording);
 
                  if (_recording)
                  {
@@ -115,7 +118,7 @@ namespace GameplaySystems
                      return;
                  
                  s_PlaybackActive = !s_PlaybackActive;
-                 playIcon.SetActive(s_PlaybackActive);
+                 _playIcon.SetActive(s_PlaybackActive);
 #if UNITY_EDITOR
                  if (!s_PlaybackActive)
                  {
@@ -138,7 +141,7 @@ namespace GameplaySystems
                  if (!PlaybackQueue.Any())
                  {
                      s_PlaybackActive = false;
-                     playIcon.SetActive(false);
+                     _playIcon.SetActive(false);
 #if UNITY_EDITOR
                      s_FrameByFrameMode = false;
                      _characterMovement.TogglePausePhysics(false);
