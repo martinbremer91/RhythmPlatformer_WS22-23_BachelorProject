@@ -15,7 +15,7 @@ namespace GlobalSystems
             if (GameStateManager.s_Instance == null)
                 GameStateManager.s_Instance = _gameStateManager;
 
-            GameStateManager.s_Instance.DependencyInjector = this;
+            _gameStateManager.Init(this);
         }
 
         public virtual void Init(GameStateManager in_gameStateManager)

@@ -6,7 +6,7 @@ namespace Interfaces_and_Enums
     {
         public void SceneRefresh();
 
-        public void RegisterRefreshable() => SceneLoadManager.Refreshables.Add(this);
-        public void DeregisterRefreshable() => SceneLoadManager.Refreshables.Remove(this);
+        public void RegisterRefreshable() => SceneLoadManager.s_Refreshables.Add(this);
+        public void DeregisterRefreshable() => SceneLoadManager.s_Refreshables.Remove(this);
     }
 }

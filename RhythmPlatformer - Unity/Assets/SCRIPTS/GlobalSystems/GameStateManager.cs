@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GlobalSystems
 {
-    public class GameStateManager : MonoBehaviour, IRefreshable
+    public class GameStateManager : MonoBehaviour, IInit<DependencyInjector>, IRefreshable
     {
         public static GameStateManager s_Instance;
 
@@ -42,11 +42,11 @@ namespace GlobalSystems
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
-        
         private void OnEnable() => (this as IRefreshable).RegisterRefreshable();
+
         private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();
 
-        private void Awake()
+        public void Init(DependencyInjector in_dependencyInjector)
         {
             if (s_Instance == null)
             {
@@ -58,8 +58,10 @@ namespace GlobalSystems
                 Destroy(gameObject);
                 return;
             }
-            
+
             s_ActiveUpdateType = _startUpdateType;
+
+            DependencyInjector = in_dependencyInjector;
             DependencyInjector.Init(this);
             
             UpdateManager.Init(this);
@@ -67,6 +69,7 @@ namespace GlobalSystems
             BeatManager.Init(this);
             
             SceneInit();
+            SceneLoadManager.RefreshGlobalObjects();
         }
 
         private void SceneInit()

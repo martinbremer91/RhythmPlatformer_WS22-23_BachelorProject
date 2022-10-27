@@ -252,7 +252,7 @@ PrefabInstance:
       objectReference: {fileID: 164801369}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: _startUpdateType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9197381171710160415, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: m_Name
@@ -365,6 +365,38 @@ PrefabInstance:
     - target: {fileID: 2095723733825027417, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
       propertyPath: m_Name
       value: Canvas_UI Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272190772924658346, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6736296772828657663, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}

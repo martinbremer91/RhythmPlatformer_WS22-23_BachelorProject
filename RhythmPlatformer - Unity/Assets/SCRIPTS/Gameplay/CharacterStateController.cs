@@ -101,13 +101,6 @@ namespace Gameplay
 
         #endregion
 
-        #region DELEGATES
-
-        public Action JumpSquatStarted;
-        public Action DashWindupStarted;
-
-        #endregion
-
         #region STATE CHANGE FUNCTIONS
         
         public void SetCharacterState(CharacterState in_value)
@@ -502,7 +495,7 @@ namespace Gameplay
 
         private async void PerformDashWindupAsync()
         {
-            DashWindupStarted?.Invoke();
+            _spriteController.SetDashWindupTrigger();
             
             float timer = _dashWindupDuration;
 

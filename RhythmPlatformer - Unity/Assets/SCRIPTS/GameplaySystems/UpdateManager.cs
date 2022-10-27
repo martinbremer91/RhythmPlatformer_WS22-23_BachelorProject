@@ -18,6 +18,8 @@ namespace GameplaySystems
         private CharacterStateController CharacterStateController;
         private CharacterMovement CharacterMovement;
 
+        private bool _updateActive;
+        
         private void OnEnable()
         {
             if (s_Instance == null)
@@ -44,24 +46,39 @@ namespace GameplaySystems
             CharacterMovement = in_gameStateManager.CharacterMovement;
         }
 
-        public void SceneRefresh()
-        {
-            
-        }
-        
+        public void SceneRefresh() => 
+            _updateActive = GameStateManager.s_Instance.LoadedSceneType == SceneType.Level;
+
         private void Update()
         {
-            BeatManager.CustomUpdate();
-            CameraManager.CustomUpdate();
+            if (!_updateActive)
+                return;
+            
+            UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
+            
+            if (BeatManager.UpdateType.HasFlag(currentUpdateType))
+                BeatManager.CustomUpdate();
+            if (CameraManager.UpdateType.HasFlag(currentUpdateType))
+                CameraManager.CustomUpdate();
         }
         
         private void FixedUpdate()
         {
-            InputPlaybackManager.CustomUpdate();
-            CharacterInput.CustomUpdate();
-            CharacterCollisionDetector.CustomUpdate();
-            CharacterStateController.CustomUpdate();
-            CharacterMovement.CustomUpdate();
+            if (!_updateActive)
+                return;
+            
+            UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
+            
+            if (InputPlaybackManager.UpdateType.HasFlag(currentUpdateType))
+                InputPlaybackManager.CustomUpdate();
+            if (CharacterInput.UpdateType.HasFlag(currentUpdateType))
+                CharacterInput.CustomUpdate();
+            if (CharacterCollisionDetector.UpdateType.HasFlag(currentUpdateType))
+                CharacterCollisionDetector.CustomUpdate();
+            if (CharacterStateController.UpdateType.HasFlag(currentUpdateType))
+                CharacterStateController.CustomUpdate();
+            if (CharacterMovement.UpdateType.HasFlag(currentUpdateType))
+                CharacterMovement.CustomUpdate();
         }
     }
 }

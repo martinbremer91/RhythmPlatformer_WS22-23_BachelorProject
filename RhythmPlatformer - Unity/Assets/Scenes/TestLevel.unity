@@ -235,6 +235,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1498452835}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: _startUpdateType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: DependencyInjector
       value: 
       objectReference: {fileID: 8088622841161808755}

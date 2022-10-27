@@ -17,13 +17,10 @@ namespace Gameplay
 
         public void SetCharacterOrientation(bool in_faceLeft) => _spriteRenderer.flipX = in_faceLeft;
 
-        protected void OnEnable() => _characterStateController.DashWindupStarted += SetDashWindupTrigger;
-        protected void OnDisable() => _characterStateController.DashWindupStarted -= SetDashWindupTrigger;
-
         public void Init(GameStateManager in_gameStateManager) =>
             _characterStateController = in_gameStateManager.CharacterStateController;
 
-        private void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
+        public void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
 
         public void HandleStateAnimation()
         {

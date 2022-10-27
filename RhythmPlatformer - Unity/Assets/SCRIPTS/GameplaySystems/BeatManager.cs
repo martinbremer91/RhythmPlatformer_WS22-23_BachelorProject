@@ -10,15 +10,20 @@ namespace GameplaySystems
 {
     public class BeatManager : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
-        private static BeatManager s_Instance;
-        
         #region REFERENCES
 
         private CharacterInput _characterInput;
         [SerializeField] private AudioSource[] _trackAudioSources;
+        
+        [SerializeField] private AudioSource _metronomeStrong;
+        [SerializeField] private AudioSource _metronomeWeak;
+        public TrackData TrackData;
 
         #endregion
 
+        #region VARIABLES
+
+        private static BeatManager s_Instance;
         public UpdateType UpdateType => UpdateType.Always;
 
         public static BeatState BeatState;
@@ -27,17 +32,15 @@ namespace GameplaySystems
         private int _nextSource => _activeSource == 0 ? 1 : 0;
         private double _nextTrackTime;
         
-        public TrackData TrackData;
         private LoopPoints _loopPoints;
-
-        [SerializeField] private AudioSource _metronomeStrong;
-        [SerializeField] private AudioSource _metronomeWeak;
 
         private double _beatLength;
         private double _nextBeatTime;
         private int _beatTracker;
         
         [SerializeField] private bool _metronomeOn;
+
+        #endregion
 
         public Action BeatAction;
 
@@ -63,8 +66,6 @@ namespace GameplaySystems
                 Destroy(gameObject);
                 return;
             }
-            
-            
 
             // TODO: starting value will have to change to BeatState.StandBy in levels and BeatState.Off in menus
             BeatState = BeatState.Active;

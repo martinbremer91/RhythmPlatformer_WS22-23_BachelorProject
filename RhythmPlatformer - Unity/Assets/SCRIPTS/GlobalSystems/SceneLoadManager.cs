@@ -8,11 +8,12 @@ namespace GlobalSystems
 {
     public static class SceneLoadManager
     {
-        public static readonly List<IRefreshable> Refreshables = new();
+        private static List<IRefreshable> s_refreshables;
+        public static List<IRefreshable> s_Refreshables => s_refreshables ??= new();
 
-        private static void RefreshGlobalObjects()
+        public static void RefreshGlobalObjects()
         {
-            foreach (IRefreshable refreshable in Refreshables)
+            foreach (IRefreshable refreshable in s_Refreshables)
             {
                 refreshable.SceneRefresh();
             }
