@@ -2501,7 +2501,7 @@ PrefabInstance:
     - target: {fileID: 5562756899129024187, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1571234439, guid: 3d4bbd73e81f12149938fbb774349644, type: 3}
+      objectReference: {fileID: -1471055705, guid: 3d4bbd73e81f12149938fbb774349644, type: 3}
     - target: {fileID: 5562756899129024190, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: _movementConfigs
       value: 
