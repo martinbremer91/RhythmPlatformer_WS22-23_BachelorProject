@@ -165,16 +165,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &437064182 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2095723733063135339, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-  m_PrefabInstance: {fileID: 2095723732962664861}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &466198079 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2095723733075492770, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-  m_PrefabInstance: {fileID: 2095723732962664861}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &555913836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -230,6 +220,10 @@ PrefabInstance:
       propertyPath: PauseMenu
       value: 
       objectReference: {fileID: 1916168900}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: UiManager
+      value: 
+      objectReference: {fileID: 1414965940}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: BeatManager
       value: 
@@ -421,8 +415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016fed11243854a97bd43d95927571f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playIcon: {fileID: 466198079}
-  recordIcon: {fileID: 437064182}
 --- !u!1 &1176960588
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +551,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1414965940 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4735851565723588844, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+  m_PrefabInstance: {fileID: 2095723732962664861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95fe59e2c746b4143a4f833379331062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1498452835 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
@@ -2495,6 +2498,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024187, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1571234439, guid: 3d4bbd73e81f12149938fbb774349644, type: 3}
     - target: {fileID: 5562756899129024190, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: _movementConfigs
       value: 
