@@ -1,0 +1,317 @@
+fileFormatVersion: 2
+guid: a253c2fbb98bd8841a0adb812f04ecaa
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_32
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 91
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59138640128a94066a8ba68e69ba0b46
+      internalID: -1354237368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_33
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 91
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5e0b8f7b3d16429293a505ec13870fc
+      internalID: -1247650572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_42
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 17
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3065b1629bfd49ca9b5fb1fde05823b
+      internalID: 1207128358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_43
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 17
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e41b5281549c478187552273c7320d0
+      internalID: 782583189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_44
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 17
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5943275cc208d405ab40f6ad6813fbeb
+      internalID: 1595685569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_45
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 17
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97162af3226694b5d8f3a78dc076b181
+      internalID: 785089746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CompleteSimpleTileset_46
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 17
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e121cee82528d40ec944279b378b784e
+      internalID: 128906763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      CompleteSimpleTileset_3: -58939893
+      CompleteSimpleTileset_10: -924270600
+      CompleteSimpleTileset_20: 652437375
+      CompleteSimpleTileset_47: -414665253
+      CompleteSimpleTileset_9: -1835149237
+      CompleteSimpleTileset_37: 1581527064
+      CompleteSimpleTileset_8: 277641673
+      CompleteSimpleTileset_40: 1601939085
+      CompleteSimpleTileset_23: 1772888283
+      CompleteSimpleTileset_30: -549481589
+      CompleteSimpleTileset_1: 100741893
+      CompleteSimpleTileset_18: -305813392
+      CompleteSimpleTileset_11: -1659785831
+      CompleteSimpleTileset_0: -627782617
+      CompleteSimpleTileset_24: -1371515221
+      CompleteSimpleTileset_42: 1207128358
+      CompleteSimpleTileset_5: 1546256984
+      CompleteSimpleTileset_45: 785089746
+      CompleteSimpleTileset_16: 1430448310
+      CompleteSimpleTileset_36: 1442550438
+      CompleteSimpleTileset_4: -2073050744
+      CompleteSimpleTileset_26: -2035517925
+      CompleteSimpleTileset_33: -1247650572
+      CompleteSimpleTileset_6: -1546422834
+      CompleteSimpleTileset_46: 128906763
+      CompleteSimpleTileset_7: 886945849
+      CompleteSimpleTileset_31: 1226094082
+      CompleteSimpleTileset_32: -1354237368
+      CompleteSimpleTileset_38: 1458506499
+      CompleteSimpleTileset_12: -351566095
+      CompleteSimpleTileset_29: -263579904
+      CompleteSimpleTileset_35: 2089527080
+      CompleteSimpleTileset_39: -2033760694
+      CompleteSimpleTileset_13: 2091888405
+      CompleteSimpleTileset_28: -325263232
+      CompleteSimpleTileset_44: 1595685569
+      CompleteSimpleTileset_27: -645057262
+      CompleteSimpleTileset_17: -1883282262
+      CompleteSimpleTileset_14: -708478793
+      CompleteSimpleTileset_22: 2074406515
+      CompleteSimpleTileset_25: 955871551
+      CompleteSimpleTileset_15: 1878638828
+      CompleteSimpleTileset_19: 430594956
+      CompleteSimpleTileset_41: 1942935862
+      CompleteSimpleTileset_21: -1320904371
+      CompleteSimpleTileset_2: 1667607031
+      CompleteSimpleTileset_34: -7763578
+      CompleteSimpleTileset_43: 782583189
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

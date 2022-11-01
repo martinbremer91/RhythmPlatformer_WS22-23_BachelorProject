@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TemplateRuleTile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 128906763, guid: aa3a3b812d7824cfbb69dcf033610bbe, type: 3}
-  m_DefaultGameObject: {fileID: 0}
+  m_DefaultGameObject: {fileID: 2531115639401627047, guid: 885af80fce3ec4fef9de597fc5b936ed, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules:
   - m_Id: 0

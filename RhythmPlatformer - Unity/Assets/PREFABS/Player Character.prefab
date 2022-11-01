@@ -80,13 +80,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 1930118300, guid: e5750e357965545c389b2b14a96a3b46, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -1561158964, guid: 9d902af82aad25f41b174c2d70290e78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10.19, y: 10.19}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -105,18 +105,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.36216176}
+  m_Offset: {x: 0, y: 0.45}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.39, y: 0.72}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.3586667, y: 1.3586667}
+    newSize: {x: 10.19, y: 10.19}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.7243235}
+  m_Size: {x: 0.75, y: 0.9}
   m_EdgeRadius: 0
 --- !u!50 &5562756899129024188
 Rigidbody2D:
@@ -151,8 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterStateController: {fileID: 5562756899129024184}
-  _characterMovement: {fileID: 5562756899129024190}
   _boxCollider: {fileID: 5562756899129024185}
   _levelLayerMask:
     serializedVersion: 2
@@ -170,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb146c95935bf454a9b53f26532d36ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterStateController: {fileID: 5562756899129024184}
+  GameplayControlConfigs: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
 --- !u!114 &5562756899129024184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,10 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beatManager: {fileID: 0}
-  _spriteController: {fileID: 5562756899129024189}
-  _characterMovement: {fileID: 5562756899129024190}
-  _characterInput: {fileID: 5562756899129024191}
 --- !u!114 &5562756899129024190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,9 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18c8c08d2a74475491b0b95087c4818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterStateController: {fileID: 5562756899129024184}
-  _characterInput: {fileID: 5562756899129024191}
   _rigidbody2D: {fileID: 5562756899129024188}
+  _movementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
   YAxisReadyForFastFall: 0
   FastFalling: 0
   RunCurveTracker: {x: 0, y: 0}
@@ -220,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c888d331d2aef4dd199534c5a1b9cd04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterStateController: {fileID: 5562756899129024184}
   _spriteRenderer: {fileID: 5562756899129024187}
   PlayerAnimator: {fileID: 5562756899129024067}
 --- !u!95 &5562756899129024067
