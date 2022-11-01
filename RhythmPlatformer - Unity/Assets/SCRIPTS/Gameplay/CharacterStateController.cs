@@ -188,20 +188,20 @@ namespace Gameplay
             _spriteController = in_gameStateManager.CharacterSpriteController;
             
             GetAnticipationStatesDurations();
+            
+            void GetAnticipationStatesDurations()
+            {
+                AnimationClip dashWindupClip =
+                    _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
+                        .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
+                
+                if (dashWindupClip == null)
+                    throw new Exception("Could not find AnimationClip with name " + Constants.DashWindupClipName);
+                
+                _dashWindupDuration = dashWindupClip.length;
+            }
         } 
-
-        private void GetAnticipationStatesDurations()
-        {
-            AnimationClip dashWindupClip =
-                _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
-                    .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
-            
-            if (dashWindupClip == null)
-                throw new Exception("Could not find AnimationClip with name " + Constants.DashWindupClipName);
-            
-            _dashWindupDuration = dashWindupClip.length;
-        }
-
+        
         public void CustomUpdate()
         {
             if (_characterInput.InputState.JumpSquat)

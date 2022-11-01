@@ -44,23 +44,23 @@ namespace Gameplay
                 in_collisionCheck == CollisionCheck.RightWall ? Vector2.right :
                 Vector2.up;
 
-            RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size, 0f, 
+            RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size * 1.01f, 0f, 
                 detectDirection, _detectionOffset, _levelLayerMask);
 
             bool collision = hit.collider != null;
 
             // COLLISION DEBUGGING
-            // Color color = collision ? Color.green : Color.red;
-            // Debug.DrawRay(bounds.center, detectDirection, color);
+            Color color = collision ? Color.green : Color.red;
+            Debug.DrawRay(bounds.center, detectDirection, color);
 
             if (!collision == in_detectEnter)
                 return;
             
             // COLLISION DEBUGGING
-            // if (collision)
-            //     Debug.Log(in_collisionCheck + ": " + hit.collider.name + " -> enter", hit.collider.gameObject);
-            // else
-            //     Debug.Log(in_collisionCheck + ": <none> -> exit");
+            if (collision)
+                Debug.Log(in_collisionCheck + ": " + hit.collider.name + " -> enter", hit.collider.gameObject);
+            else
+                Debug.Log(in_collisionCheck + ": <none> -> exit");
 
             if (CheckValidStateForCollisionInteraction(in_collisionCheck, in_detectEnter))
                 _characterStateController.HandleCollisionStateChange(in_collisionCheck, in_detectEnter);

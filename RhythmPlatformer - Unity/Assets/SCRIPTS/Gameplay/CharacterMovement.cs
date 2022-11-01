@@ -317,10 +317,7 @@ namespace Gameplay
             if (_characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
                 _characterStateController.NearWallRight && directionX > 0)
             {
-                // BREAK POINT HERE!!!
-                
-                // dashing into wall while walled "bounces" you off it (gives you dashCurve.Evaluate(DashCurveTracker.y) *
-                // dashTopSpeed in opposite direction)
+                // Walled dash "into" wall
                 DashDirection = Vector2.zero;
                 return;
             }
