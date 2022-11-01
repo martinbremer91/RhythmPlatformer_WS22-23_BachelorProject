@@ -139,7 +139,7 @@ namespace Gameplay
                     CheckFacingOrientation(true);
                     break;
                 case CharacterState.WallSlide:
-                    CheckFacingOrientation(true, true);
+                    CheckFacingOrientation(true);
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
                     break;
