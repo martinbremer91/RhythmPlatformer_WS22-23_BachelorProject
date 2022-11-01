@@ -47,6 +47,7 @@ namespace GameplaySystems
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;
         public int BeatTracker => _beatTracker;
+        [SerializeField] private bool _debugBeatOff;
 #endif
         private struct LoopPoints
         {
@@ -99,6 +100,11 @@ namespace GameplaySystems
             if (InputPlaybackManager.s_PlaybackActive)
                 return;
             //
+            
+#if UNITY_EDITOR
+            if (_debugBeatOff)
+                return;
+#endif
             
             double time = AudioSettings.dspTime;
             

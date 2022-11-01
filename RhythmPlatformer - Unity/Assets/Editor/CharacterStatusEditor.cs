@@ -137,9 +137,9 @@ namespace Editor
 
         private void DrawInputState()
         {
-            Vector2 currentInput = new Vector2(_characterInput.InputState.DirectionalInput.x, 
-                                   -_characterInput.InputState.DirectionalInput.y).normalized * 
-                               _characterInput.InputState.DirectionalInput.magnitude * 50;
+            Vector2 currentInput = new Vector2(_characterInput.InputState.DirectionalInput.x,
+                                       -_characterInput.InputState.DirectionalInput.y).normalized *
+                                   (_characterInput.InputState.DirectionalInput.magnitude * 50);
 
             GUI.DrawTexture(new Rect(_inputStatePos, new Vector2(100, 100)),
                 _unitCircleTexture);

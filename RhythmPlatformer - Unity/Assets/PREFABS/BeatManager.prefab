@@ -435,10 +435,11 @@ MonoBehaviour:
   _trackAudioSources:
   - {fileID: 5382255611513983681}
   - {fileID: 5382255612138771062}
-  TrackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
   _metronomeStrong: {fileID: 5382255610641140915}
   _metronomeWeak: {fileID: 5382255610254532521}
+  TrackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
   _metronomeOn: 1
+  _debugBeatOff: 0
 --- !u!1 &5382255612138771049
 GameObject:
   m_ObjectHideFlags: 0

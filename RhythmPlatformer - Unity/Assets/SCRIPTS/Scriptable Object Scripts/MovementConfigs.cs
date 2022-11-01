@@ -91,6 +91,9 @@ namespace Scriptable_Object_Scripts
         
         [Tooltip("Increased drag value if player holds directional input against the direction of a wall slide")]
         public float IncreasedWallDrag;
+
+        [Tooltip("Minimum velocity before a slide's velocity is set to zero (and the slide ends)")]
+        public float MinSlideVelocity;
         
         #endregion
 

@@ -103,7 +103,7 @@ namespace Gameplay
 
         #region STATE CHANGE FUNCTIONS
         
-        public void SetCharacterState(CharacterState in_value)
+        private void SetCharacterState(CharacterState in_value)
         {
             if (_currentCharacterState != CharacterState.Rise && _currentCharacterState == in_value)
                 return;

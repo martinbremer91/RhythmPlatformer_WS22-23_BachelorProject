@@ -2429,10 +2429,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BeatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5382255611666247908, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
 --- !u!1001 &5562756898263135939

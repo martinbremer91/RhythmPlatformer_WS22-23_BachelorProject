@@ -142,12 +142,13 @@ MonoBehaviour:
   WallSlideFallTopSpeed: 5
   AirDriftSpeed: 10
   AirDrag: 1
-  DefaultGroundDrag: 40
-  ReducedGroundDragFactor: 30
-  IncreasedGroundDragFactor: 60
-  DefaultWallDrag: 30
+  DefaultGroundDrag: 50
+  ReducedGroundDragFactor: 20
+  IncreasedGroundDragFactor: 30
+  DefaultWallDrag: 50
   ReducedWallDrag: 20
-  IncreasedWallDrag: 60
+  IncreasedWallDrag: 30
+  MinSlideVelocity: 0.5
   RunTurnWindow: 0.1
   WallClingMaxDuration: 3
   CrouchJumpSpeedModifier: 0.5

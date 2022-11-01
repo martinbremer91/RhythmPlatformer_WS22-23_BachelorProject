@@ -62,6 +62,8 @@ namespace Gameplay
         private float _reducedWallDrag;
         private float _increasedWallDrag;
 
+        private float _minSlideVelocity;
+
         private float _crouchJumpVerticalSpeedModifier;
         private float _fastFallSpeedModifier;
         [HideInInspector] public bool YAxisReadyForFastFall;
@@ -81,7 +83,7 @@ namespace Gameplay
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterInput = in_gameStateManager.CharacterInput;
             _movementConfigs = in_gameStateManager.MovementConfigs;
-            
+
             GetMovementData();
         } 
 
@@ -108,6 +110,8 @@ namespace Gameplay
             _defaultWallDrag = _movementConfigs.DefaultWallDrag;
             _reducedWallDrag = _movementConfigs.ReducedWallDrag;
             _increasedWallDrag = _movementConfigs.IncreasedWallDrag;
+            
+            _minSlideVelocity = _movementConfigs.MinSlideVelocity;
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
             _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
@@ -191,9 +195,9 @@ namespace Gameplay
 
         public void Land()
         {
-            int directionMod = _characterVelocity.x > 0 ? 1 : -1;
-            LandVelocity = Mathf.Abs(LandVelocity) > .05f ? 
-                LandVelocity - directionMod * GetCurrentGroundDrag() * Time.fixedDeltaTime : 0;
+            int dragDirectionMod = _characterVelocity.x > 0 ? 1 : -1;
+            LandVelocity = LandVelocity > _minSlideVelocity ?
+                LandVelocity - dragDirectionMod * GetCurrentGroundDrag() * Time.fixedDeltaTime : 0;
         }
         
         public void WallSlide()
@@ -202,18 +206,32 @@ namespace Gameplay
                                     WallSlideVelocity <= 0 && WallSlideVelocity > -_wallSlideFallTopSpeed;
 
             float drag = wallSlideFalling ? 0 : GetCurrentWallDrag();
+            float velocity;
             
-            float velocity = wallSlideFalling ? -_movementConfigs.FallAcceleration
-                    .Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed : WallSlideVelocity;
+            if (wallSlideFalling)
+            {
+                velocity = -_movementConfigs.FallAcceleration.Evaluate(FallCurveTracker.x) * _wallSlideFallTopSpeed;
+                
+                if (FallCurveTracker.x < FallCurveTracker.y)
+                    FallCurveTracker.x += Time.fixedDeltaTime;
+            }
+            else
+            {
+                velocity = WallSlideVelocity;
+                
+                if (velocity <= _minSlideVelocity)
+                {
+                    WallSlideVelocity = 0;
+                    return;
+                }
+            }
             
             WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.fixedDeltaTime;
-
-            if (wallSlideFalling && FallCurveTracker.x < FallCurveTracker.y)
-                FallCurveTracker.x += Time.fixedDeltaTime;
         }
 
-        public void Dash() => DashVelocity = DashDirection * _dashTopSpeed *
-                                             _movementConfigs.DashAcceleration.Evaluate(DashCurveTracker.x);
+        public void Dash() =>
+            DashVelocity = DashDirection *
+                           (_dashTopSpeed * _movementConfigs.DashAcceleration.Evaluate(DashCurveTracker.x));
 
         #endregion
 
@@ -292,7 +310,7 @@ namespace Gameplay
                 }
                 
                 _characterVelocity.x = (directionY < 0 ? .75f : 1) * _dashTopSpeed * directionX;
-                _characterStateController.SetCharacterState(CharacterState.Land);
+                _characterStateController.CurrentCharacterState = CharacterState.Land;
                 return;
             }
             
@@ -310,7 +328,7 @@ namespace Gameplay
             DashDirection = new Vector2(directionX, directionY).normalized;
             DashVelocity = new Vector2(DashDirection.x, DashDirection.y) * _dashTopSpeed;
             
-            _characterStateController.SetCharacterState(CharacterState.Dash);
+            _characterStateController.CurrentCharacterState = CharacterState.Dash;
             _characterVelocity = DashVelocity;
         }
 

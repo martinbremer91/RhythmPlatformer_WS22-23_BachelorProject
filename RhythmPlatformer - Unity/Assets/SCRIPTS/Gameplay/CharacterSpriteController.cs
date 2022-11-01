@@ -31,9 +31,11 @@ namespace Gameplay
                     PlayerAnimator.SetTrigger(Constants.IdleClipName);
                     break;
                 case CharacterState.Crouch:
+                    PlayerAnimator.ResetTrigger(Constants.LandClipName);
                     PlayerAnimator.SetTrigger(Constants.LandClipName);
                     break;
                 case CharacterState.Run:
+                    PlayerAnimator.ResetTrigger(Constants.LandClipName);
                     PlayerAnimator.SetTrigger(Constants.RunClipName);
                     break;
                 case CharacterState.Land:
