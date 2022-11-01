@@ -57,10 +57,10 @@ namespace Gameplay
                 return;
             
             // COLLISION DEBUGGING
-            if (collision)
-                Debug.Log(in_collisionCheck + ": " + hit.collider.name + " -> enter", hit.collider.gameObject);
-            else
-                Debug.Log(in_collisionCheck + ": <none> -> exit");
+            // if (collision)
+            //     Debug.Log(in_collisionCheck + ": " + hit.collider.name + " -> enter", hit.collider.gameObject);
+            // else
+            //     Debug.Log(in_collisionCheck + ": <none> -> exit");
 
             if (CheckValidStateForCollisionInteraction(in_collisionCheck, in_detectEnter))
                 _characterStateController.HandleCollisionStateChange(in_collisionCheck, in_detectEnter);
