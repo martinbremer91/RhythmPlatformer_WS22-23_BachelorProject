@@ -37,6 +37,7 @@ namespace GameplaySystems
         private Vector3 _velocity;
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _maxSpeed;
+        [SerializeField] private float _maxSize;
 
         private bool _hasBounds;
 
@@ -169,7 +170,7 @@ namespace GameplaySystems
             float minHorSize = Mathf.Min(_northBounds.MaxX - _northBounds.MinX, _southBounds.MaxX - _southBounds.MinX) * .5f;
             float vertComplement = minHorSize / _cam.aspect;
 
-            float targetSize = Mathf.Min(minVertSize, vertComplement) - .05f;
+            float targetSize = Mathf.Min(Mathf.Min(minVertSize, vertComplement) - .05f, _maxSize);
             
             _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
         }
