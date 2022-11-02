@@ -14,6 +14,8 @@ namespace GameplaySystems
 
         private CharacterInput _characterInput;
         [SerializeField] private AudioSource[] _trackAudioSources;
+
+        [SerializeField] private float _startDelay;
         
         [SerializeField] private AudioSource _metronomeStrong;
         [SerializeField] private AudioSource _metronomeWeak;
@@ -87,10 +89,10 @@ namespace GameplaySystems
                 (Mathf.FloorToInt(_trackAudioSources[_activeSource].clip.length / (float)barLength)
                  - TrackData.TailBars) * barLength;
             
-            _nextTrackTime = AudioSettings.dspTime + _loopPoints.end - _loopPoints.start;
-            _nextBeatTime = AudioSettings.dspTime;
+            _nextTrackTime = AudioSettings.dspTime + _loopPoints.end - _loopPoints.start + _startDelay;
+            _nextBeatTime = AudioSettings.dspTime + _startDelay;
             
-            _trackAudioSources[_activeSource].Play();
+            _trackAudioSources[_activeSource].PlayScheduled(AudioSettings.dspTime + _startDelay);
             _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
         }
 

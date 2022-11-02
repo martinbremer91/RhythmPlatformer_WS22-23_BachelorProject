@@ -197,15 +197,6 @@ namespace Gameplay
         public void Rise()
         {
             float xInput = _characterInput.InputState.DirectionalInput.x;
-
-            if (Mathf.Abs(_riseVelocity.x) <= _maxAirDriftCancelVelocity)
-            {
-                // if the sign of riseVelocity.x is different from the sign of xInput
-                // (i.e. if you're holding in direction opposite to the drift)
-                if (Mathf.Abs(_riseVelocity.x + xInput) < Mathf.Abs(_riseVelocity.x))
-                    _riseVelocity.x = 0;
-            }
-
             float drift = xInput * _airDriftSpeed;
 
             float xVelocity = _riseVelocity.x == 0 ? drift : 
@@ -328,12 +319,12 @@ namespace Gameplay
             {
                 if (inputDirection.y <= -.95f)
                 {
-                    // Bounce on ground? handle in same way as straight up?
+                    // TODO: implement wavedash in facing direction for grounded dash straight down
                     DashDirection = Vector2.zero;
                     return;
                 }
                 
-                _characterVelocity.x = (directionY < 0 ? .75f : 1) * _dashTopSpeed * directionX;
+                _characterVelocity = new Vector2((directionY < 0 ? .75f : 1) * _dashTopSpeed * directionX, 0);
                 _characterStateController.CurrentCharacterState = CharacterState.Land;
                 return;
             }
