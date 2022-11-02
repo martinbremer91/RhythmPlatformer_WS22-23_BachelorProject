@@ -135,10 +135,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RunTopSpeed: 10
+  RunTopSpeed: 8
   DashTopSpeed: 20
   RiseTopSpeed: 8
-  FallTopSpeed: 10
+  FallTopSpeed: 8
   WallSlideFallTopSpeed: 5
   AirDriftSpeed: 7
   AirDrag: 0.1
