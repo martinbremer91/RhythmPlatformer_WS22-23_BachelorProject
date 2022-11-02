@@ -94,6 +94,10 @@ namespace Scriptable_Object_Scripts
 
         [Tooltip("Minimum velocity before a slide's velocity is set to zero (and the slide ends)")]
         public float MinSlideVelocity;
+
+        [Tooltip("Maximum horizontal airborne velocity which can be instantly cancelled with a directional input in " +
+            "the direction opposite to it")]
+        public float MaxAirDriftCancelVelocity;
         
         #endregion
 

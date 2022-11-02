@@ -149,6 +149,7 @@ MonoBehaviour:
   ReducedWallDrag: 40
   IncreasedWallDrag: 60
   MinSlideVelocity: 0.5
+  MaxAirDriftCancelVelocity: 9
   RunTurnWindow: 0.1
   WallClingMaxDuration: 3
   CrouchJumpSpeedModifier: 0.5

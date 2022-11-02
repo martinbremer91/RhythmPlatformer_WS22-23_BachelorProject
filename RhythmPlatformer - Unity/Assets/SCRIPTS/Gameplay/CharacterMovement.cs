@@ -63,6 +63,7 @@ namespace Gameplay
         private float _increasedWallDrag;
 
         private float _minSlideVelocity;
+        private float _maxAirDriftCancelVelocity;
 
         private float _crouchJumpVerticalSpeedModifier;
         private float _fastFallSpeedModifier;
@@ -112,6 +113,7 @@ namespace Gameplay
             _increasedWallDrag = _movementConfigs.IncreasedWallDrag;
             
             _minSlideVelocity = _movementConfigs.MinSlideVelocity;
+            _maxAirDriftCancelVelocity = _movementConfigs.MaxAirDriftCancelVelocity;
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
             _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
@@ -157,9 +159,21 @@ namespace Gameplay
                 RunVelocity = directionMod * velocity;
         }
 
+
+        // TODO: Consolidate Fall() and Rise() overlapping functionality into a separate function
         public void Fall()
         {
-            float drift = _characterInput.InputState.DirectionalInput.x * _airDriftSpeed;
+            float xInput = _characterInput.InputState.DirectionalInput.x;
+
+            if (Mathf.Abs(_fallVelocity.x) <= _maxAirDriftCancelVelocity)
+            {
+                // if the sign of fallVelocity.x is different from the sign of xInput
+                // (i.e. if you're holding in direction opposite to the drift)
+                if (Mathf.Abs(_fallVelocity.x + xInput) < Mathf.Abs(_fallVelocity.x))
+                    _fallVelocity.x = 0;
+            }
+
+            float drift = xInput * _airDriftSpeed;
 
             float xVelocity = _fallVelocity.x == 0 ? drift : 
                 _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
@@ -182,7 +196,17 @@ namespace Gameplay
 
         public void Rise()
         {
-            float drift = _characterInput.InputState.DirectionalInput.x * _airDriftSpeed;
+            float xInput = _characterInput.InputState.DirectionalInput.x;
+
+            if (Mathf.Abs(_riseVelocity.x) <= _maxAirDriftCancelVelocity)
+            {
+                // if the sign of riseVelocity.x is different from the sign of xInput
+                // (i.e. if you're holding in direction opposite to the drift)
+                if (Mathf.Abs(_riseVelocity.x + xInput) < Mathf.Abs(_riseVelocity.x))
+                    _riseVelocity.x = 0;
+            }
+
+            float drift = xInput * _airDriftSpeed;
 
             float xVelocity = _riseVelocity.x == 0 ? drift : 
                 _riseVelocity.x > 0 ? _riseVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
