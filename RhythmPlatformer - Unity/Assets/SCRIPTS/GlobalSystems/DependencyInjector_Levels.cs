@@ -10,6 +10,7 @@ namespace GlobalSystems
         protected override UpdateType GetUpdateType() => UpdateType.GamePlay;
 
         public CameraManager CameraManager;
+        public LevelManager LevelManager;
         public CharacterInput CharacterInput;
         public CharacterCollisionDetector CharacterCollisionDetector;
         public CharacterStateController CharacterStateController;
@@ -20,6 +21,7 @@ namespace GlobalSystems
         public override void Init(GameStateManager in_gameStateManager)
         {
             in_gameStateManager.CameraManager = CameraManager;
+            in_gameStateManager.LevelManager = LevelManager;
             in_gameStateManager.CharacterInput = CharacterInput;
             in_gameStateManager.CharacterCollisionDetector = CharacterCollisionDetector;
             in_gameStateManager.CharacterStateController = CharacterStateController;

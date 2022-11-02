@@ -26,7 +26,7 @@ namespace Editor
 
                 Waypoint waypoint = new Waypoint(waypointObj.transform, 0);
 
-                script.waypoints.Add(waypoint);
+                script.Waypoints.Add(waypoint);
             }
 
             base.OnInspectorGUI();

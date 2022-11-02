@@ -5,13 +5,15 @@ namespace Structs
     [System.Serializable]
     public struct Waypoint
     {
-        public Transform coords;
-        public float pause;
+        [SerializeField] private Transform _coords;
+        public Vector3 Coords => _coords.position;
+        
+        public float Pause;
 
         public Waypoint(Transform coords, float pause)
         {
-            this.coords = coords;
-            this.pause = pause;
+            _coords = coords;
+            Pause = pause;
         }
     }
 }

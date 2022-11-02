@@ -21,6 +21,7 @@ namespace GlobalSystems
         public BeatManager BeatManager;
         public UiManager UiManager;
         [HideInInspector] public CameraManager CameraManager;
+        [HideInInspector] public LevelManager LevelManager;
 
         [HideInInspector] public CharacterInput CharacterInput;
         [HideInInspector] public CharacterCollisionDetector CharacterCollisionDetector;
@@ -87,6 +88,7 @@ namespace GlobalSystems
             
             void InitLevelScene()
             {
+                LevelManager.Init(this);
                 InputPlaybackManager.Init(this);
                 CharacterInput.Init(this);
                 CharacterCollisionDetector.Init(this);

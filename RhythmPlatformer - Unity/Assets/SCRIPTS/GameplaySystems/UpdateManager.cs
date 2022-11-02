@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Gameplay;
 using GlobalSystems;
 using Interfaces_and_Enums;
@@ -19,7 +19,9 @@ namespace GameplaySystems
         private CharacterMovement CharacterMovement;
 
         private bool _updateActive;
-        
+
+        public readonly List<MovementRoutine> MovementRoutines = new();
+
         private void OnEnable()
         {
             if (s_Instance == null)
@@ -55,6 +57,12 @@ namespace GameplaySystems
                 return;
             
             UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
+
+            if (MovementRoutine.s_UpdateType.HasFlag(currentUpdateType))
+            {
+                foreach (MovementRoutine routine in MovementRoutines)
+                    routine.CustomUpdate();
+            }
             
             if (BeatManager.UpdateType.HasFlag(currentUpdateType))
                 BeatManager.CustomUpdate();
