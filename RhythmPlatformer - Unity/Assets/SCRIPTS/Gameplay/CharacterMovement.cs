@@ -167,9 +167,7 @@ namespace Gameplay
 
             if (Mathf.Abs(_fallVelocity.x) <= _maxAirDriftCancelVelocity)
             {
-                // if the sign of fallVelocity.x is different from the sign of xInput
-                // (i.e. if you're holding in direction opposite to the drift)
-                if (Mathf.Abs(_fallVelocity.x + xInput) < Mathf.Abs(_fallVelocity.x))
+                if (_fallVelocity.x * xInput < 0)
                     _fallVelocity.x = 0;
             }
 
@@ -211,7 +209,7 @@ namespace Gameplay
         public void Land()
         {
             int dragDirectionMod = _characterVelocity.x > 0 ? 1 : -1;
-            LandVelocity = LandVelocity > _minSlideVelocity ?
+            LandVelocity = Mathf.Abs(LandVelocity) > _minSlideVelocity ?
                 LandVelocity - dragDirectionMod * GetCurrentGroundDrag() * Time.fixedDeltaTime : 0;
         }
         
@@ -234,7 +232,7 @@ namespace Gameplay
             {
                 velocity = WallSlideVelocity;
                 
-                if (velocity <= _minSlideVelocity)
+                if (Mathf.Abs(velocity) <= _minSlideVelocity)
                 {
                     WallSlideVelocity = 0;
                     return;
