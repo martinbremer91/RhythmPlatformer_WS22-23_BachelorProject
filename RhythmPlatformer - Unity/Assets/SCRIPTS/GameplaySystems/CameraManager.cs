@@ -4,6 +4,7 @@ using Interfaces_and_Enums;
 using Structs;
 using UnityEngine;
 using Utility_Scripts;
+using System.Collections;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -81,7 +82,8 @@ namespace GameplaySystems
             void UpdateCurrentBounds()
             {
                 _centerBounds = GetCamBounds(_centerBounds, position, true, true);
-            
+                CheckCharacterBoundsOverrideCenterBounds();
+
                 Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
                 if (CheckPointInBounds(northPos, _centerBounds))
                     _northBounds = GetCamBounds(_northBounds, northPos, true, false);
@@ -97,11 +99,25 @@ namespace GameplaySystems
                 Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
                 if(CheckPointInBounds(eastPos, _centerBounds))
                     _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
+            }
 
-                Vector3 clampedCharacterPos = new Vector3(
-                    Mathf.Clamp(characterPosition.x, position.x - _camSize.x, position.x + _camSize.x),
-                    Mathf.Clamp(characterPosition.y, position.y - _camSize.y, position.y + _camSize.y));
-                _characterPosBounds = GetCamBounds(_characterPosBounds, clampedCharacterPos, true, true);
+            void CheckCharacterBoundsOverrideCenterBounds()
+            {
+                _characterPosBounds = GetCamBounds(_characterPosBounds, characterPosition, true, true);
+
+                bool differentMaxX = _centerBounds.MaxX != _characterPosBounds.MaxX;
+                bool differentMaxY = _centerBounds.MaxY != _characterPosBounds.MaxY;
+                bool differentMinX = _centerBounds.MinX != _characterPosBounds.MinX;
+                bool differentMinY = _centerBounds.MinY != _characterPosBounds.MinY;
+
+                int differences = 
+                    (differentMaxX ? 1 : 0) + (differentMaxY ? 1 : 0) + 
+                    (differentMinX ? 1 : 0) + (differentMinY ? 1 : 0);
+
+                if (differences < 2)
+                    return;
+
+                _centerBounds = _characterPosBounds;
             }
             
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
