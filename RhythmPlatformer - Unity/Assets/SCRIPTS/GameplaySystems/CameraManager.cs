@@ -33,7 +33,7 @@ namespace GameplaySystems
 
         private Vector2 _camSize;
 
-        private bool _characterInBoundaries;
+        private bool _characterInMovementBoundaries;
         private Vector3 _velocity;
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _maxSpeed;
@@ -58,36 +58,44 @@ namespace GameplaySystems
         public void CustomUpdate()
         {
             Vector3 position = transform.position;
-            
-            Vector3 characterPosition = _characterTf.position;
-            _characterInBoundaries =
-                characterPosition.x >= position.x - _characterMovementBoundaries.x && 
-                characterPosition.x <= position.x + _characterMovementBoundaries.x &&
-                characterPosition.y >= position.y - _characterMovementBoundaries.y && 
-                characterPosition.y <= position.y + _characterMovementBoundaries.y;
-
             _camSize.y = _cam.orthographicSize;
             _camSize.x = _camSize.y * _cam.aspect;
+            
+            Vector3 characterPosition = _characterTf.position;
 
-            _centerBounds = GetCamBounds(_centerBounds, position, true, true);
-            
-            Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
-            if (CheckPointInBounds(northPos, _centerBounds))
-                _northBounds = GetCamBounds(_northBounds, northPos, true, false);
-            
-            Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
-            if(CheckPointInBounds(westPos, _centerBounds))
-                _westBounds = GetCamBounds(_westBounds, westPos, false, true);
-            
-            Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
-            if (CheckPointInBounds(southPos, _centerBounds))
-                _southBounds = GetCamBounds(_southBounds, southPos, true, false);
-            
-            Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
-            if(CheckPointInBounds(eastPos, _centerBounds))
-                _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
-
+            CheckCharacterInMovementBoundaries();
+            UpdateCurrentBounds();
             _hasBounds = true;
+
+            void CheckCharacterInMovementBoundaries()
+            {
+                _characterInMovementBoundaries =
+                    characterPosition.x >= position.x - _characterMovementBoundaries.x && 
+                    characterPosition.x <= position.x + _characterMovementBoundaries.x &&
+                    characterPosition.y >= position.y - _characterMovementBoundaries.y && 
+                    characterPosition.y <= position.y + _characterMovementBoundaries.y;
+            }
+
+            void UpdateCurrentBounds()
+            {
+                _centerBounds = GetCamBounds(_centerBounds, position, true, true);
+            
+                Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
+                if (CheckPointInBounds(northPos, _centerBounds))
+                    _northBounds = GetCamBounds(_northBounds, northPos, true, false);
+            
+                Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
+                if(CheckPointInBounds(westPos, _centerBounds))
+                    _westBounds = GetCamBounds(_westBounds, westPos, false, true);
+            
+                Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
+                if (CheckPointInBounds(southPos, _centerBounds))
+                    _southBounds = GetCamBounds(_southBounds, southPos, true, false);
+            
+                Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
+                if(CheckPointInBounds(eastPos, _centerBounds))
+                    _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
+            }
             
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
             {
@@ -141,38 +149,50 @@ namespace GameplaySystems
 
         private void LateUpdate()
         {
-            if (!_hasBounds || _characterInBoundaries)
+            if (!_hasBounds || _characterInMovementBoundaries)
                 return;
 
             _hasBounds = false;
             
-            Vector3 targetPos = _characterTf.position;
             Vector3 position = transform.position;
+            Vector3 targetPos = _characterTf.position;
 
-            if (targetPos.x + _camSize.x > _centerBounds.MaxX)
-                targetPos.x = _centerBounds.MaxX - _camSize.x;
-            else if (targetPos.x - _camSize.x < _centerBounds.MinX)
-                targetPos.x = _centerBounds.MinX + _camSize.x;
-
-            if (targetPos.y + _camSize.y > _centerBounds.MaxY)
-                targetPos.y = _centerBounds.MaxY - _camSize.y;
-            else if (targetPos.y - _camSize.y < _centerBounds.MinY)
-                targetPos.y = _centerBounds.MinY + _camSize.y;
+            GetClampedTargetPos();
             
             position = 
                 Vector3.SmoothDamp(position, new Vector3(targetPos.x, targetPos.y, position.z), 
                     ref _velocity, _smoothTime, _maxSpeed);
-            
             transform.position = position;
 
-            float minVertSize = Mathf.Min(_westBounds.MaxY - _westBounds.MinY, _eastBounds.MaxY - _eastBounds.MinY) * .5f;
-            
-            float minHorSize = Mathf.Min(_northBounds.MaxX - _northBounds.MinX, _southBounds.MaxX - _southBounds.MinX) * .5f;
-            float vertComplement = minHorSize / _cam.aspect;
+            SetCamSize();
 
-            float targetSize = Mathf.Min(Mathf.Min(minVertSize, vertComplement) - .05f, _maxSize);
+            void GetClampedTargetPos()
+            {
+                if (targetPos.x + _camSize.x > _centerBounds.MaxX)
+                    targetPos.x = _centerBounds.MaxX - _camSize.x;
+                else if (targetPos.x - _camSize.x < _centerBounds.MinX)
+                    targetPos.x = _centerBounds.MinX + _camSize.x;
+
+                if (targetPos.y + _camSize.y > _centerBounds.MaxY)
+                    targetPos.y = _centerBounds.MaxY - _camSize.y;
+                else if (targetPos.y - _camSize.y < _centerBounds.MinY)
+                    targetPos.y = _centerBounds.MinY + _camSize.y;
+            }
+
+            void SetCamSize()
+            {
+                float minVerticalSize =
+                    Mathf.Min(_westBounds.MaxY - _westBounds.MinY, _eastBounds.MaxY - _eastBounds.MinY) * .5f;
+
+                float minHorizontalSize =
+                    Mathf.Min(_northBounds.MaxX - _northBounds.MinX, _southBounds.MaxX - _southBounds.MinX) * .5f;
+                float verticalComplementForAspectRatio = minHorizontalSize / _cam.aspect;
+
+                float targetSize = 
+                    Mathf.Min(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .05f, _maxSize);
             
-            _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
+                _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
+            }
         }
 
         #region DEBUG / GIZMOS
