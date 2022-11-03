@@ -31,6 +31,8 @@ namespace GameplaySystems
         private CameraBounds _southBounds;
         private CameraBounds _eastBounds;
 
+        private CameraBounds _characterPosBounds;
+
         private Vector2 _camSize;
 
         private bool _characterInMovementBoundaries;
@@ -95,6 +97,11 @@ namespace GameplaySystems
                 Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
                 if(CheckPointInBounds(eastPos, _centerBounds))
                     _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
+
+                Vector3 clampedCharacterPos = new Vector3(
+                    Mathf.Clamp(characterPosition.x, position.x - _camSize.x, position.x + _camSize.x),
+                    Mathf.Clamp(characterPosition.y, position.y - _camSize.y, position.y + _camSize.y));
+                _characterPosBounds = GetCamBounds(_characterPosBounds, clampedCharacterPos, true, true);
             }
             
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
@@ -107,10 +114,14 @@ namespace GameplaySystems
                     _nodeDistances[i] = Vector3.Distance(cn.Position, in_pos);
                 }
 
-                CamNode[] nwNodes = _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y >= in_pos.y).ToArray();
-                CamNode[] neNodes = _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y >= in_pos.y).ToArray();
-                CamNode[] swNodes = _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y <= in_pos.y).ToArray();
-                CamNode[] seNodes = _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y <= in_pos.y).ToArray();
+                CamNode[] nwNodes = 
+                    _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y >= in_pos.y).ToArray();
+                CamNode[] neNodes = 
+                    _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y >= in_pos.y).ToArray();
+                CamNode[] swNodes = 
+                    _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y <= in_pos.y).ToArray();
+                CamNode[] seNodes = 
+                    _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y <= in_pos.y).ToArray();
 
                 if (!nwNodes.Any() || !neNodes.Any() || !swNodes.Any() || !seNodes.Any())
                     return in_default;
@@ -243,6 +254,14 @@ namespace GameplaySystems
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
+
+            Vector3 characterPos = _characterTf.position;
+            
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MaxY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MinY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, characterPos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, characterPos.y, 0), .5f);
         }
 #endif
 
