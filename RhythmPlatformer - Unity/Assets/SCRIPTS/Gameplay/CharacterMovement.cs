@@ -241,9 +241,15 @@ namespace Gameplay
             WallSlideVelocity = velocity + (_characterVelocity.y <= 0 ? 1 : -1) * drag * Time.fixedDeltaTime;
         }
 
-        public void Dash() =>
+        public void Dash()
+        {
             DashVelocity = DashDirection *
                            (_dashTopSpeed * _movementConfigs.DashAcceleration.Evaluate(DashCurveTracker.x));
+
+            bool facingLeft = _characterStateController.FacingLeft;
+            if (_dashDirection.x > 0 && facingLeft || _dashDirection.x < 0 && !facingLeft)
+                _characterStateController.CheckFacingOrientation(false, true);
+        }
 
         #endregion
 

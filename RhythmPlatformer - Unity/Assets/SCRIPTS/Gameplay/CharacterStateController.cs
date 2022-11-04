@@ -437,11 +437,11 @@ namespace Gameplay
         /// Takes care of FacingLeft property only. Can take Walled state in to account by passing in in_walled param.
         /// </summary>
         /// <param name="in_walled"></param>
-        /// <param name="in_slide"></param>
-        public void CheckFacingOrientation(bool in_walled = false, bool in_slide = false)
+        /// <param name="in_slideOrDash"></param>
+        public void CheckFacingOrientation(bool in_walled = false, bool in_slideOrDash = false)
         {
             float turnParam = 
-                in_slide ? _characterMovement.CharacterVelocity.x : _characterInput.InputState.DirectionalInput.x;
+                in_slideOrDash ? _characterMovement.CharacterVelocity.x : _characterInput.InputState.DirectionalInput.x;
             
             if (FacingLeft == !in_walled && turnParam > 0)
                 FacingLeft = in_walled;
