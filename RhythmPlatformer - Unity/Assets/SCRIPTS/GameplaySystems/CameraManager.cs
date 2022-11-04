@@ -235,8 +235,9 @@ namespace GameplaySystems
                     Mathf.Min(_northBounds.MaxX - _northBounds.MinX, _southBounds.MaxX - _southBounds.MinX) * .5f;
                 float verticalComplementForAspectRatio = minHorizontalSize / _cam.aspect;
 
-                float targetSize = 
-                    Mathf.Min(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .05f, _maxSize);
+                float targetSize =
+                    Mathf.Clamp(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .05f, 
+                        _minSize, _maxSize);
             
                 _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
             }
