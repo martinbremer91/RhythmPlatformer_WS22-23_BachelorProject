@@ -141,6 +141,7 @@ namespace Gameplay
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
                     break;
                 case CharacterState.WallCling:
+                    _characterMovement.CancelVerticalVelocity();
                     CheckFacingOrientation(true);
                     break;
                 case CharacterState.WallSlide:
@@ -255,7 +256,6 @@ namespace Gameplay
                     }
                     break;
                 case CollisionCheck.LeftWall:
-                    NearWallLeft = in_enter;
                     if (in_enter && _characterMovement.CharacterVelocity.x < 0)
                     {
                         HandleWallInteractions(false);
@@ -263,7 +263,6 @@ namespace Gameplay
                     }
                     break;
                 case CollisionCheck.RightWall:
-                    NearWallRight = in_enter;
                     if (in_enter && _characterMovement.CharacterVelocity.x > 0)
                     {
                         HandleWallInteractions(true);
@@ -316,7 +315,7 @@ namespace Gameplay
                     break;
                 case CharacterState.WallSlide:
                     HandleWalled();
-                    if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= .1f &&
+                    if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1 &&
                         _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
                         CurrentCharacterState = CharacterState.WallCling;
                     break;

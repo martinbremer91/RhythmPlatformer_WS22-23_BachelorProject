@@ -217,6 +217,13 @@ namespace Gameplay
             bool wallSlideFalling = _characterInput.InputState.WallClingTrigger != InputActionPhase.Performed &&
                                     WallSlideVelocity <= 0 && WallSlideVelocity > -_wallSlideFallTopSpeed;
 
+            if (Mathf.Abs(CharacterVelocity.y) <= 1 &&
+                _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
+            {
+                _characterStateController.CurrentCharacterState = CharacterState.WallCling;
+                return;
+            }
+
             float drag = wallSlideFalling ? 0 : GetCurrentWallDrag();
             float velocity;
             
