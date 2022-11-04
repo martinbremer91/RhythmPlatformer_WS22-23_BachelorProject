@@ -159,6 +159,9 @@ namespace Editor
                 _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed, "WALL CLING");
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 175),
                     new Vector2(200, 20)), 
+                _characterStateController.NearWallLeft || _characterStateController.NearWallRight, "NEAR WALL");
+            GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 190),
+                    new Vector2(200, 20)), 
                 _characterMovement.FastFalling, "FAST FALL");
             
             GUI.Label(new Rect (_infoRect.position + new Vector2(5, 155), new Vector2(300, 20)), 

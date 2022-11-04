@@ -315,8 +315,8 @@ namespace Gameplay
                     break;
                 case CharacterState.WallSlide:
                     HandleWalled();
-                    if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1 &&
-                        _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
+                    if (CanWallCling && _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed &&
+                        Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
                         CurrentCharacterState = CharacterState.WallCling;
                     break;
                 case CharacterState.Dash:
@@ -547,8 +547,16 @@ namespace Gameplay
             if (CurrentCharacterState == CharacterState.WallSlide && 
                 _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
                 CurrentCharacterState = CharacterState.Fall;
+
+            if (CanWallCling && _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
+            {
+                if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
+                    CurrentCharacterState = CharacterState.WallCling;
+                else
+                    CurrentCharacterState = CharacterState.WallSlide;
+            }
         }
-        
+
         #endregion
     }
 }
