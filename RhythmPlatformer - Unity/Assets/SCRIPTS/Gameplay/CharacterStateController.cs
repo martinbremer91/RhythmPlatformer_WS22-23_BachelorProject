@@ -244,7 +244,7 @@ namespace Gameplay
                     NearWallLeft = in_enter;
                     if (in_enter && _characterMovement.CharacterVelocity.x < 0)
                     {
-                        SetWalledState(false);
+                        HandleWallInteractions(false);
                         _characterMovement.CancelHorizontalVelocity();
                     }
                     break;
@@ -252,7 +252,7 @@ namespace Gameplay
                     NearWallRight = in_enter;
                     if (in_enter && _characterMovement.CharacterVelocity.x > 0)
                     {
-                        SetWalledState(true);
+                        HandleWallInteractions(true);
                         _characterMovement.CancelHorizontalVelocity();
                     }
                     break;
@@ -313,9 +313,9 @@ namespace Gameplay
             }
             
             if (NearWallLeft)
-                SetWalledState(false);
+                HandleWallInteractions(false);
             else if (NearWallRight)
-                SetWalledState(true);
+                HandleWallInteractions(true);
 
             void HandleIdle()
             {
@@ -510,7 +510,7 @@ namespace Gameplay
             _characterMovement.InitializeDash();
         }
         
-        private void SetWalledState(bool in_RightWall)
+        private void HandleWallInteractions(bool in_RightWall)
         {
             bool leftWall = !in_RightWall || NearWallLeft;
             bool rightWall = in_RightWall || NearWallRight;
@@ -523,8 +523,6 @@ namespace Gameplay
 
             if (CanWallCling && Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
-            else if (CurrentCharacterState == CharacterState.Dash)
-                CurrentCharacterState = CharacterState.Fall;
 
             if (CurrentCharacterState == CharacterState.WallSlide && 
                 _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)

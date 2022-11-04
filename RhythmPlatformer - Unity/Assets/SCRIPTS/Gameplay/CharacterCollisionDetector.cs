@@ -50,8 +50,8 @@ namespace Gameplay
             bool collision = hit.collider != null;
 
             // COLLISION DEBUGGING
-            Color color = collision ? Color.green : Color.red;
-            Debug.DrawRay(bounds.center, detectDirection, color);
+            // Color color = collision ? Color.green : Color.red;
+            // Debug.DrawRay(bounds.center, detectDirection, color);
 
             if (!collision == in_detectEnter)
                 return;

@@ -158,8 +158,7 @@ namespace Gameplay
             if (velocity > Mathf.Abs(RunVelocity) || CharacterVelocity.x * _characterInput.InputState.DirectionalInput.x < 0)
                 RunVelocity = directionMod * velocity;
         }
-
-
+        
         // TODO: Consolidate Fall() and Rise() overlapping functionality into a separate function
         public void Fall()
         {
@@ -315,25 +314,17 @@ namespace Gameplay
             // "Wavedash" (grounded Dash)
             if (_characterStateController.Grounded && directionY < 1)
             {
-                if (inputDirection.y <= -.95f)
-                {
-                    // TODO: implement wavedash in facing direction for grounded dash straight down
-                    DashDirection = Vector2.zero;
-                    return;
-                }
-                
                 _characterVelocity = new Vector2((directionY < 0 ? .75f : 1) * _dashTopSpeed * directionX, 0);
                 _characterStateController.CurrentCharacterState = CharacterState.Land;
                 return;
             }
-            
-            if (_characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
-                _characterStateController.NearWallRight && directionX > 0)
-            {
-                // Walled dash "into" wall
-                DashDirection = Vector2.zero;
-                return;
-            }
+
+            bool wallDash =
+                _characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
+                _characterStateController.NearWallRight && directionX > 0;
+
+            if (wallDash)
+                directionX *= -1;
 
             DashDirection = new Vector2(directionX, directionY).normalized;
             DashVelocity = new Vector2(DashDirection.x, DashDirection.y) * _dashTopSpeed;
