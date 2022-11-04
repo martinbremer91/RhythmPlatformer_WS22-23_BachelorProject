@@ -532,6 +532,9 @@ namespace Gameplay
         
         private void HandleWallInteractions(bool in_RightWall)
         {
+            if (Grounded)
+                return;
+
             bool leftWall = !in_RightWall || NearWallLeft;
             bool rightWall = in_RightWall || NearWallRight;
             
@@ -548,7 +551,8 @@ namespace Gameplay
                 _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
                 CurrentCharacterState = CharacterState.Fall;
 
-            if (CanWallCling && _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
+            if (CanWallCling && CurrentCharacterState != CharacterState.Rise && 
+                _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
             {
                 if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
                     CurrentCharacterState = CharacterState.WallCling;
