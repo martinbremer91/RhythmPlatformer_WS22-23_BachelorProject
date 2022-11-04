@@ -30,7 +30,7 @@ namespace GameplaySystems
         private Vector2 _characterMovementBoundaries;
         private float _lookAheadShiftDistance;
         private int _lookAheadDirection;
-        private bool _characterInMovementBoundaries;
+        private bool _getCharacterIntoMovementBoundaries;
 
         private CamNode[] _camNodes;
         
@@ -88,15 +88,47 @@ namespace GameplaySystems
             _camSize.x = _camSize.y * _cam.aspect;
             
             _characterPos = _characterTf.position + Vector3.up * _characterPosYOffset;
+            _lookAheadDirection = _characterStateController.LookAheadDirection;
 
-            CheckCharacterInMovementBoundaries();
+            bool camOutOfBounds;
             UpdateCurrentBounds();
+
+            if (!camOutOfBounds)
+                CheckCharacterInMovementBoundaries();
+
             _hasBounds = true;
+
+            void UpdateCurrentBounds()
+            {
+                bool northPosInBounds, westPosInBounds, southPosInBounds, eastPosInBounds;
+
+                _characterPosBounds = GetCamBounds(_characterPosBounds, _characterPos, true, true);
+
+                Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
+                if (northPosInBounds = CheckPointInBounds(northPos, _characterPosBounds))
+                    _northBounds = GetCamBounds(_northBounds, northPos, true, false);
+            
+                Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
+                if(westPosInBounds = CheckPointInBounds(westPos, _characterPosBounds))
+                    _westBounds = GetCamBounds(_westBounds, westPos, false, true);
+            
+                Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
+                if (southPosInBounds = CheckPointInBounds(southPos, _characterPosBounds))
+                    _southBounds = GetCamBounds(_southBounds, southPos, true, false);
+            
+                Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
+                if(eastPosInBounds = CheckPointInBounds(eastPos, _characterPosBounds))
+                    _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
+
+                camOutOfBounds = _lookAheadDirection == 0 && 
+                    (!northPosInBounds || !westPosInBounds || !southPosInBounds || eastPosInBounds);
+
+                if (camOutOfBounds)
+                    _getCharacterIntoMovementBoundaries = false;
+            }
 
             void CheckCharacterInMovementBoundaries()
             {
-                _lookAheadDirection = _characterStateController.LookAheadDirection;
-
                 float maxMinX = _characterMovementBoundaries.x;
                 float maxY = _lookAheadDirection == 0 ? _characterMovementBoundaries.y :
                     _lookAheadDirection < 0 ? _characterMovementBoundaries.y + _lookAheadShiftDistance :
@@ -107,32 +139,11 @@ namespace GameplaySystems
 #if UNITY_EDITOR
                 _debugMovementBoundariesVector = new Vector3(maxMinX, maxY, minY);
 #endif
-                _characterInMovementBoundaries =
+                _getCharacterIntoMovementBoundaries =
                     _characterPos.x >= position.x - maxMinX && 
                     _characterPos.x <= position.x + maxMinX &&
                     _characterPos.y >= position.y + minY && 
                     _characterPos.y <= position.y + maxY;
-            }
-
-            void UpdateCurrentBounds()
-            {
-                _characterPosBounds = GetCamBounds(_characterPosBounds, _characterPos, true, true);
-
-                Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
-                if (CheckPointInBounds(northPos, _characterPosBounds))
-                    _northBounds = GetCamBounds(_northBounds, northPos, true, false);
-            
-                Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
-                if(CheckPointInBounds(westPos, _characterPosBounds))
-                    _westBounds = GetCamBounds(_westBounds, westPos, false, true);
-            
-                Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
-                if (CheckPointInBounds(southPos, _characterPosBounds))
-                    _southBounds = GetCamBounds(_southBounds, southPos, true, false);
-            
-                Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
-                if(CheckPointInBounds(eastPos, _characterPosBounds))
-                    _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
             }
 
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
@@ -191,7 +202,7 @@ namespace GameplaySystems
 
         private void LateUpdate()
         {
-            if (!_hasBounds || _characterInMovementBoundaries)
+            if (!_hasBounds || _getCharacterIntoMovementBoundaries)
                 return;
 
             _hasBounds = false;
