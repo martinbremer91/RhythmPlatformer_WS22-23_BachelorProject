@@ -26,13 +26,11 @@ namespace GameplaySystems
         
         private readonly List<float> _nodeDistances = new();
 
-        private CameraBounds _centerBounds;
+        private CameraBounds _characterPosBounds;
         private CameraBounds _northBounds;
         private CameraBounds _westBounds;
         private CameraBounds _southBounds;
         private CameraBounds _eastBounds;
-
-        private CameraBounds _characterPosBounds;
 
         private Vector2 _camSize;
 
@@ -81,45 +79,25 @@ namespace GameplaySystems
 
             void UpdateCurrentBounds()
             {
-                _centerBounds = GetCamBounds(_centerBounds, position, true, true);
-                CheckCharacterBoundsOverrideCenterBounds();
+                _characterPosBounds = GetCamBounds(_characterPosBounds, characterPosition, true, true);
 
                 Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
-                if (CheckPointInBounds(northPos, _centerBounds))
+                if (CheckPointInBounds(northPos, _characterPosBounds))
                     _northBounds = GetCamBounds(_northBounds, northPos, true, false);
             
                 Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
-                if(CheckPointInBounds(westPos, _centerBounds))
+                if(CheckPointInBounds(westPos, _characterPosBounds))
                     _westBounds = GetCamBounds(_westBounds, westPos, false, true);
             
                 Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
-                if (CheckPointInBounds(southPos, _centerBounds))
+                if (CheckPointInBounds(southPos, _characterPosBounds))
                     _southBounds = GetCamBounds(_southBounds, southPos, true, false);
             
                 Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
-                if(CheckPointInBounds(eastPos, _centerBounds))
+                if(CheckPointInBounds(eastPos, _characterPosBounds))
                     _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
             }
 
-            void CheckCharacterBoundsOverrideCenterBounds()
-            {
-                _characterPosBounds = GetCamBounds(_characterPosBounds, characterPosition, true, true);
-
-                bool differentMaxX = _centerBounds.MaxX != _characterPosBounds.MaxX;
-                bool differentMaxY = _centerBounds.MaxY != _characterPosBounds.MaxY;
-                bool differentMinX = _centerBounds.MinX != _characterPosBounds.MinX;
-                bool differentMinY = _centerBounds.MinY != _characterPosBounds.MinY;
-
-                int differences = 
-                    (differentMaxX ? 1 : 0) + (differentMaxY ? 1 : 0) + 
-                    (differentMinX ? 1 : 0) + (differentMinY ? 1 : 0);
-
-                if (differences < 2)
-                    return;
-
-                _centerBounds = _characterPosBounds;
-            }
-            
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
             {
                 CameraBounds camBounds = new CameraBounds();
@@ -195,15 +173,15 @@ namespace GameplaySystems
 
             void GetClampedTargetPos()
             {
-                if (targetPos.x + _camSize.x > _centerBounds.MaxX)
-                    targetPos.x = _centerBounds.MaxX - _camSize.x;
-                else if (targetPos.x - _camSize.x < _centerBounds.MinX)
-                    targetPos.x = _centerBounds.MinX + _camSize.x;
+                if (targetPos.x + _camSize.x > _characterPosBounds.MaxX)
+                    targetPos.x = _characterPosBounds.MaxX - _camSize.x;
+                else if (targetPos.x - _camSize.x < _characterPosBounds.MinX)
+                    targetPos.x = _characterPosBounds.MinX + _camSize.x;
 
-                if (targetPos.y + _camSize.y > _centerBounds.MaxY)
-                    targetPos.y = _centerBounds.MaxY - _camSize.y;
-                else if (targetPos.y - _camSize.y < _centerBounds.MinY)
-                    targetPos.y = _centerBounds.MinY + _camSize.y;
+                if (targetPos.y + _camSize.y > _characterPosBounds.MaxY)
+                    targetPos.y = _characterPosBounds.MaxY - _camSize.y;
+                else if (targetPos.y - _camSize.y < _characterPosBounds.MinY)
+                    targetPos.y = _characterPosBounds.MinY + _camSize.y;
             }
 
             void SetCamSize()
@@ -250,10 +228,10 @@ namespace GameplaySystems
 
             Gizmos.color = Color.magenta;
             
-            Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MaxY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(pos.x, _centerBounds.MinY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_centerBounds.MinX, pos.y, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_centerBounds.MaxX, pos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(pos.x, _characterPosBounds.MaxY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(pos.x, _characterPosBounds.MinY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, pos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, pos.y, 0), .5f);
             
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
