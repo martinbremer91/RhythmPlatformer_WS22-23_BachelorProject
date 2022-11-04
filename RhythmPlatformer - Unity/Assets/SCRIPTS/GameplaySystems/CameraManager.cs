@@ -228,10 +228,12 @@ namespace GameplaySystems
 
             Gizmos.color = Color.magenta;
             
-            Gizmos.DrawWireSphere(new Vector3(pos.x, _characterPosBounds.MaxY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(pos.x, _characterPosBounds.MinY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, pos.y, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, pos.y, 0), .5f);
+            Vector3 characterPos = _characterTf.position;
+            
+            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MaxY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MinY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, characterPos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, characterPos.y, 0), .5f);
             
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
@@ -248,14 +250,6 @@ namespace GameplaySystems
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
             Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
-
-            Vector3 characterPos = _characterTf.position;
-            
-            Gizmos.color = Color.black;
-            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MaxY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MinY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, characterPos.y, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, characterPos.y, 0), .5f);
         }
 #endif
 
