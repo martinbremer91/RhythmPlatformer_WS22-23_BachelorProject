@@ -66,6 +66,8 @@ namespace Gameplay
         }
         private float _dashWindupDuration;
 
+        private bool _canDash;
+
         private bool _facingLeft;
         public bool FacingLeft
         {
@@ -112,7 +114,7 @@ namespace Gameplay
             
             ChangeIntoState(in_value);
             ChangeOutOfState();
-            
+
             _currentCharacterState = in_value;
             _spriteController.HandleStateAnimation();
         }
@@ -133,6 +135,7 @@ namespace Gameplay
                 case CharacterState.Rise:
                     _characterMovement.RiseCurveTracker.x = 0;
                     _characterMovement.InitializeRise();
+                    _canDash = true;
                     break;
                 case CharacterState.Land:
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
@@ -506,6 +509,13 @@ namespace Gameplay
 
         private async void PerformDashWindupAsync()
         {
+            if (!_canDash)
+            {
+                _dashWindup = false;
+                return;
+            }
+
+            _canDash = false;
             _spriteController.SetDashWindupTrigger();
             
             float timer = _dashWindupDuration;
