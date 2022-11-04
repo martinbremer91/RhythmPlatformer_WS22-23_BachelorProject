@@ -160,6 +160,9 @@ namespace Editor
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 175),
                     new Vector2(200, 20)), 
                 _characterMovement.FastFalling, "FAST FALL");
+            
+            GUI.Label(new Rect (_infoRect.position + new Vector2(5, 155), new Vector2(300, 20)), 
+                "Look Ahead Direction: " + _characterStateController.LookAheadDirection);
         }
     }
 }

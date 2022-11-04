@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cam: {fileID: 1266477865505378789}
-  _camBoundsData: {fileID: 4900000, guid: 34f972574b52e43bf9af369819380e04, type: 3}
-  _characterTf: {fileID: 0}
-  _characterMovementBoundaries: {x: 1.5, y: 0.5, z: 0}
+  _camBoundsData: {fileID: 4900000, guid: 74758df2374a9544db880a1178c93d9c, type: 3}
+  _characterMovementBoundaries: {x: 1.5, y: 0.5}
+  _lookAheadShiftDistance: 3
   _smoothTime: 0.5
   _maxSpeed: 30
   _maxSize: 4

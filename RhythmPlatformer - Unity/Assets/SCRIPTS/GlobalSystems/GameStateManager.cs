@@ -88,6 +88,7 @@ namespace GlobalSystems
             
             void InitLevelScene()
             {
+                CameraManager.Init(this);
                 LevelManager.Init(this);
                 InputPlaybackManager.Init(this);
                 CharacterInput.Init(this);

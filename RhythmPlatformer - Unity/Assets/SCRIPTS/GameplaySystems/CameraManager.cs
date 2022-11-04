@@ -5,6 +5,8 @@ using Structs;
 using UnityEngine;
 using Utility_Scripts;
 using System.Collections;
+using Gameplay;
+using GlobalSystems;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,15 +14,21 @@ using UnityEditor;
 
 namespace GameplaySystems
 {
-    public class CameraManager : MonoBehaviour, IUpdatable
+    public class CameraManager : MonoBehaviour, IInit<GameStateManager>, IUpdatable
     {
         public UpdateType UpdateType => UpdateType.GamePlay;
         
         [SerializeField] private Camera _cam;
         [SerializeField] private TextAsset _camBoundsData;
 
-        [SerializeField] private Transform _characterTf;
-        [SerializeField] private Vector3 _characterMovementBoundaries;
+        private CharacterStateController _characterStateController;
+        private Transform _characterTf;
+        private Vector3 _characterPos;
+        private float _characterPosYOffset;
+        [SerializeField] private Vector2 _characterMovementBoundaries;
+        [SerializeField] private float _lookAheadShiftDistance;
+        private int _lookAheadDirection;
+        private bool _characterInMovementBoundaries;
 
         private CamNode[] _camNodes;
         
@@ -34,15 +42,17 @@ namespace GameplaySystems
 
         private Vector2 _camSize;
 
-        private bool _characterInMovementBoundaries;
         private Vector3 _velocity;
         [SerializeField] private float _smoothTime;
         [SerializeField] private float _maxSpeed;
         [SerializeField] private float _maxSize;
 
         private bool _hasBounds;
+#if UNITY_EDITOR
+        private Vector3 _debugMovementBoundariesVector;
+#endif
 
-        private void Awake()
+        public void Init(GameStateManager in_gameStateManager)
         {
             GetCamNodesFromJson();
 
@@ -51,6 +61,11 @@ namespace GameplaySystems
                 CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
                 _nodeDistances.Add(Vector3.Distance(cn.Position, transform.position));
             }
+            
+            _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterTf = _characterStateController.transform;
+
+            _characterPosYOffset = _characterTf.GetComponent<BoxCollider2D>().bounds.size.y * .5f;
         }
 
         private void GetCamNodesFromJson() =>
@@ -62,7 +77,7 @@ namespace GameplaySystems
             _camSize.y = _cam.orthographicSize;
             _camSize.x = _camSize.y * _cam.aspect;
             
-            Vector3 characterPosition = _characterTf.position;
+            _characterPos = _characterTf.position + Vector3.up * _characterPosYOffset;
 
             CheckCharacterInMovementBoundaries();
             UpdateCurrentBounds();
@@ -70,16 +85,28 @@ namespace GameplaySystems
 
             void CheckCharacterInMovementBoundaries()
             {
+                _lookAheadDirection = _characterStateController.LookAheadDirection;
+
+                float maxMinX = _characterMovementBoundaries.x;
+                float maxY = _lookAheadDirection == 0 ? _characterMovementBoundaries.y :
+                    _lookAheadDirection < 0 ? _characterMovementBoundaries.y + _lookAheadShiftDistance :
+                    _characterMovementBoundaries.y - _lookAheadShiftDistance;
+                float minY = _lookAheadDirection == 0 ? -_characterMovementBoundaries.y :
+                    _lookAheadDirection < 0 ? -_characterMovementBoundaries.y + _lookAheadShiftDistance :
+                    -_characterMovementBoundaries.y - _lookAheadShiftDistance;
+#if UNITY_EDITOR
+                _debugMovementBoundariesVector = new Vector3(maxMinX, maxY, minY);
+#endif
                 _characterInMovementBoundaries =
-                    characterPosition.x >= position.x - _characterMovementBoundaries.x && 
-                    characterPosition.x <= position.x + _characterMovementBoundaries.x &&
-                    characterPosition.y >= position.y - _characterMovementBoundaries.y && 
-                    characterPosition.y <= position.y + _characterMovementBoundaries.y;
+                    _characterPos.x >= position.x - maxMinX && 
+                    _characterPos.x <= position.x + maxMinX &&
+                    _characterPos.y >= position.y + minY && 
+                    _characterPos.y <= position.y + maxY;
             }
 
             void UpdateCurrentBounds()
             {
-                _characterPosBounds = GetCamBounds(_characterPosBounds, characterPosition, true, true);
+                _characterPosBounds = GetCamBounds(_characterPosBounds, _characterPos, true, true);
 
                 Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
                 if (CheckPointInBounds(northPos, _characterPosBounds))
@@ -158,9 +185,11 @@ namespace GameplaySystems
                 return;
 
             _hasBounds = false;
-            
+
             Vector3 position = transform.position;
-            Vector3 targetPos = _characterTf.position;
+            Vector3 targetPos = _characterPos;
+            targetPos.y = _lookAheadDirection == 0 ? targetPos.y :
+                _lookAheadDirection > 0 ? targetPos.y + _lookAheadShiftDistance : targetPos.y - _lookAheadShiftDistance;
 
             GetClampedTargetPos();
             
@@ -178,9 +207,12 @@ namespace GameplaySystems
                 else if (targetPos.x - _camSize.x < _characterPosBounds.MinX)
                     targetPos.x = _characterPosBounds.MinX + _camSize.x;
 
-                if (targetPos.y + _camSize.y > _characterPosBounds.MaxY)
+                int lookUpOffset = _lookAheadDirection > 0 ? 100 : 0;
+                int lookDownOffset = _lookAheadDirection < 0 ? 100 : 0;
+                
+                if (targetPos.y + _camSize.y > _characterPosBounds.MaxY + lookUpOffset)
                     targetPos.y = _characterPosBounds.MaxY - _camSize.y;
-                else if (targetPos.y - _camSize.y < _characterPosBounds.MinY)
+                if (targetPos.y - _camSize.y < _characterPosBounds.MinY - lookDownOffset)
                     targetPos.y = _characterPosBounds.MinY + _camSize.y;
             }
 
@@ -212,13 +244,16 @@ namespace GameplaySystems
             Vector2 position = pos;
             
             Vector2 upperLeft = 
-                position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+                position + new Vector2(-_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.y);
             Vector2 lowerLeft = 
-                position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
+                position + new Vector2(-_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.z);
             Vector2 upperRight = 
-                position + new Vector2(_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+                position + new Vector2(_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.y);
             Vector2 lowerRight =
-                position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
+                position + new Vector2(_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.z);
+            
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(_characterPos, .1f);
             
             Gizmos.color = Color.red;
             Gizmos.DrawLine(upperLeft, lowerLeft);
@@ -227,13 +262,10 @@ namespace GameplaySystems
             Gizmos.DrawLine(lowerLeft, lowerRight);
 
             Gizmos.color = Color.magenta;
-            
-            Vector3 characterPos = _characterTf.position;
-            
-            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MaxY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(characterPos.x, _characterPosBounds.MinY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, characterPos.y, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, characterPos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPos.x, _characterPosBounds.MaxY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPos.x, _characterPosBounds.MinY, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, _characterPos.y, 0), .5f);
+            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, _characterPos.y, 0), .5f);
             
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);

@@ -79,6 +79,8 @@ namespace Gameplay
                 _facingLeft = value;
             }
         }
+
+        public int LookAheadDirection;
         
         public bool Grounded =>
             CurrentCharacterState is CharacterState.Idle or CharacterState.Run or CharacterState.Land
@@ -209,6 +211,7 @@ namespace Gameplay
             if (_characterInput.InputState.DashWindup)
                 DashWindup = true;
             
+            CheckCharacterLookingAhead();
             HandleInputStateChange();
             ApplyStateMovement();
         }
@@ -216,6 +219,14 @@ namespace Gameplay
         #endregion
 
         #region STATE PROCESSING FUNCTIONS
+
+        private void CheckCharacterLookingAhead()
+        {
+            float inputDirectionY = _characterInput.InputState.DirectionalInput.y;
+            LookAheadDirection = !Grounded ? 0 :
+                inputDirectionY > .38f ? 1 :
+                inputDirectionY < -.38f ? -1 : 0;
+        }
         
         public void HandleCollisionStateChange(CollisionCheck in_check, bool in_enter)
         {
