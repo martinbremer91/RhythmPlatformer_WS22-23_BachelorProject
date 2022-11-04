@@ -7,6 +7,7 @@ using Utility_Scripts;
 using System.Collections;
 using Gameplay;
 using GlobalSystems;
+using Scriptable_Object_Scripts;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,13 +21,14 @@ namespace GameplaySystems
         
         [SerializeField] private Camera _cam;
         [SerializeField] private TextAsset _camBoundsData;
+        [SerializeField] private CameraConfigs _camConfigs;
 
         private CharacterStateController _characterStateController;
         private Transform _characterTf;
         private Vector3 _characterPos;
         private float _characterPosYOffset;
-        [SerializeField] private Vector2 _characterMovementBoundaries;
-        [SerializeField] private float _lookAheadShiftDistance;
+        private Vector2 _characterMovementBoundaries;
+        private float _lookAheadShiftDistance;
         private int _lookAheadDirection;
         private bool _characterInMovementBoundaries;
 
@@ -43,9 +45,10 @@ namespace GameplaySystems
         private Vector2 _camSize;
 
         private Vector3 _velocity;
-        [SerializeField] private float _smoothTime;
-        [SerializeField] private float _maxSpeed;
-        [SerializeField] private float _maxSize;
+        private float _smoothTime;
+        private float _maxSpeed;
+        private float _maxSize;
+        private float _minSize;
 
         private bool _hasBounds;
 #if UNITY_EDITOR
@@ -61,6 +64,13 @@ namespace GameplaySystems
                 CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
                 _nodeDistances.Add(Vector3.Distance(cn.Position, transform.position));
             }
+
+            _characterMovementBoundaries = _camConfigs.CharacterMovementBoundaries;
+            _lookAheadShiftDistance = _camConfigs.LookAheadShiftDistance;
+            _smoothTime = _camConfigs._smoothTime;
+            _maxSpeed = _camConfigs.MaxSpeed;
+            _maxSize = _camConfigs.MaxSize;
+            _minSize = _camConfigs.MinSize;
             
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterTf = _characterStateController.transform;

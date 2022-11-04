@@ -7615,6 +7615,10 @@ PrefabInstance:
       propertyPath: _characterTf
       value: 
       objectReference: {fileID: 1285793913}
+    - target: {fileID: 1266477865505378587, guid: e494ed8280c3f4cb6b307fdc00f2c40a, type: 3}
+      propertyPath: _camBoundsData
+      value: 
+      objectReference: {fileID: 4900000, guid: 74758df2374a9544db880a1178c93d9c, type: 3}
     - target: {fileID: 1266477865505378790, guid: e494ed8280c3f4cb6b307fdc00f2c40a, type: 3}
       propertyPath: m_Name
       value: Main Camera

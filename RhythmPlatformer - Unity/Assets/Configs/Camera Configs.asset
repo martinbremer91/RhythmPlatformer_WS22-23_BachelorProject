@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae4be70afbf14b4ab4b2168db259908, type: 3}
+  m_Name: Camera Configs
+  m_EditorClassIdentifier: 
+  CharacterMovementBoundaries: {x: 1.5, y: 0.5}
+  LookAheadShiftDistance: 2.5
+  _smoothTime: 0.5
+  MaxSpeed: 30
+  MaxSize: 4
+  MinSize: 2.5
