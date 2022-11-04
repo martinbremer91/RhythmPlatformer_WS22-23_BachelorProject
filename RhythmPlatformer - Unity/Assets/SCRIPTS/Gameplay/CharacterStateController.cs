@@ -455,11 +455,14 @@ namespace Gameplay
         {
             float turnParam = 
                 in_slideOrDash ? _characterMovement.CharacterVelocity.x : _characterInput.InputState.DirectionalInput.x;
-            
-            if (FacingLeft == !in_walled && turnParam > 0)
-                FacingLeft = in_walled;
-            if (FacingLeft == in_walled && turnParam < 0)
-                FacingLeft = !in_walled;
+
+            if (in_walled)
+            {
+                FacingLeft = NearWallRight;
+                return;
+            }
+
+            FacingLeft = turnParam > 0 ? false : turnParam < 0 ? true : FacingLeft;
         }
 
         /// <summary>
