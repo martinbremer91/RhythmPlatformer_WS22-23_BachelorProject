@@ -547,11 +547,11 @@ namespace Gameplay
             if (CanWallCling && Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
 
-            if (CurrentCharacterState == CharacterState.WallSlide && 
+            if (CurrentCharacterState is CharacterState.WallSlide && 
                 _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
                 CurrentCharacterState = CharacterState.Fall;
 
-            if (CanWallCling && CurrentCharacterState != CharacterState.Rise && 
+            if (CanWallCling && CurrentCharacterState is not CharacterState.Rise and not CharacterState.Dash &&
                 _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
             {
                 if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
