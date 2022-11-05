@@ -29,6 +29,7 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _Fuzziness: 0.27
+    - _MaskRange: 0.12
     - _ScrollSpeed: 0.05
     m_Colors:
     - _BaseColor: {r: 0.33241016, g: 0.2941176, b: 0.93333334, a: 0}
