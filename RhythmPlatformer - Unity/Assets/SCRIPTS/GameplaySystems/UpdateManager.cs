@@ -10,13 +10,14 @@ namespace GameplaySystems
     {
         private static UpdateManager s_Instance;
 
-        private CameraManager CameraManager;
-        private BeatManager BeatManager;
-        private InputPlaybackManager InputPlaybackManager;
-        private CharacterInput CharacterInput;
-        private CharacterCollisionDetector CharacterCollisionDetector;
-        private CharacterStateController CharacterStateController;
-        private CharacterMovement CharacterMovement;
+        private CameraManager _cameraManager;
+        private BeatManager _beatManager;
+        private PulsingController _pulsingController;
+        private InputPlaybackManager _inputPlaybackManager;
+        private CharacterInput _characterInput;
+        private CharacterCollisionDetector _characterCollisionDetector;
+        private CharacterStateController _characterStateController;
+        private CharacterMovement _characterMovement;
 
         private bool _updateActive;
 
@@ -38,14 +39,15 @@ namespace GameplaySystems
 
         public void Init(GameStateManager in_gameStateManager)
         {
-            BeatManager = in_gameStateManager.BeatManager;
-            CameraManager = in_gameStateManager.CameraManager;
+            _beatManager = in_gameStateManager.BeatManager;
+            _cameraManager = in_gameStateManager.CameraManager;
+            _pulsingController = in_gameStateManager.PulsingController;
             
-            InputPlaybackManager = in_gameStateManager.InputPlaybackManager;
-            CharacterInput = in_gameStateManager.CharacterInput;
-            CharacterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
-            CharacterStateController = in_gameStateManager.CharacterStateController;
-            CharacterMovement = in_gameStateManager.CharacterMovement;
+            _inputPlaybackManager = in_gameStateManager.InputPlaybackManager;
+            _characterInput = in_gameStateManager.CharacterInput;
+            _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
+            _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterMovement = in_gameStateManager.CharacterMovement;
         }
 
         public void SceneRefresh() => 
@@ -64,10 +66,12 @@ namespace GameplaySystems
                     routine.CustomUpdate();
             }
             
-            if (BeatManager.UpdateType.HasFlag(currentUpdateType))
-                BeatManager.CustomUpdate();
-            if (CameraManager.UpdateType.HasFlag(currentUpdateType))
-                CameraManager.CustomUpdate();
+            if (_beatManager.UpdateType.HasFlag(currentUpdateType))
+                _beatManager.CustomUpdate();
+            if (_cameraManager.UpdateType.HasFlag(currentUpdateType))
+                _cameraManager.CustomUpdate();
+            if (_pulsingController.UpdateType.HasFlag(currentUpdateType))
+                _pulsingController.CustomUpdate();
         }
         
         private void FixedUpdate()
@@ -77,16 +81,16 @@ namespace GameplaySystems
             
             UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
             
-            if (InputPlaybackManager.UpdateType.HasFlag(currentUpdateType))
-                InputPlaybackManager.CustomUpdate();
-            if (CharacterInput.UpdateType.HasFlag(currentUpdateType))
-                CharacterInput.CustomUpdate();
-            if (CharacterCollisionDetector.UpdateType.HasFlag(currentUpdateType))
-                CharacterCollisionDetector.CustomUpdate();
-            if (CharacterStateController.UpdateType.HasFlag(currentUpdateType))
-                CharacterStateController.CustomUpdate();
-            if (CharacterMovement.UpdateType.HasFlag(currentUpdateType))
-                CharacterMovement.CustomUpdate();
+            if (_inputPlaybackManager.UpdateType.HasFlag(currentUpdateType))
+                _inputPlaybackManager.CustomUpdate();
+            if (_characterInput.UpdateType.HasFlag(currentUpdateType))
+                _characterInput.CustomUpdate();
+            if (_characterCollisionDetector.UpdateType.HasFlag(currentUpdateType))
+                _characterCollisionDetector.CustomUpdate();
+            if (_characterStateController.UpdateType.HasFlag(currentUpdateType))
+                _characterStateController.CustomUpdate();
+            if (_characterMovement.UpdateType.HasFlag(currentUpdateType))
+                _characterMovement.CustomUpdate();
         }
     }
 }

@@ -404,6 +404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 538796623}
   - component: {fileID: 538796622}
+  - component: {fileID: 538796624}
   m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -443,6 +444,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538796624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538796621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca8e360f1e758c41857c8e765b8ef7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _postProcessVolume: {fileID: 538796622}
+  _minMaxIntensity: {x: 5, y: 15}
+  _fadeDuration: 0.5
 --- !u!1001 &555913836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -506,6 +522,10 @@ PrefabInstance:
       propertyPath: BeatManager
       value: 
       objectReference: {fileID: 1498452835}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: PulsingController
+      value: 
+      objectReference: {fileID: 538796624}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: DependencyInjector
       value: 

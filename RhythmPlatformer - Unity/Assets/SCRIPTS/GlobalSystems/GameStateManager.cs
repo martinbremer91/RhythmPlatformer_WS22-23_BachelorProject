@@ -20,6 +20,8 @@ namespace GlobalSystems
 
         public BeatManager BeatManager;
         public UiManager UiManager;
+        public PulsingController PulsingController;
+
         [HideInInspector] public CameraManager CameraManager;
         [HideInInspector] public LevelManager LevelManager;
 
@@ -67,6 +69,7 @@ namespace GlobalSystems
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
             UiManager.Init();
+            PulsingController.Init(this);
             
             SceneInit();
             SceneLoadManager.RefreshGlobalObjects();

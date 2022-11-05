@@ -45,6 +45,7 @@ namespace GameplaySystems
         #endregion
 
         public Action BeatAction;
+        public Action EventBeatAction;
 
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;
@@ -128,6 +129,8 @@ namespace GameplaySystems
                 {
                     if (_metronomeOn)
                         _metronomeStrong.Play();
+
+                    EventBeatAction?.Invoke();
 
                     _characterInput.InputState.JumpSquat = true;
                 } 
