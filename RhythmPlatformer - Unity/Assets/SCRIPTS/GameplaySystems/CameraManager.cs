@@ -20,8 +20,8 @@ namespace GameplaySystems
         public UpdateType UpdateType => UpdateType.GamePlay;
         
         [SerializeField] private Camera _cam;
-        [SerializeField] private TextAsset _camBoundsData;
         [SerializeField] private CameraConfigs _camConfigs;
+        private TextAsset _camBoundsData;
 
         private CharacterStateController _characterStateController;
         private Transform _characterTf;
@@ -57,14 +57,6 @@ namespace GameplaySystems
 
         public void Init(GameStateManager in_gameStateManager)
         {
-            GetCamNodesFromJson();
-
-            for (int i = 0; i < _camNodes.Length; i++)
-            {
-                CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
-                _nodeDistances.Add(Vector3.Distance(cn.Position, transform.position));
-            }
-
             _characterMovementBoundaries = _camConfigs.CharacterMovementBoundaries;
             _lookAheadShiftDistance = _camConfigs.LookAheadShiftDistance;
             _smoothTime = _camConfigs._smoothTime;
@@ -76,6 +68,15 @@ namespace GameplaySystems
             _characterTf = _characterStateController.transform;
 
             _characterPosYOffset = _characterTf.GetComponent<BoxCollider2D>().bounds.size.y * .5f;
+
+            _camBoundsData = in_gameStateManager.CameraBoundsData;
+            GetCamNodesFromJson();
+
+            for (int i = 0; i < _camNodes.Length; i++)
+            {
+                CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
+                _nodeDistances.Add(Vector3.Distance(cn.Position, transform.position));
+            }
         }
 
         private void GetCamNodesFromJson() =>

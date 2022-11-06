@@ -1,6 +1,7 @@
 using Gameplay;
 using GameplaySystems;
 using Interfaces_and_Enums;
+using UnityEngine;
 
 namespace GlobalSystems
 {
@@ -10,6 +11,7 @@ namespace GlobalSystems
         protected override UpdateType GetUpdateType() => UpdateType.GamePlay;
 
         public CameraManager CameraManager;
+        public TextAsset CameraBoundsData;
         public LevelManager LevelManager;
         public CharacterInput CharacterInput;
         public CharacterCollisionDetector CharacterCollisionDetector;
@@ -21,6 +23,7 @@ namespace GlobalSystems
         public override void Init(GameStateManager in_gameStateManager)
         {
             in_gameStateManager.CameraManager = CameraManager;
+            in_gameStateManager.CameraBoundsData = CameraBoundsData;
             in_gameStateManager.LevelManager = LevelManager;
             in_gameStateManager.CharacterInput = CharacterInput;
             in_gameStateManager.CharacterCollisionDetector = CharacterCollisionDetector;

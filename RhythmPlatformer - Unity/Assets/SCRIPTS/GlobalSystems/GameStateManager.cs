@@ -31,6 +31,7 @@ namespace GlobalSystems
         [HideInInspector] public CharacterMovement CharacterMovement;
         [HideInInspector] public CharacterSpriteController CharacterSpriteController;
         [HideInInspector] public InputPlaybackManager InputPlaybackManager;
+        [HideInInspector] public TextAsset CameraBoundsData;
 
         public MovementConfigs MovementConfigs;
         public GameplayControlConfigs GameplayControlConfigs;

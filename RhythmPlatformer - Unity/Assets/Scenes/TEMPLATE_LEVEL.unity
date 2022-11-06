@@ -2634,6 +2634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
   CameraManager: {fileID: 851463575}
+  CameraBoundsData: {fileID: 4900000, guid: 457e212e78508e74b972a77029a3a365, type: 3}
   LevelManager: {fileID: 336158991}
   CharacterInput: {fileID: 1285793916}
   CharacterCollisionDetector: {fileID: 1285793920}
