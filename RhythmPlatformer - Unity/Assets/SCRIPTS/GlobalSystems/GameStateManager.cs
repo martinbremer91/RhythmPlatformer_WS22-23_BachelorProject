@@ -96,6 +96,8 @@ namespace GlobalSystems
             
             void InitLevelScene()
             {
+                PhysicsPausables.Clear();
+
                 CameraManager.Init(this);
                 LevelManager.Init(this);
                 InputPlaybackManager.Init(this);
