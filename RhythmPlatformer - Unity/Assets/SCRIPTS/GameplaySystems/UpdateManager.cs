@@ -80,7 +80,7 @@ namespace GameplaySystems
                 return;
             
             UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
-            
+
             if (_inputPlaybackManager.UpdateType.HasFlag(currentUpdateType))
                 _inputPlaybackManager.CustomUpdate();
             if (_characterInput.UpdateType.HasFlag(currentUpdateType))

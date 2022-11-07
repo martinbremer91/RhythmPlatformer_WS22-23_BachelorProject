@@ -24,7 +24,6 @@ namespace GameplaySystems
         private Vector3 _currentWaypointDirection;
         private int _nextWaypointIndex;
         private bool _hasCurrentWaypoint;
-        private Vector2 _destination;
 
         private bool _pausingBetweenWaypoints;
         private float _pausingTimer;

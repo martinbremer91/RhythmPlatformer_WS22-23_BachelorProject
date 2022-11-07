@@ -26,7 +26,7 @@ namespace Gameplay
         public void Init(GameStateManager in_gameStateManager)
         {
             _characterStateController = in_gameStateManager.CharacterStateController;
-            in_gameStateManager.TogglePauseAction += OnTogglePause;
+            in_gameStateManager.TogglePauseEvent += OnTogglePause;
         }
 
         public void SetDashWindupTrigger() => _playerAnimator.SetTrigger(Constants.DashWindupClipName);

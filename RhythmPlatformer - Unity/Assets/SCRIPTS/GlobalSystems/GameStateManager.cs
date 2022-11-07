@@ -4,6 +4,7 @@ using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -39,10 +40,12 @@ namespace GlobalSystems
 
         #endregion
 
+        public readonly List<IPhysicsPausable> PhysicsPausables = new();
+
         public static SceneType s_LoadedSceneType;
         public static UpdateType s_ActiveUpdateType;
 
-        public Action<bool> TogglePauseAction;
+        public Action<bool> TogglePauseEvent;
 
 #if UNITY_EDITOR
         public static bool s_DebugMode;
@@ -127,8 +130,16 @@ namespace GlobalSystems
             BeatManager.BeatState = BeatManager.BeatState == BeatState.Off ? BeatState.Off :
                 paused ? BeatState.Standby : BeatState.Active;
 
-            TogglePauseAction?.Invoke(paused);
+            // Refactor TogglePhysicsPause when BeatManager has CountIn functionality
+            TogglePhysicsPause(paused);
+            TogglePauseEvent?.Invoke(paused);
             PauseMenu.TogglePauseMenu(paused);
+        }
+
+        public void TogglePhysicsPause(bool in_paused)
+        {
+            foreach (IPhysicsPausable physicsPausable in PhysicsPausables)
+                physicsPausable.TogglePausePhysics(in_paused);
         }
     }
 }

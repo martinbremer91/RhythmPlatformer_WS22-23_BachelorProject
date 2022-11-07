@@ -7,14 +7,15 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CharacterMovement : MonoBehaviour, IUpdatable, IInit<GameStateManager>
+    public class CharacterMovement : MonoBehaviour, IUpdatable, IInit<GameStateManager>, IPhysicsPausable
     {
         #region REFERENCES
         
         private CharacterStateController _characterStateController;
         private CharacterInput _characterInput;
-        [SerializeField] private Rigidbody2D _rigidbody2D;
+        private GameStateManager _gameStateManager;
         
+        [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private MovementConfigs _movementConfigs;
 
         #endregion
@@ -22,6 +23,8 @@ namespace Gameplay
         #region VARIABLES
         
         public UpdateType UpdateType => UpdateType.GamePlay;
+        public Vector2 Velocity => CharacterVelocity;
+        public Rigidbody2D PausableRigidbody => _rigidbody2D;
         
         private Vector2 _characterVelocity;
         public Vector2 CharacterVelocity => _characterVelocity;
@@ -79,14 +82,27 @@ namespace Gameplay
 
         #region INIT & UPDATE
 
+        private void OnEnable() => RegisterPhysicsPausable();
+        private void OnDisable() => DeregisterPhysicsPausable();
+
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterInput = in_gameStateManager.CharacterInput;
             _movementConfigs = in_gameStateManager.MovementConfigs;
 
+            RegisterPhysicsPausable();
             GetMovementData();
-        } 
+        }
+
+        public void RegisterPhysicsPausable()
+        {
+            if (_gameStateManager && !_gameStateManager.PhysicsPausables.Contains(this))
+                _gameStateManager.PhysicsPausables.Add(this);
+        }
+
+        public void DeregisterPhysicsPausable() => _gameStateManager.PhysicsPausables.Remove(this);
 
         private void GetMovementData()
         {
@@ -254,8 +270,6 @@ namespace Gameplay
         #endregion
 
         #region UTILITY FUNCTIONS
-
-        public void TogglePausePhysics(bool pause) => _rigidbody2D.velocity = pause ? Vector2.zero : CharacterVelocity;
 
         private float GetCurrentGroundDrag()
         {
