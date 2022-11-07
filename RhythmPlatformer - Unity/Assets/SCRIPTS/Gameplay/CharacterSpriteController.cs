@@ -5,56 +5,67 @@ using Utility_Scripts;
 
 namespace Gameplay
 {
-    public class CharacterSpriteController : MonoBehaviour, IInit<GameStateManager>
+    public class CharacterSpriteController : MonoBehaviour, IInit<GameStateManager>, IAnimatorPausable
     {
         #region REFERENCES
 
         private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-        public Animator PlayerAnimator;
+        [SerializeField] private Animator _playerAnimator;
 
         #endregion
 
+        public Animator Animator
+        {
+            get => _playerAnimator;
+            set => _playerAnimator = value;
+        }
+
         public void SetCharacterOrientation(bool in_faceLeft) => _spriteRenderer.flipX = in_faceLeft;
 
-        public void Init(GameStateManager in_gameStateManager) =>
+        public void Init(GameStateManager in_gameStateManager)
+        {
             _characterStateController = in_gameStateManager.CharacterStateController;
+            in_gameStateManager.TogglePauseAction += OnTogglePause;
+        }
 
-        public void SetDashWindupTrigger() => PlayerAnimator.SetTrigger(Constants.DashWindupClipName);
+        public void SetDashWindupTrigger() => _playerAnimator.SetTrigger(Constants.DashWindupClipName);
 
         public void HandleStateAnimation()
         {
             switch (_characterStateController.CurrentCharacterState)
             {
                 case CharacterState.Idle:
-                    PlayerAnimator.ResetTrigger(Constants.LandClipName);
-                    PlayerAnimator.SetTrigger(Constants.IdleClipName);
+                    _playerAnimator.ResetTrigger(Constants.LandClipName);
+                    _playerAnimator.SetTrigger(Constants.IdleClipName);
                     break;
                 case CharacterState.Crouch:
-                    PlayerAnimator.ResetTrigger(Constants.LandClipName);
-                    PlayerAnimator.SetTrigger(Constants.LandClipName);
+                    _playerAnimator.ResetTrigger(Constants.LandClipName);
+                    _playerAnimator.SetTrigger(Constants.LandClipName);
                     break;
                 case CharacterState.Run:
-                    PlayerAnimator.ResetTrigger(Constants.LandClipName);
-                    PlayerAnimator.SetTrigger(Constants.RunClipName);
+                    _playerAnimator.ResetTrigger(Constants.LandClipName);
+                    _playerAnimator.SetTrigger(Constants.RunClipName);
                     break;
                 case CharacterState.Land:
-                    PlayerAnimator.SetTrigger(Constants.LandClipName);
+                    _playerAnimator.SetTrigger(Constants.LandClipName);
                     break;
                 case CharacterState.Rise:
-                    PlayerAnimator.SetTrigger(Constants.RiseClipName);
+                    _playerAnimator.SetTrigger(Constants.RiseClipName);
                     break;
                 case CharacterState.Fall:
-                    PlayerAnimator.SetTrigger(Constants.FallClipName);
+                    _playerAnimator.SetTrigger(Constants.FallClipName);
                     break;
                 case CharacterState.Dash:
-                    PlayerAnimator.SetTrigger(Constants.DashClipName);
+                    _playerAnimator.SetTrigger(Constants.DashClipName);
                     break;
                 case CharacterState.WallCling:
                 case CharacterState.WallSlide:
-                    PlayerAnimator.SetTrigger(Constants.WalledClipName);
+                    _playerAnimator.SetTrigger(Constants.WalledClipName);
                     break;
             }
         }
+
+        public void OnTogglePause(bool in_paused) => (this as IAnimatorPausable).ToggleAnimatorPause(in_paused);
     }
 }

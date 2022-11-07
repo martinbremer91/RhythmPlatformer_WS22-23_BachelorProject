@@ -198,7 +198,7 @@ namespace Gameplay
             void GetAnticipationStatesDurations()
             {
                 AnimationClip dashWindupClip =
-                    _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
+                    _spriteController.Animator.runtimeAnimatorController.animationClips
                         .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
                 
                 if (dashWindupClip == null)

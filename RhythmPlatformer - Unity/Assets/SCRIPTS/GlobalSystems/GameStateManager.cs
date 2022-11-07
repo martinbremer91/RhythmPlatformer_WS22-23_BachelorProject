@@ -3,6 +3,7 @@ using GameplaySystems;
 using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
+using System;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -39,9 +40,9 @@ namespace GlobalSystems
         #endregion
 
         public static SceneType s_LoadedSceneType;
-        
-        private static UpdateType s_activeUpdateType;
         public static UpdateType s_ActiveUpdateType;
+
+        public Action<bool> TogglePauseAction;
 
 #if UNITY_EDITOR
         public static bool s_DebugMode;
@@ -125,7 +126,8 @@ namespace GlobalSystems
             
             BeatManager.BeatState = BeatManager.BeatState == BeatState.Off ? BeatState.Off :
                 paused ? BeatState.Standby : BeatState.Active;
-            
+
+            TogglePauseAction?.Invoke(paused);
             PauseMenu.TogglePauseMenu(paused);
         }
     }
