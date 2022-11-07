@@ -513,7 +513,7 @@ namespace Gameplay
         {
             if (!_canDash)
             {
-                _dashWindup = false;
+                DashWindup = false;
                 return;
             }
 

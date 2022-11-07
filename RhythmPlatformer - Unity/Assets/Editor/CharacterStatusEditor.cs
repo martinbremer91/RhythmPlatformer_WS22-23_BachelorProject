@@ -128,11 +128,15 @@ namespace Editor
                 "Land Velocity: " + _characterMovement.LandVelocity);
             GUI.Label(new Rect (_infoRect.position + new Vector2(25, 100), new Vector2(300, 20)), 
                 "Wall Slide Velocity: " + $"{_characterMovement.WallSlideVelocity:N2}");
-            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 120),
+            GUI.Label(new Rect(_infoRect.position + new Vector2(25, 115), new Vector2(300, 20)),
+                "Dash Velocity: " + _characterMovement.DashVelocity);
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 135),
                     new Vector2(200, 20)), 
                 _characterStateController.CanWallCling, "Wall Cling available");
-            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 135), new Vector2(300, 20)), 
+            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 150), new Vector2(300, 20)), 
                 "Wall Cling Timer: " + $"{_characterStateController.WallClingTimer:N2}");
+            GUI.Label(new Rect(_infoRect.position + new Vector2(5, 170), new Vector2(300, 20)),
+                "Look Ahead Direction: " + _characterStateController.LookAheadDirection);
         }
 
         private void DrawInputState()
@@ -163,9 +167,6 @@ namespace Editor
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 190),
                     new Vector2(200, 20)), 
                 _characterMovement.FastFalling, "FAST FALL");
-            
-            GUI.Label(new Rect (_infoRect.position + new Vector2(5, 155), new Vector2(300, 20)), 
-                "Look Ahead Direction: " + _characterStateController.LookAheadDirection);
         }
     }
 }
