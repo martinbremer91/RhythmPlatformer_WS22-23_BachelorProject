@@ -20,14 +20,18 @@ namespace Gameplay
 
         #endregion
 
-        #region VARIABLES
-        
+        #region INTERFACE PROPERTIES
+
         public UpdateType UpdateType => UpdateType.GamePlay;
         public Vector2 Velocity => CharacterVelocity;
         public Rigidbody2D PausableRigidbody => _rigidbody2D;
         
         private Vector2 _characterVelocity;
         public Vector2 CharacterVelocity => _characterVelocity;
+
+        #endregion
+
+        #region VARIABLES
 
         public float RunVelocity { get; set; }
         public float LandVelocity { get; set; }
@@ -144,7 +148,6 @@ namespace Gameplay
                 return;
             }
 #endif
-            
             _characterVelocity = GetCharacterVelocity();
 
             if (_characterStateController.DashWindup)
@@ -175,7 +178,6 @@ namespace Gameplay
                 RunVelocity = directionMod * velocity;
         }
         
-        // TODO: Consolidate Fall() and Rise() overlapping functionality into a separate function
         public void Fall()
         {
             float xInput = _characterInput.InputState.DirectionalInput.x;
@@ -186,10 +188,13 @@ namespace Gameplay
                     _fallVelocity.x = 0;
             }
 
-            float drift = xInput * _airDriftSpeed;
+            float drift = 
+                _characterStateController.NearWallLeft && xInput < 0 ? 0 :
+                _characterStateController.NearWallRight && xInput > 0 ? 0 :
+                xInput * _airDriftSpeed;
 
-            float xVelocity = _fallVelocity.x == 0 ? drift : 
-                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
+            float xVelocity = _fallVelocity.x == 0 ? drift :
+                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime :
                 _fallVelocity.x + (_airDrag + drift) * Time.fixedDeltaTime;
 
             if (!FastFalling)
