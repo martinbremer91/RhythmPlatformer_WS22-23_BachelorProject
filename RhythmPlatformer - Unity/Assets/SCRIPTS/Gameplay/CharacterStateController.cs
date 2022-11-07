@@ -242,10 +242,7 @@ namespace Gameplay
                             ? CharacterState.Rise
                             : CharacterState.Fall;
                     else
-                    {
                         CurrentCharacterState = CharacterState.Land;
-                        _characterMovement.CancelVerticalVelocity();
-                    }
                     break;
                 case CollisionCheck.Ceiling:
                     CeilingHit = in_enter;

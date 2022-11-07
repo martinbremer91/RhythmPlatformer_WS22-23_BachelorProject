@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Interfaces_and_Enums;
 using UnityEngine;
+using GlobalSystems;
 
 namespace GameplaySystems
 {
-    public class MovementRoutine : MonoBehaviour, IInit<UpdateManager>,IUpdatable
+    public class MovementRoutine : MonoBehaviour, IInit<GameStateManager>,IUpdatable
     {
         #region REFERENCES / EXPOSED FIELDS
 
@@ -41,9 +42,9 @@ namespace GameplaySystems
 
         #region IInit
 
-        public void Init(UpdateManager in_updateManager)
+        public void Init(GameStateManager in_gameStateManager)
         {
-            _updateManager = in_updateManager;
+            _updateManager = in_gameStateManager.UpdateManager;
             _updateManager.MovementRoutines.Add(this);
 
             if (Waypoints == null || !Waypoints.Any())

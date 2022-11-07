@@ -317,10 +317,6 @@ namespace Gameplay
             _characterVelocity = _riseVelocity;
         }
         
-        /// <summary>
-        /// Checks for different cases, initializes appropriate velocities and sets appropriate state.
-        /// Possible states include Dash and Land.
-        /// </summary>
         public void InitializeDash()
         {
             CancelHorizontalVelocity();
@@ -360,7 +356,7 @@ namespace Gameplay
 
         public MovementSnapshot GetMovementSnapshot()
         {
-            MovementSnapshot ms = new()
+            MovementSnapshot mss = new()
             {
                 mss_CharacterVelocity = _characterVelocity,
                 mss_RunVelocity = RunVelocity,
@@ -379,7 +375,7 @@ namespace Gameplay
                 mss_FallCurveTrackerX = FallCurveTracker.x
             };
 
-            return ms;
+            return mss;
         }
 
         public void ApplyMovementSnapshot(MovementSnapshot in_mss)
