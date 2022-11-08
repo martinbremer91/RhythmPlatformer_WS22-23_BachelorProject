@@ -6,6 +6,7 @@ using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
 using GlobalSystems;
 using UnityEngine;
+using Menus_and_Transitions;
 
 namespace GameplaySystems
 {
@@ -23,6 +24,8 @@ namespace GameplaySystems
         [SerializeField] private AudioSource _metronomeStrong;
         [SerializeField] private AudioSource _metronomeWeak;
         public TrackData TrackData;
+
+        private PauseMenu _pauseMenu;
 
         #endregion
 
@@ -156,23 +159,24 @@ namespace GameplaySystems
         public void RecordPausedBeatAndMetronome()
         {
             _pausedBeat = _beatTracker == TrackData.Meter ? 1 : _beatTracker + 1;
+            _gameStateManager.PauseMenu.SetPausedBeatText(_pausedBeat);
             _pausedMetronome = MetronomeOn;
         } 
 
         public async void ExecuteCountInAsync()
         {
-            Debug.Log("called count in: " + _beatTracker);
-            
+            PauseMenu pauseMenu = _gameStateManager.PauseMenu;
+            int countIn = 0;
+
             while (_beatTracker != TrackData.Meter)
                 await Task.Yield();
-
-            Debug.Log("starting count in: " + _beatTracker);
             
-            // start count in
             MetronomeOn = true;
             while (_beatTracker != 1)
                 await Task.Yield();
-            Debug.Log("started count in: " + _beatTracker);
+
+            UpdateCountInUi();
+
             while (_beatTracker != 2)
                 await Task.Yield();
 
@@ -181,17 +185,31 @@ namespace GameplaySystems
             if (_pausedBeat != 1)
             {
                 while (_beatTracker != 1)
+                {
+                    UpdateCountInUi();
                     await Task.Yield();
+                }
             }
             
             while (_beatTracker != beatBeforeUnpause)
+            {
+                UpdateCountInUi();
                 await Task.Yield();
-            
-            Debug.Log("finished count in: " + _beatTracker);
+            }
+
+            UpdateCountInUi();
 
             MetronomeOn = _pausedMetronome;
             _unpauseSignal = true;
             BeatAction += _gameStateManager.TogglePause;
+
+            void UpdateCountInUi() {
+                if (countIn != _beatTracker)
+                {
+                    pauseMenu.SetCountInText(_beatTracker);
+                    countIn = _beatTracker;
+                }
+            }
         }
     }
 }

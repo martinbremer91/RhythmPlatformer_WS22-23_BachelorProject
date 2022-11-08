@@ -72,6 +72,7 @@ namespace GlobalSystems
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
             UiManager.Init();
+            PauseMenu.Init(this);
             PulsingController.Init(this);
             
             SceneInit();
@@ -135,7 +136,9 @@ namespace GlobalSystems
                 BeatManager.RecordPausedBeatAndMetronome();
                 BeatManager.MetronomeOn = false;
             }
-            
+            else
+                PauseMenu.SetCountInText(0, false);
+
             // Refactor TogglePhysicsPause when BeatManager has CountIn functionality
             TogglePhysicsPause(paused);
             CharacterSpriteController.OnTogglePause(paused);
