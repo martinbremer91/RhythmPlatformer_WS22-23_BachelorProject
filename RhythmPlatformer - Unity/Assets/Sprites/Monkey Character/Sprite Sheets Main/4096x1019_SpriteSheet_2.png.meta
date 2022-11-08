@@ -187,6 +187,153 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_4
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2050
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 190757a6cf8cad646961059072beaa45
+      internalID: 478269912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_5
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 2050
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 882b3749c6c51ac45a429201bb8f1bfb
+      internalID: 955292390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_6
+      rect:
+        serializedVersion: 2
+        x: 2050
+        y: 2050
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04524d36635c2c643a1247f455d15421
+      internalID: 1654691692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_7
+      rect:
+        serializedVersion: 2
+        x: 3073
+        y: 2050
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ff4f36bc6b0074dbd0d65886124f6e
+      internalID: 488015387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_8
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1027
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e3a6dc9bda167d42bbf54917021d72b
+      internalID: -992186016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_9
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 1027
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a159ed03e243074e9de3bc3feebdaf8
+      internalID: -1767503729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4096x1019_SpriteSheet_2_10
+      rect:
+        serializedVersion: 2
+        x: 2050
+        y: 1027
+        width: 1019
+        height: 1019
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad83629f76d2df6469446963dc024786
+      internalID: -1992160522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -198,10 +345,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      4096x1019_SpriteSheet_2_3: -1828601074
+      4096x1019_SpriteSheet_2_11: -1910298534
+      4096x1019_SpriteSheet_2_3: -282860883
+      4096x1019_SpriteSheet_2_7: 1307875636
+      4096x1019_SpriteSheet_2_10: -1484054929
       4096x1019_SpriteSheet_2_1: -1302232510
-      4096x1019_SpriteSheet_2_0: -282860883
-      4096x1019_SpriteSheet_2_2: -2085051324
+      4096x1019_SpriteSheet_2_0: -2085051324
+      4096x1019_SpriteSheet_2_5: 1123582926
+      4096x1019_SpriteSheet_2_6: 641944725
+      4096x1019_SpriteSheet_2_8: 1399944440
+      4096x1019_SpriteSheet_2_9: 1642848486
+      4096x1019_SpriteSheet_2_2: -1828601074
+      4096x1019_SpriteSheet_2_4: 605130871
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
