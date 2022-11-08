@@ -138,5 +138,10 @@ namespace GameplaySystems
                     _metronomeWeak.Play();
             }
         }
+
+        public async void PerformCountInAsync()
+        {
+            
+        }
     }
 }
