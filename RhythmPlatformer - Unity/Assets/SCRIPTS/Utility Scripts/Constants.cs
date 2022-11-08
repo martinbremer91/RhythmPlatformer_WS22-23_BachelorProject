@@ -5,7 +5,7 @@ namespace Utility_Scripts
     {
         // SCENE NAMES
         public const string MainMenu = "MainMenu";
-        public const string LevelEditor = "LevelEditor";
+        public const string TemplateLevel = "TEMPLATE_LEVEL";
         public const string TestLevel = "TestLevel";
 
         // ANIMATION PARAMETERS
