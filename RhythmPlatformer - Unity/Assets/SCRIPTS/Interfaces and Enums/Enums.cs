@@ -15,8 +15,7 @@ namespace Interfaces_and_Enums
     public enum BeatState
     {
         Off,
-        Active,
-        Standby
+        Active
     }
     
     public enum CollisionCheck

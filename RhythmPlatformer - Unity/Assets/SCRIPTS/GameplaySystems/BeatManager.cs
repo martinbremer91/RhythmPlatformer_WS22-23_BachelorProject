@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Gameplay;
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
@@ -12,6 +13,8 @@ namespace GameplaySystems
     {
         #region REFERENCES
 
+        private GameStateManager _gameStateManager;
+        
         private CharacterInput _characterInput;
         [SerializeField] private AudioSource[] _trackAudioSources;
 
@@ -39,9 +42,13 @@ namespace GameplaySystems
         private double _beatLength;
         private double _nextBeatTime;
         private int _beatTracker;
+        private int _pausedBeat;
         
-        [SerializeField] private bool _metronomeOn;
+        public bool MetronomeOn;
+        private bool _pausedMetronome;
 
+        private bool _unpauseSignal;
+        
         #endregion
 
         public Action BeatAction;
@@ -77,6 +84,8 @@ namespace GameplaySystems
                 return;
             }
 
+            _gameStateManager = in_gameStateManager;
+            
             // TODO: starting value will have to change to BeatState.StandBy in levels and BeatState.Off in menus
             BeatState = BeatState.Active;
             
@@ -120,28 +129,69 @@ namespace GameplaySystems
 
             if (time >= _nextBeatTime)
             {
-                BeatAction?.Invoke();
-                
                 _nextBeatTime += _beatLength;
                 _beatTracker = _beatTracker < TrackData.Meter ? _beatTracker + 1 : 1;
 
+                bool gameplayActive = GameStateManager.s_ActiveUpdateType == UpdateType.GamePlay;
+
+                if (gameplayActive || _unpauseSignal)
+                    BeatAction?.Invoke();
+
                 if (TrackData.EventBeats.Any(b => b == _beatTracker))
                 {
-                    if (_metronomeOn)
+                    if (MetronomeOn)
                         _metronomeStrong.Play();
 
-                    EventBeatAction?.Invoke();
-
-                    _characterInput.InputState.JumpSquat = true;
+                    if (gameplayActive)
+                    {
+                        EventBeatAction?.Invoke();
+                        _characterInput.InputState.JumpSquat = true;
+                    }
                 } 
-                else if (_metronomeOn)
+                else if (MetronomeOn)
                     _metronomeWeak.Play();
             }
         }
 
-        public async void PerformCountInAsync()
+        public void RecordPausedBeatAndMetronome()
         {
+            _pausedBeat = _beatTracker == TrackData.Meter ? 1 : _beatTracker + 1;
+            _pausedMetronome = MetronomeOn;
+        } 
+
+        public async void ExecuteCountInAsync()
+        {
+            Debug.Log("called count in: " + _beatTracker);
             
+            while (_beatTracker != TrackData.Meter)
+                await Task.Yield();
+
+            Debug.Log("starting count in: " + _beatTracker);
+            
+            // start count in
+            MetronomeOn = true;
+            while (_beatTracker != 1)
+                await Task.Yield();
+            Debug.Log("started count in: " + _beatTracker);
+            while (_beatTracker != 2)
+                await Task.Yield();
+
+            int beatBeforeUnpause = _pausedBeat == 1 ? TrackData.Meter : _pausedBeat - 1;
+
+            if (_pausedBeat != 1)
+            {
+                while (_beatTracker != 1)
+                    await Task.Yield();
+            }
+            
+            while (_beatTracker != beatBeforeUnpause)
+                await Task.Yield();
+            
+            Debug.Log("finished count in: " + _beatTracker);
+
+            MetronomeOn = _pausedMetronome;
+            _unpauseSignal = true;
+            BeatAction += _gameStateManager.TogglePause;
         }
     }
 }

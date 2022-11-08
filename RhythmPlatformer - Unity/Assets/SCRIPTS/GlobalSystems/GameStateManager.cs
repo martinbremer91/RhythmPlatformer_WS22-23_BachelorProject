@@ -45,8 +45,6 @@ namespace GlobalSystems
         public static SceneType s_LoadedSceneType;
         public static UpdateType s_ActiveUpdateType;
 
-        public Action<bool> TogglePauseEvent;
-
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
@@ -117,24 +115,30 @@ namespace GlobalSystems
         public void ScheduleTogglePause()
         {
             if (BeatManager.BeatState == BeatState.Off)
-                TogglePause();
+                BeatManager.ExecuteCountInAsync();
             else
                 BeatManager.BeatAction += TogglePause;
         } 
 
-        private void TogglePause()
-        {
+        public void TogglePause()
+        { 
             BeatManager.BeatAction -= TogglePause;
             
             s_ActiveUpdateType = s_ActiveUpdateType == UpdateType.Paused ? UpdateType.GamePlay : UpdateType.Paused;
             bool paused = s_ActiveUpdateType == UpdateType.Paused;
             
             BeatManager.BeatState = BeatManager.BeatState == BeatState.Off ? BeatState.Off :
-                paused ? BeatState.Standby : BeatState.Active;
+                paused ? BeatState.Off : BeatState.Active;
 
+            if (paused)
+            {
+                BeatManager.RecordPausedBeatAndMetronome();
+                BeatManager.MetronomeOn = false;
+            }
+            
             // Refactor TogglePhysicsPause when BeatManager has CountIn functionality
             TogglePhysicsPause(paused);
-            TogglePauseEvent?.Invoke(paused);
+            CharacterSpriteController.OnTogglePause(paused);
             PauseMenu.TogglePauseMenu(paused);
         }
 

@@ -23,11 +23,8 @@ namespace Gameplay
 
         public void SetCharacterOrientation(bool in_faceLeft) => _spriteRenderer.flipX = in_faceLeft;
 
-        public void Init(GameStateManager in_gameStateManager)
-        {
+        public void Init(GameStateManager in_gameStateManager) =>
             _characterStateController = in_gameStateManager.CharacterStateController;
-            in_gameStateManager.TogglePauseEvent += OnTogglePause;
-        }
 
         public void SetDashWindupTrigger() => _playerAnimator.SetTrigger(Constants.DashWindupClipName);
 
