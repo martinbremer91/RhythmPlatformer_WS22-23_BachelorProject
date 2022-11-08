@@ -3,6 +3,8 @@ using GameplaySystems;
 using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -38,10 +40,12 @@ namespace GlobalSystems
 
         #endregion
 
+        public readonly List<IPhysicsPausable> PhysicsPausables = new();
+
         public static SceneType s_LoadedSceneType;
-        
-        private static UpdateType s_activeUpdateType;
         public static UpdateType s_ActiveUpdateType;
+
+        public Action<bool> TogglePauseEvent;
 
 #if UNITY_EDITOR
         public static bool s_DebugMode;
@@ -92,6 +96,8 @@ namespace GlobalSystems
             
             void InitLevelScene()
             {
+                PhysicsPausables.Clear();
+
                 CameraManager.Init(this);
                 LevelManager.Init(this);
                 InputPlaybackManager.Init(this);
@@ -125,8 +131,17 @@ namespace GlobalSystems
             
             BeatManager.BeatState = BeatManager.BeatState == BeatState.Off ? BeatState.Off :
                 paused ? BeatState.Standby : BeatState.Active;
-            
+
+            // Refactor TogglePhysicsPause when BeatManager has CountIn functionality
+            TogglePhysicsPause(paused);
+            TogglePauseEvent?.Invoke(paused);
             PauseMenu.TogglePauseMenu(paused);
+        }
+
+        public void TogglePhysicsPause(bool in_paused)
+        {
+            foreach (IPhysicsPausable physicsPausable in PhysicsPausables)
+                physicsPausable.TogglePausePhysics(in_paused);
         }
     }
 }

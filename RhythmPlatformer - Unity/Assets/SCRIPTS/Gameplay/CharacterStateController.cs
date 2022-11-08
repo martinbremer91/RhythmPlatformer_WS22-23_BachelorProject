@@ -198,7 +198,7 @@ namespace Gameplay
             void GetAnticipationStatesDurations()
             {
                 AnimationClip dashWindupClip =
-                    _spriteController.PlayerAnimator.runtimeAnimatorController.animationClips
+                    _spriteController.Animator.runtimeAnimatorController.animationClips
                         .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
                 
                 if (dashWindupClip == null)
@@ -242,10 +242,7 @@ namespace Gameplay
                             ? CharacterState.Rise
                             : CharacterState.Fall;
                     else
-                    {
                         CurrentCharacterState = CharacterState.Land;
-                        _characterMovement.CancelVerticalVelocity();
-                    }
                     break;
                 case CollisionCheck.Ceiling:
                     CeilingHit = in_enter;
@@ -513,7 +510,7 @@ namespace Gameplay
         {
             if (!_canDash)
             {
-                _dashWindup = false;
+                DashWindup = false;
                 return;
             }
 

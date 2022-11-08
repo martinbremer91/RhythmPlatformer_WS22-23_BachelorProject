@@ -7,24 +7,31 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CharacterMovement : MonoBehaviour, IUpdatable, IInit<GameStateManager>
+    public class CharacterMovement : MonoBehaviour, IUpdatable, IInit<GameStateManager>, IPhysicsPausable
     {
         #region REFERENCES
         
         private CharacterStateController _characterStateController;
         private CharacterInput _characterInput;
-        [SerializeField] private Rigidbody2D _rigidbody2D;
+        private GameStateManager _gameStateManager;
         
+        [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private MovementConfigs _movementConfigs;
 
         #endregion
 
-        #region VARIABLES
-        
+        #region INTERFACE PROPERTIES
+
         public UpdateType UpdateType => UpdateType.GamePlay;
+        public Vector2 Velocity => CharacterVelocity;
+        public Rigidbody2D PausableRigidbody => _rigidbody2D;
         
         private Vector2 _characterVelocity;
         public Vector2 CharacterVelocity => _characterVelocity;
+
+        #endregion
+
+        #region VARIABLES
 
         public float RunVelocity { get; set; }
         public float LandVelocity { get; set; }
@@ -79,14 +86,27 @@ namespace Gameplay
 
         #region INIT & UPDATE
 
+        private void OnEnable() => RegisterPhysicsPausable();
+        private void OnDisable() => DeregisterPhysicsPausable();
+
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterInput = in_gameStateManager.CharacterInput;
             _movementConfigs = in_gameStateManager.MovementConfigs;
 
+            RegisterPhysicsPausable();
             GetMovementData();
-        } 
+        }
+
+        public void RegisterPhysicsPausable()
+        {
+            if (_gameStateManager && !_gameStateManager.PhysicsPausables.Contains(this))
+                _gameStateManager.PhysicsPausables.Add(this);
+        }
+
+        public void DeregisterPhysicsPausable() => _gameStateManager.PhysicsPausables.Remove(this);
 
         private void GetMovementData()
         {
@@ -128,7 +148,6 @@ namespace Gameplay
                 return;
             }
 #endif
-            
             _characterVelocity = GetCharacterVelocity();
 
             if (_characterStateController.DashWindup)
@@ -159,7 +178,6 @@ namespace Gameplay
                 RunVelocity = directionMod * velocity;
         }
         
-        // TODO: Consolidate Fall() and Rise() overlapping functionality into a separate function
         public void Fall()
         {
             float xInput = _characterInput.InputState.DirectionalInput.x;
@@ -170,10 +188,13 @@ namespace Gameplay
                     _fallVelocity.x = 0;
             }
 
-            float drift = xInput * _airDriftSpeed;
+            float drift = 
+                _characterStateController.NearWallLeft && xInput < 0 ? 0 :
+                _characterStateController.NearWallRight && xInput > 0 ? 0 :
+                xInput * _airDriftSpeed;
 
-            float xVelocity = _fallVelocity.x == 0 ? drift : 
-                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
+            float xVelocity = _fallVelocity.x == 0 ? drift :
+                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime :
                 _fallVelocity.x + (_airDrag + drift) * Time.fixedDeltaTime;
 
             if (!FastFalling)
@@ -255,8 +276,6 @@ namespace Gameplay
 
         #region UTILITY FUNCTIONS
 
-        public void TogglePausePhysics(bool pause) => _rigidbody2D.velocity = pause ? Vector2.zero : CharacterVelocity;
-
         private float GetCurrentGroundDrag()
         {
             float slideAxisInput = _characterInput.InputState.DirectionalInput.x;
@@ -298,10 +317,6 @@ namespace Gameplay
             _characterVelocity = _riseVelocity;
         }
         
-        /// <summary>
-        /// Checks for different cases, initializes appropriate velocities and sets appropriate state.
-        /// Possible states include Dash and Land.
-        /// </summary>
         public void InitializeDash()
         {
             CancelHorizontalVelocity();
@@ -341,7 +356,7 @@ namespace Gameplay
 
         public MovementSnapshot GetMovementSnapshot()
         {
-            MovementSnapshot ms = new()
+            MovementSnapshot mss = new()
             {
                 mss_CharacterVelocity = _characterVelocity,
                 mss_RunVelocity = RunVelocity,
@@ -360,7 +375,7 @@ namespace Gameplay
                 mss_FallCurveTrackerX = FallCurveTracker.x
             };
 
-            return ms;
+            return mss;
         }
 
         public void ApplyMovementSnapshot(MovementSnapshot in_mss)

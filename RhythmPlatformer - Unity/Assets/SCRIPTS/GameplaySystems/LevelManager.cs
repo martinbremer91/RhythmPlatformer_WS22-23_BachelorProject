@@ -26,7 +26,7 @@ namespace GameplaySystems
                     Debug.LogError("MovementRoutine.UpdateType and MovementRoutine.s_UpdateType must match");
 
                 foreach (MovementRoutine routine in _movementRoutines)
-                    routine.Init(in_gameStateManager.UpdateManager);
+                    routine.Init(in_gameStateManager);
             }
         }
     }

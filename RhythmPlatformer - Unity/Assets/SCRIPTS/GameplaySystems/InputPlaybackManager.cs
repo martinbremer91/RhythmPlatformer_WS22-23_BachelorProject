@@ -12,6 +12,7 @@ namespace GameplaySystems
     {
         #region  REFERENCES
 
+        private GameStateManager _gameStateManager;
         private CharacterInput _characterInput;
         private CharacterStateController _characterStateController;
         private CharacterMovement _characterMovement;
@@ -47,6 +48,7 @@ namespace GameplaySystems
 
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
             _characterInput = in_gameStateManager.CharacterInput;
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterMovement = in_gameStateManager.CharacterMovement;
@@ -102,11 +104,11 @@ namespace GameplaySystems
              {
                  if (!s_FrameAdvance)
                  {
-                     _characterMovement.TogglePausePhysics(true);
+                     _gameStateManager.TogglePhysicsPause(true);
                      return; 
                  }
-                 
-                _characterMovement.TogglePausePhysics(false);
+
+                _gameStateManager.TogglePhysicsPause(false);
                 s_FrameAdvance = false;
              }
              
@@ -123,7 +125,7 @@ namespace GameplaySystems
                  if (!s_PlaybackActive)
                  {
                      s_FrameByFrameMode = false;
-                     _characterMovement.TogglePausePhysics(false);
+                     _gameStateManager.TogglePhysicsPause(false);
                  }
 #endif
                  _characterStateController.transform.position = _playerPosition;
@@ -144,7 +146,7 @@ namespace GameplaySystems
                      _playIcon.SetActive(false);
 #if UNITY_EDITOR
                      s_FrameByFrameMode = false;
-                     _characterMovement.TogglePausePhysics(false);
+                    _gameStateManager.TogglePhysicsPause(false);
 #endif
                      return;
                  }

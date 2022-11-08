@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 5562756899129024190}
   - component: {fileID: 5562756899129024189}
   - component: {fileID: 5562756899129024067}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 5562756899129024187}
-  PlayerAnimator: {fileID: 5562756899129024067}
+  _playerAnimator: {fileID: 5562756899129024067}
 --- !u!95 &5562756899129024067
 Animator:
   serializedVersion: 4
