@@ -88,7 +88,10 @@ namespace GameplaySystems
             }
 
             _gameStateManager = in_gameStateManager;
-            
+
+            _trackAudioSources[0].clip = TrackData.Clip;
+            _trackAudioSources[1].clip = TrackData.Clip;
+
             // TODO: starting value will have to change to BeatState.StandBy in levels and BeatState.Off in menus
             BeatState = BeatState.Active;
             

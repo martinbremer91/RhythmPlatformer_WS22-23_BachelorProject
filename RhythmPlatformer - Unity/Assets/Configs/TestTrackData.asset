@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f50cf4eac7f4febb799c27b5b36c3f, type: 3}
   m_Name: TestTrackData
   m_EditorClassIdentifier: 
+  Clip: {fileID: 8300000, guid: b4dfa89c5a1d749a5a20f02d9870a27d, type: 3}
   BPM: 100
   Meter: 4
   IntroBars: 0

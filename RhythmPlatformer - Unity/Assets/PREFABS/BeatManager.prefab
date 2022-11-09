@@ -298,7 +298,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b4dfa89c5a1d749a5a20f02d9870a27d, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -439,7 +439,7 @@ MonoBehaviour:
   _metronomeStrong: {fileID: 5382255610641140915}
   _metronomeWeak: {fileID: 5382255610254532521}
   TrackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
-  _metronomeOn: 1
+  MetronomeOn: 0
   _debugBeatOff: 0
 --- !u!1 &5382255612138771049
 GameObject:
@@ -483,7 +483,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b4dfa89c5a1d749a5a20f02d9870a27d, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

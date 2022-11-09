@@ -5559,9 +5559,9 @@ PrefabInstance:
       value: BeatManager
       objectReference: {fileID: 0}
     - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
-      propertyPath: _debugBeatOff
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: TrackData
+      value: 
+      objectReference: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
 --- !u!1001 &5562756898263135939
