@@ -128,8 +128,7 @@ namespace GlobalSystems
             s_ActiveUpdateType = s_ActiveUpdateType == UpdateType.Paused ? UpdateType.GamePlay : UpdateType.Paused;
             bool paused = s_ActiveUpdateType == UpdateType.Paused;
             
-            BeatManager.BeatState = BeatManager.BeatState == BeatState.Off ? BeatState.Off :
-                paused ? BeatState.Off : BeatState.Active;
+            BeatManager.BeatState = paused ? BeatState.Off : BeatState.Active;
 
             if (paused)
             {
