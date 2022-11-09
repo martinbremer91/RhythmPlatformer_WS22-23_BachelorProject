@@ -158,7 +158,7 @@ namespace GameplaySystems
 
         public void RecordPausedBeatAndMetronome()
         {
-            _pausedBeat = _beatTracker == TrackData.Meter ? 1 : _beatTracker + 1;
+            _pausedBeat = _beatTracker;
             _gameStateManager.PauseMenu.SetPausedBeatText(_pausedBeat);
             _pausedMetronome = MetronomeOn;
         } 
