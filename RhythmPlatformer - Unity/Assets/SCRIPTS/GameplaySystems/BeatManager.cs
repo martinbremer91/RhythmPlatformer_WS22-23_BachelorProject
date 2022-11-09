@@ -23,7 +23,10 @@ namespace GameplaySystems
         
         [SerializeField] private AudioSource _metronomeStrong;
         [SerializeField] private AudioSource _metronomeWeak;
+        private TrackData _trackData;
+#if UNITY_EDITOR
         public TrackData TrackData;
+#endif
 
         private PauseMenu _pauseMenu;
 
@@ -89,21 +92,22 @@ namespace GameplaySystems
 
             _gameStateManager = in_gameStateManager;
 
-            _trackAudioSources[0].clip = TrackData.Clip;
-            _trackAudioSources[1].clip = TrackData.Clip;
+            _trackData = _gameStateManager.CurrentTrackData;
+            _trackAudioSources[0].clip = _trackData.Clip;
+            _trackAudioSources[1].clip = _trackData.Clip;
 
             // TODO: starting value will have to change to BeatState.StandBy in levels and BeatState.Off in menus
             BeatState = BeatState.Active;
             
             _characterInput = in_gameStateManager.CharacterInput;
             
-            _beatLength = 60 / (double) TrackData.BPM;
-            double barLength = _beatLength * TrackData.Meter;
+            _beatLength = 60 / (double) _trackData.BPM;
+            double barLength = _beatLength * _trackData.Meter;
 
-            _loopPoints.start = barLength * TrackData.IntroBars;
+            _loopPoints.start = barLength * _trackData.IntroBars;
             _loopPoints.end =
                 (Mathf.FloorToInt(_trackAudioSources[_activeSource].clip.length / (float)barLength)
-                 - TrackData.TailBars) * barLength;
+                 - _trackData.TailBars) * barLength;
             
             _nextTrackTime = AudioSettings.dspTime + _loopPoints.end - _loopPoints.start + _startDelay;
             _nextBeatTime = AudioSettings.dspTime + _startDelay;
@@ -136,14 +140,14 @@ namespace GameplaySystems
             if (time >= _nextBeatTime)
             {
                 _nextBeatTime += _beatLength;
-                _beatTracker = _beatTracker < TrackData.Meter ? _beatTracker + 1 : 1;
+                _beatTracker = _beatTracker < _trackData.Meter ? _beatTracker + 1 : 1;
 
                 bool gameplayActive = GameStateManager.s_ActiveUpdateType == UpdateType.GamePlay;
 
                 if (gameplayActive || _unpauseSignal)
                     BeatAction?.Invoke();
 
-                if (TrackData.EventBeats.Any(b => b == _beatTracker))
+                if (_trackData.EventBeats.Any(b => b == _beatTracker))
                 {
                     if (MetronomeOn)
                         _metronomeStrong.Play();
@@ -171,7 +175,7 @@ namespace GameplaySystems
             PauseMenu pauseMenu = _gameStateManager.PauseMenu;
             int countIn = 0;
 
-            while (_beatTracker != TrackData.Meter)
+            while (_beatTracker != _trackData.Meter)
                 await Task.Yield();
             
             MetronomeOn = true;
@@ -183,7 +187,7 @@ namespace GameplaySystems
             while (_beatTracker != 2)
                 await Task.Yield();
 
-            int beatBeforeUnpause = _pausedBeat == 1 ? TrackData.Meter : _pausedBeat - 1;
+            int beatBeforeUnpause = _pausedBeat == 1 ? _trackData.Meter : _pausedBeat - 1;
 
             if (_pausedBeat != 1)
             {

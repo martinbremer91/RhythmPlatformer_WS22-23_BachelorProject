@@ -729,6 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 238772566}
+  _trackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
 --- !u!4 &1696514298
 Transform:
   m_ObjectHideFlags: 0

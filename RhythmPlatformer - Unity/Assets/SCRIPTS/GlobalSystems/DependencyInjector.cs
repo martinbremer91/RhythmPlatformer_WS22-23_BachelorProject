@@ -1,4 +1,5 @@
 using Interfaces_and_Enums;
+using Scriptable_Object_Scripts;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -6,6 +7,7 @@ namespace GlobalSystems
     public abstract class DependencyInjector : MonoBehaviour, IInit<GameStateManager>
     {
         [SerializeField] private GameStateManager _gameStateManager;
+        [SerializeField] private TrackData _trackData;
         
         private SceneType SceneType => GetSceneType();
         protected abstract SceneType GetSceneType();
@@ -25,6 +27,7 @@ namespace GlobalSystems
 
         public virtual void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager.CurrentTrackData = _trackData;
             GameStateManager.s_LoadedSceneType = SceneType;
             GameStateManager.s_ActiveUpdateType = UpdateType;
             Destroy(gameObject);

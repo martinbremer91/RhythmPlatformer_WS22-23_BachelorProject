@@ -5659,6 +5659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
+  _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
   CameraManager: {fileID: 851463575}
   CameraBoundsData: {fileID: 4900000, guid: bed6ce7c37b954e4da963d59652aef9e, type: 3}
   LevelManager: {fileID: 336158991}

@@ -3,7 +3,6 @@ using GameplaySystems;
 using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +36,7 @@ namespace GlobalSystems
 
         public MovementConfigs MovementConfigs;
         public GameplayControlConfigs GameplayControlConfigs;
+        public TrackData CurrentTrackData;
 
         #endregion
 
