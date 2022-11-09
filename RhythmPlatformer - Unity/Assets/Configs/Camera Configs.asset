@@ -16,5 +16,5 @@ MonoBehaviour:
   LookAheadShiftDistance: 2.5
   _smoothTime: 0.5
   MaxSpeed: 30
-  MaxSize: 4
+  MaxSize: 100
   MinSize: 2.5
