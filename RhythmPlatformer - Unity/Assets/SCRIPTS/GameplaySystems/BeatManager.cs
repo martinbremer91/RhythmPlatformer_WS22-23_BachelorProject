@@ -25,7 +25,7 @@ namespace GameplaySystems
         [SerializeField] private AudioSource _metronomeWeak;
         private TrackData _trackData;
 #if UNITY_EDITOR
-        public TrackData TrackData;
+        public TrackData TrackData => _trackData;
 #endif
 
         private PauseMenu _pauseMenu;

@@ -91,7 +91,7 @@ namespace Editor
             {
                 GUI.Toggle(
                     new Rect(
-                        _infoRect.position + new Vector2(5 + 50 * (i - 1), 5), 
+                        _infoRect.position + new Vector2(5 + 35 * (i - 1), 5), 
                         new Vector2(40, 20)), 
                     _beatManager.BeatTracker == i, 
                     i.ToString());
