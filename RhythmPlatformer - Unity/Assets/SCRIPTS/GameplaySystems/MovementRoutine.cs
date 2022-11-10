@@ -15,7 +15,7 @@ namespace GameplaySystems
         private Transform _characterTransform;
 
         // TODO: change this type to a parent of OneWayPlatform
-        [SerializeField] private OneWayPlatform _movingObject;
+        [SerializeField] private MovingPlatform _movingObject;
         [SerializeField] private List<Waypoint> _waypoints;
         public List<Waypoint> Waypoints => _waypoints ??= new List<Waypoint>();
 

@@ -5,22 +5,26 @@ using UnityEngine;
 
 namespace GameplaySystems
 {
-    public class OneWayPlatform : MonoBehaviour, IInit<GameStateManager, MovementRoutine>
+    public class MovingPlatform : MonoBehaviour, IInit<GameStateManager, MovementRoutine>
     {
         private CharacterCollisionDetector _characterCollisionDetector;
         private MovementRoutine _movementRoutine;
 
+        private bool _isOneWayPlatform;
+        
         public void Init(GameStateManager in_gameStateManager, MovementRoutine in_movementRoutine)
         {
             _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
             _movementRoutine = in_movementRoutine;
+            _isOneWayPlatform = gameObject.CompareTag("OneWayPlatform");
         }
         
         private void OnCollisionEnter2D(Collision2D col)
         {
             if (col.enabled && col.gameObject.CompareTag("Player"))
             {
-                _characterCollisionDetector.OnOneWayPlatform = true;
+                if (_isOneWayPlatform)
+                    _characterCollisionDetector.OnOneWayPlatform = true;
                 _movementRoutine.MovePlayerAsWell = true;
             }
         }
@@ -29,7 +33,8 @@ namespace GameplaySystems
         {
             if (other.enabled && other.gameObject.CompareTag("Player"))
             {
-                _characterCollisionDetector.OnOneWayPlatform = false;
+                if (_isOneWayPlatform)
+                    _characterCollisionDetector.OnOneWayPlatform = false;
                 _movementRoutine.MovePlayerAsWell = false;
             }
         }
