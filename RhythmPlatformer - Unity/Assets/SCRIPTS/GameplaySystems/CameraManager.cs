@@ -4,7 +4,6 @@ using Interfaces_and_Enums;
 using Structs;
 using UnityEngine;
 using Utility_Scripts;
-using System.Collections;
 using Gameplay;
 using GlobalSystems;
 using Scriptable_Object_Scripts;
@@ -26,10 +25,7 @@ namespace GameplaySystems
         private CharacterStateController _characterStateController;
         private Transform _characterTf;
         private Vector3 _characterPos;
-        private float _characterPosYOffset;
         private Vector2 _characterMovementBoundaries;
-        private float _lookAheadShiftDistance;
-        private int _lookAheadDirection;
         private bool _getCharacterIntoMovementBoundaries;
 
         private CamNode[] _camNodes;
@@ -51,14 +47,10 @@ namespace GameplaySystems
         private float _minSize;
 
         private bool _hasBounds;
-#if UNITY_EDITOR
-        private Vector3 _debugMovementBoundariesVector;
-#endif
 
         public void Init(GameStateManager in_gameStateManager)
         {
             _characterMovementBoundaries = _camConfigs.CharacterMovementBoundaries;
-            _lookAheadShiftDistance = _camConfigs.LookAheadShiftDistance;
             _smoothTime = _camConfigs._smoothTime;
             _maxSpeed = _camConfigs.MaxSpeed;
             _maxSize = _camConfigs.MaxSize;
@@ -66,8 +58,6 @@ namespace GameplaySystems
             
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterTf = _characterStateController.transform;
-
-            _characterPosYOffset = _characterTf.GetComponent<BoxCollider2D>().bounds.size.y * .5f;
 
             _camBoundsData = in_gameStateManager.CameraBoundsData;
             GetCamNodesFromJson();
@@ -88,8 +78,7 @@ namespace GameplaySystems
             _camSize.y = _cam.orthographicSize;
             _camSize.x = _camSize.y * _cam.aspect;
             
-            _characterPos = _characterTf.position + Vector3.up * _characterPosYOffset;
-            _lookAheadDirection = _characterStateController.LookAheadDirection;
+            _characterPos = _characterTf.position;
 
             bool camOutOfBounds;
             UpdateCurrentBounds();
@@ -121,8 +110,8 @@ namespace GameplaySystems
                 if(eastPosInBounds = CheckPointInBounds(eastPos, _characterPosBounds))
                     _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
 
-                camOutOfBounds = _lookAheadDirection == 0 && 
-                    (!northPosInBounds || !westPosInBounds || !southPosInBounds || eastPosInBounds);
+                camOutOfBounds =
+                    !northPosInBounds || !westPosInBounds || !southPosInBounds || eastPosInBounds;
 
                 if (camOutOfBounds)
                     _getCharacterIntoMovementBoundaries = false;
@@ -130,21 +119,11 @@ namespace GameplaySystems
 
             void CheckCharacterInMovementBoundaries()
             {
-                float maxMinX = _characterMovementBoundaries.x;
-                float maxY = _lookAheadDirection == 0 ? _characterMovementBoundaries.y :
-                    _lookAheadDirection < 0 ? _characterMovementBoundaries.y + _lookAheadShiftDistance :
-                    _characterMovementBoundaries.y - _lookAheadShiftDistance;
-                float minY = _lookAheadDirection == 0 ? -_characterMovementBoundaries.y :
-                    _lookAheadDirection < 0 ? -_characterMovementBoundaries.y + _lookAheadShiftDistance :
-                    -_characterMovementBoundaries.y - _lookAheadShiftDistance;
-#if UNITY_EDITOR
-                _debugMovementBoundariesVector = new Vector3(maxMinX, maxY, minY);
-#endif
                 _getCharacterIntoMovementBoundaries =
-                    _characterPos.x >= position.x - maxMinX && 
-                    _characterPos.x <= position.x + maxMinX &&
-                    _characterPos.y >= position.y + minY && 
-                    _characterPos.y <= position.y + maxY;
+                    _characterPos.x >= position.x - _characterMovementBoundaries.x && 
+                    _characterPos.x <= position.x + _characterMovementBoundaries.x &&
+                    _characterPos.y >= position.y - _characterMovementBoundaries.y && 
+                    _characterPos.y <= position.y + _characterMovementBoundaries.y;
             }
 
             CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
@@ -209,14 +188,11 @@ namespace GameplaySystems
             _hasBounds = false;
 
             Vector3 position = transform.position;
-            Vector3 targetPos = _characterPos;
-            targetPos.y = _lookAheadDirection == 0 ? targetPos.y :
-                _lookAheadDirection > 0 ? targetPos.y + _lookAheadShiftDistance : targetPos.y - _lookAheadShiftDistance;
 
             GetClampedTargetPos();
             
             position = 
-                Vector3.SmoothDamp(position, new Vector3(targetPos.x, targetPos.y, position.z), 
+                Vector3.SmoothDamp(position, new Vector3(_characterPos.x, _characterPos.y, position.z), 
                     ref _velocity, _smoothTime, _maxSpeed);
             transform.position = position;
 
@@ -224,18 +200,15 @@ namespace GameplaySystems
 
             void GetClampedTargetPos()
             {
-                if (targetPos.x + _camSize.x > _characterPosBounds.MaxX)
-                    targetPos.x = _characterPosBounds.MaxX - _camSize.x;
-                else if (targetPos.x - _camSize.x < _characterPosBounds.MinX)
-                    targetPos.x = _characterPosBounds.MinX + _camSize.x;
-
-                int lookUpOffset = _lookAheadDirection > 0 ? 100 : 0;
-                int lookDownOffset = _lookAheadDirection < 0 ? 100 : 0;
+                if (_characterPos.x + _camSize.x > _characterPosBounds.MaxX)
+                    _characterPos.x = _characterPosBounds.MaxX - _camSize.x;
+                else if (_characterPos.x - _camSize.x < _characterPosBounds.MinX)
+                    _characterPos.x = _characterPosBounds.MinX + _camSize.x;
                 
-                if (targetPos.y + _camSize.y > _characterPosBounds.MaxY + lookUpOffset)
-                    targetPos.y = _characterPosBounds.MaxY - _camSize.y;
-                if (targetPos.y - _camSize.y < _characterPosBounds.MinY - lookDownOffset)
-                    targetPos.y = _characterPosBounds.MinY + _camSize.y;
+                if (_characterPos.y + _camSize.y > _characterPosBounds.MaxY)
+                    _characterPos.y = _characterPosBounds.MaxY - _camSize.y;
+                else if (_characterPos.y - _camSize.y < _characterPosBounds.MinY)
+                    _characterPos.y = _characterPosBounds.MinY + _camSize.y;
             }
 
             void SetCamSize()
@@ -248,7 +221,7 @@ namespace GameplaySystems
                 float verticalComplementForAspectRatio = minHorizontalSize / _cam.aspect;
 
                 float targetSize =
-                    Mathf.Clamp(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .05f, 
+                    Mathf.Clamp(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .1f, 
                         _minSize, _maxSize);
             
                 _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
@@ -263,17 +236,16 @@ namespace GameplaySystems
             if (Selection.activeObject != gameObject)
                 return;
 
-            var pos = transform.position;
-            Vector2 position = pos;
+            Vector2 position = transform.position;
             
             Vector2 upperLeft = 
-                position + new Vector2(-_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.y);
+                position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
             Vector2 lowerLeft = 
-                position + new Vector2(-_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.z);
+                position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
             Vector2 upperRight = 
-                position + new Vector2(_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.y);
+                position + new Vector2(_characterMovementBoundaries.x, _characterMovementBoundaries.y);
             Vector2 lowerRight =
-                position + new Vector2(_debugMovementBoundariesVector.x, _debugMovementBoundariesVector.z);
+                position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
             
             Gizmos.color = Color.black;
             Gizmos.DrawWireSphere(_characterPos, .1f);

@@ -6,7 +6,6 @@ namespace Scriptable_Object_Scripts
     public class CameraConfigs : ScriptableObject
     {
         public Vector2 CharacterMovementBoundaries;
-        public float LookAheadShiftDistance;
         
         public float _smoothTime;
         public float MaxSpeed;
