@@ -3229,6 +3229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b5bd9f33978f4fba8a1c95d557ad207, type: 3}
+--- !u!61 &1020611547892719117 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5228488621931659072, guid: 048b668d9168b443c99973a451f46732, type: 3}
+  m_PrefabInstance: {fileID: 5090935068082757965}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1266477865208277402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3697,6 +3702,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingPlaform_Vertical_3Tile
       objectReference: {fileID: 0}
+    - target: {fileID: 5196214240703036958, guid: 048b668d9168b443c99973a451f46732, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 1020611547892719117}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048b668d9168b443c99973a451f46732, type: 3}
 --- !u!1001 &5382255610176250758

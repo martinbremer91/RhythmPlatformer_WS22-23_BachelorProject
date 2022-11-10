@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 5196214240703036958}
   m_Layer: 6
   m_Name: MovingObject
-  m_TagString: OneWayPlatform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -375,3 +375,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67fae003805548aa931fe5d34e443fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collider: {fileID: 5228488621931659072}
