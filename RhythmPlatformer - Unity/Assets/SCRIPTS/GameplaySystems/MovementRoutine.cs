@@ -12,6 +12,7 @@ namespace GameplaySystems
         #region REFERENCES / EXPOSED FIELDS
 
         [HideInInspector] public UpdateManager _updateManager;
+        private Transform _characterTransform;
 
         // TODO: change this type to a parent of OneWayPlatform
         [SerializeField] private OneWayPlatform _movingObject;
@@ -26,6 +27,8 @@ namespace GameplaySystems
         private Vector3 _currentWaypointDirection;
         private int _nextWaypointIndex;
         private bool _hasCurrentWaypoint;
+
+        [HideInInspector] public bool MovePlayerAsWell;
 
         private bool _pausingBetweenWaypoints;
         private float _pausingTimer;
@@ -47,8 +50,9 @@ namespace GameplaySystems
         {
             _updateManager = in_gameStateManager.UpdateManager;
             _updateManager.MovementRoutines.Add(this);
+            _characterTransform = in_gameStateManager.CharacterStateController.transform;
 
-            _movingObject.Init(in_gameStateManager);
+            _movingObject.Init(in_gameStateManager, this);
             
             if (Waypoints == null || !Waypoints.Any())
                 Debug.LogError(name + "'s MovementRoutine does not have waypoints", gameObject);
@@ -84,8 +88,14 @@ namespace GameplaySystems
                 return waypointReached;
             }
 
-            void MoveTowardsCurrentWaypoint() =>
-                _movingObject.transform.Translate(_currentWaypointDirection * (5 * Time.deltaTime));
+            void MoveTowardsCurrentWaypoint()
+            {
+                Vector3 translation = _currentWaypointDirection * (5 * Time.deltaTime);
+                _movingObject.transform.Translate(translation);
+                
+                if (MovePlayerAsWell)
+                    _characterTransform.Translate(translation);
+            }
 
             void HandlePausingBetweenWaypoints()
             {
