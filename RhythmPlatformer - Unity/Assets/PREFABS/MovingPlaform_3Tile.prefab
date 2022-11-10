@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateManager: {fileID: 0}
-  _movingObject: {fileID: 6148720374308884157}
+  _movingObject: {fileID: 4566138331226222553}
   _waypoints: []
 --- !u!1 &7731077097821928416
 GameObject:

@@ -17,6 +17,8 @@ namespace Gameplay
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
+        [HideInInspector] public bool OnOneWayPlatform;
+        
         public void Init(GameStateManager in_gameStateManager)
         {
             _characterStateController = in_gameStateManager.CharacterStateController;
@@ -51,7 +53,7 @@ namespace Gameplay
             bool collision = hit.collider != null;
 
             if (collision && hit.collider.gameObject.CompareTag("OneWayPlatform"))
-                collision = MovingPlatform.test;
+                collision = OnOneWayPlatform;
 
             // COLLISION DEBUGGING
             Color color = collision ? Color.green : Color.red;

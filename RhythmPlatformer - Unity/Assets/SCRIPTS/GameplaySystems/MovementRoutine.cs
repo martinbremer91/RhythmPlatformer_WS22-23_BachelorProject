@@ -13,7 +13,8 @@ namespace GameplaySystems
 
         [HideInInspector] public UpdateManager _updateManager;
 
-        [SerializeField] private Transform _movingObject;
+        // TODO: change this type to a parent of OneWayPlatform
+        [SerializeField] private OneWayPlatform _movingObject;
         [SerializeField] private List<Waypoint> _waypoints;
         public List<Waypoint> Waypoints => _waypoints ??= new List<Waypoint>();
 
@@ -47,6 +48,8 @@ namespace GameplaySystems
             _updateManager = in_gameStateManager.UpdateManager;
             _updateManager.MovementRoutines.Add(this);
 
+            _movingObject.Init(in_gameStateManager);
+            
             if (Waypoints == null || !Waypoints.Any())
                 Debug.LogError(name + "'s MovementRoutine does not have waypoints", gameObject);
         }
@@ -82,7 +85,7 @@ namespace GameplaySystems
             }
 
             void MoveTowardsCurrentWaypoint() =>
-                _movingObject.Translate(_currentWaypointDirection * (5 * Time.deltaTime));
+                _movingObject.transform.Translate(_currentWaypointDirection * (5 * Time.deltaTime));
 
             void HandlePausingBetweenWaypoints()
             {
