@@ -1,4 +1,5 @@
 using System;
+using GameplaySystems;
 using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
@@ -49,9 +50,12 @@ namespace Gameplay
 
             bool collision = hit.collider != null;
 
+            if (collision && hit.collider.gameObject.CompareTag("OneWayPlatform"))
+                collision = MovingPlatform.test;
+
             // COLLISION DEBUGGING
-            // Color color = collision ? Color.green : Color.red;
-            // Debug.DrawRay(bounds.center, detectDirection, color);
+            Color color = collision ? Color.green : Color.red;
+            Debug.DrawRay(bounds.center, detectDirection, color);
 
             if (!collision == in_detectEnter)
                 return;
