@@ -100,7 +100,8 @@ namespace Gameplay
 
         private float wallClingMaxDuration => _movementConfigs.WallClingMaxDuration;
         public float WallClingTimer {get; private set;}
-        
+
+        [HideInInspector] public bool Dead;
         public Action Respawn;
         
 #if UNITY_EDITOR
@@ -234,10 +235,10 @@ namespace Gameplay
             if (s_Invulnerable)
                 return;
 #endif
+            Dead = true;
             UiManager uiManager = _gameStateManager.UiManager;
-            // set beat state
+            // _gameStateManager.BeatManager.BeatState = BeatState.Off;
             _gameStateManager.InputDisabled = true;
-            // CurrentCharacterState = CharacterState.Dead;
             
             await uiManager.FadeDarkScreen(true);
 
@@ -245,7 +246,8 @@ namespace Gameplay
             CurrentCharacterState = CharacterState.Idle;
 
             await uiManager.FadeDarkScreen(false);
-            // set beat state
+            // _gameStateManager.BeatManager.BeatState = BeatState.Active;
+            Dead = false;
             _gameStateManager.InputDisabled = false;
         }
         

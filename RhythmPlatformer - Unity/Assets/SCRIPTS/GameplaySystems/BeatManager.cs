@@ -37,7 +37,7 @@ namespace GameplaySystems
         private static BeatManager s_Instance;
         public UpdateType UpdateType => UpdateType.Always;
 
-        public static BeatState BeatState;
+        public BeatState BeatState;
         
         private int _activeSource;
         private int _nextSource => _activeSource == 0 ? 1 : 0;

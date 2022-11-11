@@ -124,7 +124,7 @@ namespace GlobalSystems
                 BeatManager.ExecuteCountInAsync();
             else
                 BeatManager.BeatAction += TogglePause;
-        } 
+        }
 
         public void TogglePause()
         { 

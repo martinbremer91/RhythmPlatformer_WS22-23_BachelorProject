@@ -36,8 +36,7 @@ namespace Interfaces_and_Enums
         Fall = 5,
         WallCling = 6,
         WallSlide = 7,
-        Dash = 8,
-        Dead = 9
+        Dash = 8
     }
 
     public enum SceneType
