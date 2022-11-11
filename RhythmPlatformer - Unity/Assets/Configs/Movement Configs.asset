@@ -140,7 +140,7 @@ MonoBehaviour:
   RiseTopSpeed: 8
   FallTopSpeed: 8
   WallSlideFallTopSpeed: 5
-  AirDriftSpeed: 7
+  AirDriftSpeed: 5
   AirDrag: 0.1
   DefaultGroundDrag: 50
   ReducedGroundDragFactor: 40

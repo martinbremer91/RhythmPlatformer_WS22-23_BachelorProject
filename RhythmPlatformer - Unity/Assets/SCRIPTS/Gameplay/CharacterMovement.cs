@@ -197,7 +197,7 @@ namespace Gameplay
                 xInput * _airDriftSpeed;
 
             float xVelocity = _fallVelocity.x == 0 ? drift :
-                _fallVelocity.x > 0 ? _fallVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime :
+                _fallVelocity.x > 0 ? _fallVelocity.x + (-_airDrag + drift) * Time.fixedDeltaTime :
                 _fallVelocity.x + (_airDrag + drift) * Time.fixedDeltaTime;
 
             if (!FastFalling)
@@ -221,9 +221,9 @@ namespace Gameplay
             float drift = xInput * _airDriftSpeed;
 
             float xVelocity = _riseVelocity.x == 0 ? drift : 
-                _riseVelocity.x > 0 ? _riseVelocity.x - (_airDrag + drift) * Time.fixedDeltaTime : 
+                _riseVelocity.x > 0 ? _riseVelocity.x + (-_airDrag + drift) * Time.fixedDeltaTime : 
                 _riseVelocity.x + (_airDrag + drift) * Time.fixedDeltaTime;
-            
+
             float yVelocity = _movementConfigs.RiseAcceleration.Evaluate(RiseCurveTracker.x) * _riseTopSpeed; 
             
             _riseVelocity = new(xVelocity, yVelocity);

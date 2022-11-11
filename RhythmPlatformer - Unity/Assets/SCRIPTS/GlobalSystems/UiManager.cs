@@ -60,7 +60,7 @@ namespace GlobalSystems
         public void LoadMainMenuButton() => 
             StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.MainMenu));
 
-        public async void FadeDarkScreen(bool in_fadeScreenIn)
+        public async Task FadeDarkScreen(bool in_fadeScreenIn)
         {
             Color screenColor = _fadeScreen.color;
             

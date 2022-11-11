@@ -193,6 +193,7 @@ namespace Gameplay
 
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
             _characterInput = in_gameStateManager.CharacterInput;
             _characterMovement = in_gameStateManager.CharacterMovement;
             _movementConfigs = in_gameStateManager.MovementConfigs;
@@ -234,15 +235,17 @@ namespace Gameplay
             if (s_Invulnerable)
                 return;
 #endif
+            UiManager uiManager = _gameStateManager.UiManager;
+            // set beat state
             _gameStateManager.InputDisabled = true;
             // CurrentCharacterState = CharacterState.Dead;
             
-            //await _gameStateManager.UiManager.FadeDarkScreen(true);
+            await uiManager.FadeDarkScreen(true);
 
             Respawn?.Invoke();
             CurrentCharacterState = CharacterState.Idle;
-            
-            // fade in / wait
+
+            await uiManager.FadeDarkScreen(false);
             // set beat state
             _gameStateManager.InputDisabled = false;
         }
@@ -415,10 +418,8 @@ namespace Gameplay
                 case CharacterState.Fall:
                     Vector2 fallTracker = _characterMovement.FallCurveTracker;
                     if (fallTracker.x < fallTracker.y)
-                    {
                         _characterMovement.FallCurveTracker.x += Time.fixedDeltaTime;
-                        _characterMovement.Fall();
-                    }
+                    _characterMovement.Fall();
                     break;
                 case CharacterState.WallCling:
                     IncrementWallClingTimer();

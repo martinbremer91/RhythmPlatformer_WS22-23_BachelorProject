@@ -103,8 +103,9 @@ namespace GameplaySystems
 
         private void InitCameraManagerAssistant(CameraManager in_cameraManager)
         {
+            Transform tf = transform;
             _isAssistant = true;
-            transform.position = in_cameraManager.transform.position;
+            tf.position = in_cameraManager.transform.position;
             _characterMovementBoundaries = in_cameraManager._characterMovementBoundaries;
             _camNodes = in_cameraManager._camNodes;
             _smoothTime = .5f;
@@ -112,7 +113,7 @@ namespace GameplaySystems
             _maxSize = in_cameraManager._maxSize;
             _minSize = in_cameraManager._minSize;
 
-            _currentSpawnPosition = _characterPos;
+            _currentSpawnPosition = new Vector3(_characterPos.x, _characterPos.y, tf.position.z);
             
             InitializeNodeDistances();
             UpdateOnRespawnPosAndSize(in_cameraManager);
