@@ -33,23 +33,6 @@ namespace Gameplay
             set => SetCharacterState(value);
         }
 
-        private bool m_jumpSquat;
-        private bool _jumpSquat
-        {
-            get => m_jumpSquat;
-            set
-            {
-                if (m_jumpSquat == value)
-                    return;
-                m_jumpSquat = value;
-                if (value)
-                    PerformJumpSquatAsync();
-                else
-                    _characterInput.InputState.JumpSquat = false;
-            }
-        }
-        private float _jumpSquatDuration;
-
         private bool _dashWindup;
         public bool DashWindup
         {
@@ -212,12 +195,12 @@ namespace Gameplay
                 
                 _dashWindupDuration = dashWindupClip.length;
             }
-        } 
+        }
         
         public void CustomUpdate()
         {
             if (_characterInput.InputState.JumpSquat)
-                _jumpSquat = true;
+                CurrentCharacterState = CharacterState.Rise;
             if (_characterInput.InputState.DashWindup)
                 DashWindup = true;
             
@@ -495,31 +478,6 @@ namespace Gameplay
             }
             
             _characterMovement.RunCurveTracker.x = 0;
-        }
-
-        private void PerformJumpSquatAsync()
-        {
-            // TODO: change jump squat to happen at t - jumpSquatDuration
-            
-            // JumpSquatStarted?.Invoke();
-            //
-            // float timer = _jumpSquatDuration;
-            //
-            // while (timer > 0)
-            // {
-            //     await Task.Yield();
-            //     timer -= Time.fixedDeltaTime;
-            //     
-            //     if (DashWindup)
-            //     {
-            //         // TODO: call DashCanceledJump delegate (to trigger VFX feedback)
-            //         _jumpSquat = false;
-            //         return;
-            //     }
-            // }
-
-            _jumpSquat = false;
-            CurrentCharacterState = CharacterState.Rise;
         }
 
         private async void PerformDashWindupAsync()
