@@ -20,23 +20,20 @@ namespace GameplaySystems
         #region REFERENCES
 
         [SerializeField] private CameraManager _complementaryCameraManager;
-        private Vector3 _currentCharacterSpawnPosition;
-        private float _currentSpawnCamSize;
-        private bool _isAssistant;
-        
+
         [SerializeField] private Camera _cam;
         [SerializeField] private CameraConfigs _camConfigs;
         private TextAsset _camBoundsData;
 
         private CharacterStateController _characterStateController;
+        private Transform _characterTransform;
 
         #endregion
 
         #region VARIABLES
 
         public UpdateType UpdateType => UpdateType.GamePlay;
-        
-        private Transform _characterTf;
+
         private Vector3 _characterPos;
         private Vector2 _characterMovementBoundaries;
         private bool _getCharacterIntoMovementBoundaries;
@@ -61,6 +58,10 @@ namespace GameplaySystems
 
         private bool _hasBounds;
         
+        private Vector3 _currentSpawnPosition;
+        private float _currentSpawnCamSize;
+        private bool _isAssistant;
+        
         #endregion
 
         #region INITIALIZATION
@@ -74,12 +75,13 @@ namespace GameplaySystems
             _minSize = _camConfigs.MinSize;
             
             _characterStateController = in_gameStateManager.CharacterStateController;
-            _characterTf = _characterStateController.transform;
+            _characterTransform = _characterStateController.transform;
 
             _camBoundsData = in_gameStateManager.CameraBoundsData;
             GetCamNodesFromJson();
             InitializeNodeDistances();
-            
+
+            _characterStateController.Respawn += JumpToSpawnPoint;
             _complementaryCameraManager.InitCameraManagerAssistant(this);
         }
         
@@ -97,7 +99,7 @@ namespace GameplaySystems
 
         #endregion
         
-        #region CAMERA MANAGER ASSISTANT LOGIC
+        #region CAMERA MANAGER ASSISTANT / RESPAWN
 
         private void InitCameraManagerAssistant(CameraManager in_cameraManager)
         {
@@ -110,7 +112,7 @@ namespace GameplaySystems
             _maxSize = in_cameraManager._maxSize;
             _minSize = in_cameraManager._minSize;
 
-            _currentCharacterSpawnPosition = _characterPos;
+            _currentSpawnPosition = _characterPos;
             
             InitializeNodeDistances();
             UpdateOnRespawnPosAndSize(in_cameraManager);
@@ -118,7 +120,7 @@ namespace GameplaySystems
         
         private void UpdateOnRespawnPosAndSize(CameraManager in_cameraManager)
         {
-            _characterPos = in_cameraManager._currentCharacterSpawnPosition;
+            _characterPos = in_cameraManager._currentSpawnPosition;
             _camSize.y = in_cameraManager._cam.orthographicSize;
             _camSize.x = _camSize.y * in_cameraManager._cam.aspect;
             
@@ -131,13 +133,19 @@ namespace GameplaySystems
 
             while (timer < .5f)
             {
-                _complementaryCameraManager._currentCharacterSpawnPosition = _currentCharacterSpawnPosition;
+                _complementaryCameraManager._currentSpawnPosition = _currentSpawnPosition;
                 _complementaryCameraManager._currentSpawnCamSize = _currentSpawnCamSize;
                 timer += Time.deltaTime;
                 await Task.Yield();
             }
             
             gameObject.SetActive(false);
+        }
+
+        private void JumpToSpawnPoint()
+        {
+            transform.position = _currentSpawnPosition;
+            _cam.orthographicSize = _currentSpawnCamSize;
         }
         
         #endregion
@@ -152,7 +160,7 @@ namespace GameplaySystems
             {
                 _camSize.y = _cam.orthographicSize;
                 _camSize.x = _camSize.y * _cam.aspect;
-                _characterPos = _characterTf.position;
+                _characterPos = _characterTransform.position;
             }
 
             bool camOutOfBounds;
@@ -259,7 +267,7 @@ namespace GameplaySystems
         public void OnSetCheckpoint(Vector3 in_spawnPos)
         {
             _complementaryCameraManager.gameObject.SetActive(true);
-            _currentCharacterSpawnPosition = 
+            _currentSpawnPosition = 
                 new Vector3(in_spawnPos.x, in_spawnPos.y, transform.position.z);
             _complementaryCameraManager.UpdateOnRespawnPosAndSize(this);
         }

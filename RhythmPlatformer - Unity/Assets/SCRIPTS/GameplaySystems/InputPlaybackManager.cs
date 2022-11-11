@@ -25,8 +25,7 @@ namespace GameplaySystems
         #region VARIABLES
 
         public UpdateType UpdateType => UpdateType.Always;
-
-        public static bool s_PlaybackActive;
+        
         private bool _playbackToggle;
         
         private bool _recording;
@@ -119,10 +118,10 @@ namespace GameplaySystems
                  if (PlaybackQueue == null || !PlaybackQueue.Any())
                      return;
                  
-                 s_PlaybackActive = !s_PlaybackActive;
-                 _playIcon.SetActive(s_PlaybackActive);
+                 _gameStateManager.InputDisabled = !_gameStateManager.InputDisabled;
+                 _playIcon.SetActive(_gameStateManager.InputDisabled);
 #if UNITY_EDITOR
-                 if (!s_PlaybackActive)
+                 if (!_gameStateManager.InputDisabled)
                  {
                      s_FrameByFrameMode = false;
                      _gameStateManager.TogglePhysicsPause(false);
@@ -135,14 +134,14 @@ namespace GameplaySystems
                  // TODO: sync with track data (skip to starting point or wait)
              }
             
-             if (s_PlaybackActive)
+             if (_gameStateManager.InputDisabled)
                  PlaybackInput();
 
              void PlaybackInput()
              {
                  if (!PlaybackQueue.Any())
                  {
-                     s_PlaybackActive = false;
+                     _gameStateManager.InputDisabled = false;
                      _playIcon.SetActive(false);
 #if UNITY_EDITOR
                      s_FrameByFrameMode = false;
@@ -158,7 +157,7 @@ namespace GameplaySystems
 
         private void HandleRecordingInput()
         {
-            if (s_PlaybackActive)
+            if (_gameStateManager.InputDisabled)
                 return;
             
             _recordToggle = true;

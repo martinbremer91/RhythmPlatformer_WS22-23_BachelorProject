@@ -135,8 +135,6 @@ namespace Editor
                 _characterStateController.CanWallCling, "Wall Cling available");
             GUI.Label(new Rect (_infoRect.position + new Vector2(25, 150), new Vector2(300, 20)), 
                 "Wall Cling Timer: " + $"{_characterStateController.WallClingTimer:N2}");
-            GUI.Label(new Rect(_infoRect.position + new Vector2(5, 170), new Vector2(300, 20)),
-                "Look Ahead Direction: " + _characterStateController.LookAheadDirection);
         }
 
         private void DrawInputState()

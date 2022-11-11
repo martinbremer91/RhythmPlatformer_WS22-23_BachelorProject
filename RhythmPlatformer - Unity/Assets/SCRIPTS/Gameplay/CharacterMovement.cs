@@ -96,6 +96,9 @@ namespace Gameplay
             _characterInput = in_gameStateManager.CharacterInput;
             _movementConfigs = in_gameStateManager.MovementConfigs;
 
+            _characterStateController.Respawn += CancelHorizontalVelocity;
+            _characterStateController.Respawn += CancelVerticalVelocity;
+            
             RegisterPhysicsPausable();
             GetMovementData();
         }

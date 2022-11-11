@@ -13,7 +13,8 @@ namespace Gameplay
     public class CharacterStateController : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         #region REFERENCES
-        
+
+        private GameStateManager _gameStateManager;
         private CharacterSpriteController _spriteController;
         private CharacterMovement _characterMovement;
         private CharacterInput _characterInput;
@@ -72,7 +73,7 @@ namespace Gameplay
         public bool FacingLeft
         {
             get => _facingLeft;
-            private set
+            set
             {
                 if (_facingLeft == value)
                     return;
@@ -82,8 +83,6 @@ namespace Gameplay
             }
         }
 
-        public int LookAheadDirection;
-        
         public bool Grounded =>
             CurrentCharacterState is CharacterState.Idle or CharacterState.Run or CharacterState.Land
                 or CharacterState.Crouch;
@@ -102,7 +101,13 @@ namespace Gameplay
 
         private float wallClingMaxDuration => _movementConfigs.WallClingMaxDuration;
         public float WallClingTimer {get; private set;}
-
+        
+        public Action Respawn;
+        
+#if UNITY_EDITOR
+        public static bool s_Invulnerable;
+#endif
+        
         #endregion
 
         #region STATE CHANGE FUNCTIONS
@@ -215,7 +220,6 @@ namespace Gameplay
             if (_characterInput.InputState.DashWindup)
                 DashWindup = true;
             
-            CheckCharacterLookingAhead();
             HandleInputStateChange();
             ApplyStateMovement();
         }
@@ -224,12 +228,23 @@ namespace Gameplay
 
         #region STATE PROCESSING FUNCTIONS
 
-        private void CheckCharacterLookingAhead()
+        public void DieAsync()
         {
-            float inputDirectionY = _characterInput.InputState.DirectionalInput.y;
-            LookAheadDirection = !Grounded ? 0 :
-                inputDirectionY > .38f ? 1 :
-                inputDirectionY < -.38f ? -1 : 0;
+#if UNITY_EDITOR
+            if (s_Invulnerable)
+                return;
+#endif
+            // set beat state
+            _gameStateManager.InputDisabled = true;
+            // set state to dead?
+            // fade out / wait
+
+            Respawn?.Invoke();
+            CurrentCharacterState = CharacterState.Idle;
+            
+            // fade in / wait
+            // set beat state
+            _gameStateManager.InputDisabled = false;
         }
         
         public void HandleCollisionStateChange(CollisionCheck in_check, bool in_enter)

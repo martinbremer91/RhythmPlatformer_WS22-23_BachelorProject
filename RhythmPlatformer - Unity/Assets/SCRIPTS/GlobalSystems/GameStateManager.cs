@@ -45,6 +45,7 @@ namespace GlobalSystems
 
         public static SceneType s_LoadedSceneType;
         public static UpdateType s_ActiveUpdateType;
+        public bool InputDisabled;
 
 #if UNITY_EDITOR
         public static bool s_DebugMode;
@@ -116,6 +117,9 @@ namespace GlobalSystems
 
         public void ScheduleTogglePause()
         {
+            if (InputDisabled)
+                return;
+            
             if (BeatManager.BeatState == BeatState.Off)
                 BeatManager.ExecuteCountInAsync();
             else

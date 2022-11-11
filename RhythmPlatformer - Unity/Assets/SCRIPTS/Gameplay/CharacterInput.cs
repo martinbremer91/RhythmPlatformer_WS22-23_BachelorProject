@@ -11,7 +11,8 @@ namespace Gameplay
     public class CharacterInput : MonoBehaviour, IUpdatable, IInit<GameStateManager>
     {
         #region REFERENCES
-        
+
+        private GameStateManager _gameStateManager;
         public GameplayControlConfigs GameplayControlConfigs;
 
         #endregion
@@ -28,6 +29,7 @@ namespace Gameplay
 
         public void Init(GameStateManager in_GameStateManager)
         {
+            _gameStateManager = in_GameStateManager;
             GameplayControlConfigs = in_GameStateManager.GameplayControlConfigs;
             
             _controls = UniversalInputManager.s_Controls;
@@ -58,7 +60,7 @@ namespace Gameplay
 
         public void CustomUpdate()
         {
-            if (InputPlaybackManager.s_PlaybackActive)
+            if (_gameStateManager.InputDisabled)
                 return;
             
             InputStateButtonsUpdate();
@@ -77,7 +79,7 @@ namespace Gameplay
 
         private void HandleAnalogMove(Vector2 in_input)
         {
-            if (InputPlaybackManager.s_PlaybackActive)
+            if (_gameStateManager.InputDisabled)
                 return;
             
             InputState.analogDeadzone = in_input.magnitude <= GameplayControlConfigs.InputDeadZone;
@@ -93,7 +95,7 @@ namespace Gameplay
 
         private void HandleDigitalMove(Vector2 in_digitalInput, bool in_cancel = false)
         {
-            if (InputPlaybackManager.s_PlaybackActive)
+            if (_gameStateManager.InputDisabled)
                 return;
             
             RecordInputState();
@@ -145,7 +147,7 @@ namespace Gameplay
 #if UNITY_EDITOR
         private void ToggleDebugMode()
         {
-            if (InputPlaybackManager.s_PlaybackActive)
+            if (_gameStateManager.InputDisabled)
             {
                 InputPlaybackManager.s_FrameByFrameMode = !InputPlaybackManager.s_FrameByFrameMode;
                 GameStateManager.s_ActiveUpdateType =
@@ -154,6 +156,7 @@ namespace Gameplay
             }
             
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
+            CharacterStateController.s_Invulnerable = GameStateManager.s_DebugMode; 
             Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);
         }
 #endif
