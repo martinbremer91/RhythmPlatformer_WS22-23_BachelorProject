@@ -43,8 +43,8 @@ namespace GlobalSystems
 
         public readonly List<IPhysicsPausable> PhysicsPausables = new();
 
-        public static SceneType s_LoadedSceneType;
-        public static UpdateType s_ActiveUpdateType;
+        [HideInInspector] public SceneType LoadedSceneType;
+        [HideInInspector] public UpdateType ActiveUpdateType;
         public bool InputDisabled;
 
 #if UNITY_EDITOR
@@ -73,7 +73,7 @@ namespace GlobalSystems
             UpdateManager.Init(this);
             UniversalInputManager.Init(this);
             BeatManager.Init(this);
-            UiManager.Init();
+            UiManager.Init(this);
             PauseMenu.Init(this);
             PulsingController.Init(this);
             
@@ -83,7 +83,7 @@ namespace GlobalSystems
 
         private void SceneInit()
         {
-            switch (s_LoadedSceneType)
+            switch (LoadedSceneType)
             {
                 case SceneType.MainMenu:
                     InitMainMenuScene();
@@ -112,7 +112,7 @@ namespace GlobalSystems
 
         public void SceneRefresh()
         {
-            // TODO: make sure to set s_ActiveUpdateType here!
+            // TODO: make sure to set ActiveUpdateType here!
         }
 
         public void ScheduleTogglePause()
@@ -130,8 +130,8 @@ namespace GlobalSystems
         { 
             BeatManager.BeatAction -= TogglePause;
             
-            s_ActiveUpdateType = s_ActiveUpdateType == UpdateType.Paused ? UpdateType.GamePlay : UpdateType.Paused;
-            bool paused = s_ActiveUpdateType == UpdateType.Paused;
+            ActiveUpdateType = ActiveUpdateType == UpdateType.Paused ? UpdateType.GamePlay : UpdateType.Paused;
+            bool paused = ActiveUpdateType == UpdateType.Paused;
             
             BeatManager.BeatState = paused ? BeatState.Off : BeatState.Active;
 

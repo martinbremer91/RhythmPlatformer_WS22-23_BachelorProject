@@ -228,16 +228,16 @@ namespace Gameplay
 
         #region STATE PROCESSING FUNCTIONS
 
-        public void DieAsync()
+        public async void DieAsync()
         {
 #if UNITY_EDITOR
             if (s_Invulnerable)
                 return;
 #endif
-            // set beat state
             _gameStateManager.InputDisabled = true;
-            // set state to dead?
-            // fade out / wait
+            // CurrentCharacterState = CharacterState.Dead;
+            
+            //await _gameStateManager.UiManager.FadeDarkScreen(true);
 
             Respawn?.Invoke();
             CurrentCharacterState = CharacterState.Idle;

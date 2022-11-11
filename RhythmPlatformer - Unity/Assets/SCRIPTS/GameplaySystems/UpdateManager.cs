@@ -10,6 +10,7 @@ namespace GameplaySystems
     {
         private static UpdateManager s_Instance;
 
+        private GameStateManager _gameStateManager;
         private CameraManager _cameraManager;
         private CameraManager _cameraManagerAssistant;
         private BeatManager _beatManager;
@@ -40,6 +41,7 @@ namespace GameplaySystems
 
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
             _beatManager = in_gameStateManager.BeatManager;
             _cameraManager = in_gameStateManager.CameraManager;
             _cameraManagerAssistant = in_gameStateManager.CameraManagerAssistant;
@@ -53,14 +55,14 @@ namespace GameplaySystems
         }
 
         public void SceneRefresh() => 
-            _updateActive = GameStateManager.s_LoadedSceneType == SceneType.Level;
+            _updateActive = _gameStateManager.LoadedSceneType == SceneType.Level;
 
         private void Update()
         {
             if (!_updateActive)
                 return;
             
-            UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
+            UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
 
             if (MovementRoutine.s_UpdateType.HasFlag(currentUpdateType))
             {
@@ -85,7 +87,7 @@ namespace GameplaySystems
             if (!_updateActive)
                 return;
             
-            UpdateType currentUpdateType = GameStateManager.s_ActiveUpdateType;
+            UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
 
             if (_inputPlaybackManager.UpdateType.HasFlag(currentUpdateType))
                 _inputPlaybackManager.CustomUpdate();

@@ -21,7 +21,7 @@ namespace GlobalSystems
         {
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
 
-            GameStateManager.s_ActiveUpdateType = UpdateType.Nothing;
+            GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Nothing;
             
             while (!asyncLoad.isDone)
             {

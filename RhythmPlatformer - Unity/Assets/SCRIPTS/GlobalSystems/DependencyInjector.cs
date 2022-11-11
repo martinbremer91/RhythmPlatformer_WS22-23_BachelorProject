@@ -28,8 +28,8 @@ namespace GlobalSystems
         public virtual void Init(GameStateManager in_gameStateManager)
         {
             _gameStateManager.CurrentTrackData = _trackData;
-            GameStateManager.s_LoadedSceneType = SceneType;
-            GameStateManager.s_ActiveUpdateType = UpdateType;
+            _gameStateManager.LoadedSceneType = SceneType;
+            _gameStateManager.ActiveUpdateType = UpdateType;
             Destroy(gameObject);
         }
     }

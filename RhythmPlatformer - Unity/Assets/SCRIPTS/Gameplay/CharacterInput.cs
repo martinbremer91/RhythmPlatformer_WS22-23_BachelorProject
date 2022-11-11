@@ -150,7 +150,7 @@ namespace Gameplay
             if (_gameStateManager.InputDisabled)
             {
                 InputPlaybackManager.s_FrameByFrameMode = !InputPlaybackManager.s_FrameByFrameMode;
-                GameStateManager.s_ActiveUpdateType =
+                _gameStateManager.ActiveUpdateType =
                     InputPlaybackManager.s_FrameByFrameMode ? UpdateType.Paused : UpdateType.GamePlay;
                 return;
             }

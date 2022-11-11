@@ -118,11 +118,7 @@ namespace GameplaySystems
 
         public void CustomUpdate()
         {
-            // temp
-            if (InputPlaybackManager.s_PlaybackActive)
-                return;
-            //
-            
+            // TODO: Input playback currently broken (BeatManager not properly handled)
 #if UNITY_EDITOR
             if (_debugBeatOff)
                 return;
@@ -142,7 +138,7 @@ namespace GameplaySystems
                 _nextBeatTime += _beatLength;
                 _beatTracker = _beatTracker < _trackData.Meter ? _beatTracker + 1 : 1;
 
-                bool gameplayActive = GameStateManager.s_ActiveUpdateType == UpdateType.GamePlay;
+                bool gameplayActive = _gameStateManager.ActiveUpdateType == UpdateType.GamePlay;
 
                 if (gameplayActive || _unpauseSignal)
                     BeatAction?.Invoke();

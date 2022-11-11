@@ -124,7 +124,7 @@ namespace GameplaySystems
             _camSize.y = in_cameraManager._cam.orthographicSize;
             _camSize.x = _camSize.y * in_cameraManager._cam.aspect;
             
-            _complementaryCameraManager.UpdateSpawnValuesAndDeactivateAssistant();
+            UpdateSpawnValuesAndDeactivateAssistant();
         }
         
         private async void UpdateSpawnValuesAndDeactivateAssistant()
