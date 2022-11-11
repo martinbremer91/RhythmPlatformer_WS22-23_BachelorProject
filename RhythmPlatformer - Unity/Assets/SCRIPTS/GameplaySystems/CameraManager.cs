@@ -97,8 +97,14 @@ namespace GameplaySystems
             }
         }
 
+        private void OnDisable()
+        {
+            if (!_isAssistant)
+                _characterStateController.Respawn -= JumpToSpawnPoint;
+        } 
+
         #endregion
-        
+
         #region CAMERA MANAGER ASSISTANT / RESPAWN
 
         private void InitCameraManagerAssistant(CameraManager in_cameraManager)
@@ -108,15 +114,21 @@ namespace GameplaySystems
             tf.position = in_cameraManager.transform.position;
             _characterMovementBoundaries = in_cameraManager._characterMovementBoundaries;
             _camNodes = in_cameraManager._camNodes;
-            _smoothTime = .5f;
-            _maxSpeed = 100;
+            _smoothTime = .1f;
+            _maxSpeed = 1000;
             _maxSize = in_cameraManager._maxSize;
             _minSize = in_cameraManager._minSize;
-
-            _currentSpawnPosition = new Vector3(_characterPos.x, _characterPos.y, tf.position.z);
             
             InitializeNodeDistances();
             UpdateOnRespawnPosAndSize(in_cameraManager);
+        }
+
+        public void OnSetCheckpoint(Vector3 in_spawnPos)
+        {
+            _complementaryCameraManager.gameObject.SetActive(true);
+            _currentSpawnPosition =
+                new Vector3(in_spawnPos.x, in_spawnPos.y, transform.position.z);
+            _complementaryCameraManager.UpdateOnRespawnPosAndSize(this);
         }
         
         private void UpdateOnRespawnPosAndSize(CameraManager in_cameraManager)
@@ -127,17 +139,20 @@ namespace GameplaySystems
             
             UpdateSpawnValuesAndDeactivateAssistant();
         }
-        
+
         private async void UpdateSpawnValuesAndDeactivateAssistant()
         {
-            float timer = 0;
+            int timer = 0;
 
-            while (timer < .5f)
+            while (timer < 3000)
             {
+                int deltaTimeMilliseconds = Mathf.RoundToInt(Time.deltaTime * 1000);
+
                 _complementaryCameraManager._currentSpawnPosition = _currentSpawnPosition;
                 _complementaryCameraManager._currentSpawnCamSize = _currentSpawnCamSize;
-                timer += Time.deltaTime;
-                await Task.Yield();
+
+                timer += deltaTimeMilliseconds;
+                await Task.Delay(deltaTimeMilliseconds);
             }
             
             gameObject.SetActive(false);
@@ -265,14 +280,6 @@ namespace GameplaySystems
             }
         }
 
-        public void OnSetCheckpoint(Vector3 in_spawnPos)
-        {
-            _complementaryCameraManager.gameObject.SetActive(true);
-            _currentSpawnPosition = 
-                new Vector3(in_spawnPos.x, in_spawnPos.y, transform.position.z);
-            _complementaryCameraManager.UpdateOnRespawnPosAndSize(this);
-        }
-
         private void LateUpdate()
         {
             if (!_hasBounds || _getCharacterIntoMovementBoundaries)
@@ -289,6 +296,9 @@ namespace GameplaySystems
                     ref _velocity, _smoothTime, _maxSpeed);
             
             transform.position = position;
+
+            if (_isAssistant)
+                _currentSpawnPosition = position;
 
             SetCamSize();
 

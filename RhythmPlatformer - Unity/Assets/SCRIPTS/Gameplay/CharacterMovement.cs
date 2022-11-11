@@ -87,7 +87,12 @@ namespace Gameplay
         #region INIT & UPDATE
 
         private void OnEnable() => RegisterPhysicsPausable();
-        private void OnDisable() => DeregisterPhysicsPausable();
+        private void OnDisable()
+        {
+            _characterStateController.Respawn -= CancelHorizontalVelocity;
+            _characterStateController.Respawn -= CancelVerticalVelocity;
+            DeregisterPhysicsPausable();
+        }
 
         public void Init(GameStateManager in_gameStateManager)
         {

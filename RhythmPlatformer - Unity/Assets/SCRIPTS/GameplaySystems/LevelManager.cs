@@ -18,8 +18,8 @@ namespace GameplaySystems
         private List<Checkpoint> _checkpoints = new();
 
         private CharacterStateController _characterStateController;
-        [HideInInspector] public Vector3 CurrentSpawnPoint;
-        [HideInInspector] public bool SpawnFacingLeft;
+        private Vector3 _currentSpawnPoint;
+        private bool _spawnFacingLeft;
 
         public void Init(GameStateManager in_gameStateManager)
         {
@@ -30,9 +30,7 @@ namespace GameplaySystems
             if (_movementRoutines.Any())
                 InitMovementRoutines();
             
-            _checkpoints = CheckpointsParent.GetComponentsInChildren<Checkpoint>().ToList();
-            if (_checkpoints.Any())
-                InitCheckpoints();
+            InitCheckpoints();
             
             void InitMovementRoutines()
             {
@@ -47,10 +45,14 @@ namespace GameplaySystems
 
             void InitCheckpoints()
             {
-                CurrentSpawnPoint = _characterStateController.transform.position;
+                _currentSpawnPoint = _characterStateController.transform.position;
+                _checkpoints = CheckpointsParent.GetComponentsInChildren<Checkpoint>().ToList();
                 
-                foreach (Checkpoint checkpoint in _checkpoints)
-                    checkpoint.Init(this);
+                if (_checkpoints.Any())
+                {
+                    foreach (Checkpoint checkpoint in _checkpoints)
+                        checkpoint.Init(this);
+                }
 
                 _characterStateController.Respawn += RespawnPlayer;
             }
@@ -58,15 +60,18 @@ namespace GameplaySystems
 
         public void SetCurrentCheckPoint(Checkpoint in_checkpoint)
         {
-            CurrentSpawnPoint = in_checkpoint.SpawnPoint.position;
-            SpawnFacingLeft = in_checkpoint.SpawnFacingLeft;
-            _gameStateManager.CameraManager.OnSetCheckpoint(CurrentSpawnPoint);
+            _currentSpawnPoint = in_checkpoint.SpawnPoint.position;
+            _spawnFacingLeft = in_checkpoint.SpawnFacingLeft;
+            _gameStateManager.CameraManager.OnSetCheckpoint(_currentSpawnPoint);
         }
 
         private void RespawnPlayer()
         {
-            _characterStateController.transform.position = CurrentSpawnPoint;
-            _characterStateController.FacingLeft = SpawnFacingLeft;
+            _characterStateController.transform.position = _currentSpawnPoint;
+            _characterStateController.FacingLeft = _spawnFacingLeft;
         }
+
+        private void OnDisable() =>
+            _characterStateController.Respawn -= RespawnPlayer;
     }
 }
