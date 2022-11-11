@@ -151,7 +151,7 @@ namespace GameplaySystems
                     if (gameplayActive)
                     {
                         EventBeatAction?.Invoke();
-                        _characterInput.InputState.JumpSquat = true;
+                        _characterInput.InputState.JumpCommand = true;
                     }
                 } 
                 else if (MetronomeOn)

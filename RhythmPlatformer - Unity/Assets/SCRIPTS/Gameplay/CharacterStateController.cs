@@ -33,6 +33,22 @@ namespace Gameplay
             set => SetCharacterState(value);
         }
 
+        private bool m_jumpCommand;
+        private bool _jumpCommand
+        {
+            get => m_jumpCommand;
+            set
+            {
+                if (m_jumpCommand == value)
+                    return;
+                m_jumpCommand = value;
+                if (value)
+                    ExecuteJump();
+                else
+                    _characterInput.InputState.JumpCommand = false;
+            }
+        }
+
         private bool _dashWindup;
         public bool DashWindup
         {
@@ -199,8 +215,8 @@ namespace Gameplay
         
         public void CustomUpdate()
         {
-            if (_characterInput.InputState.JumpSquat)
-                CurrentCharacterState = CharacterState.Rise;
+            if (_characterInput.InputState.JumpCommand)
+                _jumpCommand = true;
             if (_characterInput.InputState.DashWindup)
                 DashWindup = true;
             
@@ -478,6 +494,12 @@ namespace Gameplay
             }
             
             _characterMovement.RunCurveTracker.x = 0;
+        }
+
+        private void ExecuteJump()
+        {
+            _jumpCommand = false;
+            CurrentCharacterState = CharacterState.Rise;
         }
 
         private async void PerformDashWindupAsync()

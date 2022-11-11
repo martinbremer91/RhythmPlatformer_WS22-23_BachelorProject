@@ -21,7 +21,7 @@ namespace Structs
         public InputActionPhase JumpButton;
         public InputActionPhase WallClingTrigger;
         
-        public bool JumpSquat;
+        public bool JumpCommand;
         public bool DashWindup;
     }
 }
