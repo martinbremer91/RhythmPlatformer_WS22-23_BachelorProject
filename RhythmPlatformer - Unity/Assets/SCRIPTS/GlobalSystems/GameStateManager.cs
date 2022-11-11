@@ -24,6 +24,7 @@ namespace GlobalSystems
         public PulsingController PulsingController;
 
         [HideInInspector] public CameraManager CameraManager;
+        [HideInInspector] public CameraManager CameraManagerAssistant;
         [HideInInspector] public LevelManager LevelManager;
 
         [HideInInspector] public CharacterInput CharacterInput;
@@ -36,7 +37,7 @@ namespace GlobalSystems
 
         public MovementConfigs MovementConfigs;
         public GameplayControlConfigs GameplayControlConfigs;
-        public TrackData CurrentTrackData;
+        [HideInInspector] public TrackData CurrentTrackData;
 
         #endregion
 

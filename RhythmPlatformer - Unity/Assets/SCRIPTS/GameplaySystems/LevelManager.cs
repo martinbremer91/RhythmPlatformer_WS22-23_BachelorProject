@@ -8,15 +8,28 @@ namespace GameplaySystems
 {
     public class LevelManager : MonoBehaviour, IInit<GameStateManager>
     {
+        private GameStateManager _gameStateManager;
+        
         public Transform MovementRoutineParent;
         private List<MovementRoutine> _movementRoutines = new();
+        
+        public Transform CheckpointsParent;
+        private List<Checkpoint> _checkpoints = new();
+
+        [HideInInspector] public Vector3 CurrentSpawnPoint;
+        [HideInInspector] public bool SpawnFacingLeft;
 
         public void Init(GameStateManager in_gameStateManager)
         {
-            _movementRoutines = MovementRoutineParent.GetComponentsInChildren<MovementRoutine>().ToList();
+            _gameStateManager = in_gameStateManager;
             
+            _movementRoutines = MovementRoutineParent.GetComponentsInChildren<MovementRoutine>().ToList();
             if (_movementRoutines.Any())
                 InitMovementRoutines();
+            
+            _checkpoints = CheckpointsParent.GetComponentsInChildren<Checkpoint>().ToList();
+            if (_checkpoints.Any())
+                InitCheckpoints();
             
             void InitMovementRoutines()
             {
@@ -28,6 +41,21 @@ namespace GameplaySystems
                 foreach (MovementRoutine routine in _movementRoutines)
                     routine.Init(in_gameStateManager);
             }
+
+            void InitCheckpoints()
+            {
+                CurrentSpawnPoint = in_gameStateManager.CharacterMovement.transform.position;
+                
+                foreach (Checkpoint checkpoint in _checkpoints)
+                    checkpoint.Init(this);
+            }
+        }
+
+        public void SetCurrentCheckPoint(Checkpoint in_checkpoint)
+        {
+            CurrentSpawnPoint = in_checkpoint.SpawnPoint.position;
+            SpawnFacingLeft = in_checkpoint.SpawnFacingLeft;
+            _gameStateManager.CameraManager.OnSetCheckpoint(CurrentSpawnPoint);
         }
     }
 }

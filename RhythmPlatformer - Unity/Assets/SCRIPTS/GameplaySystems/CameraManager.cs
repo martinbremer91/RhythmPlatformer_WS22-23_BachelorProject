@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Interfaces_and_Enums;
 using Structs;
 using UnityEngine;
@@ -16,13 +17,25 @@ namespace GameplaySystems
 {
     public class CameraManager : MonoBehaviour, IInit<GameStateManager>, IUpdatable
     {
-        public UpdateType UpdateType => UpdateType.GamePlay;
+        #region REFERENCES
+
+        [SerializeField] private CameraManager _complementaryCameraManager;
+        private Vector3 _currentCharacterSpawnPosition;
+        private float _currentSpawnCamSize;
+        private bool _isAssistant;
         
         [SerializeField] private Camera _cam;
         [SerializeField] private CameraConfigs _camConfigs;
         private TextAsset _camBoundsData;
 
         private CharacterStateController _characterStateController;
+
+        #endregion
+
+        #region VARIABLES
+
+        public UpdateType UpdateType => UpdateType.GamePlay;
+        
         private Transform _characterTf;
         private Vector3 _characterPos;
         private Vector2 _characterMovementBoundaries;
@@ -47,6 +60,10 @@ namespace GameplaySystems
         private float _minSize;
 
         private bool _hasBounds;
+        
+        #endregion
+
+        #region INITIALIZATION
 
         public void Init(GameStateManager in_gameStateManager)
         {
@@ -61,7 +78,16 @@ namespace GameplaySystems
 
             _camBoundsData = in_gameStateManager.CameraBoundsData;
             GetCamNodesFromJson();
-
+            InitializeNodeDistances();
+            
+            _complementaryCameraManager.InitCameraManagerAssistant(this);
+        }
+        
+        private void GetCamNodesFromJson() =>
+            _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
+        
+        private void InitializeNodeDistances()
+        {
             for (int i = 0; i < _camNodes.Length; i++)
             {
                 CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
@@ -69,16 +95,65 @@ namespace GameplaySystems
             }
         }
 
-        private void GetCamNodesFromJson() =>
-            _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
+        #endregion
+        
+        #region CAMERA MANAGER ASSISTANT LOGIC
+
+        private void InitCameraManagerAssistant(CameraManager in_cameraManager)
+        {
+            _isAssistant = true;
+            transform.position = in_cameraManager.transform.position;
+            _characterMovementBoundaries = in_cameraManager._characterMovementBoundaries;
+            _camNodes = in_cameraManager._camNodes;
+            _smoothTime = .5f;
+            _maxSpeed = 100;
+            _maxSize = in_cameraManager._maxSize;
+            _minSize = in_cameraManager._minSize;
+
+            _currentCharacterSpawnPosition = _characterPos;
+            
+            InitializeNodeDistances();
+            UpdateOnRespawnPosAndSize(in_cameraManager);
+        }
+        
+        private void UpdateOnRespawnPosAndSize(CameraManager in_cameraManager)
+        {
+            _characterPos = in_cameraManager._currentCharacterSpawnPosition;
+            _camSize.y = in_cameraManager._cam.orthographicSize;
+            _camSize.x = _camSize.y * in_cameraManager._cam.aspect;
+            
+            _complementaryCameraManager.UpdateSpawnValuesAndDeactivateAssistant();
+        }
+        
+        private async void UpdateSpawnValuesAndDeactivateAssistant()
+        {
+            float timer = 0;
+
+            while (timer < .5f)
+            {
+                _complementaryCameraManager._currentCharacterSpawnPosition = _currentCharacterSpawnPosition;
+                _complementaryCameraManager._currentSpawnCamSize = _currentSpawnCamSize;
+                timer += Time.deltaTime;
+                await Task.Yield();
+            }
+            
+            gameObject.SetActive(false);
+        }
+        
+        #endregion
+        
+        #region CUSTOM UPDATE / LATE UPDATE
 
         public void CustomUpdate()
         {
             Vector3 position = transform.position;
-            _camSize.y = _cam.orthographicSize;
-            _camSize.x = _camSize.y * _cam.aspect;
-            
-            _characterPos = _characterTf.position;
+
+            if (!_isAssistant)
+            {
+                _camSize.y = _cam.orthographicSize;
+                _camSize.x = _camSize.y * _cam.aspect;
+                _characterPos = _characterTf.position;
+            }
 
             bool camOutOfBounds;
             UpdateCurrentBounds();
@@ -90,24 +165,25 @@ namespace GameplaySystems
 
             void UpdateCurrentBounds()
             {
-                bool northPosInBounds, westPosInBounds, southPosInBounds, eastPosInBounds;
-
                 _characterPosBounds = GetCamBounds(_characterPosBounds, _characterPos, true, true);
 
                 Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
-                if (northPosInBounds = CheckPointInBounds(northPos, _characterPosBounds))
-                    _northBounds = GetCamBounds(_northBounds, northPos, true, false);
-            
                 Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
-                if(westPosInBounds = CheckPointInBounds(westPos, _characterPosBounds))
-                    _westBounds = GetCamBounds(_westBounds, westPos, false, true);
-            
                 Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
-                if (southPosInBounds = CheckPointInBounds(southPos, _characterPosBounds))
-                    _southBounds = GetCamBounds(_southBounds, southPos, true, false);
-            
                 Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
-                if(eastPosInBounds = CheckPointInBounds(eastPos, _characterPosBounds))
+                
+                bool northPosInBounds = CheckPointInBounds(northPos, _characterPosBounds);
+                bool westPosInBounds = CheckPointInBounds(westPos, _characterPosBounds);
+                bool southPosInBounds = CheckPointInBounds(southPos, _characterPosBounds);
+                bool eastPosInBounds = CheckPointInBounds(eastPos, _characterPosBounds);
+                
+                if (northPosInBounds)
+                    _northBounds = GetCamBounds(_northBounds, northPos, true, false);
+                if(westPosInBounds)
+                    _westBounds = GetCamBounds(_westBounds, westPos, false, true);
+                if (southPosInBounds)
+                    _southBounds = GetCamBounds(_southBounds, southPos, true, false);
+                if(eastPosInBounds)
                     _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
 
                 camOutOfBounds =
@@ -180,6 +256,14 @@ namespace GameplaySystems
             }
         }
 
+        public void OnSetCheckpoint(Vector3 in_spawnPos)
+        {
+            _complementaryCameraManager.gameObject.SetActive(true);
+            _currentCharacterSpawnPosition = 
+                new Vector3(in_spawnPos.x, in_spawnPos.y, transform.position.z);
+            _complementaryCameraManager.UpdateOnRespawnPosAndSize(this);
+        }
+
         private void LateUpdate()
         {
             if (!_hasBounds || _getCharacterIntoMovementBoundaries)
@@ -194,6 +278,7 @@ namespace GameplaySystems
             position = 
                 Vector3.SmoothDamp(position, new Vector3(_characterPos.x, _characterPos.y, position.z), 
                     ref _velocity, _smoothTime, _maxSpeed);
+            
             transform.position = position;
 
             SetCamSize();
@@ -223,10 +308,17 @@ namespace GameplaySystems
                 float targetSize =
                     Mathf.Clamp(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .1f, 
                         _minSize, _maxSize);
-            
-                _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
+
+                float orthographicSize = Mathf.Lerp(_cam.orthographicSize, targetSize, Time.deltaTime * 2);
+                
+                if (!_isAssistant)
+                    _cam.orthographicSize = orthographicSize;
+                else
+                    _currentSpawnCamSize = orthographicSize;
             }
         }
+
+        #endregion
 
         #region DEBUG / GIZMOS
 

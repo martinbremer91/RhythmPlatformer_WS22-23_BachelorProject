@@ -11,6 +11,7 @@ namespace GameplaySystems
         private static UpdateManager s_Instance;
 
         private CameraManager _cameraManager;
+        private CameraManager _cameraManagerAssistant;
         private BeatManager _beatManager;
         private PulsingController _pulsingController;
         private InputPlaybackManager _inputPlaybackManager;
@@ -41,6 +42,7 @@ namespace GameplaySystems
         {
             _beatManager = in_gameStateManager.BeatManager;
             _cameraManager = in_gameStateManager.CameraManager;
+            _cameraManagerAssistant = in_gameStateManager.CameraManagerAssistant;
             _pulsingController = in_gameStateManager.PulsingController;
             
             _inputPlaybackManager = in_gameStateManager.InputPlaybackManager;
@@ -69,7 +71,11 @@ namespace GameplaySystems
             if (_beatManager.UpdateType.HasFlag(currentUpdateType))
                 _beatManager.CustomUpdate();
             if (_cameraManager.UpdateType.HasFlag(currentUpdateType))
+            {
+                if (_cameraManagerAssistant.isActiveAndEnabled)
+                    _cameraManagerAssistant.CustomUpdate();
                 _cameraManager.CustomUpdate();
+            }
             if (_pulsingController.UpdateType.HasFlag(currentUpdateType))
                 _pulsingController.CustomUpdate();
         }

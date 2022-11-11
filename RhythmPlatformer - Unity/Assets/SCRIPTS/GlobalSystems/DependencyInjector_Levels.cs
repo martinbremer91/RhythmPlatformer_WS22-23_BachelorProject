@@ -11,6 +11,7 @@ namespace GlobalSystems
         protected override UpdateType GetUpdateType() => UpdateType.GamePlay;
 
         public CameraManager CameraManager;
+        public CameraManager CameraManagerAssistant;
         public TextAsset CameraBoundsData;
         public LevelManager LevelManager;
         public CharacterInput CharacterInput;
@@ -23,6 +24,7 @@ namespace GlobalSystems
         public override void Init(GameStateManager in_gameStateManager)
         {
             in_gameStateManager.CameraManager = CameraManager;
+            in_gameStateManager.CameraManagerAssistant = CameraManagerAssistant;
             in_gameStateManager.CameraBoundsData = CameraBoundsData;
             in_gameStateManager.LevelManager = LevelManager;
             in_gameStateManager.CharacterInput = CharacterInput;
