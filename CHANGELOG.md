@@ -19,6 +19,95 @@
 ## - Soon to be changed
 
 ## [Unreleased] (terminal: git log; hold enter to go farther back in commit history)
+## [0.0.21] Work in Progress
+Date:   Fri Nov 11 18:36:38 2022
+    fixed two separate rise/fall drift bugs
+    created fade screen logic and made progress with respawn system
+    implemented basic death and respawn logic
+    cleaned up camera manager, created camera manager assistant and basic checkpoint logic
+    removed look ahead camera logic
+
+## [0.0.20] - 2022-11-10
+### Added
+- Implemented count-in functionality for BeatManager
+- simple graphics to beat manager count-in
+- New track ('Nines' beat track) and track data
+- One-way plaftorms
+- Crouch-to-fall-through functionality for platforms
+- Vertical 3-tile moving platform prefab (wall-cling possible)
+### Changed
+- Increased default cam max size
+- Moved audio clip field to track data scriptable object
+- Moved track data to bootstrap / dependency injector
+### Fixed
+- Player now sticks to moving platforms with right state and no jitter
+
+## [0.0.19] - 2022-11-08
+### Added
+- Implemented IPhysicsPausable interface
+- Implemented IAnimatorPausable interface
+- Platform effector and Level physics layer to moving platform prefab
+- New Dash sprites
+### Changed
+- Cam bounds data text asset reference now in bootstrap object
+- Updated scene loader menu for new scenes
+### Removed
+- Level editor scene
+### Fixed
+- Buggy slow fall after wall cling timer runs out
+- Bug where jump comes out like a dash
+
+## [0.0.18] - 2022-11-04
+### Added
+- PingScenesFolder function to Scenes menu
+- Camera look up and down functionality
+- Implemented min cam size
+- Updated Sprite Sheet 2 (added Dash, Slide, Look Up sprites)
+- Shader Graph package
+- Pulse shader asset
+- Post Processing package
+- Bloom effect (global)
+- Adjustable color mask range property for pulse shader
+- Level Template scene
+### Changed
+- Substituted center bounds for character position bounds in CameraManager
+- Changed handling of straight-down grounded dash and walled dash
+- Implemented canDash for player character (replenishes on jump)
+- Moved Cem Configs to separate asset
+- Wall cling trigger doesn't need velocity or input towards wall to wall cling
+- Level scenes hierarchy structure (standardized)
+### Fixed
+- Ian's test level 01 (added collider + level manager)
+- Camera Manager corner case issue
+- Walled dash orientation
+- Wall cling jittering
+- Facing orientation logic
+
+## [0.0.17] - 2022-11-03
+### Added
+- Air drift cancel (to change directions while airborne)
+- Level Manager
+- Movement routine system (waypoint follower)
+- Waypoint generator system (for movement routines)
+- Ian's test level
+- Small grid / tilemap for smaller level design elements
+- Placeholder small tile palette
+- Max camera size
+### Changed
+- Added start delay to beat manager
+- air drift speed and air drag
+### Fixed
+- Slide physics bug
+- Wall slide orientation issue
+- Ground detection bug
+
+## [0.0.16] - 2022-11-01
+### Added
+- New frames to player character animations
+- Character Spirte Sheet Draft 1
+### Fixed
+- Animation triggers logic
+- Sprite sheet format in Sprites folder
 
 ## [0.0.15] - 2022-10-27
 ### Added
