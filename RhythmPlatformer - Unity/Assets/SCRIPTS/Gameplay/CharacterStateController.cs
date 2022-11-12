@@ -66,7 +66,7 @@ namespace Gameplay
         }
         private float _dashWindupDuration;
 
-        private bool _canDash;
+        public bool CanDash;
 
         private bool _facingLeft;
         public bool FacingLeft
@@ -102,7 +102,9 @@ namespace Gameplay
         public float WallClingTimer {get; private set;}
 
         [HideInInspector] public bool Dead;
+        
         public Action Respawn;
+        public Action BecomeGrounded;
         
 #if UNITY_EDITOR
         public static bool s_Invulnerable;
@@ -122,6 +124,9 @@ namespace Gameplay
 
             _currentCharacterState = in_value;
             _spriteController.HandleStateAnimation();
+
+            if (Grounded)
+                BecomeGrounded?.Invoke();
         }
 
         private void ChangeIntoState(CharacterState in_value)
@@ -140,7 +145,7 @@ namespace Gameplay
                 case CharacterState.Rise:
                     _characterMovement.RiseCurveTracker.x = 0;
                     _characterMovement.InitializeRise();
-                    _canDash = true;
+                    CanDash = true;
                     break;
                 case CharacterState.Land:
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
@@ -506,13 +511,13 @@ namespace Gameplay
 
         private async void PerformDashWindupAsync()
         {
-            if (!_canDash)
+            if (!CanDash)
             {
                 DashWindup = false;
                 return;
             }
 
-            _canDash = false;
+            CanDash = false;
             _spriteController.SetDashWindupTrigger();
             
             float timer = _dashWindupDuration;

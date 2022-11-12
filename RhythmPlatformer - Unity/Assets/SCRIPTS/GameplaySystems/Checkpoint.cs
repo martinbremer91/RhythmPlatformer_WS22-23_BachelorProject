@@ -9,7 +9,8 @@ namespace GameplaySystems
         private LevelManager _levelManager;
         private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private BoxCollider2D _boxCollider2D;
+
+        private bool _checkpointTouched;
 
         public Transform SpawnPoint;
         public bool SpawnFacingLeft;
@@ -22,12 +23,12 @@ namespace GameplaySystems
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (!col.gameObject.CompareTag("Player") || _characterStateController.Dead)
+            if (_checkpointTouched || !col.gameObject.CompareTag("Player") || _characterStateController.Dead)
                 return;
 
             _levelManager.SetCurrentCheckPoint(this);
             _spriteRenderer.color = Color.green;
-            _boxCollider2D.enabled = false;
+            _checkpointTouched = true;
         }
     }
 }

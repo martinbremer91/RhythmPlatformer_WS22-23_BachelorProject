@@ -20,6 +20,9 @@ namespace GameplaySystems
         [SerializeField] private Transform _hazardsParent;
         private List<Hazard> _hazards = new();
 
+        [SerializeField] private Transform _dashCrystalsParent;
+        private List<DashCrystal> _dashCrystals = new();
+
         private CharacterStateController _characterStateController;
         private Vector3 _currentSpawnPoint;
         private bool _spawnFacingLeft;
@@ -32,6 +35,7 @@ namespace GameplaySystems
             InitMovementRoutines();
             InitCheckpoints();
             InitHazards();
+            InitDashCrystals();
             
             void InitMovementRoutines()
             {
@@ -71,6 +75,17 @@ namespace GameplaySystems
                 {
                     foreach (Hazard hazard in _hazards)
                         hazard.Init(_characterStateController);
+                }
+            }
+
+            void InitDashCrystals()
+            {
+                _dashCrystals = _dashCrystalsParent.GetComponentsInChildren<DashCrystal>().ToList();
+
+                if (_dashCrystals.Any())
+                {
+                    foreach (DashCrystal crystal in _dashCrystals)
+                        crystal.Init(_characterStateController);
                 }
             }
         }
