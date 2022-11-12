@@ -11,11 +11,14 @@ namespace GameplaySystems
     {
         private GameStateManager _gameStateManager;
         
-        public Transform MovementRoutineParent;
+        [SerializeField] private Transform _movementRoutineParent;
         private List<MovementRoutine> _movementRoutines = new();
         
-        public Transform CheckpointsParent;
+        [SerializeField] private Transform _checkpointsParent;
         private List<Checkpoint> _checkpoints = new();
+
+        [SerializeField] private Transform _hazardsParent;
+        private List<Hazard> _hazards = new();
 
         private CharacterStateController _characterStateController;
         private Vector3 _currentSpawnPoint;
@@ -26,27 +29,30 @@ namespace GameplaySystems
             _gameStateManager = in_gameStateManager;
             _characterStateController = in_gameStateManager.CharacterStateController;
             
-            _movementRoutines = MovementRoutineParent.GetComponentsInChildren<MovementRoutine>().ToList();
-            if (_movementRoutines.Any())
-                InitMovementRoutines();
-            
+            InitMovementRoutines();
             InitCheckpoints();
+            InitHazards();
             
             void InitMovementRoutines()
             {
-                UpdateType updateType = _movementRoutines[0].UpdateType;
+                _movementRoutines = _movementRoutineParent.GetComponentsInChildren<MovementRoutine>().ToList();
+                
+                if (_movementRoutines.Any())
+                {
+                    UpdateType updateType = _movementRoutines[0].UpdateType;
             
-                if (updateType != MovementRoutine.s_UpdateType)
-                    Debug.LogError("MovementRoutine.UpdateType and MovementRoutine.s_UpdateType must match");
+                    if (updateType != MovementRoutine.s_UpdateType)
+                        Debug.LogError("MovementRoutine.UpdateType and MovementRoutine.s_UpdateType must match");
 
-                foreach (MovementRoutine routine in _movementRoutines)
-                    routine.Init(in_gameStateManager);
+                    foreach (MovementRoutine routine in _movementRoutines)
+                        routine.Init(in_gameStateManager);
+                }
             }
 
             void InitCheckpoints()
             {
                 _currentSpawnPoint = _characterStateController.transform.position;
-                _checkpoints = CheckpointsParent.GetComponentsInChildren<Checkpoint>().ToList();
+                _checkpoints = _checkpointsParent.GetComponentsInChildren<Checkpoint>().ToList();
                 
                 if (_checkpoints.Any())
                 {
@@ -55,6 +61,17 @@ namespace GameplaySystems
                 }
 
                 _characterStateController.Respawn += RespawnPlayer;
+            }
+
+            void InitHazards()
+            {
+                _hazards = _hazardsParent.GetComponentsInChildren<Hazard>().ToList();
+
+                if (_hazards.Any())
+                {
+                    foreach (Hazard hazard in _hazards)
+                        hazard.Init(_characterStateController);
+                }
             }
         }
 
