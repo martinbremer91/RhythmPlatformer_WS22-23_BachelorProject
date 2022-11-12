@@ -56,8 +56,8 @@ namespace Gameplay
                 collision = OnOneWayPlatform;
 
             // COLLISION DEBUGGING
-            Color color = collision ? Color.green : Color.red;
-            Debug.DrawRay(bounds.center, detectDirection, color);
+            //Color color = collision ? Color.green : Color.red;
+            //Debug.DrawRay(bounds.center, detectDirection, color);
 
             if (!collision == in_detectEnter)
                 return;

@@ -282,7 +282,7 @@ namespace Gameplay
 
         #endregion
 
-        #region UTILITY FUNCTIONS
+        #region MOVEMENT UTILITY FUNCTIONS
 
         private float GetCurrentGroundDrag()
         {
@@ -355,7 +355,7 @@ namespace Gameplay
             if (wallDash)
                 directionX *= -1;
 
-            DashDirection = new Vector2(directionX, directionY).normalized;
+            DashDirection = new Vector2(directionX, directionY * .5f).normalized;
             DashVelocity = new Vector2(DashDirection.x, DashDirection.y) * _dashTopSpeed;
             
             _characterStateController.CurrentCharacterState = CharacterState.Dash;
