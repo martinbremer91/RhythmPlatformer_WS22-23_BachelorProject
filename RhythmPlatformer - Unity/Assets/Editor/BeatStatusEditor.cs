@@ -38,13 +38,6 @@ namespace Editor
                 Close();
                 return;
             }
-            
-            Init();
-        }
-
-        private void Init()
-        {
-            
         }
         
         private bool CheckReferences()
@@ -87,17 +80,21 @@ namespace Editor
             // Draw info box
             GUI.Box(_infoRect, String.Empty);
 
+            GUI.Label(new Rect(_infoRect.position + new Vector2(5, 5), new Vector2(300, 20)), 
+                _beatManager.TrackData.Clip.name + " -> Meter: " + _beatManager.TrackData.Meter +
+                ", BPM: " + _beatManager.TrackData.BPM);
+            
             for (int i = 1; i <= _beatManager.TrackData.Meter; i++)
             {
                 GUI.Toggle(
                     new Rect(
-                        _infoRect.position + new Vector2(5 + 35 * (i - 1), 5), 
+                        _infoRect.position + new Vector2(5 + 35 * (i - 1), 30), 
                         new Vector2(40, 20)), 
                     _beatManager.BeatTracker == i, 
                     i.ToString());
             }
 
-            GUI.Box(new Rect(_infoRect.position + new Vector2(5, 25), new Vector2(150, 20)),
+            GUI.Label(new Rect(_infoRect.position + new Vector2(5, 55), new Vector2(150, 20)),
                 "Active Source: " + (_beatManager.ActiveSource == 0 ? "A" : "B"));
         }
     }
