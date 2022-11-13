@@ -7,6 +7,7 @@ using Scriptable_Object_Scripts;
 using GlobalSystems;
 using UnityEngine;
 using Menus_and_Transitions;
+using Utility_Scripts;
 
 namespace GameplaySystems
 {
@@ -15,8 +16,9 @@ namespace GameplaySystems
         #region REFERENCES
 
         private GameStateManager _gameStateManager;
-        
         private CharacterInput _characterInput;
+
+        private MusicUtilities _musicUtilities = new();
         [SerializeField] private AudioSource[] _trackAudioSources;
 
         [SerializeField] private float _startDelay;
@@ -45,6 +47,9 @@ namespace GameplaySystems
         
         private LoopPoints _loopPoints;
 
+        [HideInInspector] public float _currentMusicVolume;
+        [HideInInspector] public float _currentMetronomeVolume;
+        
         private double _beatLength;
         private double _nextBeatTime;
         private int _beatTracker;
@@ -55,7 +60,7 @@ namespace GameplaySystems
         {
             get => _metronomeOn;
             set =>
-                _metronomeOn = _metronomeOnlyMode ? true : value;
+                _metronomeOn = _metronomeOnlyMode || value;
         }
         private bool _metronomeOnlyMode;
         private bool _pausedMetronome;

@@ -41,7 +41,7 @@ namespace Debug_and_Tools
                 return;
             }
 
-            if (System.IO.File.Exists($"Assets/JsonData/{_roomName}_CamData.json"))
+            if (System.IO.File.Exists($"Assets/JsonData/CamData/{_roomName}_CamData.json"))
             {
                 if (!ConfirmationDialog($"Are you sure you want to overwrite {_roomName}_CamData?"))
                     return;
@@ -70,10 +70,10 @@ namespace Debug_and_Tools
 
             string jsonData = JsonArrayUtility.ToJson(camNodes);
 
-            System.IO.File.WriteAllText($"Assets/JsonData/{_roomName}_CamData.json",
+            System.IO.File.WriteAllText($"Assets/JsonData/CamData/{_roomName}_CamData.json",
                 jsonData);
             
-            Debug.Log($"Saved Camera Bounds to Assets/JsonData/{_roomName}_CamData.json.\n" +
+            Debug.Log($"Saved Camera Bounds to Assets/JsonData/CamData/{_roomName}_CamData.json.\n" +
                       $"If the file doesn't show up right away, switch to another program and then back to Unity. " +
                       $"Or just give it a minute");
 
