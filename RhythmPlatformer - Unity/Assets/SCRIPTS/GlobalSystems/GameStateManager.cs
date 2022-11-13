@@ -4,6 +4,7 @@ using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
 using System.Collections.Generic;
+using Structs;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -37,6 +38,7 @@ namespace GlobalSystems
 
         public MovementConfigs MovementConfigs;
         public GameplayControlConfigs GameplayControlConfigs;
+        public SoundConfigs SoundConfigs;
         [HideInInspector] public TrackData CurrentTrackData;
 
         #endregion
@@ -45,12 +47,16 @@ namespace GlobalSystems
 
         [HideInInspector] public SceneType LoadedSceneType;
         [HideInInspector] public UpdateType ActiveUpdateType;
-        public bool InputDisabled;
+        [HideInInspector] public bool InputDisabled;
 
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
-        private void OnEnable() => (this as IRefreshable).RegisterRefreshable();
+        private void OnEnable()
+        {
+            LoadUserPrefs();
+            (this as IRefreshable).RegisterRefreshable();
+        }
 
         private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();
 
@@ -107,6 +113,15 @@ namespace GlobalSystems
                 CharacterStateController.Init(this);
                 CharacterMovement.Init(this);
                 CharacterSpriteController.Init(this);
+            }
+        }
+
+        private void LoadUserPrefs()
+        {
+            if (!SoundConfigs.LoadSoundPreferences())
+            {
+                SoundConfigs.SaveSoundPreferencesAsync();
+                Debug.Log("save");
             }
         }
 

@@ -1,4 +1,5 @@
 using Structs;
+using UnityEditor;
 using UnityEngine;
 
 namespace Scriptable_Object_Scripts
@@ -6,7 +7,6 @@ namespace Scriptable_Object_Scripts
     [CreateAssetMenu(fileName = "Sound Configs", menuName = "Custom/Sound Configs")]
     public class SoundConfigs : ScriptableObject
     {
-        [Header("Sound Preferences")] 
         public SoundPreferences SoundPreferences;
         [Space(10)] 
         [Header("Music Utilities Parameters")]
@@ -15,17 +15,26 @@ namespace Scriptable_Object_Scripts
         public float LowPassFilterFadeDuration;
         public float LowPassFilterFadeCutoffFrequency;
         
-        public async void SaveSoundPreferences()
+        public async void SaveSoundPreferencesAsync()
         {
             string jsonData = JsonUtility.ToJson(SoundPreferences);
-            await System.IO.File.WriteAllTextAsync($"Assets/JsonData/SaveData/UserSoundPreferences.json", 
+            await System.IO.File.WriteAllTextAsync("Assets/JsonData/SaveData/UserSoundPreferences.json", 
                 jsonData);
         }
 
-        public void LoadSoundPreferences(TextAsset in_userSoundPreferences)
+        public bool LoadSoundPreferences()
         {
-            string jsonData = in_userSoundPreferences.text;
+            TextAsset userSoundPreferences =
+                AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/JsonData/SaveData/UserSoundPreferences.json");
+
+            if (userSoundPreferences == null)
+                return false;
+            
+            string jsonData = userSoundPreferences.text;
             SoundPreferences = JsonUtility.FromJson<SoundPreferences>(jsonData);
+            Debug.Log("load");
+            
+            return true;
         }
     }
 }

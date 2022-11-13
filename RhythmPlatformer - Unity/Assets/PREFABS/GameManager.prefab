@@ -50,15 +50,24 @@ MonoBehaviour:
   PauseMenu: {fileID: 0}
   BeatManager: {fileID: 0}
   UiManager: {fileID: 0}
+  PulsingController: {fileID: 0}
   CameraManager: {fileID: 0}
+  CameraManagerAssistant: {fileID: 0}
+  LevelManager: {fileID: 0}
   CharacterInput: {fileID: 0}
   CharacterCollisionDetector: {fileID: 0}
   CharacterStateController: {fileID: 0}
   CharacterMovement: {fileID: 0}
   CharacterSpriteController: {fileID: 0}
   InputPlaybackManager: {fileID: 0}
+  CameraBoundsData: {fileID: 0}
   MovementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
   GameplayControlConfigs: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
+  SoundConfigs: {fileID: 11400000, guid: 99609539b7004491bb0ebba6c5c3ee9f, type: 2}
+  CurrentTrackData: {fileID: 0}
+  LoadedSceneType: 0
+  ActiveUpdateType: 0
+  InputDisabled: 0
 --- !u!114 &9197381171710160414
 MonoBehaviour:
   m_ObjectHideFlags: 0

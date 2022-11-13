@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50ec5ca2e1974dd9ba520f5554da08c, type: 3}
+  m_Name: Sound Configs
+  m_EditorClassIdentifier: 
+  SoundPreferences:
+    CurrentMusicVolume: 1
+    MusicMuted: 0
+    CurrentMetronomeVolume: 1
+    MetronomeMuted: 0
+  MusicFadeDuration: 0
+  LowPassFilterFadeDuration: 0
+  LowPassFilterFadeCutoffFrequency: 0
