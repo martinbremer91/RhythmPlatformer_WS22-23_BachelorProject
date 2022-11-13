@@ -4,7 +4,6 @@ using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
 using System.Collections.Generic;
-using Structs;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -119,10 +118,7 @@ namespace GlobalSystems
         private void LoadUserPrefs()
         {
             if (!SoundConfigs.LoadSoundPreferences())
-            {
                 SoundConfigs.SaveSoundPreferencesAsync();
-                Debug.Log("save");
-            }
         }
 
         public void SceneRefresh()
