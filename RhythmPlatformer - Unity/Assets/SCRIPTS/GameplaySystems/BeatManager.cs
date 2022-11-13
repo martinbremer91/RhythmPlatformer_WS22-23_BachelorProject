@@ -49,8 +49,15 @@ namespace GameplaySystems
         private double _nextBeatTime;
         private int _beatTracker;
         private int _pausedBeat;
-        
-        public bool MetronomeOn;
+
+        [SerializeField] private bool _metronomeOn;
+        public bool MetronomeOn
+        {
+            get => _metronomeOn;
+            set =>
+                _metronomeOn = _metronomeOnlyMode ? true : value;
+        }
+        private bool _metronomeOnlyMode;
         private bool _pausedMetronome;
 
         private bool _unpauseSignal;
@@ -93,6 +100,7 @@ namespace GameplaySystems
             _gameStateManager = in_gameStateManager;
 
             _trackData = _gameStateManager.CurrentTrackData;
+            _metronomeOnlyMode = _trackData.Clip == null;
             _trackAudioSources[0].clip = _trackData.Clip;
             _trackAudioSources[1].clip = _trackData.Clip;
 
@@ -104,16 +112,22 @@ namespace GameplaySystems
             _beatLength = 60 / (double) _trackData.BPM;
             double barLength = _beatLength * _trackData.Meter;
 
-            _loopPoints.start = barLength * _trackData.IntroBars;
-            _loopPoints.end =
-                (Mathf.FloorToInt(_trackAudioSources[_activeSource].clip.length / (float)barLength)
-                 - _trackData.TailBars) * barLength;
-            
-            _nextTrackTime = AudioSettings.dspTime + _loopPoints.end - _loopPoints.start + _startDelay;
             _nextBeatTime = AudioSettings.dspTime + _startDelay;
-            
-            _trackAudioSources[_activeSource].PlayScheduled(AudioSettings.dspTime + _startDelay);
-            _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
+
+            if (!_metronomeOnlyMode)
+            {
+                _loopPoints.start = barLength * _trackData.IntroBars;
+                _loopPoints.end =
+                    (Mathf.FloorToInt(_trackAudioSources[_activeSource].clip.length / (float)barLength)
+                     - _trackData.TailBars) * barLength;
+
+                _nextTrackTime = AudioSettings.dspTime + _loopPoints.end - _loopPoints.start + _startDelay;
+
+                _trackAudioSources[_activeSource].PlayScheduled(AudioSettings.dspTime + _startDelay);
+                _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
+            }
+            else
+                MetronomeOn = true;
         }
 
         public void CustomUpdate()
@@ -126,7 +140,7 @@ namespace GameplaySystems
             
             double time = AudioSettings.dspTime;
             
-            if (time >= _nextTrackTime)
+            if (!_metronomeOnlyMode && time >= _nextTrackTime)
             {
                 _activeSource = _nextSource;
                 _nextTrackTime += _loopPoints.end - _loopPoints.start;
