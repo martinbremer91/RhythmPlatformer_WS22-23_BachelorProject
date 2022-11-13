@@ -6212,8 +6212,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
     - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
-      propertyPath: _debugBeatOff
+      propertyPath: MetronomeOn
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
+      propertyPath: _debugBeatOff
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}

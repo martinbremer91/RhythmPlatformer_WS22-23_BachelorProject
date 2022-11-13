@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f50cf4eac7f4febb799c27b5b36c3f, type: 3}
   m_Name: NinesTrackData
   m_EditorClassIdentifier: 
-  Clip: {fileID: 8300000, guid: 436aa1db8f8694cd9b9c17bb3ccc5483, type: 3}
-  BPM: 224
+  Clip: {fileID: 8300000, guid: 326d5336d1d5c2c4cb3370e886f09da4, type: 3}
+  BPM: 164
   Meter: 9
   IntroBars: 0
   TailBars: 0

@@ -42,7 +42,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b17e2440b2172450a95aa198659877fb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d57634e893dd65c4abfa82fe978fe0ba, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -170,7 +170,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0cee14a9a8cfd42f5a3e3082c10681eb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 30a080cbba3d2884895899b95f1d01e0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -438,7 +438,7 @@ MonoBehaviour:
   _startDelay: 1
   _metronomeStrong: {fileID: 5382255610641140915}
   _metronomeWeak: {fileID: 5382255610254532521}
-  TrackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
+  BeatState: 0
   MetronomeOn: 0
   _debugBeatOff: 0
 --- !u!1 &5382255612138771049
