@@ -144,7 +144,7 @@ namespace GameplaySystems
         {
             int timer = 0;
 
-            while (timer < 3000 && Time.deltaTime > 0)
+            while (timer < 3000 && Time.unscaledDeltaTime > 0)
             {
                 int deltaTimeMilliseconds = Mathf.RoundToInt(Time.deltaTime * 1000);
 
@@ -155,7 +155,7 @@ namespace GameplaySystems
                 await Task.Delay(deltaTimeMilliseconds);
             }
 
-            if (Time.deltaTime <= 0)
+            if (Time.unscaledDeltaTime <= 0)
                 return;
 
             gameObject.SetActive(false);

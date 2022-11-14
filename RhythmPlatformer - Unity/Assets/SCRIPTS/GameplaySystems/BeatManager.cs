@@ -185,39 +185,55 @@ namespace GameplaySystems
             _pausedMetronome = MetronomeOn;
         } 
 
+        // TODO: refactor this (maybe coroutine would be better here?)
         public async void ExecuteCountInAsync()
         {
             PauseMenu pauseMenu = _gameStateManager.PauseMenu;
             int countIn = 0;
 
-            while (_beatTracker != _trackData.Meter)
+            while (_beatTracker != _trackData.Meter && Time.unscaledDeltaTime > 0)
                 await Task.Yield();
-            
+
+            if (Time.unscaledDeltaTime <= 0)
+                return;
+
             MetronomeOn = true;
-            while (_beatTracker != 1)
+            while (_beatTracker != 1 && Time.unscaledDeltaTime > 0)
                 await Task.Yield();
+
+            if (Time.unscaledDeltaTime <= 0)
+                return;
 
             UpdateCountInUi();
 
-            while (_beatTracker != 2)
+            while (_beatTracker != 2 && Time.unscaledDeltaTime > 0)
                 await Task.Yield();
+
+            if (Time.unscaledDeltaTime <= 0)
+                return;
 
             int beatBeforeUnpause = _pausedBeat == 1 ? _trackData.Meter : _pausedBeat - 1;
 
             if (_pausedBeat != 1)
             {
-                while (_beatTracker != 1)
+                while (_beatTracker != 1 && Time.unscaledDeltaTime > 0)
                 {
                     UpdateCountInUi();
                     await Task.Yield();
                 }
+
+                if (Time.unscaledDeltaTime <= 0)
+                    return;
             }
             
-            while (_beatTracker != beatBeforeUnpause)
+            while (_beatTracker != beatBeforeUnpause && Time.unscaledDeltaTime > 0)
             {
                 UpdateCountInUi();
                 await Task.Yield();
             }
+
+            if (Time.unscaledDeltaTime <= 0)
+                return;
 
             UpdateCountInUi();
 
