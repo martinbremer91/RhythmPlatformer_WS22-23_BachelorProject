@@ -10,9 +10,9 @@ namespace Utility_Scripts
             float currentTime = 0;
             float startCutoff = in_audioSources[0].volume;
     
-            while (currentTime <= in_duration && Time.unscaledDeltaTime > 0)
+            while (currentTime <= in_duration && Time.deltaTime > 0)
             {
-                currentTime += Time.unscaledDeltaTime;
+                currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetVolume, currentTime / in_duration);
                 
                 foreach (AudioSource source in in_audioSources)
@@ -28,9 +28,9 @@ namespace Utility_Scripts
             float currentTime = 0;
             float startCutoff = in_lowPassArray[0].cutoffFrequency;
     
-            while (currentTime <= in_duration && Time.unscaledDeltaTime > 0)
+            while (currentTime <= in_duration && Time.deltaTime > 0)
             {
-                currentTime += Time.unscaledDeltaTime;
+                currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetCutoff, currentTime / in_duration);
                 
                 foreach (AudioLowPassFilter loPass in in_lowPassArray)

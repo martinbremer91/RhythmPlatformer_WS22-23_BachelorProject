@@ -491,7 +491,7 @@ namespace Gameplay
         {
             float runTimer = _runTurnWindow;
 
-            while (runTimer > 0 && Time.unscaledDeltaTime > 0)
+            while (runTimer > 0 && Time.deltaTime > 0)
             {
                 await Task.Yield();
                 runTimer -= Time.fixedDeltaTime;
@@ -500,7 +500,7 @@ namespace Gameplay
                     return;
             }
 
-            if (Time.unscaledDeltaTime <= 0)
+            if (Time.deltaTime <= 0)
                 return;
             
             _characterMovement.RunCurveTracker.x = 0;
@@ -525,13 +525,13 @@ namespace Gameplay
             
             float timer = _dashWindupDuration;
 
-            while (timer > 0 && Time.unscaledDeltaTime > 0)
+            while (timer > 0 && Time.deltaTime > 0)
             {
                 await Task.Yield();
                 timer -= Time.fixedDeltaTime;
             }
 
-            if (Time.unscaledDeltaTime <= 0)
+            if (Time.deltaTime <= 0)
                 return;
 
             DashWindup = false;

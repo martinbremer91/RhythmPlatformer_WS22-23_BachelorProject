@@ -191,48 +191,48 @@ namespace GameplaySystems
             PauseMenu pauseMenu = _gameStateManager.PauseMenu;
             int countIn = 0;
 
-            while (_beatTracker != _trackData.Meter && Time.unscaledDeltaTime > 0)
+            while (_beatTracker != _trackData.Meter && Time.deltaTime > 0)
                 await Task.Yield();
 
-            if (Time.unscaledDeltaTime <= 0)
+            if (Time.deltaTime <= 0)
                 return;
 
             MetronomeOn = true;
-            while (_beatTracker != 1 && Time.unscaledDeltaTime > 0)
+            while (_beatTracker != 1 && Time.deltaTime > 0)
                 await Task.Yield();
 
-            if (Time.unscaledDeltaTime <= 0)
+            if (Time.deltaTime <= 0)
                 return;
 
             UpdateCountInUi();
 
-            while (_beatTracker != 2 && Time.unscaledDeltaTime > 0)
+            while (_beatTracker != 2 && Time.deltaTime > 0)
                 await Task.Yield();
 
-            if (Time.unscaledDeltaTime <= 0)
+            if (Time.deltaTime <= 0)
                 return;
 
             int beatBeforeUnpause = _pausedBeat == 1 ? _trackData.Meter : _pausedBeat - 1;
 
             if (_pausedBeat != 1)
             {
-                while (_beatTracker != 1 && Time.unscaledDeltaTime > 0)
+                while (_beatTracker != 1 && Time.deltaTime > 0)
                 {
                     UpdateCountInUi();
                     await Task.Yield();
                 }
 
-                if (Time.unscaledDeltaTime <= 0)
+                if (Time.deltaTime <= 0)
                     return;
             }
             
-            while (_beatTracker != beatBeforeUnpause && Time.unscaledDeltaTime > 0)
+            while (_beatTracker != beatBeforeUnpause && Time.deltaTime > 0)
             {
                 UpdateCountInUi();
                 await Task.Yield();
             }
 
-            if (Time.unscaledDeltaTime <= 0)
+            if (Time.deltaTime <= 0)
                 return;
 
             UpdateCountInUi();
