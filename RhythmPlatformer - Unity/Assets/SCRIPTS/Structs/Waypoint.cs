@@ -5,12 +5,17 @@ namespace Structs
     [System.Serializable]
     public struct Waypoint
     {
-        [SerializeField] private Transform _coords;
-        public Vector3 Coords => _coords.position;
+        [SerializeField] private Vector2 _coords;
+
+        public Vector2 Coords
+        {
+            get => _coords;
+            set => _coords = value;
+        }
         
         public float Pause;
 
-        public Waypoint(Transform coords, float pause)
+        public Waypoint(Vector2 coords, float pause)
         {
             _coords = coords;
             Pause = pause;
