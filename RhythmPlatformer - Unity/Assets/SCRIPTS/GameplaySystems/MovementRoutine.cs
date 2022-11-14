@@ -1,3 +1,4 @@
+using System;
 using Structs;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,9 @@ namespace GameplaySystems
         [HideInInspector] public UpdateManager _updateManager;
         private Transform _characterTransform;
 
-        // TODO: change this type to a parent of OneWayPlatform
-        [SerializeField] private MovingPlatform _movingObject;
-        [SerializeField] private List<Waypoint> _waypoints;
-        public List<Waypoint> Waypoints => _waypoints ??= new List<Waypoint>();
+        public List<Waypoint> Waypoints;
 
         #endregion
-
-        private Vector3 _position => _movingObject.transform.position;
 
         private Waypoint _currentWaypoint;
         private Vector3 _currentWaypointDirection;
@@ -51,20 +47,26 @@ namespace GameplaySystems
             _updateManager = in_gameStateManager.UpdateManager;
             _updateManager.MovementRoutines.Add(this);
             _characterTransform = in_gameStateManager.CharacterStateController.transform;
-
-            _movingObject.Init(in_gameStateManager, this);
-            
-            if (Waypoints == null || !Waypoints.Any())
-                Debug.LogError(name + "'s MovementRoutine does not have waypoints", gameObject);
         }
 
         #endregion
 
+        private void Start()
+        {
+            if (Waypoints == null || !Waypoints.Any())
+            {
+                Debug.LogError("Movement Routine has no waypoints. Disabling Movement Routine.", gameObject);
+                gameObject.SetActive(false);
+            }
+        }
+
         private void FollowWaypoints()
         {
+            Vector3 position = transform.position;
+
             if (!_hasCurrentWaypoint)
                 GetNextWaypoint();
-            
+
             if (!_pausingBetweenWaypoints && !CheckIfCurrentWaypointWasReached())
                 MoveTowardsCurrentWaypoint();
             else
@@ -75,7 +77,7 @@ namespace GameplaySystems
                 _hasCurrentWaypoint = true;
                 
                 _currentWaypoint = Waypoints[_nextWaypointIndex];
-                _currentWaypointDirection = ((Vector3)_currentWaypoint.Coords - _position).normalized;
+                _currentWaypointDirection = ((Vector3)_currentWaypoint.Coords - position).normalized;
                 _nextWaypointIndex++;
 
                 if (_nextWaypointIndex >= Waypoints.Count)
@@ -84,14 +86,14 @@ namespace GameplaySystems
 
             bool CheckIfCurrentWaypointWasReached()
             {
-                bool waypointReached = ((Vector3)_currentWaypoint.Coords - _position).sqrMagnitude <= .1f;
+                bool waypointReached = ((Vector3)_currentWaypoint.Coords - position).sqrMagnitude <= .1f;
                 return waypointReached;
             }
 
             void MoveTowardsCurrentWaypoint()
             {
                 Vector3 translation = _currentWaypointDirection * (5 * Time.deltaTime);
-                _movingObject.transform.Translate(translation);
+                transform.Translate(translation);
                 
                 if (MovePlayerAsWell)
                     _characterTransform.Translate(translation);

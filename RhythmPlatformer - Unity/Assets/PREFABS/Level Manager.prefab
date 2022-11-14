@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9967f08221c41d3813bf3186e7ddde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementRoutineParent: {fileID: 476053683931542314}
+  _platformsParent: {fileID: 476053683931542314}
   _checkpointsParent: {fileID: 5379587988368093825}
   _hazardsParent: {fileID: 2835730285110137294}
   _dashCrystalsParent: {fileID: 5740562658080346568}
@@ -62,7 +62,7 @@ GameObject:
   m_Component:
   - component: {fileID: 476053683931542314}
   m_Layer: 0
-  m_Name: MovementRoutineParent
+  m_Name: PlatformsParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

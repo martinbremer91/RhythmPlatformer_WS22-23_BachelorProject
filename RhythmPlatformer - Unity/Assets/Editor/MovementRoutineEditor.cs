@@ -16,6 +16,17 @@ namespace Editor
             script = (MovementRoutine)target;
         }
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (GUILayout.Button("Generate Waypoint"))
+            {
+                Waypoint waypoint = new Waypoint(script.transform.position, 0);
+                script.Waypoints.Add(waypoint);
+            }
+        }
+
         private void OnSceneGUI()
         {
             if (script.Waypoints == null || !script.Waypoints.Any())

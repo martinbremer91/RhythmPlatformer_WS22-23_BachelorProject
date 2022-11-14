@@ -6,24 +6,30 @@ using UnityEngine;
 
 namespace GameplaySystems
 {
-    public class MovingPlatform : MonoBehaviour, IInit<GameStateManager, MovementRoutine>
+    public class Platform : MonoBehaviour, IInit<GameStateManager>
     {
         private CharacterCollisionDetector _characterCollisionDetector;
         private CharacterStateController _characterStateController;
-        private MovementRoutine _movementRoutine;
+        [SerializeField] private MovementRoutine _movementRoutine;
 
         [SerializeField] private BoxCollider2D _collider;
 
         private bool _isOneWayPlatform;
+        private bool _isMovingPlatform;
         
-        public void Init(GameStateManager in_gameStateManager, MovementRoutine in_movementRoutine)
+        public void Init(GameStateManager in_gameStateManager)
         {
             _isOneWayPlatform = gameObject.CompareTag("OneWayPlatform");
             if (_isOneWayPlatform)
                 _characterStateController = in_gameStateManager.CharacterStateController;
             
             _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
-            _movementRoutine = in_movementRoutine;
+            
+            if (_movementRoutine != null)
+            {
+                _isMovingPlatform = true;
+                _movementRoutine.Init(in_gameStateManager);
+            }
         }
         
         private void OnCollisionEnter2D(Collision2D col)
@@ -32,13 +38,14 @@ namespace GameplaySystems
             {
                 if (_isOneWayPlatform)
                     _characterCollisionDetector.OnOneWayPlatform = true;
-                _movementRoutine.MovePlayerAsWell = true;
+                if (_isMovingPlatform)
+                    _movementRoutine.MovePlayerAsWell = true;
             }
         }
 
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (!_isOneWayPlatform)
+            if (!_isOneWayPlatform || !collision.enabled || !collision.gameObject.CompareTag("Player"))
                 return;
 
             if (_characterStateController.CurrentCharacterState == CharacterState.Crouch)
@@ -51,14 +58,17 @@ namespace GameplaySystems
             {
                 if (_isOneWayPlatform)
                     _characterCollisionDetector.OnOneWayPlatform = false;
-                _movementRoutine.MovePlayerAsWell = false;
+                if (_isMovingPlatform)
+                    _movementRoutine.MovePlayerAsWell = false;
             }
         }
 
         private async void ExecuteFallThrough()
         {
             _characterCollisionDetector.OnOneWayPlatform = false;
-            _movementRoutine.MovePlayerAsWell = false;
+            
+            if (_isMovingPlatform)
+                _movementRoutine.MovePlayerAsWell = false;
 
             _collider.enabled = false;
             await Task.Delay(500);

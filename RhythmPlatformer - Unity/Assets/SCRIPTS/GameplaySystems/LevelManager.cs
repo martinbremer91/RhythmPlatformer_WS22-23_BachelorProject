@@ -11,8 +11,8 @@ namespace GameplaySystems
     {
         private GameStateManager _gameStateManager;
         
-        [SerializeField] private Transform _movementRoutineParent;
-        private List<MovementRoutine> _movementRoutines = new();
+        [SerializeField] private Transform _platformsParent;
+        private List<Platform> _platforms = new();
         
         [SerializeField] private Transform _checkpointsParent;
         private List<Checkpoint> _checkpoints = new();
@@ -32,24 +32,19 @@ namespace GameplaySystems
             _gameStateManager = in_gameStateManager;
             _characterStateController = in_gameStateManager.CharacterStateController;
             
-            InitMovementRoutines();
+            InitPlatforms();
             InitCheckpoints();
             InitHazards();
             InitDashCrystals();
             
-            void InitMovementRoutines()
+            void InitPlatforms()
             {
-                _movementRoutines = _movementRoutineParent.GetComponentsInChildren<MovementRoutine>().ToList();
+                _platforms = _platformsParent.GetComponentsInChildren<Platform>().ToList();
                 
-                if (_movementRoutines.Any())
+                if (_platforms.Any())
                 {
-                    UpdateType updateType = _movementRoutines[0].UpdateType;
-            
-                    if (updateType != MovementRoutine.s_UpdateType)
-                        Debug.LogError("MovementRoutine.UpdateType and MovementRoutine.s_UpdateType must match");
-
-                    foreach (MovementRoutine routine in _movementRoutines)
-                        routine.Init(in_gameStateManager);
+                    foreach (Platform platform in _platforms)
+                        platform.Init(in_gameStateManager);
                 }
             }
 
