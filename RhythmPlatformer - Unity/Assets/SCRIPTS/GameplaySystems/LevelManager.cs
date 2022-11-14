@@ -69,7 +69,7 @@ namespace GameplaySystems
                 if (_hazards.Any())
                 {
                     foreach (Hazard hazard in _hazards)
-                        hazard.Init(_characterStateController);
+                        hazard.Init(in_gameStateManager);
                 }
             }
 
