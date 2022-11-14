@@ -137,14 +137,14 @@ namespace GameplaySystems
             _camSize.y = in_cameraManager._cam.orthographicSize;
             _camSize.x = _camSize.y * in_cameraManager._cam.aspect;
             
-            UpdateSpawnValuesAndDeactivateAssistant();
+            UpdateSpawnValuesAndDeactivateAssistantAsync();
         }
 
-        private async void UpdateSpawnValuesAndDeactivateAssistant()
+        private async void UpdateSpawnValuesAndDeactivateAssistantAsync()
         {
             int timer = 0;
 
-            while (timer < 3000)
+            while (timer < 3000 && Time.deltaTime > 0)
             {
                 int deltaTimeMilliseconds = Mathf.RoundToInt(Time.deltaTime * 1000);
 
@@ -154,7 +154,10 @@ namespace GameplaySystems
                 timer += deltaTimeMilliseconds;
                 await Task.Delay(deltaTimeMilliseconds);
             }
-            
+
+            if (Time.deltaTime <= 0)
+                return;
+
             gameObject.SetActive(false);
         }
 
