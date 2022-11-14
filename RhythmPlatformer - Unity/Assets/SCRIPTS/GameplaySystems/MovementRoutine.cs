@@ -22,7 +22,7 @@ namespace GameplaySystems
         #endregion
 
         private Vector3 _position => _movingObject.transform.position;
-        
+
         private Waypoint _currentWaypoint;
         private Vector3 _currentWaypointDirection;
         private int _nextWaypointIndex;
@@ -32,7 +32,7 @@ namespace GameplaySystems
 
         private bool _pausingBetweenWaypoints;
         private float _pausingTimer;
-
+        
         private void OnDisable() => _updateManager.MovementRoutines.Remove(this);
 
         #region IUpdatable
@@ -75,7 +75,7 @@ namespace GameplaySystems
                 _hasCurrentWaypoint = true;
                 
                 _currentWaypoint = Waypoints[_nextWaypointIndex];
-                _currentWaypointDirection = (_currentWaypoint.Coords - _position).normalized;
+                _currentWaypointDirection = ((Vector3)_currentWaypoint.Coords - _position).normalized;
                 _nextWaypointIndex++;
 
                 if (_nextWaypointIndex >= Waypoints.Count)
@@ -84,7 +84,7 @@ namespace GameplaySystems
 
             bool CheckIfCurrentWaypointWasReached()
             {
-                bool waypointReached = (_currentWaypoint.Coords - _position).sqrMagnitude <= .1f;
+                bool waypointReached = ((Vector3)_currentWaypoint.Coords - _position).sqrMagnitude <= .1f;
                 return waypointReached;
             }
 

@@ -47,7 +47,7 @@ namespace GameplaySystems
 
         private void OnCollisionExit2D(Collision2D other)
         {
-            if (other.enabled && other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 if (_isOneWayPlatform)
                     _characterCollisionDetector.OnOneWayPlatform = false;

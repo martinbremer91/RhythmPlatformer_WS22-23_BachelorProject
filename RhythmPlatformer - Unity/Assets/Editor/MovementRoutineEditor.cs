@@ -1,3 +1,4 @@
+using System.Linq;
 using GameplaySystems;
 using UnityEditor;
 using UnityEngine;
@@ -15,21 +16,26 @@ namespace Editor
             script = (MovementRoutine)target;
         }
 
-        public override void OnInspectorGUI()
+        private void OnSceneGUI()
         {
-            if (GUILayout.Button("Generate Waypoint"))
+            if (script.Waypoints == null || !script.Waypoints.Any())
+                return;
+
+            Handles.color = Color.green;
+            
+            for (int i = script.Waypoints.Count - 1; i >= 0; i--)
             {
-                int waypointIndex = script.transform.childCount;
-
-                GameObject waypointObj = new GameObject("Waypoint_" + waypointIndex);
-                waypointObj.transform.SetParent(script.transform);
-
-                Waypoint waypoint = new Waypoint(waypointObj.transform, 0);
-
-                script.Waypoints.Add(waypoint);
+                Waypoint waypoint = script.Waypoints[i];
+                EditorGUI.BeginChangeCheck();
+                Vector3 newTargetPosition = Handles.FreeMoveHandle(waypoint.Coords, Quaternion.identity, 
+                    .25f, Vector3.one * .5f, Handles.CircleHandleCap);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(script, "Change Waypoint Position");
+                    Waypoint newWaypoint = new Waypoint(newTargetPosition, waypoint.Pause);
+                    script.Waypoints[i] = newWaypoint;
+                }
             }
-
-            base.OnInspectorGUI();
         }
     }
 }
