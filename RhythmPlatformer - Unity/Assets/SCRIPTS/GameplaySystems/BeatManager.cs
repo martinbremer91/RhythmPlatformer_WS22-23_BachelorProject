@@ -29,7 +29,6 @@ namespace GameplaySystems
 #if UNITY_EDITOR
         public TrackData TrackData => _trackData;
 #endif
-
         private PauseMenu _pauseMenu;
 
         #endregion
@@ -190,6 +189,7 @@ namespace GameplaySystems
         {
             PauseMenu pauseMenu = _gameStateManager.PauseMenu;
             int countIn = 0;
+            bool metronomeMute = _metronomeWeak.mute;
 
             while (_beatTracker != _trackData.Meter && Time.deltaTime > 0)
                 await Task.Yield();
@@ -197,6 +197,7 @@ namespace GameplaySystems
             if (Time.deltaTime <= 0)
                 return;
 
+            SetMetronomeMute(false);
             MetronomeOn = true;
             while (_beatTracker != 1 && Time.deltaTime > 0)
                 await Task.Yield();
@@ -237,6 +238,7 @@ namespace GameplaySystems
 
             UpdateCountInUi();
 
+            SetMetronomeMute(metronomeMute);
             MetronomeOn = _pausedMetronome;
             _unpauseSignal = true;
             BeatAction += _gameStateManager.TogglePause;
@@ -248,6 +250,26 @@ namespace GameplaySystems
                     countIn = _beatTracker;
                 }
             }
+        }
+
+        public void SetMusicVolume(float in_value) {
+            foreach (AudioSource source in _trackAudioSources)
+                source.volume = in_value;
+        }
+
+        public void SetMetronomeVolume(float in_value) {
+            _metronomeStrong.volume = in_value;
+            _metronomeWeak.volume = in_value;
+        }
+
+        public void SetMusicMute(bool in_value) {
+            foreach (AudioSource source in _trackAudioSources)
+                source.mute = in_value;
+        }
+
+        public void SetMetronomeMute(bool in_value) {
+            _metronomeStrong.mute = in_value;
+            _metronomeWeak.mute = in_value;
         }
     }
 }

@@ -2078,6 +2078,11 @@ MonoBehaviour:
   _settingsUI: {fileID: 6713930139786733716}
   _fadeScreen: {fileID: 729434972982409097}
   _fadeDuration: 1
+  _soundConfigs: {fileID: 11400000, guid: 99609539b7004491bb0ebba6c5c3ee9f, type: 2}
+  _musicVolumeSlider: {fileID: 7883480718502784442}
+  _metronomeVolumeSlider: {fileID: 13751864961936160}
+  _musicMuteToggle: {fileID: 1457235874423707606}
+  _metronomeMuteToggle: {fileID: 6737180361437166036}
   PlayIcon: {fileID: 2095723733075492770}
   RecordIcon: {fileID: 2095723733063135339}
 --- !u!223 &2095723733825027418
@@ -2097,7 +2102,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2231,7 +2236,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4735851565723588844}
+        m_TargetAssemblyTypeName: GlobalSystems.UiManager, Assembly-CSharp
+        m_MethodName: HandleMetronomeVolumeChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2553360824857594338
 GameObject:
   m_ObjectHideFlags: 0
@@ -3051,7 +3068,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4735851565723588844}
+        m_TargetAssemblyTypeName: GlobalSystems.UiManager, Assembly-CSharp
+        m_MethodName: HandleMusicMuteChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &5527273646253685946
 GameObject:
@@ -3548,7 +3577,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4735851565723588844}
+        m_TargetAssemblyTypeName: GlobalSystems.UiManager, Assembly-CSharp
+        m_MethodName: HandleMusicVolumeChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6146735451433784610
 GameObject:
   m_ObjectHideFlags: 0
@@ -5312,7 +5353,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4735851565723588844}
+        m_TargetAssemblyTypeName: GlobalSystems.UiManager, Assembly-CSharp
+        m_MethodName: HandleMetronomeMuteChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &8506496974273537522
 GameObject:

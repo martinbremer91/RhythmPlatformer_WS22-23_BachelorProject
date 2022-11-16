@@ -5,6 +5,11 @@ namespace Structs
     [Serializable]
     public struct SoundPreferencesData
     {
+        public float CurrentMusicVolume;
+        public bool MusicMuted;
+        public float CurrentMetronomeVolume;
+        public bool MetronomeMuted;
+        
         public SoundPreferencesData(float in_musicVolume, bool in_musicMuted,
             float in_metronomeVolume, bool in_metronomeMuted)
         {
@@ -13,10 +18,5 @@ namespace Structs
             CurrentMetronomeVolume = in_metronomeVolume;
             MetronomeMuted = in_metronomeMuted;
         }
-        
-        public float CurrentMusicVolume;
-        public bool MusicMuted;
-        public float CurrentMetronomeVolume;
-        public bool MetronomeMuted;
     }
 }

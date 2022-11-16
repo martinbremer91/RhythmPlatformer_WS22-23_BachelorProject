@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Interfaces_and_Enums;
+using Scriptable_Object_Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility_Scripts;
@@ -17,7 +18,13 @@ namespace GlobalSystems
 
         [SerializeField] private Image _fadeScreen;
         [SerializeField] private float _fadeDuration;
-        
+
+        [SerializeField] private SoundConfigs _soundConfigs;
+        [SerializeField] private Slider _musicVolumeSlider;
+        [SerializeField] private Slider _metronomeVolumeSlider;
+        [SerializeField] private Toggle _musicMuteToggle;
+        [SerializeField] private Toggle _metronomeMuteToggle;
+
         public GameObject PlayIcon;
         public GameObject RecordIcon;
 
@@ -63,8 +70,10 @@ namespace GlobalSystems
             StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.MainMenu));
 
         public void HandleMenuButtonPress() {
-            if (_settingsUI.activeSelf)
+            if (_settingsUI.activeSelf) {
+                _soundConfigs.SaveSoundPreferencesAsync();
                 _settingsUI.SetActive(false);
+            }
             else if (_gameStateManager.LoadedSceneType == SceneType.Level)
                 _gameStateManager.ScheduleTogglePause();
         }
@@ -103,5 +112,33 @@ namespace GlobalSystems
             if (!in_fadeScreenIn)
                 _fadeScreen.gameObject.SetActive(false);
         }
+
+        #region SETTINGS FUNCTIONS
+
+        public void HandleMusicVolumeChange() {
+            float sliderValue = _musicVolumeSlider.value;
+            _gameStateManager.BeatManager.SetMusicVolume(sliderValue);
+            _soundConfigs.SoundPreferences.CurrentMusicVolume = sliderValue;
+        }
+
+        public void HandleMetronomeVolumeChange() {
+            float sliderValue = _metronomeVolumeSlider.value;
+            _gameStateManager.BeatManager.SetMetronomeVolume(sliderValue);
+            _soundConfigs.SoundPreferences.CurrentMetronomeVolume = sliderValue;
+        }
+
+        public void HandleMusicMuteChange() {
+            bool toggleValue = _musicMuteToggle.isOn;
+            _gameStateManager.BeatManager.SetMusicMute(toggleValue);
+            _soundConfigs.SoundPreferences.MusicMuted = toggleValue;
+        }
+
+        public void HandleMetronomeMuteChange() {
+            bool toggleValue = _metronomeMuteToggle.isOn;
+            _gameStateManager.BeatManager.SetMetronomeMute(toggleValue);
+            _soundConfigs.SoundPreferences.MetronomeMuted = toggleValue;
+        }
+
+        #endregion
     }
 }
