@@ -1,11 +1,14 @@
 using Gameplay;
 using Interfaces_and_Enums;
+using System;
 using UnityEngine;
 
 namespace GameplaySystems
 {
     public class Checkpoint : MonoBehaviour, IInit<LevelManager, CharacterStateController>
     {
+        private Guid CheckpointGuid;
+        
         private LevelManager _levelManager;
         private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
