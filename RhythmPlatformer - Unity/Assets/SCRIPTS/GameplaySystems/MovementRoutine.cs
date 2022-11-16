@@ -15,12 +15,15 @@ namespace GameplaySystems
         [HideInInspector] public UpdateManager _updateManager;
         private Transform _characterTransform;
 
+        [SerializeField] private float _moveSpeed = 5;
+
         public List<Waypoint> Waypoints;
 
         #endregion
 
         private Waypoint _currentWaypoint;
         private Vector3 _currentWaypointDirection;
+        private Vector3 _previousWaypointCoords;
         private int _nextWaypointIndex;
         private bool _hasCurrentWaypoint;
 
@@ -28,7 +31,7 @@ namespace GameplaySystems
 
         private bool _pausingBetweenWaypoints;
         private float _pausingTimer;
-        
+
         private void OnDisable() => _updateManager.MovementRoutines.Remove(this);
 
         #region IUpdatable
@@ -47,6 +50,7 @@ namespace GameplaySystems
             _updateManager = in_gameStateManager.UpdateManager;
             _updateManager.MovementRoutines.Add(this);
             _characterTransform = in_gameStateManager.CharacterStateController.transform;
+            _previousWaypointCoords = transform.position;
         }
 
         #endregion
@@ -75,7 +79,8 @@ namespace GameplaySystems
             void GetNextWaypoint()
             {
                 _hasCurrentWaypoint = true;
-                
+
+                _previousWaypointCoords = _currentWaypoint.Coords;
                 _currentWaypoint = Waypoints[_nextWaypointIndex];
                 _currentWaypointDirection = ((Vector3)_currentWaypoint.Coords - position).normalized;
                 _nextWaypointIndex++;
@@ -86,13 +91,13 @@ namespace GameplaySystems
 
             bool CheckIfCurrentWaypointWasReached()
             {
-                bool waypointReached = ((Vector3)_currentWaypoint.Coords - position).sqrMagnitude <= .1f;
+                bool waypointReached = _previousWaypointCoords.InverseLerp(_currentWaypoint.Coords, position) >= 1;
                 return waypointReached;
             }
 
             void MoveTowardsCurrentWaypoint()
             {
-                Vector3 translation = _currentWaypointDirection * (5 * Time.deltaTime);
+                Vector3 translation = _currentWaypointDirection * (_moveSpeed * Time.deltaTime);
                 transform.Translate(translation);
                 
                 if (MovePlayerAsWell)
