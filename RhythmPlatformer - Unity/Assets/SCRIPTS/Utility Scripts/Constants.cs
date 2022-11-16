@@ -7,6 +7,7 @@ namespace Utility_Scripts
         public const string MainMenu = "MainMenu";
         public const string TemplateLevel = "TEMPLATE_LEVEL";
         public const string TestLevel = "TestLevel";
+        public const string DemoLevel = "DemoLevel";
 
         // ANIMATION PARAMETERS
         public const string IdleClipName = "Idle";

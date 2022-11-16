@@ -46,7 +46,6 @@ namespace GlobalSystems
 
         [HideInInspector] public SceneType LoadedSceneType;
         [HideInInspector] public UpdateType ActiveUpdateType;
-        [HideInInspector] public bool InputDisabled;
 
         private PlayerProgressData _playerProgressData;
 
@@ -142,10 +141,7 @@ namespace GlobalSystems
         }
 
         public void ScheduleTogglePause()
-        {
-            if (InputDisabled)
-                return;
-            
+        {            
             if (BeatManager.BeatState == BeatState.Off)
                 BeatManager.ExecuteCountInAsync();
             else

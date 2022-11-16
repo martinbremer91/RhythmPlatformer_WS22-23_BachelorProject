@@ -1,4 +1,3 @@
-using GameplaySystems;
 using GlobalSystems;
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
@@ -59,10 +58,7 @@ namespace Gameplay
         }
 
         public void CustomUpdate()
-        {
-            if (_gameStateManager.InputDisabled)
-                return;
-            
+        {          
             InputStateButtonsUpdate();
 
             void InputStateButtonsUpdate()
@@ -78,10 +74,7 @@ namespace Gameplay
         }
 
         private void HandleAnalogMove(Vector2 in_input)
-        {
-            if (_gameStateManager.InputDisabled)
-                return;
-            
+        {            
             InputState.analogDeadzone = in_input.magnitude <= GameplayControlConfigs.InputDeadZone;
             
             if (InputState.analogDeadzone)
@@ -95,9 +88,6 @@ namespace Gameplay
 
         private void HandleDigitalMove(Vector2 in_digitalInput, bool in_cancel = false)
         {
-            if (_gameStateManager.InputDisabled)
-                return;
-            
             RecordInputState();
             SetDigitalDirection();
 
@@ -134,17 +124,12 @@ namespace Gameplay
 
         private void HandleDashButton()
         {
-            if (_gameStateManager.InputDisabled)
-                return;
             InputState.DashWindup = true;
         }
         
 #if UNITY_EDITOR
         private void ToggleDebugMode()
-        {
-            if (_gameStateManager.InputDisabled)
-                return;
-            
+        {            
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
             CharacterStateController.s_Invulnerable = GameStateManager.s_DebugMode; 
             Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);

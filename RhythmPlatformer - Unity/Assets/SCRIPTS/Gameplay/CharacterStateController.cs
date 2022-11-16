@@ -243,7 +243,6 @@ namespace Gameplay
             Dead = true;
             UiManager uiManager = _gameStateManager.UiManager;
             // _gameStateManager.BeatManager.BeatState = BeatState.Off;
-            _gameStateManager.InputDisabled = true;
             
             await uiManager.FadeDarkScreen(true);
 
@@ -253,7 +252,6 @@ namespace Gameplay
             await uiManager.FadeDarkScreen(false);
             // _gameStateManager.BeatManager.BeatState = BeatState.Active;
             Dead = false;
-            _gameStateManager.InputDisabled = false;
         }
         
         public void HandleCollisionStateChange(CollisionCheck in_check, bool in_enter)
