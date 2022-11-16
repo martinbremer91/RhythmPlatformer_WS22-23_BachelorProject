@@ -48,11 +48,22 @@ namespace GlobalSystems
         [HideInInspector] public UpdateType ActiveUpdateType;
         [HideInInspector] public bool InputDisabled;
 
+        private PlayerProgressData _playerProgressData;
+
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
         private void OnEnable()
         {
+            if (s_Instance == null) {
+                s_Instance = this;
+                DontDestroyOnLoad(gameObject);
+            } else if (s_Instance != this) {
+                Destroy(gameObject);
+                return;
+            }
+
+            LoadPlayerProgress();
             LoadUserPrefs();
             (this as IRefreshable).RegisterRefreshable();
         }
@@ -113,6 +124,13 @@ namespace GlobalSystems
                 CharacterMovement.Init(this);
                 CharacterSpriteController.Init(this);
             }
+        }
+
+        private void LoadPlayerProgress() {
+            Debug.Log("test");
+
+            if (!_playerProgressData.LoadPlayerProgressData(out _playerProgressData))
+                _playerProgressData.SavePlayerProgressDataAsync();
         }
 
         private void LoadUserPrefs()

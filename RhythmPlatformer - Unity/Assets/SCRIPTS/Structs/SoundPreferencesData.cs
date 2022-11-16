@@ -3,9 +3,9 @@ using System;
 namespace Structs
 {
     [Serializable]
-    public struct SoundPreferences
+    public struct SoundPreferencesData
     {
-        public SoundPreferences(float in_musicVolume, bool in_musicMuted,
+        public SoundPreferencesData(float in_musicVolume, bool in_musicMuted,
             float in_metronomeVolume, bool in_metronomeMuted)
         {
             CurrentMusicVolume = in_musicVolume;

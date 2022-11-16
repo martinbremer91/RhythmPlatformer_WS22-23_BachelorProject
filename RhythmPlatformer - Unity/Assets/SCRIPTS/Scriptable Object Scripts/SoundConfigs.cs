@@ -10,7 +10,7 @@ namespace Scriptable_Object_Scripts
     [CreateAssetMenu(fileName = "Sound Configs", menuName = "Custom/Sound Configs")]
     public class SoundConfigs : ScriptableObject
     {
-        public SoundPreferences SoundPreferences;
+        public SoundPreferencesData SoundPreferences;
         [Space(10)] 
         [Header("Music Utilities Parameters")]
         public float MusicFadeDuration;
@@ -42,7 +42,7 @@ namespace Scriptable_Object_Scripts
                 return false;
             
             string jsonData = userSoundPreferences.text;
-            SoundPreferences = JsonUtility.FromJson<SoundPreferences>(jsonData);
+            SoundPreferences = JsonUtility.FromJson<SoundPreferencesData>(jsonData);
 
             return true;
         }
