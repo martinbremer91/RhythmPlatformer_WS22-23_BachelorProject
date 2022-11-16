@@ -15,7 +15,6 @@ namespace GameplaySystems
         private CameraManager _cameraManagerAssistant;
         private BeatManager _beatManager;
         private PulsingController _pulsingController;
-        private InputPlaybackManager _inputPlaybackManager;
         private CharacterInput _characterInput;
         private CharacterCollisionDetector _characterCollisionDetector;
         private CharacterStateController _characterStateController;
@@ -47,7 +46,6 @@ namespace GameplaySystems
             _cameraManagerAssistant = in_gameStateManager.CameraManagerAssistant;
             _pulsingController = in_gameStateManager.PulsingController;
             
-            _inputPlaybackManager = in_gameStateManager.InputPlaybackManager;
             _characterInput = in_gameStateManager.CharacterInput;
             _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
             _characterStateController = in_gameStateManager.CharacterStateController;
@@ -89,8 +87,6 @@ namespace GameplaySystems
             
             UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
 
-            if (_inputPlaybackManager.UpdateType.HasFlag(currentUpdateType))
-                _inputPlaybackManager.CustomUpdate();
             if (_characterInput.UpdateType.HasFlag(currentUpdateType))
                 _characterInput.CustomUpdate();
             if (_characterCollisionDetector.UpdateType.HasFlag(currentUpdateType))

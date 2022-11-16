@@ -25,9 +25,6 @@ namespace GlobalSystems
         [SerializeField] private Toggle _musicMuteToggle;
         [SerializeField] private Toggle _metronomeMuteToggle;
 
-        public GameObject PlayIcon;
-        public GameObject RecordIcon;
-
         private void OnEnable()
         {
             if (s_Instance != null && s_Instance != this)

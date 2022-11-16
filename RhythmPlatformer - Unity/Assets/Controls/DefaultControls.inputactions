@@ -397,54 +397,6 @@
             ]
         },
         {
-            "name": "Playback",
-            "id": "91201e62-79ea-4402-962c-8968c7f03040",
-            "actions": [
-                {
-                    "name": "ToggleRecording",
-                    "type": "Button",
-                    "id": "76cc84aa-c373-4ad6-acfb-da36ffa9889b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TogglePlayback",
-                    "type": "Button",
-                    "id": "172f3fc7-79fb-48f1-afb7-84912813dd88",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "eca28578-914a-4e6a-8714-e8c0e6ad8993",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleRecording",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "249439b1-84c7-4aa8-bb4b-493ad0bf94c6",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TogglePlayback",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "UniversalInputs",
             "id": "496535aa-50d2-4881-b37b-8727a36094e7",
             "actions": [

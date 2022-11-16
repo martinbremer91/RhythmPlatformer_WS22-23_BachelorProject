@@ -134,13 +134,8 @@ namespace Gameplay
 
         private void HandleDashButton()
         {
-#if UNITY_EDITOR
-            if (InputPlaybackManager.s_FrameByFrameMode)
-            {
-                InputPlaybackManager.s_FrameAdvance = true;
+            if (_gameStateManager.InputDisabled)
                 return;
-            }
-#endif
             InputState.DashWindup = true;
         }
         
@@ -148,12 +143,7 @@ namespace Gameplay
         private void ToggleDebugMode()
         {
             if (_gameStateManager.InputDisabled)
-            {
-                InputPlaybackManager.s_FrameByFrameMode = !InputPlaybackManager.s_FrameByFrameMode;
-                _gameStateManager.ActiveUpdateType =
-                    InputPlaybackManager.s_FrameByFrameMode ? UpdateType.Paused : UpdateType.GamePlay;
                 return;
-            }
             
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
             CharacterStateController.s_Invulnerable = GameStateManager.s_DebugMode; 

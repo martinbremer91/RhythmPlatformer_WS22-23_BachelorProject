@@ -419,54 +419,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Playback"",
-            ""id"": ""91201e62-79ea-4402-962c-8968c7f03040"",
-            ""actions"": [
-                {
-                    ""name"": ""ToggleRecording"",
-                    ""type"": ""Button"",
-                    ""id"": ""76cc84aa-c373-4ad6-acfb-da36ffa9889b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TogglePlayback"",
-                    ""type"": ""Button"",
-                    ""id"": ""172f3fc7-79fb-48f1-afb7-84912813dd88"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""eca28578-914a-4e6a-8714-e8c0e6ad8993"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ToggleRecording"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""249439b1-84c7-4aa8-bb4b-493ad0bf94c6"",
-                    ""path"": ""<Keyboard>/p"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TogglePlayback"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
             ""name"": ""UniversalInputs"",
             ""id"": ""496535aa-50d2-4881-b37b-8727a36094e7"",
             ""actions"": [
@@ -520,10 +472,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_GameplayDefault_Jump = m_GameplayDefault.FindAction("Jump", throwIfNotFound: true);
         m_GameplayDefault_WallCling = m_GameplayDefault.FindAction("WallCling", throwIfNotFound: true);
         m_GameplayDefault_DebugToggle = m_GameplayDefault.FindAction("DebugToggle", throwIfNotFound: true);
-        // Playback
-        m_Playback = asset.FindActionMap("Playback", throwIfNotFound: true);
-        m_Playback_ToggleRecording = m_Playback.FindAction("ToggleRecording", throwIfNotFound: true);
-        m_Playback_TogglePlayback = m_Playback.FindAction("TogglePlayback", throwIfNotFound: true);
         // UniversalInputs
         m_UniversalInputs = asset.FindActionMap("UniversalInputs", throwIfNotFound: true);
         m_UniversalInputs_MenuButton = m_UniversalInputs.FindAction("MenuButton", throwIfNotFound: true);
@@ -688,47 +636,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     }
     public GameplayDefaultActions @GameplayDefault => new GameplayDefaultActions(this);
 
-    // Playback
-    private readonly InputActionMap m_Playback;
-    private IPlaybackActions m_PlaybackActionsCallbackInterface;
-    private readonly InputAction m_Playback_ToggleRecording;
-    private readonly InputAction m_Playback_TogglePlayback;
-    public struct PlaybackActions
-    {
-        private @DefaultControls m_Wrapper;
-        public PlaybackActions(@DefaultControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ToggleRecording => m_Wrapper.m_Playback_ToggleRecording;
-        public InputAction @TogglePlayback => m_Wrapper.m_Playback_TogglePlayback;
-        public InputActionMap Get() { return m_Wrapper.m_Playback; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlaybackActions set) { return set.Get(); }
-        public void SetCallbacks(IPlaybackActions instance)
-        {
-            if (m_Wrapper.m_PlaybackActionsCallbackInterface != null)
-            {
-                @ToggleRecording.started -= m_Wrapper.m_PlaybackActionsCallbackInterface.OnToggleRecording;
-                @ToggleRecording.performed -= m_Wrapper.m_PlaybackActionsCallbackInterface.OnToggleRecording;
-                @ToggleRecording.canceled -= m_Wrapper.m_PlaybackActionsCallbackInterface.OnToggleRecording;
-                @TogglePlayback.started -= m_Wrapper.m_PlaybackActionsCallbackInterface.OnTogglePlayback;
-                @TogglePlayback.performed -= m_Wrapper.m_PlaybackActionsCallbackInterface.OnTogglePlayback;
-                @TogglePlayback.canceled -= m_Wrapper.m_PlaybackActionsCallbackInterface.OnTogglePlayback;
-            }
-            m_Wrapper.m_PlaybackActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @ToggleRecording.started += instance.OnToggleRecording;
-                @ToggleRecording.performed += instance.OnToggleRecording;
-                @ToggleRecording.canceled += instance.OnToggleRecording;
-                @TogglePlayback.started += instance.OnTogglePlayback;
-                @TogglePlayback.performed += instance.OnTogglePlayback;
-                @TogglePlayback.canceled += instance.OnTogglePlayback;
-            }
-        }
-    }
-    public PlaybackActions @Playback => new PlaybackActions(this);
-
     // UniversalInputs
     private readonly InputActionMap m_UniversalInputs;
     private IUniversalInputsActions m_UniversalInputsActionsCallbackInterface;
@@ -773,11 +680,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnWallCling(InputAction.CallbackContext context);
         void OnDebugToggle(InputAction.CallbackContext context);
-    }
-    public interface IPlaybackActions
-    {
-        void OnToggleRecording(InputAction.CallbackContext context);
-        void OnTogglePlayback(InputAction.CallbackContext context);
     }
     public interface IUniversalInputsActions
     {

@@ -3,6 +3,7 @@ using GameplaySystems;
 using Interfaces_and_Enums;
 using Menus_and_Transitions;
 using Scriptable_Object_Scripts;
+using Structs;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,6 @@ namespace GlobalSystems
         [HideInInspector] public CharacterStateController CharacterStateController;
         [HideInInspector] public CharacterMovement CharacterMovement;
         [HideInInspector] public CharacterSpriteController CharacterSpriteController;
-        [HideInInspector] public InputPlaybackManager InputPlaybackManager;
         [HideInInspector] public TextAsset CameraBoundsData;
 
         public MovementConfigs MovementConfigs;
@@ -117,7 +117,6 @@ namespace GlobalSystems
 
                 CameraManager.Init(this);
                 LevelManager.Init(this);
-                InputPlaybackManager.Init(this);
                 CharacterInput.Init(this);
                 CharacterCollisionDetector.Init(this);
                 CharacterStateController.Init(this);
