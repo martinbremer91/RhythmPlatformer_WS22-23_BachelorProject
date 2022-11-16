@@ -39,7 +39,7 @@ namespace Editor
                 Waypoint waypoint = script.Waypoints[i];
                 EditorGUI.BeginChangeCheck();
                 Vector3 newTargetPosition = Handles.FreeMoveHandle(waypoint.Coords, Quaternion.identity, 
-                    .25f, Vector3.one * .5f, Handles.CircleHandleCap);
+                    .25f, Vector3.one * .25f, Handles.CircleHandleCap);
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(script, "Change Waypoint Position");
