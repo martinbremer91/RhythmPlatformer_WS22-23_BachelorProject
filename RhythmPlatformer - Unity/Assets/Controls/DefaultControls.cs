@@ -471,7 +471,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
             ""id"": ""496535aa-50d2-4881-b37b-8727a36094e7"",
             ""actions"": [
                 {
-                    ""name"": ""PauseToggle"",
+                    ""name"": ""MenuButton"",
                     ""type"": ""Button"",
                     ""id"": ""e3dd39a8-d5fd-4be6-a5fc-7918663e05ba"",
                     ""expectedControlType"": ""Button"",
@@ -488,7 +488,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PauseToggle"",
+                    ""action"": ""MenuButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -499,7 +499,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PauseToggle"",
+                    ""action"": ""MenuButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -526,7 +526,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_Playback_TogglePlayback = m_Playback.FindAction("TogglePlayback", throwIfNotFound: true);
         // UniversalInputs
         m_UniversalInputs = asset.FindActionMap("UniversalInputs", throwIfNotFound: true);
-        m_UniversalInputs_PauseToggle = m_UniversalInputs.FindAction("PauseToggle", throwIfNotFound: true);
+        m_UniversalInputs_MenuButton = m_UniversalInputs.FindAction("MenuButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -732,12 +732,12 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     // UniversalInputs
     private readonly InputActionMap m_UniversalInputs;
     private IUniversalInputsActions m_UniversalInputsActionsCallbackInterface;
-    private readonly InputAction m_UniversalInputs_PauseToggle;
+    private readonly InputAction m_UniversalInputs_MenuButton;
     public struct UniversalInputsActions
     {
         private @DefaultControls m_Wrapper;
         public UniversalInputsActions(@DefaultControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PauseToggle => m_Wrapper.m_UniversalInputs_PauseToggle;
+        public InputAction @MenuButton => m_Wrapper.m_UniversalInputs_MenuButton;
         public InputActionMap Get() { return m_Wrapper.m_UniversalInputs; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -747,16 +747,16 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_UniversalInputsActionsCallbackInterface != null)
             {
-                @PauseToggle.started -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnPauseToggle;
-                @PauseToggle.performed -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnPauseToggle;
-                @PauseToggle.canceled -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnPauseToggle;
+                @MenuButton.started -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnMenuButton;
+                @MenuButton.performed -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnMenuButton;
+                @MenuButton.canceled -= m_Wrapper.m_UniversalInputsActionsCallbackInterface.OnMenuButton;
             }
             m_Wrapper.m_UniversalInputsActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @PauseToggle.started += instance.OnPauseToggle;
-                @PauseToggle.performed += instance.OnPauseToggle;
-                @PauseToggle.canceled += instance.OnPauseToggle;
+                @MenuButton.started += instance.OnMenuButton;
+                @MenuButton.performed += instance.OnMenuButton;
+                @MenuButton.canceled += instance.OnMenuButton;
             }
         }
     }
@@ -781,6 +781,6 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     }
     public interface IUniversalInputsActions
     {
-        void OnPauseToggle(InputAction.CallbackContext context);
+        void OnMenuButton(InputAction.CallbackContext context);
     }
 }

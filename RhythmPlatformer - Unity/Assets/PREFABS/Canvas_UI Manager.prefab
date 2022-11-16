@@ -2075,6 +2075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuUI: {fileID: 1686135452945456200}
   _gameplayUI: {fileID: 4485866933189822799}
+  _settingsUI: {fileID: 6713930139786733716}
   _fadeScreen: {fileID: 729434972982409097}
   _fadeDuration: 1
   PlayIcon: {fileID: 2095723733075492770}
@@ -2096,7 +2097,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

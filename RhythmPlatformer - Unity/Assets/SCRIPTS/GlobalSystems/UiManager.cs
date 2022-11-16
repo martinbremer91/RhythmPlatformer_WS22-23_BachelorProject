@@ -13,6 +13,7 @@ namespace GlobalSystems
         private GameStateManager _gameStateManager;
         [SerializeField] private GameObject _menuUI;
         [SerializeField] private GameObject _gameplayUI;
+        [SerializeField] private GameObject _settingsUI;
 
         [SerializeField] private Image _fadeScreen;
         [SerializeField] private float _fadeDuration;
@@ -55,10 +56,18 @@ namespace GlobalSystems
 
             _menuUI.SetActive(currentSceneType == SceneType.MainMenu);
             _gameplayUI.SetActive(currentSceneType == SceneType.Level);
+            _settingsUI.SetActive(false);
         }
         
         public void LoadMainMenuButton() => 
             StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.MainMenu));
+
+        public void HandleMenuButtonPress() {
+            if (_settingsUI.activeSelf)
+                _settingsUI.SetActive(false);
+            else if (_gameStateManager.LoadedSceneType == SceneType.Level)
+                _gameStateManager.ScheduleTogglePause();
+        }
 
         public async Task FadeDarkScreen(bool in_fadeScreenIn)
         {

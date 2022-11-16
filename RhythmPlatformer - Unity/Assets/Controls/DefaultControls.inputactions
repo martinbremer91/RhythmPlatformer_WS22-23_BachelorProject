@@ -449,7 +449,7 @@
             "id": "496535aa-50d2-4881-b37b-8727a36094e7",
             "actions": [
                 {
-                    "name": "PauseToggle",
+                    "name": "MenuButton",
                     "type": "Button",
                     "id": "e3dd39a8-d5fd-4be6-a5fc-7918663e05ba",
                     "expectedControlType": "Button",
@@ -466,7 +466,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PauseToggle",
+                    "action": "MenuButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -477,7 +477,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PauseToggle",
+                    "action": "MenuButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

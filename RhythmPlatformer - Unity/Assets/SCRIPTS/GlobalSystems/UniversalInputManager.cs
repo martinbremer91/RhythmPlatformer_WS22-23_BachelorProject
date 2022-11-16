@@ -2,22 +2,18 @@ namespace GlobalSystems
 {
     public static class UniversalInputManager
     {
-        #region REFERENCES
-
-        private static GameStateManager s_gameStateManager;
-
-        #endregion
-        
+        private static UiManager s_uiManager;
         private static DefaultControls s_controls;
         public static DefaultControls s_Controls
         {
             get { return s_controls ??= new DefaultControls(); }
         }
 
-        public static void Init(GameStateManager in_gameStateManager)
+        public static void Init(UiManager in_uiManager)
         {
-            s_gameStateManager = in_gameStateManager;
-            s_Controls.UniversalInputs.PauseToggle.performed += _ => s_gameStateManager.ScheduleTogglePause();
+            s_uiManager = in_uiManager;
+            s_Controls.UniversalInputs.MenuButton.performed += _ => s_uiManager.HandleMenuButtonPress();
+            s_Controls.Enable();
         }
     }
 }
