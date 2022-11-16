@@ -2652,7 +2652,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 67b0074caf401494a8236fbb74b74858, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6915,6 +6915,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
+      propertyPath: _metronomeOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
       propertyPath: _debugBeatOff
       value: 0
       objectReference: {fileID: 0}
@@ -7023,7 +7027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
-  _trackData: {fileID: 11400000, guid: 28eadce83afd4f746881b63a364ed59e, type: 2}
+  _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
   CameraBoundsData: {fileID: 4900000, guid: 95e5dc23dbc04144db30eaabde01ed77, type: 3}
