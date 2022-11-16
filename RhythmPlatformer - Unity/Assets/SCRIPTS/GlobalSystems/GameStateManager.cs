@@ -127,8 +127,6 @@ namespace GlobalSystems
         }
 
         private void LoadPlayerProgress() {
-            Debug.Log("test");
-
             if (!_playerProgressData.LoadPlayerProgressData(out _playerProgressData))
                 _playerProgressData.SavePlayerProgressDataAsync();
         }
