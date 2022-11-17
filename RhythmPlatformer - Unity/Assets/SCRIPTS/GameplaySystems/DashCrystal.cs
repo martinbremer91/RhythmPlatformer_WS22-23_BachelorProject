@@ -22,12 +22,12 @@ namespace GameplaySystems
             _spriteRenderer.color = Color.gray;
 
             _characterStateController.CanDash = true;
-            _characterStateController.BecomeGrounded += Recharge;
+            _characterStateController.BecomeGrounded += RechargeDashCrystal;
         }
 
-        private void Recharge()
+        private void RechargeDashCrystal()
         {
-            _characterStateController.BecomeGrounded -= Recharge;
+            _characterStateController.BecomeGrounded -= RechargeDashCrystal;
             _spriteRenderer.color = Color.cyan;
             _uncharged = false;
         }

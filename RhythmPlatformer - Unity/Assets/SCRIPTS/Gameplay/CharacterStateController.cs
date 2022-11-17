@@ -118,7 +118,9 @@ namespace Gameplay
         {
             if (_currentCharacterState != CharacterState.Rise && _currentCharacterState == in_value)
                 return;
-            
+            if (in_value is CharacterState.WallCling or CharacterState.WallSlide && CheckIfFastFalling())
+                return;
+
             ChangeIntoState(in_value);
             ChangeOutOfState();
 
@@ -127,6 +129,9 @@ namespace Gameplay
 
             if (Grounded)
                 BecomeGrounded?.Invoke();
+
+            bool CheckIfFastFalling() =>
+                _characterMovement.FastFalling && _characterInput.InputState.DirectionalInput.y <= -.5f;
         }
 
         private void ChangeIntoState(CharacterState in_value)
