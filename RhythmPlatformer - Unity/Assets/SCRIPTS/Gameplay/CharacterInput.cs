@@ -122,9 +122,17 @@ namespace Gameplay
             }
         }
 
-        private void HandleDashButton()
-        {
+        private void HandleDashButton() =>
             InputState.DashWindup = true;
+
+        public void SetInputStateToNeutral() =>
+            InputState = new InputState();
+
+        public void SetControlsActive(bool in_value) {
+            if (in_value)
+                _controls.Enable();
+            else
+                _controls.Disable();
         }
         
 #if UNITY_EDITOR
