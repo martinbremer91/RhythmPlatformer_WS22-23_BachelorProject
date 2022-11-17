@@ -49,9 +49,9 @@ namespace Gameplay
             _controls.GameplayDefault.DigitalLeft.canceled += _ => HandleDigitalMove(Vector2.left, true);
             _controls.GameplayDefault.DigitalRight.canceled += _ => HandleDigitalMove(Vector2.right, true);
             
-            _controls.GameplayDefault.Jump.performed += _ => InputState.JumpCommand = true;
             _controls.GameplayDefault.Dash.performed += _ => HandleDashButton();
 #if UNITY_EDITOR
+            _controls.GameplayDefault.Jump.performed += _ => InputState.JumpCommand = true;
             _controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
 #endif
             _controls.Enable();
