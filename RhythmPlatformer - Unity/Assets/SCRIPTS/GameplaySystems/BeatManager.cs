@@ -17,6 +17,7 @@ namespace GameplaySystems
 
         private GameStateManager _gameStateManager;
         private CharacterInput _characterInput;
+        private CharacterStateController _characterStateController;
 
         private MusicUtilities _musicUtilities = new();
         [SerializeField] private AudioSource[] _trackAudioSources;
@@ -112,6 +113,7 @@ namespace GameplaySystems
             BeatState = BeatState.Active;
             
             _characterInput = in_gameStateManager.CharacterInput;
+            _characterStateController = in_gameStateManager.CharacterStateController;
             
             _beatLength = 60 / (double) _trackData.BPM;
             double barLength = _beatLength * _trackData.Meter;
@@ -136,7 +138,6 @@ namespace GameplaySystems
 
         public void CustomUpdate()
         {
-            // TODO: Input playback currently broken (BeatManager not properly handled)
 #if UNITY_EDITOR
             if (_debugBeatOff)
                 return;
@@ -169,7 +170,9 @@ namespace GameplaySystems
                     if (gameplayActive)
                     {
                         EventBeatAction?.Invoke();
-                        _characterInput.InputState.JumpCommand = true;
+
+                        if (!_characterStateController.Dead)
+                            _characterInput.InputState.JumpCommand = true;
                     }
                 } 
                 else if (MetronomeOn)
