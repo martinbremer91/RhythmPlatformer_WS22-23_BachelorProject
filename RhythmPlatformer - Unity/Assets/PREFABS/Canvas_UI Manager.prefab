@@ -1931,8 +1931,6 @@ MonoBehaviour:
   _metronomeVolumeSlider: {fileID: 13751864961936160}
   _musicMuteToggle: {fileID: 1457235874423707606}
   _metronomeMuteToggle: {fileID: 6737180361437166036}
-  PlayIcon: {fileID: 0}
-  RecordIcon: {fileID: 0}
 --- !u!223 &2095723733825027418
 Canvas:
   m_ObjectHideFlags: 0
@@ -1950,7 +1948,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
