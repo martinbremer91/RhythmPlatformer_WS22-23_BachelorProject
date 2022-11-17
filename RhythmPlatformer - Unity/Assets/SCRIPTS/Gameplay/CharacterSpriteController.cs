@@ -26,22 +26,37 @@ namespace Gameplay
         public void Init(GameStateManager in_gameStateManager) =>
             _characterStateController = in_gameStateManager.CharacterStateController;
 
-        public void SetDashWindupTrigger() => _playerAnimator.SetTrigger(Constants.DashWindupClipName);
+        public void SetDashWindupTrigger()
+        {
+            ResetAnimationTriggers();
+            _playerAnimator.SetTrigger(Constants.DashWindupClipName);
+        }
+
+        private void ResetAnimationTriggers()
+        {
+            _playerAnimator.ResetTrigger(Constants.IdleClipName);
+            _playerAnimator.ResetTrigger(Constants.RunClipName);
+            _playerAnimator.ResetTrigger(Constants.LandClipName);
+            _playerAnimator.ResetTrigger(Constants.RiseClipName);
+            _playerAnimator.ResetTrigger(Constants.FallClipName);
+            _playerAnimator.ResetTrigger(Constants.DashWindupClipName);
+            _playerAnimator.ResetTrigger(Constants.DashClipName);
+            _playerAnimator.ResetTrigger(Constants.WalledClipName);
+        }
 
         public void HandleStateAnimation()
         {
+            ResetAnimationTriggers();
+
             switch (_characterStateController.CurrentCharacterState)
             {
                 case CharacterState.Idle:
-                    _playerAnimator.ResetTrigger(Constants.LandClipName);
                     _playerAnimator.SetTrigger(Constants.IdleClipName);
                     break;
                 case CharacterState.Crouch:
-                    _playerAnimator.ResetTrigger(Constants.LandClipName);
                     _playerAnimator.SetTrigger(Constants.LandClipName);
                     break;
                 case CharacterState.Run:
-                    _playerAnimator.ResetTrigger(Constants.LandClipName);
                     _playerAnimator.SetTrigger(Constants.RunClipName);
                     break;
                 case CharacterState.Land:

@@ -2798,7 +2798,7 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5562756899129024187, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
   m_PrefabInstance: {fileID: 5562756898263135939}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1285793926
+--- !u!114 &1285793929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
