@@ -247,7 +247,8 @@ namespace Gameplay
 #endif
             Dead = true;
             UiManager uiManager = _gameStateManager.UiManager;
-            _characterInput.SetControlsActive(false);
+            UniversalInputManager.SetUniversalControlsActive(false);
+            _characterInput.SetCharacterControlsActive(false);
             _characterInput.SetInputStateToNeutral();
             
             await uiManager.FadeDarkScreen(true);
@@ -257,7 +258,8 @@ namespace Gameplay
 
             await uiManager.FadeDarkScreen(false);
             
-            _characterInput.SetControlsActive(true);
+            _characterInput.SetCharacterControlsActive(true);
+            UniversalInputManager.SetUniversalControlsActive(true);
             Dead = false;
         }
         

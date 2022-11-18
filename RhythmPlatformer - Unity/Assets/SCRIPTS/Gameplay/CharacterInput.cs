@@ -31,7 +31,7 @@ namespace Gameplay
             _gameStateManager = in_GameStateManager;
             GameplayControlConfigs = in_GameStateManager.GameplayControlConfigs;
             
-            _controls = UniversalInputManager.s_Controls;
+            _controls = new DefaultControls();
             
             _controls.GameplayDefault.AnalogMove.performed += 
                 ctx => HandleAnalogMove(ctx.ReadValue<Vector2>());
@@ -128,7 +128,7 @@ namespace Gameplay
         public void SetInputStateToNeutral() =>
             InputState = new InputState();
 
-        public void SetControlsActive(bool in_value) {
+        public void SetCharacterControlsActive(bool in_value) {
             if (in_value)
                 _controls.Enable();
             else
