@@ -17,4 +17,9 @@ public class PulseMaterialOverrides
         _materialPropertyBlock.SetColor("_BaseColor", in_color);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
+
+    public void ChangeSecondaryColor(Color in_color) {
+        _materialPropertyBlock.SetColor("_SecondaryColor", in_color);
+        _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
 }

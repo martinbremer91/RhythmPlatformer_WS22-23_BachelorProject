@@ -17,8 +17,8 @@ namespace Gameplay
 
         #endregion
 
-        private Color _defaultColor;
-        private Color _noDashColor;
+        private LabeledColor _defaultColors;
+        private LabeledColor _noDashColors;
 
         public Animator Animator
         {
@@ -32,8 +32,8 @@ namespace Gameplay
             _characterStateController = in_gameStateManager.CharacterStateController;
             _pulseMaterialOverrides = new PulseMaterialOverrides(_spriteRenderer);
 
-            _defaultColor = _characterColorPalette.GetColorByLabel("Default");
-            _noDashColor = _characterColorPalette.GetColorByLabel("NoDash");
+            _defaultColors = _characterColorPalette.GetColorByLabel("Default");
+            _noDashColors = _characterColorPalette.GetColorByLabel("NoDash");
         }
 
         public void SetDashWindupTrigger()
@@ -91,8 +91,10 @@ namespace Gameplay
         public void OnTogglePause(bool in_paused) => (this as IAnimatorPausable).ToggleAnimatorPause(in_paused);
         
         public void UpdateCanDashColor(bool in_canDash) {
-            Color color = in_canDash ? _defaultColor : _noDashColor;
-            _pulseMaterialOverrides.ChangeBaseColor(color);
+            LabeledColor colors = in_canDash ? _defaultColors : _noDashColors;
+            
+            _pulseMaterialOverrides.ChangeBaseColor(colors.Color);
+            _pulseMaterialOverrides.ChangeSecondaryColor(colors.HDRColor);
         }
     }
 }

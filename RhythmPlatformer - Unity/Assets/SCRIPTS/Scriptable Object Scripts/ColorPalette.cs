@@ -7,6 +7,6 @@ public class ColorPalette : ScriptableObject
 {
     public List<LabeledColor> Colors;
 
-    public Color GetColorByLabel(string in_label) =>
-        Colors.FirstOrDefault(c => c.Label == in_label).Color;
+    public LabeledColor GetColorByLabel(string in_label) =>
+        Colors.FirstOrDefault(c => c.Label == in_label);
 }
