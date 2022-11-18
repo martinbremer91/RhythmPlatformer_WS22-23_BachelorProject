@@ -182,7 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b762c587f10a14888a8e6ecc622689dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanDash: 0
   Dead: 0
 --- !u!114 &5562756899129024190
 MonoBehaviour:
@@ -218,6 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 5562756899129024187}
   _playerAnimator: {fileID: 5562756899129024067}
+  _characterColorPalette: {fileID: 11400000, guid: 61751948e040ad04e8868da9c1854c78, type: 2}
 --- !u!95 &5562756899129024067
 Animator:
   serializedVersion: 4
