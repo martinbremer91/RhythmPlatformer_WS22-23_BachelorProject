@@ -33,9 +33,11 @@ namespace GlobalSystems
         [HideInInspector] public CharacterStateController CharacterStateController;
         [HideInInspector] public CharacterMovement CharacterMovement;
         [HideInInspector] public CharacterSpriteController CharacterSpriteController;
+        [HideInInspector] public CompanionFollow CompanionFollow;
         [HideInInspector] public TextAsset CameraBoundsData;
 
         public MovementConfigs MovementConfigs;
+        public CompanionConfigs CompanionConfigs;
         public GameplayControlConfigs GameplayControlConfigs;
         public SoundConfigs SoundConfigs;
         [HideInInspector] public TrackData CurrentTrackData;
@@ -121,6 +123,7 @@ namespace GlobalSystems
                 CharacterStateController.Init(this);
                 CharacterMovement.Init(this);
                 CharacterSpriteController.Init(this);
+                CompanionFollow.Init(this);
             }
         }
 

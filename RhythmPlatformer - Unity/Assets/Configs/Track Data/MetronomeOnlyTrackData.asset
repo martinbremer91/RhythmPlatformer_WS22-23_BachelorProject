@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MetronomeOnlyTrackData
   m_EditorClassIdentifier: 
   Clip: {fileID: 0}
-  BPM: 140
+  BPM: 120
   Meter: 5
   IntroBars: 0
   TailBars: 0

@@ -19,6 +19,7 @@ namespace GameplaySystems
         private CharacterCollisionDetector _characterCollisionDetector;
         private CharacterStateController _characterStateController;
         private CharacterMovement _characterMovement;
+        private CompanionFollow _companionFollow;
 
         private bool _updateActive;
 
@@ -50,6 +51,7 @@ namespace GameplaySystems
             _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterMovement = in_gameStateManager.CharacterMovement;
+            _companionFollow = in_gameStateManager.CompanionFollow;
         }
 
         public void SceneRefresh() => 
@@ -76,6 +78,8 @@ namespace GameplaySystems
                     _cameraManagerAssistant.CustomUpdate();
                 _cameraManager.CustomUpdate();
             }
+            if (_companionFollow.UpdateType.HasFlag(currentUpdateType))
+                _companionFollow.CustomUpdate();
             if (_pulsingController.UpdateType.HasFlag(currentUpdateType))
                 _pulsingController.CustomUpdate();
         }
