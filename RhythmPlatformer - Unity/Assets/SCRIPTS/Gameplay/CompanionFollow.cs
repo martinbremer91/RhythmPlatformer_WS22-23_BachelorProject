@@ -95,7 +95,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         Vector2 companionCharacterVector = _characterTransform.position - transform.position;
 
         Vector2 arcDirection = Vector2.Perpendicular(companionCharacterVector.normalized);
-        if (arcDirection.y > 0)
+        if (arcDirection.y < 0)
             arcDirection = new Vector2(-arcDirection.x, -arcDirection.y);
 
         Vector2 arcVector = arcDirection * _followArcVelocityCurve.Evaluate(distFactor) * _followArcOffsetMax;

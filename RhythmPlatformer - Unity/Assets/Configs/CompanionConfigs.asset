@@ -40,8 +40,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.004951477
-      value: 1.0084686
+      time: 0
+      value: 0
       inSlope: -0.0730203
       outSlope: -0.0730203
       tangentMode: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
       outWeight: 0.2128428
     - serializedVersion: 3
       time: 1
-      value: -1
+      value: 1
       inSlope: -0.051335655
       outSlope: -0.051335655
       tangentMode: 0
@@ -68,4 +68,4 @@ MonoBehaviour:
   FollowSpeedMin: 1
   MaxSpeedDist: 20
   MinSpeedDist: 5
-  FollowArcOffsetMax: 4
+  FollowArcOffsetMax: 3
