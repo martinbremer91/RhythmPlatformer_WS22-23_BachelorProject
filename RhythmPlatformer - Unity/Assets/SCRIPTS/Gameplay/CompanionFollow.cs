@@ -22,6 +22,8 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
     private float _followSpeedMax;
     private float _followSpeedMin;
 
+    private float _followArcOffsetMax;
+
     private Vector2 _velocity;
 
     private float _maxSpeedDist;
@@ -61,6 +63,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         _followSpeedMin = configs.FollowSpeedMin;
         _maxSpeedDist = configs.MaxSpeedDist;
         _minSpeedDist = configs.MinSpeedDist;
+        _followArcOffsetMax = configs.FollowArcOffsetMax;
 
         _followAccelerationCurveTracker.y = configs.FollowAccelerationCurve.keys[^1].time;
     }
@@ -89,14 +92,16 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         float distFactor = Mathf.Clamp01(Mathf.InverseLerp(_minSpeedDist, _maxSpeedDist, characterDist));
         float baseSpeed = Mathf.Lerp(_followSpeedMin, _followSpeedMax, distFactor);
 
-        Vector3 directionToCharacter = (_characterTransform.position - transform.position).normalized;
+        Vector2 companionCharacterVector = _characterTransform.position - transform.position;
 
-        // leave direction to Character unnormalized (change name to vectorToPlayer)
-        // arc direction = get perpendicular direction from straight line to character (normalized); if y is negative, flip vector
-        // arcVector = x of arc velocity curve * arc direction
-        // directionVector = (vectorToPlayer + arcVector).normalized
+        Vector2 arcDirection = Vector2.Perpendicular(companionCharacterVector.normalized);
+        if (arcDirection.y > 0)
+            arcDirection = new Vector2(-arcDirection.x, -arcDirection.y);
 
-        _velocity = directionToCharacter * baseSpeed * 
+        Vector2 arcVector = arcDirection * _followArcVelocityCurve.Evaluate(distFactor) * _followArcOffsetMax;
+        Vector2 directionVector = (companionCharacterVector + arcVector).normalized;
+
+        _velocity = directionVector * baseSpeed * 
             _followAccelerationCurve.Evaluate(_followAccelerationCurveTracker.x);
 
         _rigidbody2D.velocity = _velocity;

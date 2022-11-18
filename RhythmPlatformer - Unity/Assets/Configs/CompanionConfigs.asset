@@ -68,3 +68,4 @@ MonoBehaviour:
   FollowSpeedMin: 1
   MaxSpeedDist: 20
   MinSpeedDist: 5
+  FollowArcOffsetMax: 4

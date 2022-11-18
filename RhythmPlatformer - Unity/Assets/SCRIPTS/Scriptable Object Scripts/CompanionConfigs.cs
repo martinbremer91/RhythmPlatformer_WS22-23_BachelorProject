@@ -18,4 +18,6 @@ public class CompanionConfigs : ScriptableObject
     public float FollowSpeedMin;
     public float MaxSpeedDist;
     public float MinSpeedDist;
+    [Space(10)]
+    public float FollowArcOffsetMax;
 }
