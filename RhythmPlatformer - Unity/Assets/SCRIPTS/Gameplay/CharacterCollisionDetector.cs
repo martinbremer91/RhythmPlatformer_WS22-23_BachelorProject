@@ -41,9 +41,9 @@ namespace Gameplay
             Bounds bounds = _boxCollider.bounds;
 
             Vector2 detectDirection =
-                in_collisionCheck == CollisionCheck.Ground ? Vector2.down :
-                in_collisionCheck == CollisionCheck.LeftWall ? Vector2.left :
-                in_collisionCheck == CollisionCheck.RightWall ? Vector2.right :
+                in_collisionCheck is CollisionCheck.Ground ? Vector2.down :
+                in_collisionCheck is CollisionCheck.LeftWall ? Vector2.left :
+                in_collisionCheck is CollisionCheck.RightWall ? Vector2.right :
                 Vector2.up;
 
             RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size * 1.01f, 0f, 
