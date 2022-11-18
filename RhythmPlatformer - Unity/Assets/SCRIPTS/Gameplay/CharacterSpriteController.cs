@@ -12,6 +12,7 @@ namespace Gameplay
         private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Animator _playerAnimator;
+        private PulseMaterialOverrides _pulseMaterialOverrides;
 
         #endregion
 
@@ -23,8 +24,10 @@ namespace Gameplay
 
         public void SetCharacterOrientation(bool in_faceLeft) => _spriteRenderer.flipX = in_faceLeft;
 
-        public void Init(GameStateManager in_gameStateManager) =>
+        public void Init(GameStateManager in_gameStateManager) {
             _characterStateController = in_gameStateManager.CharacterStateController;
+            _pulseMaterialOverrides = new PulseMaterialOverrides(_spriteRenderer);
+        }
 
         public void SetDashWindupTrigger()
         {
@@ -79,5 +82,10 @@ namespace Gameplay
         }
 
         public void OnTogglePause(bool in_paused) => (this as IAnimatorPausable).ToggleAnimatorPause(in_paused);
+        
+        public void UpdateCanDashColor(bool in_canDash) {
+            Color color = in_canDash ? Color.green : Color.red;
+            _pulseMaterialOverrides.ChangeBaseColor(color);
+        }
     }
 }

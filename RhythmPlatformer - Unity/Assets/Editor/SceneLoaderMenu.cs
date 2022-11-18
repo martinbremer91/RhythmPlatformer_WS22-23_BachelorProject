@@ -26,5 +26,9 @@ namespace Editor
         [MenuItem("Scenes/Utility Scenes/Template Level")]
         private static void LoadTemplateLevel() =>
             EditorSceneManager.OpenScene($"Assets/Scenes/Utility Scenes/{Constants.TemplateLevel}.unity");
+
+        [MenuItem("Scenes/Utility Scenes/Demo Level")]
+        private static void LoadDemoLevel() =>
+            EditorSceneManager.OpenScene($"Assets/Scenes/Utility Scenes/{Constants.DemoLevel}.unity");
     }
 }

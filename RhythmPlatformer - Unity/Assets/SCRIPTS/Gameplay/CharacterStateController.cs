@@ -66,7 +66,17 @@ namespace Gameplay
         }
         private float _dashWindupDuration;
 
-        public bool CanDash;
+        private bool _canDash;
+        public bool CanDash {
+            get => _canDash;
+            set {
+                if (value == _canDash)
+                    return;
+
+                _canDash = value;
+                _spriteController.UpdateCanDashColor(value);
+            }
+        }
 
         private bool _facingLeft;
         public bool FacingLeft

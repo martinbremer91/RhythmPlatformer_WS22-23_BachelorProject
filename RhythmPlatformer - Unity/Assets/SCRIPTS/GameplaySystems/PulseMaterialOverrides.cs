@@ -1,34 +1,20 @@
 using UnityEngine;
 
-public class PulseMaterialOverrides : MonoBehaviour
+public class PulseMaterialOverrides
 {
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _spriteRenderer;
     private MaterialPropertyBlock _materialPropertyBlock;
 
-    private void Awake()
+    public PulseMaterialOverrides(SpriteRenderer in_spriteRenderer)
     {
+        _spriteRenderer = in_spriteRenderer;
         _materialPropertyBlock = new MaterialPropertyBlock();
         _spriteRenderer.GetPropertyBlock(_materialPropertyBlock);
     }
 
-    float test;
-
-    private void Update()
+    public void ChangeBaseColor(Color in_color)
     {
-        test += Time.deltaTime;
-
-        if (test >= 2)
-        {
-            test = 0;
-
-            System.Random rnd = new System.Random();
-
-            float r = rnd.Next(1, 100) * .01f;
-            float g = rnd.Next(1, 100) * .01f;
-            float b = rnd.Next(1, 100) * .01f;
-
-            _materialPropertyBlock.SetColor("_BaseColor", new Color(r, g, b, 1));
-            _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
-        }
+        _materialPropertyBlock.SetColor("_BaseColor", in_color);
+        _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
 }
