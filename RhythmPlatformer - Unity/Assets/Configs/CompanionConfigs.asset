@@ -60,7 +60,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CharacterOffset: {x: -0.75, y: 1}
+  CharacterOffset: {x: -0.75, y: 0.75}
   ReactionDelay: 1
   StartFollowDist: 5
   StopFollowDist: 0.1

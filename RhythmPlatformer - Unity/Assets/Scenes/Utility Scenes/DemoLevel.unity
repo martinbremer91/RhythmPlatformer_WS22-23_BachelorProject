@@ -991,10 +991,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Companion
       objectReference: {fileID: 0}
-    - target: {fileID: 323920639637675010, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 769781856, guid: e5750e357965545c389b2b14a96a3b46, type: 3}
     - target: {fileID: 323920639637675011, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -1037,6 +1033,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 323920639637675011, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052844977118587815, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
