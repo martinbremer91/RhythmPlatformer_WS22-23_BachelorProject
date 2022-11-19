@@ -46,17 +46,36 @@ namespace Gameplay
                 in_collisionCheck is CollisionCheck.RightWall ? Vector2.right :
                 Vector2.up;
 
-            RaycastHit2D hit = Physics2D.BoxCast(bounds.center, bounds.size * 1.01f, 0f, 
-                detectDirection, _detectionOffset, _levelLayerMask);
+            bool verticalDetection = in_collisionCheck is CollisionCheck.Ground or CollisionCheck.Ceiling;
+            
+            float radiusOnDetectionAxis =  verticalDetection ?
+                bounds.size.y * .5f : bounds.size.x * .5f;
+            float radiusOnComplementaryAxis = verticalDetection ?
+                bounds.size.x * .5f : bounds.size.y * .5f;
 
-            bool collision = hit.collider != null;
+            Vector2 pointOnDetectionAxis = 
+                (Vector2)bounds.center + detectDirection * (radiusOnDetectionAxis + .05f);
+            Vector2 offsetOnComplementaryAxis = verticalDetection ?
+                Vector2.right * radiusOnComplementaryAxis * .99f : Vector2.up * radiusOnComplementaryAxis * .9f;
 
-            if (collision && hit.collider.gameObject.CompareTag("OneWayPlatform"))
+            Vector2 collisionCheckPointA = pointOnDetectionAxis + offsetOnComplementaryAxis;
+            Vector2 collisionCheckPointB = pointOnDetectionAxis - offsetOnComplementaryAxis;
+
+            // Note on Physics2D.OverlapPoint: will only work with composite colliders if their geometry type is
+            // set to Polygons instead of Outlines
+
+            Collider2D hitA = Physics2D.OverlapPoint(collisionCheckPointA, _levelLayerMask);
+            Collider2D hitB = Physics2D.OverlapPoint(collisionCheckPointB, _levelLayerMask);
+
+            bool collision = hitA != null && hitB != null;
+
+            if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
                 collision = OnOneWayPlatform;
 
             // COLLISION DEBUGGING
-            //Color color = collision ? Color.green : Color.red;
-            //Debug.DrawRay(bounds.center, detectDirection, color);
+            Color color = collision ? Color.green : verticalDetection ? Color.yellow : Color.cyan;
+            Debug.DrawLine(collisionCheckPointA, collisionCheckPointB, color);
+            Debug.DrawLine(bounds.center, (Vector2)bounds.center + detectDirection, collision ? Color.green : Color.red);
 
             if (!collision == in_detectEnter)
                 return;
