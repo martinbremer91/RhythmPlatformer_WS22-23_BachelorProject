@@ -21,7 +21,7 @@ namespace GameplaySystems
         private List<Hazard> _hazards = new();
 
         [SerializeField] private Transform _dashCrystalsParent;
-        private List<DashCrystal> _dashCrystals = new();
+        private List<CrystalBase> _crystals = new();
 
         private CharacterStateController _characterStateController;
         private Vector3 _currentSpawnPoint;
@@ -75,12 +75,12 @@ namespace GameplaySystems
 
             void InitDashCrystals()
             {
-                _dashCrystals = _dashCrystalsParent.GetComponentsInChildren<DashCrystal>().ToList();
+                _crystals = _dashCrystalsParent.GetComponentsInChildren<CrystalBase>().ToList();
 
-                if (_dashCrystals.Any())
+                if (_crystals.Any())
                 {
-                    foreach (DashCrystal crystal in _dashCrystals)
-                        crystal.Init(_characterStateController);
+                    foreach (CrystalBase crystal in _crystals)
+                        crystal.Init(in_gameStateManager);
                 }
             }
         }
