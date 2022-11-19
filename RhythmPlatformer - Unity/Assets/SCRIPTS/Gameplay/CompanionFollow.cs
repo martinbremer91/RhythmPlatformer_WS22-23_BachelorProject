@@ -1,3 +1,4 @@
+using Gameplay;
 using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
     public Vector2 Velocity => _velocity;
 
     private GameStateManager _gameStateManager;
+    private CharacterStateController _characterStateController;
     private Transform _characterTransform;
     [SerializeField] private Rigidbody2D _rigidbody2D;
 
@@ -51,7 +53,8 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         _gameStateManager = in_gameStateManager;
         CompanionConfigs configs = in_gameStateManager.CompanionConfigs;
 
-        _characterTransform = in_gameStateManager.CharacterStateController.transform;
+        _characterStateController = in_gameStateManager.CharacterStateController;
+        _characterTransform = _characterStateController.transform;
 
         _followAccelerationCurve = configs.FollowAccelerationCurve;
         _followArcVelocityCurve = configs.FollowArcVelocityCurve;
@@ -72,8 +75,11 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
 
     public void CustomUpdate() {
 
-        // TODO: add offset to character pos
-        float characterDist = (_characterTransform.position - transform.position).sqrMagnitude;
+        Vector2 position = transform.position;
+        Vector2 targetPos = (Vector2)_characterTransform.position + new Vector2(_characterStateController.FacingLeft ? 
+            -_characterOffset.x : _characterOffset.x, _characterOffset.y);
+
+        float characterDist = (position - targetPos).sqrMagnitude;
         CheckFollowPlayer();
 
         if (!_followingCharacter)
@@ -92,7 +98,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         float distFactor = Mathf.Clamp01(Mathf.InverseLerp(_minSpeedDist, _maxSpeedDist, characterDist));
         float baseSpeed = Mathf.Lerp(_followSpeedMin, _followSpeedMax, distFactor);
 
-        Vector2 companionCharacterVector = _characterTransform.position - transform.position;
+        Vector2 companionCharacterVector = targetPos - position;
 
         Vector2 arcDirection = Vector2.Perpendicular(companionCharacterVector.normalized);
         if (arcDirection.y < 0)

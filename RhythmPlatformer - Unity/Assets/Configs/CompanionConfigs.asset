@@ -60,12 +60,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CharacterOffset: {x: 0, y: 0}
-  ReactionDelay: 2
+  CharacterOffset: {x: -0.75, y: 1}
+  ReactionDelay: 1
   StartFollowDist: 5
-  StopFollowDist: 3
+  StopFollowDist: 0.1
   FollowSpeedMax: 15
   FollowSpeedMin: 1
   MaxSpeedDist: 20
-  MinSpeedDist: 5
+  MinSpeedDist: 1
   FollowArcOffsetMax: 3
