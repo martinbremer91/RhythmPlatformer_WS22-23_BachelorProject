@@ -8,7 +8,7 @@ namespace Structs
         private Vector2 _directionalInput;
         public Vector2 DirectionalInput
         {
-            get => _directionalInput * (directionalInputModifier ? .5f : 1);
+            get => _directionalInput * (directionalInputModifier ? .51f : 1);
             set => _directionalInput = value;
         }
 

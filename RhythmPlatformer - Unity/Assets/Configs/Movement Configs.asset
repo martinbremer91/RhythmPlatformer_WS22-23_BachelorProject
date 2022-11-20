@@ -17,7 +17,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.01
       inSlope: 5.8528304
       outSlope: 5.8528304
       tangentMode: 0
@@ -117,20 +117,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 6.3647795
-      outSlope: 6.3647795
+      inSlope: 3.217468
+      outSlope: 3.217468
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.03409091
+      outWeight: 0.036743194
     - serializedVersion: 3
-      time: 0.5
+      time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.0000018976773
+      outSlope: -0.0000018976773
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.06281853
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -138,7 +138,7 @@ MonoBehaviour:
   RunTopSpeed: 8
   DashTopSpeed: 20
   RiseTopSpeed: 8
-  FallTopSpeed: 8
+  FallTopSpeed: 18
   WallSlideFallTopSpeed: 5
   AirDriftSpeed: 5
   AirDrag: 0.1
@@ -155,3 +155,4 @@ MonoBehaviour:
   CrouchJumpSpeedModifier: 0.5
   FastFallSpeedModifier: 2
   DashWindupVelocityMod: 0.1
+  SlideOffSpeed: 8

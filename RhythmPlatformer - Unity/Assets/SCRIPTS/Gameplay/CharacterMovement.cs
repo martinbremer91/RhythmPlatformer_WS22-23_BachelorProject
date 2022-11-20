@@ -1,6 +1,5 @@
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
-using Structs;
 using GlobalSystems;
 using UnityEngine;
 using UnityEngine.InputSystem;

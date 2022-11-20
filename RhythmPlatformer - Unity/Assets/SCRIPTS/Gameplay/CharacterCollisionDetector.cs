@@ -11,10 +11,15 @@ namespace Gameplay
         
         private CharacterStateController _characterStateController;
         private CharacterMovement _characterMovement;
+        private CharacterInput _characterInput;
         [SerializeField] private BoxCollider2D _boxCollider;
 
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
+
+        private bool _slideOff;
+        private int _slideOffDirection;
+        private float _slideOffSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;
         
@@ -22,6 +27,8 @@ namespace Gameplay
         {
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterMovement = in_gameStateManager.CharacterMovement;
+            _characterInput = in_gameStateManager.CharacterInput;
+            _slideOffSpeed = in_gameStateManager.MovementConfigs.SlideOffSpeed;
         }
         
         public void CustomUpdate()
@@ -34,6 +41,9 @@ namespace Gameplay
                 DetectCollision(CollisionCheck.LeftWall, !_characterStateController.NearWallLeft);
                 DetectCollision(CollisionCheck.RightWall, !_characterStateController.NearWallRight);
             }
+
+            if (_slideOff)
+                transform.Translate(Vector2.right * _slideOffDirection * _slideOffSpeed * Time.fixedDeltaTime);
         }
 
         private void DetectCollision(CollisionCheck in_collisionCheck, bool in_detectEnter)
@@ -51,12 +61,12 @@ namespace Gameplay
             float radiusOnDetectionAxis =  verticalDetection ?
                 bounds.size.y * .5f : bounds.size.x * .5f;
             float radiusOnComplementaryAxis = verticalDetection ?
-                bounds.size.x * .5f : bounds.size.y * .5f;
+                bounds.size.x * .5f + (_slideOff ? .1f : 0): bounds.size.y * .5f;
 
             Vector2 pointOnDetectionAxis = 
                 (Vector2)bounds.center + detectDirection * (radiusOnDetectionAxis + .05f);
             Vector2 offsetOnComplementaryAxis = verticalDetection ?
-                Vector2.right * radiusOnComplementaryAxis * .99f : Vector2.up * radiusOnComplementaryAxis * .9f;
+                Vector2.right * radiusOnComplementaryAxis : Vector2.up * radiusOnComplementaryAxis * .9f;
 
             Vector2 collisionCheckPointA = pointOnDetectionAxis + offsetOnComplementaryAxis;
             Vector2 collisionCheckPointB = pointOnDetectionAxis - offsetOnComplementaryAxis;
@@ -69,6 +79,10 @@ namespace Gameplay
 
             bool collision = hitA != null && hitB != null;
 
+            if (in_collisionCheck is CollisionCheck.Ground)
+                _slideOff = GroundedCollisionCheck();
+            else
+
             if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
                 collision = OnOneWayPlatform;
 
@@ -79,15 +93,34 @@ namespace Gameplay
 
             if (!collision == in_detectEnter)
                 return;
-            
-            // COLLISION DEBUGGING
-            // if (collision)
-            //     Debug.Log(in_collisionCheck + ": " + hit.collider.name + " -> enter", hit.collider.gameObject);
-            // else
-            //     Debug.Log(in_collisionCheck + ": <none> -> exit");
 
             if (CheckValidStateForCollisionInteraction(in_collisionCheck, in_detectEnter))
                 _characterStateController.HandleCollisionStateChange(in_collisionCheck, in_detectEnter);
+
+            bool GroundedCollisionCheck()
+            {
+                bool slideOffRight = hitA == null && hitB != null;
+                bool slideOffLeft = hitA != null && hitB == null;
+
+                if (collision || !slideOffRight && !slideOffLeft)
+                    return false;
+
+                _slideOffDirection = slideOffRight ? 1 : -1;
+                bool runningUpTheLedge = 
+                    _slideOffDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) < 0;
+
+                if (runningUpTheLedge)
+                {
+                    if (slideOffRight)
+                        hitA = hitB;
+                    else
+                        hitB = hitA;
+
+                    collision = hitA != null && hitB != null;
+                }
+
+                return !runningUpTheLedge && (slideOffLeft || slideOffRight);
+            }
         }
 
         private bool CheckValidStateForCollisionInteraction(CollisionCheck in_collisionCheck, bool in_enter)
