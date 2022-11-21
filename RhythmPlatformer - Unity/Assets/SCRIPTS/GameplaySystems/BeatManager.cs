@@ -37,7 +37,7 @@ namespace GameplaySystems
         #region VARIABLES
 
         private static BeatManager s_Instance;
-        public UpdateType UpdateType => UpdateType.Always;
+        public UpdateType UpdateType => ~UpdateType.MenuTransition;
 
         public BeatState BeatState;
         
@@ -104,8 +104,6 @@ namespace GameplaySystems
 
             _gameStateManager = in_gameStateManager;
 
-            _hudController = in_gameStateManager.HUDController;
-
             _trackData = _gameStateManager.CurrentTrackData;
             _metronomeOnlyMode = _trackData.Clip == null;
             _trackAudioSources[0].clip = _trackData.Clip;
@@ -136,8 +134,12 @@ namespace GameplaySystems
             }
             else
                 MetronomeOn = true;
-
-            _hudController.InitializeHUD((float)_beatLength, _trackData);
+            
+            if (in_gameStateManager.HUDController != null)
+            {
+                _hudController = in_gameStateManager.HUDController;
+                _hudController.InitializeHUD((float)_beatLength, _trackData);
+            }
         }
 
         public void CustomUpdate()
@@ -146,7 +148,6 @@ namespace GameplaySystems
             if (_debugBeatOff)
                 return;
 #endif
-            
             double time = AudioSettings.dspTime;
             
             if (!_metronomeOnlyMode && time >= _nextTrackTime)

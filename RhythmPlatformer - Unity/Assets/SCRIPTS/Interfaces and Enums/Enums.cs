@@ -8,7 +8,7 @@ namespace Interfaces_and_Enums
         Nothing = 0,
         MenuTransition = 1,
         GamePlay = 2,
-        Paused = 3,
+        Paused = 4,
         Always = ~0
     }
     
