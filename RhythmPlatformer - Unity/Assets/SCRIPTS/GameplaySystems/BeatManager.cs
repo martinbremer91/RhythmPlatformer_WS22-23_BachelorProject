@@ -19,7 +19,6 @@ namespace GameplaySystems
         private CharacterInput _characterInput;
         private CharacterStateController _characterStateController;
 
-        private MusicUtilities _musicUtilities = new();
         [SerializeField] private AudioSource[] _trackAudioSources;
 
         [SerializeField] private float _startDelay;
@@ -28,9 +27,10 @@ namespace GameplaySystems
         [SerializeField] private AudioSource _metronomeWeak;
         private TrackData _trackData;
 #if UNITY_EDITOR
-        public TrackData TrackData => _trackData;
+        public TrackData TrackData_editor => _trackData;
 #endif
-        private PauseMenu _pauseMenu;
+
+        private HUDController _hudController;
 
         #endregion
 
@@ -104,6 +104,8 @@ namespace GameplaySystems
 
             _gameStateManager = in_gameStateManager;
 
+            _hudController = in_gameStateManager.HUDController;
+
             _trackData = _gameStateManager.CurrentTrackData;
             _metronomeOnlyMode = _trackData.Clip == null;
             _trackAudioSources[0].clip = _trackData.Clip;
@@ -134,6 +136,8 @@ namespace GameplaySystems
             }
             else
                 MetronomeOn = true;
+
+            _hudController.InitializeHUD((float)_beatLength, _trackData);
         }
 
         public void CustomUpdate()
@@ -178,6 +182,8 @@ namespace GameplaySystems
                 else if (MetronomeOn)
                     _metronomeWeak.Play();
             }
+
+            _hudController.UpdateHUD(_beatTracker);
         }
 
         public void RecordPausedBeatAndMetronome()

@@ -12,6 +12,7 @@ namespace GlobalSystems
 
         public CameraManager CameraManager;
         public CameraManager CameraManagerAssistant;
+        public HUDController HUDController;
         public TextAsset CameraBoundsData;
         public LevelManager LevelManager;
         public CharacterInput CharacterInput;
@@ -25,6 +26,7 @@ namespace GlobalSystems
         {
             in_gameStateManager.CameraManager = CameraManager;
             in_gameStateManager.CameraManagerAssistant = CameraManagerAssistant;
+            in_gameStateManager.HUDController = HUDController;
             in_gameStateManager.CameraBoundsData = CameraBoundsData;
             in_gameStateManager.LevelManager = LevelManager;
             in_gameStateManager.CharacterInput = CharacterInput;

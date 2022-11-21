@@ -22,6 +22,7 @@ namespace GlobalSystems
 
         public BeatManager BeatManager;
         public UiManager UiManager;
+        public HUDController HUDController;
         public PulsingController PulsingController;
 
         [HideInInspector] public CameraManager CameraManager;

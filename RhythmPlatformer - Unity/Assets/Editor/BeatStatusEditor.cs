@@ -81,10 +81,10 @@ namespace Editor
             GUI.Box(_infoRect, String.Empty);
 
             GUI.Label(new Rect(_infoRect.position + new Vector2(5, 5), new Vector2(300, 20)), 
-                _beatManager.TrackData.Clip.name + " -> Meter: " + _beatManager.TrackData.Meter +
-                ", BPM: " + _beatManager.TrackData.BPM);
+                _beatManager.TrackData_editor.Clip.name + " -> Meter: " + _beatManager.TrackData_editor.Meter +
+                ", BPM: " + _beatManager.TrackData_editor.BPM);
             
-            for (int i = 1; i <= _beatManager.TrackData.Meter; i++)
+            for (int i = 1; i <= _beatManager.TrackData_editor.Meter; i++)
             {
                 GUI.Toggle(
                     new Rect(

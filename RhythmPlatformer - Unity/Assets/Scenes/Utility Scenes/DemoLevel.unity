@@ -601,6 +601,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &308471929 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9120664913560327043, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+  m_PrefabInstance: {fileID: 2095723732962664861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1bc93de6749ef4bb9ff3f81a179df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &326126964
 GameObject:
   m_ObjectHideFlags: 0
@@ -8157,6 +8168,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1365601258311558225, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365601258311558225, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
+      objectReference: {fileID: 0}
     - target: {fileID: 2095723733825027413, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -8244,6 +8263,30 @@ PrefabInstance:
     - target: {fileID: 2095723733825027417, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
       propertyPath: m_Name
       value: Canvas_UI Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892404811534530971, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892404811534530971, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892404811534530971, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594440890432259917, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594440890432259917, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594440890432259917, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50.099976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
@@ -8547,6 +8590,7 @@ MonoBehaviour:
   _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
+  HUDController: {fileID: 308471929}
   CameraBoundsData: {fileID: 4900000, guid: 95e5dc23dbc04144db30eaabde01ed77, type: 3}
   LevelManager: {fileID: 336158991}
   CharacterInput: {fileID: 1285793916}
