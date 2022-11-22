@@ -31,6 +31,7 @@ namespace GlobalSystems
         [SerializeField] private Toggle _musicMuteToggle;
         [SerializeField] private Toggle _metronomeMuteToggle;
 
+        public GameObject LoadingScreen;
         public GameObject SaveInProgressText;
 
         private EventSystem _currentEventSystem => EventSystem.current;
@@ -87,7 +88,7 @@ namespace GlobalSystems
         #region BUTTON FUNCTIONS
 
         public void LoadMainMenuButton() => 
-            StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.MainMenu));
+            StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.MainMenu, this));
 
         public void HandleMenuButtonPress() {
             if (_settingsUI.activeSelf) {

@@ -6,7 +6,10 @@ namespace Menus_and_Transitions
 {
     public class MainMenu : MonoBehaviour
     {
-        public void LoadLevel() => StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.DemoLevel));
+        [SerializeField] UiManager _uiManager;
+
+        public void LoadLevel() => 
+            StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.DemoLevel, _uiManager));
         public void CloseGame() => Application.Quit();
     }
 }

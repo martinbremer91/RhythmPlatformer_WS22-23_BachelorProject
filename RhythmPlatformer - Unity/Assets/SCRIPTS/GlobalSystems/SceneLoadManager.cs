@@ -17,19 +17,24 @@ namespace GlobalSystems
                 refreshable.SceneRefresh();
         }
 
-        public static IEnumerator LoadSceneCoroutine(string in_sceneName)
+        public static IEnumerator LoadSceneCoroutine(string in_sceneName, UiManager in_uiManager)
         {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
-
+            bool loadCompleted = false;
+            in_uiManager.LoadingScreen.SetActive(true);
             GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Nothing;
-            
-            while (!asyncLoad.isDone)
-            {
-                // TODO: loading screen logic
-                yield return null;
-            }
 
-            RefreshGlobalObjects();
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
+            asyncLoad.completed += OnSceneLoaded;
+
+            while (!loadCompleted)
+                yield return null;
+
+            void OnSceneLoaded(AsyncOperation in_asyncOperation) {
+                in_asyncOperation.completed -= OnSceneLoaded;
+                in_uiManager.LoadingScreen.SetActive(false);
+                RefreshGlobalObjects();
+                loadCompleted = true;
+            }
         }
     }
 }
