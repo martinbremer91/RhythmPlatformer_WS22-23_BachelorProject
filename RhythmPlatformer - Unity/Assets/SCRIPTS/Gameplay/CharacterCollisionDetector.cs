@@ -106,21 +106,15 @@ namespace Gameplay
                     return false;
 
                 _slideOffDirection = slideOffRight ? 1 : -1;
+                collision = true;
                 bool runningUpTheLedge = 
                     _slideOffDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) < 0;
 
-                if (runningUpTheLedge)
-                {
-                    if (slideOffRight)
-                        hitA = hitB;
-                    else
-                        hitB = hitA;
+                if (slideOffLeft && _characterStateController.NearWallLeft ||
+                    slideOffRight && _characterStateController.NearWallRight)
+                    return false;
 
-                    collision = hitA != null && hitB != null;
-                }
-
-                collision = true;
-                return !runningUpTheLedge && (slideOffLeft || slideOffRight);
+                return !runningUpTheLedge;
             }
         }
 
