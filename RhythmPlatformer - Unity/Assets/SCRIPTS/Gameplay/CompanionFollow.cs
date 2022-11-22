@@ -15,7 +15,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
     private Transform _characterTransform;
     [SerializeField] private Rigidbody2D _rigidbody2D;
 
-    private Vector2 _characterOffset;
+    [HideInInspector] public Vector2 CharacterOffset;
 
     private AnimationCurve _followAccelerationCurve;
     private AnimationCurve _followArcVelocityCurve;
@@ -59,7 +59,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
 
         _followAccelerationCurve = configs.FollowAccelerationCurve;
         _followArcVelocityCurve = configs.FollowArcVelocityCurve;
-        _characterOffset = configs.CharacterOffset;
+        CharacterOffset = configs.CharacterOffset;
         _reactionDelay = configs.ReactionDelay;
         _startFollowDist = configs.StartFollowDist;
         _stopFollowDist = configs.StopFollowDist;
@@ -78,7 +78,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
 
         Vector2 position = transform.position;
         Vector2 targetPos = (Vector2)_characterTransform.position + new Vector2(_characterStateController.FacingLeft ? 
-            -_characterOffset.x : _characterOffset.x, _characterOffset.y);
+            -CharacterOffset.x : CharacterOffset.x, CharacterOffset.y);
 
         float characterDist = (position - targetPos).sqrMagnitude;
         CheckFollowPlayer();

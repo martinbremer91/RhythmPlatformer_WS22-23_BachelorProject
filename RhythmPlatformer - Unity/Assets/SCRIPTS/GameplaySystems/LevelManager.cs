@@ -27,10 +27,13 @@ namespace GameplaySystems
         private Vector3 _currentSpawnPoint;
         private bool _spawnFacingLeft;
 
+        private CompanionFollow _companionFollow;
+
         public void Init(GameStateManager in_gameStateManager)
         {
             _gameStateManager = in_gameStateManager;
             _characterStateController = in_gameStateManager.CharacterStateController;
+            _companionFollow = in_gameStateManager.CompanionFollow;
             
             InitPlatforms();
             InitCheckpoints();
@@ -95,6 +98,12 @@ namespace GameplaySystems
         private void RespawnPlayer()
         {
             _characterStateController.transform.position = _currentSpawnPoint;
+
+            Vector2 companionPosOffset = _spawnFacingLeft ? 
+                -_companionFollow.CharacterOffset : _companionFollow.CharacterOffset;
+            _companionFollow.transform.position = 
+                _currentSpawnPoint + (Vector3)companionPosOffset;
+
             _characterStateController.CanDash = true;
             _characterStateController.FacingLeft = _spawnFacingLeft;
         }
