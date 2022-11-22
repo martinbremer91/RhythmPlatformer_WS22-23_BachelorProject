@@ -147,8 +147,8 @@ namespace GlobalSystems
         }
 
         private void LoadPlayerProgress() {
-            if (!_playerProgressData.LoadPlayerProgressData(out _playerProgressData))
-                _playerProgressData.SavePlayerProgressDataAsync();
+            if (!_playerProgressData.LoadPlayerProgressData(ref _playerProgressData))
+                _playerProgressData.SavePlayerProgressDataAsync(UiManager);
         }
 
         private void LoadUserPrefs() {

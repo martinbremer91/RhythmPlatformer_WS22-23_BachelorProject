@@ -1,4 +1,5 @@
 using UnityEngine;
+using GlobalSystems;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,7 +18,8 @@ namespace Structs
             CurrentCheckpointIndex = in_currentCheckpointIndex;
         }
 
-        public async void SavePlayerProgressDataAsync() {
+        public async void SavePlayerProgressDataAsync(UiManager in_uiManager) {
+            in_uiManager.SaveInProgressText.SetActive(true);
     #if UNITY_EDITOR
             string path = "Assets/JsonData/SaveData/PlayerProgress.json";
     #else
@@ -25,10 +27,12 @@ namespace Structs
     #endif
             string jsonData = JsonUtility.ToJson(this);
             await System.IO.File.WriteAllTextAsync(path, jsonData);
+
+            in_uiManager.SaveInProgressText.SetActive(false);
         }
 
-        public bool LoadPlayerProgressData(out PlayerProgressData out_playerProgressData) {
-            out_playerProgressData = new PlayerProgressData(string.Empty);
+        public bool LoadPlayerProgressData(ref PlayerProgressData ref_playerProgressData) {
+            ref_playerProgressData = new PlayerProgressData(string.Empty);
     #if UNITY_EDITOR
             TextAsset userSoundPreferences =
                 AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/JsonData/SaveData/PlayerProgress.json");
@@ -41,7 +45,7 @@ namespace Structs
 
             string jsonData = userSoundPreferences.text;
             this = JsonUtility.FromJson<PlayerProgressData>(jsonData);
-            out_playerProgressData = this;
+            ref_playerProgressData = this;
 
             return true;
         }
