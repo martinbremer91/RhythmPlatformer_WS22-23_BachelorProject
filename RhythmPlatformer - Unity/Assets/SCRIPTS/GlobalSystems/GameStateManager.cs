@@ -48,6 +48,7 @@ namespace GlobalSystems
         public readonly List<IPhysicsPausable> PhysicsPausables = new();
 
         [HideInInspector] public SceneType LoadedSceneType;
+        private UpdateType _activeUpdateTypeBuffer;
         [HideInInspector] public UpdateType ActiveUpdateType;
 
         private PlayerProgressData _playerProgressData;
@@ -71,6 +72,23 @@ namespace GlobalSystems
         }
 
         private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();
+
+        private void OnApplicationFocus(bool focus) =>
+            UpdateManagerPauseToggle(!focus);
+
+        private void OnApplicationPause(bool pause) =>
+            UpdateManagerPauseToggle(pause);
+
+        private void UpdateManagerPauseToggle(bool in_pause) {
+            if (in_pause) {
+                _activeUpdateTypeBuffer = ActiveUpdateType;
+                ActiveUpdateType = UpdateType.Nothing;
+                TogglePhysicsPause(true);
+            } else if (_activeUpdateTypeBuffer is not UpdateType.Nothing) {
+                ActiveUpdateType = _activeUpdateTypeBuffer;
+                TogglePhysicsPause(false);
+            }
+        }
 
         public void Init(DependencyInjector in_dependencyInjector)
         {

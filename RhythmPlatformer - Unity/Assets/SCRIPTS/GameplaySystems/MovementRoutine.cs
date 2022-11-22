@@ -8,7 +8,7 @@ using GlobalSystems;
 
 namespace GameplaySystems
 {
-    public class MovementRoutine : MonoBehaviour, IInit<GameStateManager>,IUpdatable
+    public class MovementRoutine : MonoBehaviour, IInit<GameStateManager>, IUpdatable
     {
         #region REFERENCES / EXPOSED FIELDS
 

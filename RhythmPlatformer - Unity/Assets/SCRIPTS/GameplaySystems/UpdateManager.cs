@@ -55,11 +55,13 @@ namespace GameplaySystems
         }
 
         public void SceneRefresh() => 
-            _updateActive = _gameStateManager.LoadedSceneType == SceneType.Level;
+            _updateActive = _gameStateManager.LoadedSceneType is SceneType.Level;
 
         private void Update()
         {
             if (!_updateActive)
+                return;
+            if (_gameStateManager.ActiveUpdateType is UpdateType.Nothing)
                 return;
             
             UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
@@ -88,7 +90,9 @@ namespace GameplaySystems
         {
             if (!_updateActive)
                 return;
-            
+            if (_gameStateManager.ActiveUpdateType is UpdateType.Nothing)
+                return;
+
             UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
 
             if (_characterInput.UpdateType.HasFlag(currentUpdateType))

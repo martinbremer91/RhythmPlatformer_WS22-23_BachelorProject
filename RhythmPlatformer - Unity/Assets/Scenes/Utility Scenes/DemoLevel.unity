@@ -1043,6 +1043,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5009292016580759261, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
+      propertyPath: m_CullingMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
 --- !u!114 &397391152 stripped
@@ -8616,6 +8620,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5562756899129024067, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_CullingMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5562756899129024180, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: m_Name
       value: Player Character
