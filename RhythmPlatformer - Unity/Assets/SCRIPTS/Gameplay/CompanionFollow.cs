@@ -42,7 +42,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
     private void OnDisable() => DeregisterPhysicsPausable();
 
     public void RegisterPhysicsPausable() {
-        if (_gameStateManager && !_gameStateManager.PhysicsPausables.Contains(this))
+        if (_gameStateManager != null && !_gameStateManager.PhysicsPausables.Contains(this))
             _gameStateManager.PhysicsPausables.Add(this);
     }
 
@@ -51,6 +51,7 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
 
     public void Init(GameStateManager in_gameStateManager) {
         _gameStateManager = in_gameStateManager;
+        RegisterPhysicsPausable();
         CompanionConfigs configs = in_gameStateManager.CompanionConfigs;
 
         _characterStateController = in_gameStateManager.CharacterStateController;
