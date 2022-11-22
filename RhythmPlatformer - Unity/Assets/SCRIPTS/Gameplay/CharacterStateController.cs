@@ -136,7 +136,9 @@ namespace Gameplay
             ChangeOutOfState();
 
             _currentCharacterState = in_value;
-            _spriteController.HandleStateAnimation();
+            
+            if (!DashWindup)
+                _spriteController.HandleStateAnimation();
 
             if (Grounded)
                 BecomeGrounded?.Invoke();
