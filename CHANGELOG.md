@@ -19,13 +19,82 @@
 ## - Soon to be changed
 
 ## [Unreleased] (terminal: git log; hold enter to go farther back in commit history)
-## [0.0.21] Work in Progress
-Date:   Fri Nov 11 18:36:38 2022
-    fixed two separate rise/fall drift bugs
-    created fade screen logic and made progress with respawn system
-    implemented basic death and respawn logic
-    cleaned up camera manager, created camera manager assistant and basic checkpoint logic
-    removed look ahead camera logic
+## [End of unreleased section]
+
+## [0.0.24] - 2022-11-22
+### Added
+- companion follow logic (makes arc on the way to player character)
+- particle systems to companion
+- basic jump crystal logic
+- companion idle animation
+- slide-on mechanic when character is only partly grounded 
+- basic HUD with a beat line and a beat display (in own canvas so it can have post processing applied to it)
+- controller / keyboard menu navigation
+- SaveInProgress message to corner of screen while saving data
+- placeholder loading screen
+- low pass filter sweep on pause and unpause
+### Changed
+- changed collision detection to use OverlapPoint instead of BoxCast
+- dash now recharges upon death
+- settings menu slider and toggles update to match saved prefs on startup
+- companion's position now resets to checkpoint on death
+### Fixed
+- handled application focus change and application pause
+- companion physics pause toggle
+- dash animation bug (when beginning to fall during dash windup)
+
+## [0.0.23] - 2022-11-18
+### Added
+- demo level with written instructions
+- basic pulse material overrides logic (change color, etc)
+- character can now change color depending on whether his dash is available
+- generic color palettes logic (used for pulse material colors, etc. Includes HDR color field)
+### Changed
+- disabled jump button in build
+- cannot become walled while fast falling and holding down anymore
+### Removed
+- movement snapshot logic
+### Fixed
+- pulse shader material(_MainTex missing)
+- disabled and set controls to neutral while dead
+- character no longer jumps when dead  
+
+## [0.0.22] - 2022-11-17
+### Added
+- key-art sprite (for testing and reference)
+- scaffold tileset
+- hazards with movement routines
+- player progress data and corresponding save and load system
+- settings menu
+### Changed
+- movement routine setting doesn't rely on game objects in hierarchy anymore (now just handles)
+- updated unity to 2021.3.13f1
+### Removed
+- input playback system
+### Fixed
+- added exit play mode safeguards to all async while loops
+- tilesets reimported with nearest-neighbor anti-aliasing
+- made movement routine destination detection more reliable (was overshooting target position)
+
+## [0.0.21] - 2022-11-14
+### Added
+- camera manager assistant
+- basic checkpoint logic
+- death and respawn logic
+- fade screen for scene transitions
+- hazards (trigger death)
+- dash-crystals (recharge dash)
+- track info text in beat status tab
+- new version of track "Nines"
+- metronome only mode (for easier rhythm tests)
+- (savable) sound preference settings
+### Changed
+- dash angles(less vertical)
+### Removed
+- look ahead camera logic
+- jump squat logic 
+### Fixed
+- rise and fall drift bugs
 
 ## [0.0.20] - 2022-11-10
 ### Added
