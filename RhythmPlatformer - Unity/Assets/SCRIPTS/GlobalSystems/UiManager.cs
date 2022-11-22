@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
+using Structs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -29,6 +30,8 @@ namespace GlobalSystems
         [SerializeField] private Slider _metronomeVolumeSlider;
         [SerializeField] private Toggle _musicMuteToggle;
         [SerializeField] private Toggle _metronomeMuteToggle;
+
+        public GameObject SaveInProgressText;
 
         private EventSystem _currentEventSystem => EventSystem.current;
 
@@ -63,6 +66,7 @@ namespace GlobalSystems
             }
 
             _gameStateManager = in_gameStateManager;
+            SyncSettingsMenuWithAudioSources();
         }
 
         public void SceneRefresh()
@@ -87,7 +91,7 @@ namespace GlobalSystems
 
         public void HandleMenuButtonPress() {
             if (_settingsUI.activeSelf) {
-                _soundConfigs.SaveSoundPreferencesAsync();
+                _soundConfigs.SaveSoundPreferencesAsync(this);
                 _settingsUI.SetActive(false);
             }
             else if (_gameStateManager.LoadedSceneType == SceneType.Level)
@@ -116,6 +120,8 @@ namespace GlobalSystems
         }
 
         #endregion
+
+        #region TRANSITIONS AND LOADING UI
 
         public async Task FadeDarkScreen(bool in_fadeScreenIn)
         {
@@ -152,7 +158,18 @@ namespace GlobalSystems
                 _fadeScreen.gameObject.SetActive(false);
         }
 
+        #endregion
+
         #region SETTINGS FUNCTIONS
+
+        private void SyncSettingsMenuWithAudioSources() {
+            SoundPreferencesData soundPrefs = _soundConfigs.SoundPreferences;
+
+            _musicMuteToggle.SetIsOnWithoutNotify(soundPrefs.MusicMuted);
+            _metronomeMuteToggle.SetIsOnWithoutNotify(soundPrefs.MetronomeMuted);
+            _musicVolumeSlider.SetValueWithoutNotify(soundPrefs.CurrentMusicVolume);
+            _metronomeVolumeSlider.SetValueWithoutNotify(soundPrefs.CurrentMetronomeVolume);
+        }
 
         public void HandleMusicVolumeChange() {
             float sliderValue = _musicVolumeSlider.value;

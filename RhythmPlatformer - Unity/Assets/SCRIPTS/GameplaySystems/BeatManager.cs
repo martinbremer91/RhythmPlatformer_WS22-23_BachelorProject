@@ -7,7 +7,6 @@ using Scriptable_Object_Scripts;
 using GlobalSystems;
 using UnityEngine;
 using Menus_and_Transitions;
-using Utility_Scripts;
 
 namespace GameplaySystems
 {
@@ -83,6 +82,8 @@ namespace GameplaySystems
             public double end;
         }
 
+        #region INITIALIZATION
+
         private void OnEnable()
         {
             if (s_Instance != null && s_Instance != this)
@@ -144,6 +145,10 @@ namespace GameplaySystems
                 _hudController.InitializeHUD((float)_beatLength, _trackData);
             }
         }
+
+        #endregion
+
+        #region UPDATE AND PAUSE
 
         public void CustomUpdate()
         {
@@ -265,6 +270,10 @@ namespace GameplaySystems
             }
         }
 
+        #endregion
+
+        #region SOUND CONFIGS
+
         public void SetMusicVolume(float in_value) {
             foreach (AudioSource source in _trackAudioSources)
                 source.volume = in_value;
@@ -284,5 +293,7 @@ namespace GameplaySystems
             _metronomeStrong.mute = in_value;
             _metronomeWeak.mute = in_value;
         }
+
+        #endregion
     }
 }

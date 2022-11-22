@@ -1,5 +1,6 @@
 using Structs;
 using UnityEngine;
+using GlobalSystems;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -18,8 +19,9 @@ namespace Scriptable_Object_Scripts
         public float LowPassFilterFadeDuration;
         public float LowPassFilterFadeCutoffFrequency;
         
-        public async void SaveSoundPreferencesAsync()
+        public async void SaveSoundPreferencesAsync(UiManager in_uiManager)
         {
+            in_uiManager.SaveInProgressText.SetActive(true);
 #if UNITY_EDITOR
             string path = "Assets/JsonData/SaveData/UserSoundPreferences.json";
 #else
@@ -27,6 +29,8 @@ namespace Scriptable_Object_Scripts
 #endif
             string jsonData = JsonUtility.ToJson(SoundPreferences);
             await System.IO.File.WriteAllTextAsync(path, jsonData);
+
+            in_uiManager.SaveInProgressText.SetActive(false);
         }
 
         public bool LoadSoundPreferences()

@@ -151,10 +151,9 @@ namespace GlobalSystems
                 _playerProgressData.SavePlayerProgressDataAsync();
         }
 
-        private void LoadUserPrefs()
-        {
+        private void LoadUserPrefs() {
             if (!SoundConfigs.LoadSoundPreferences())
-                SoundConfigs.SaveSoundPreferencesAsync();
+                SoundConfigs.SaveSoundPreferencesAsync(UiManager);
         }
 
         public void SceneRefresh()
