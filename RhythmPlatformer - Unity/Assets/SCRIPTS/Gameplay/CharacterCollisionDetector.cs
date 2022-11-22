@@ -17,7 +17,7 @@ namespace Gameplay
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
-        private bool _slideOn;
+        [HideInInspector] public bool SlideOn;
         private int _slideOffDirection;
         private float _slideOnSpeed;
 
@@ -42,7 +42,7 @@ namespace Gameplay
                 DetectCollision(CollisionCheck.RightWall, !_characterStateController.NearWallRight);
             }
 
-            if (_slideOn)
+            if (SlideOn)
                 transform.Translate(Vector2.right * _slideOffDirection * _slideOnSpeed * Time.fixedDeltaTime);
         }
 
@@ -61,7 +61,7 @@ namespace Gameplay
             float radiusOnDetectionAxis =  verticalDetection ?
                 bounds.size.y * .5f : bounds.size.x * .5f;
             float radiusOnComplementaryAxis = verticalDetection ?
-                bounds.size.x * .5f + (_slideOn ? .1f : 0): bounds.size.y * .5f;
+                bounds.size.x * .5f + (SlideOn ? .1f : 0): bounds.size.y * .5f;
 
             Vector2 pointOnDetectionAxis = 
                 (Vector2)bounds.center + detectDirection * (radiusOnDetectionAxis + .05f);
@@ -80,7 +80,7 @@ namespace Gameplay
             bool collision = hitA != null && hitB != null;
 
             if (in_collisionCheck is CollisionCheck.Ground)
-                _slideOn = GroundedCollisionCheck();
+                SlideOn = GroundedCollisionCheck();
             else
 
             if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))

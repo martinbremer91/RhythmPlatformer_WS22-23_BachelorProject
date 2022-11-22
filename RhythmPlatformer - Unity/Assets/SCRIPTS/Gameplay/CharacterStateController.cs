@@ -15,6 +15,7 @@ namespace Gameplay
         #region REFERENCES
 
         private GameStateManager _gameStateManager;
+        private CharacterCollisionDetector _characterCollisionDetector;
         private CharacterSpriteController _spriteController;
         private CharacterMovement _characterMovement;
         private CharacterInput _characterInput;
@@ -214,6 +215,7 @@ namespace Gameplay
         public void Init(GameStateManager in_gameStateManager)
         {
             _gameStateManager = in_gameStateManager;
+            _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
             _characterInput = in_gameStateManager.CharacterInput;
             _characterMovement = in_gameStateManager.CharacterMovement;
             _movementConfigs = in_gameStateManager.MovementConfigs;
@@ -334,7 +336,7 @@ namespace Gameplay
                         _characterMovement.RunVelocity = _characterMovement.CharacterVelocity.x;
                         break;
                     }
-                    if (_characterMovement.CharacterVelocity.x == 0)
+                    if (!_characterCollisionDetector.SlideOn && _characterMovement.CharacterVelocity.x == 0)
                         CurrentCharacterState = 
                             _characterInput.InputState.DirectionalInput.y <= -.5f ? 
                                 CharacterState.Crouch : CharacterState.Idle;
@@ -382,6 +384,11 @@ namespace Gameplay
                     return;
                 }
                 
+                if (_characterCollisionDetector.SlideOn) {
+                    CurrentCharacterState = CharacterState.Land;
+                    return;
+                }
+
                 CheckFacingOrientation();
             }
 
