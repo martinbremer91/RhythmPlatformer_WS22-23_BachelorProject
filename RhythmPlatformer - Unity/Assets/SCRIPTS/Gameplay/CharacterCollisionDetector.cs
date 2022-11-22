@@ -17,9 +17,9 @@ namespace Gameplay
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
-        private bool _slideOff;
+        private bool _slideOn;
         private int _slideOffDirection;
-        private float _slideOffSpeed;
+        private float _slideOnSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;
         
@@ -28,7 +28,7 @@ namespace Gameplay
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterMovement = in_gameStateManager.CharacterMovement;
             _characterInput = in_gameStateManager.CharacterInput;
-            _slideOffSpeed = in_gameStateManager.MovementConfigs.SlideOffSpeed;
+            _slideOnSpeed = in_gameStateManager.MovementConfigs.SlideOnSpeed;
         }
         
         public void CustomUpdate()
@@ -42,8 +42,8 @@ namespace Gameplay
                 DetectCollision(CollisionCheck.RightWall, !_characterStateController.NearWallRight);
             }
 
-            if (_slideOff)
-                transform.Translate(Vector2.right * _slideOffDirection * _slideOffSpeed * Time.fixedDeltaTime);
+            if (_slideOn)
+                transform.Translate(Vector2.right * _slideOffDirection * _slideOnSpeed * Time.fixedDeltaTime);
         }
 
         private void DetectCollision(CollisionCheck in_collisionCheck, bool in_detectEnter)
@@ -61,7 +61,7 @@ namespace Gameplay
             float radiusOnDetectionAxis =  verticalDetection ?
                 bounds.size.y * .5f : bounds.size.x * .5f;
             float radiusOnComplementaryAxis = verticalDetection ?
-                bounds.size.x * .5f + (_slideOff ? .1f : 0): bounds.size.y * .5f;
+                bounds.size.x * .5f + (_slideOn ? .1f : 0): bounds.size.y * .5f;
 
             Vector2 pointOnDetectionAxis = 
                 (Vector2)bounds.center + detectDirection * (radiusOnDetectionAxis + .05f);
@@ -80,7 +80,7 @@ namespace Gameplay
             bool collision = hitA != null && hitB != null;
 
             if (in_collisionCheck is CollisionCheck.Ground)
-                _slideOff = GroundedCollisionCheck();
+                _slideOn = GroundedCollisionCheck();
             else
 
             if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
@@ -105,16 +105,12 @@ namespace Gameplay
                 if (collision || !slideOffRight && !slideOffLeft)
                     return false;
 
-                _slideOffDirection = slideOffRight ? 1 : -1;
+                _slideOffDirection = slideOffRight ? -1 : 1;
                 collision = true;
-                bool runningUpTheLedge = 
-                    _slideOffDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) < 0;
+                bool running = 
+                    _slideOffDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) != 0;
 
-                if (slideOffLeft && _characterStateController.NearWallLeft ||
-                    slideOffRight && _characterStateController.NearWallRight)
-                    return false;
-
-                return !runningUpTheLedge;
+                return !running;
             }
         }
 

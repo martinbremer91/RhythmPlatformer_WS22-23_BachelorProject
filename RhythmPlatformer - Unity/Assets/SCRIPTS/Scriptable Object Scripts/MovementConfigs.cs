@@ -124,7 +124,7 @@ namespace Scriptable_Object_Scripts
         [Range(0,1)] public float DashWindupVelocityMod;
 
         [Tooltip("Speed at which character slides off a ledge if the collider is only partially on it.")]
-        public float SlideOffSpeed;
+        public float SlideOnSpeed;
 
         #endregion
     }

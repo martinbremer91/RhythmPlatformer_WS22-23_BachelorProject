@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: _metronomeOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
+      propertyPath: _debugBeatOff
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
 --- !u!114 &164801369 stripped

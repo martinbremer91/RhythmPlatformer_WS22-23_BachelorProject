@@ -155,4 +155,4 @@ MonoBehaviour:
   CrouchJumpSpeedModifier: 0.5
   FastFallSpeedModifier: 2
   DashWindupVelocityMod: 0.1
-  SlideOffSpeed: 5
+  SlideOnSpeed: 2
