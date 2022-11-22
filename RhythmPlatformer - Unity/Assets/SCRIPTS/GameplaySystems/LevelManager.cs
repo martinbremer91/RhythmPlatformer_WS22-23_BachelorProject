@@ -95,6 +95,7 @@ namespace GameplaySystems
         private void RespawnPlayer()
         {
             _characterStateController.transform.position = _currentSpawnPoint;
+            _characterStateController.CanDash = true;
             _characterStateController.FacingLeft = _spawnFacingLeft;
         }
 
