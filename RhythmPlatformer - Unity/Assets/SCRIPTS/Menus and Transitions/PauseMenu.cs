@@ -15,7 +15,10 @@ namespace Menus_and_Transitions
 
         public void Init(GameStateManager in_gameStateManager) => _gameStateManager = in_gameStateManager;
 
-        public void TogglePauseMenu(bool in_paused) => _pausePanel.SetActive(in_paused);
+        public void TogglePauseMenu(bool in_paused) {
+            _pausePanel.SetActive(in_paused);
+            _gameStateManager.UiManager.HandleOpenPauseMenu();
+        }
 
         public void ResumeButton() => _gameStateManager.ScheduleTogglePause();
 

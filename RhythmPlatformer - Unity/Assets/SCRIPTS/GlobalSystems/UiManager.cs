@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utility_Scripts;
 
@@ -9,6 +10,8 @@ namespace GlobalSystems
 {
     public class UiManager : MonoBehaviour, IRefreshable, IInit<GameStateManager>
     {
+        #region REFERENCES
+
         private static UiManager s_Instance;
 
         private GameStateManager _gameStateManager;
@@ -19,11 +22,19 @@ namespace GlobalSystems
         [SerializeField] private Image _fadeScreen;
         [SerializeField] private float _fadeDuration;
 
+        [SerializeField] private GameObject _continueButton, _newGameButton, _resumeButton;
+
         [SerializeField] private SoundConfigs _soundConfigs;
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _metronomeVolumeSlider;
         [SerializeField] private Toggle _musicMuteToggle;
         [SerializeField] private Toggle _metronomeMuteToggle;
+
+        private EventSystem _currentEventSystem => EventSystem.current;
+
+        #endregion
+
+        #region INITIALIZATION
 
         private void OnEnable()
         {
@@ -53,16 +64,24 @@ namespace GlobalSystems
 
             _gameStateManager = in_gameStateManager;
         }
-        
+
         public void SceneRefresh()
         {
             SceneType currentSceneType = _gameStateManager.LoadedSceneType;
 
-            _menuUI.SetActive(currentSceneType == SceneType.MainMenu);
+            bool menuActive = currentSceneType == SceneType.MainMenu;
+            _menuUI.SetActive(menuActive);
             _gameplayUI.SetActive(currentSceneType == SceneType.Level);
             _settingsUI.SetActive(false);
+
+            if (menuActive)
+                HandleOpenMainMenu();
         }
-        
+
+        #endregion
+
+        #region BUTTON FUNCTIONS
+
         public void LoadMainMenuButton() => 
             StartCoroutine(SceneLoadManager.LoadSceneCoroutine(Constants.MainMenu));
 
@@ -74,6 +93,29 @@ namespace GlobalSystems
             else if (_gameStateManager.LoadedSceneType == SceneType.Level)
                 _gameStateManager.ScheduleTogglePause();
         }
+
+        private void HandleOpenMainMenu() {
+            bool selectContinue = _continueButton.GetComponent<Button>().interactable;
+            _currentEventSystem.SetSelectedGameObject(selectContinue ? _continueButton :
+                _newGameButton);
+        }
+
+        public void HandleOpenSettings() =>
+            _currentEventSystem.SetSelectedGameObject(_musicVolumeSlider.gameObject);
+
+        public void HandleOpenPauseMenu() =>
+            _currentEventSystem.SetSelectedGameObject(_resumeButton);
+
+        public void HandleCloseSettings() {
+            SceneType currentSceneType = _gameStateManager.LoadedSceneType;
+
+            if (currentSceneType is SceneType.MainMenu)
+                HandleOpenMainMenu();
+            else if (currentSceneType is SceneType.Level)
+                HandleOpenPauseMenu();
+        }
+
+        #endregion
 
         public async Task FadeDarkScreen(bool in_fadeScreenIn)
         {
