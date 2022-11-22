@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5382255611513983694}
   - component: {fileID: 5382255611513983681}
+  - component: {fileID: 8810558651726251187}
   m_Layer: 0
   m_Name: Track A
   m_TagString: Untagged
@@ -384,6 +385,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!169 &8810558651726251187
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382255611513983680}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5382255611666247908
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,11 +461,16 @@ MonoBehaviour:
   _trackAudioSources:
   - {fileID: 5382255611513983681}
   - {fileID: 5382255612138771062}
+  _trackLowPassFilters:
+  - {fileID: 8810558651726251187}
+  - {fileID: 2048230298734489362}
   _startDelay: 1
   _metronomeStrong: {fileID: 5382255610641140915}
   _metronomeWeak: {fileID: 5382255610254532521}
   BeatState: 0
-  MetronomeOn: 0
+  _currentMusicVolume: 0
+  _currentMetronomeVolume: 0
+  _metronomeOn: 0
   _debugBeatOff: 0
 --- !u!1 &5382255612138771049
 GameObject:
@@ -451,6 +482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5382255612138771063}
   - component: {fileID: 5382255612138771062}
+  - component: {fileID: 2048230298734489362}
   m_Layer: 0
   m_Name: Track B
   m_TagString: Untagged
@@ -555,6 +587,31 @@ AudioSource:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!169 &2048230298734489362
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382255612138771049}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

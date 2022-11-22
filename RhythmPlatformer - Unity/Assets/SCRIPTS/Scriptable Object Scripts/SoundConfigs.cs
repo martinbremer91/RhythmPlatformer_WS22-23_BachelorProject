@@ -14,9 +14,7 @@ namespace Scriptable_Object_Scripts
         public SoundPreferencesData SoundPreferences;
         [Space(10)] 
         [Header("Music Utilities Parameters")]
-        public float MusicFadeDuration;
-        [Space(10)]
-        public float LowPassFilterFadeDuration;
+        public float MusicVolumeFadeDuration;
         public float LowPassFilterFadeCutoffFrequency;
         
         public async void SaveSoundPreferencesAsync(UiManager in_uiManager)

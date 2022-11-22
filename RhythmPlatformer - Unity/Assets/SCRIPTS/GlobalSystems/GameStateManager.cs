@@ -172,7 +172,7 @@ namespace GlobalSystems
         public void TogglePause()
         { 
             BeatManager.BeatAction -= TogglePause;
-            
+
             ActiveUpdateType = ActiveUpdateType == UpdateType.Paused ? UpdateType.GamePlay : UpdateType.Paused;
             bool paused = ActiveUpdateType == UpdateType.Paused;
             
@@ -180,6 +180,7 @@ namespace GlobalSystems
 
             if (paused)
             {
+                BeatManager.ExecuteLowPassFilterFade(true);
                 BeatManager.RecordPausedBeatAndMetronome();
                 BeatManager.MetronomeOn = false;
             }

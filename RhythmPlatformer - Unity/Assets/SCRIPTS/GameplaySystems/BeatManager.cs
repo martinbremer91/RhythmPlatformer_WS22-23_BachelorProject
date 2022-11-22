@@ -7,6 +7,7 @@ using Scriptable_Object_Scripts;
 using GlobalSystems;
 using UnityEngine;
 using Menus_and_Transitions;
+using Utility_Scripts;
 
 namespace GameplaySystems
 {
@@ -19,6 +20,7 @@ namespace GameplaySystems
         private CharacterStateController _characterStateController;
 
         [SerializeField] private AudioSource[] _trackAudioSources;
+        [SerializeField] private AudioLowPassFilter[] _trackLowPassFilters;
 
         [SerializeField] private float _startDelay;
         
@@ -28,8 +30,8 @@ namespace GameplaySystems
 #if UNITY_EDITOR
         public TrackData TrackData_editor => _trackData;
 #endif
-
         private HUDController _hudController;
+        private MusicUtilities _musicUtilities;
 
         #endregion
 
@@ -107,6 +109,7 @@ namespace GameplaySystems
             }
 
             _gameStateManager = in_gameStateManager;
+            _musicUtilities = new MusicUtilities();
 
             _trackData = _gameStateManager.CurrentTrackData;
             _metronomeOnlyMode = _trackData.Clip == null;
@@ -260,6 +263,7 @@ namespace GameplaySystems
             MetronomeOn = _pausedMetronome;
             _unpauseSignal = true;
             BeatAction += _gameStateManager.TogglePause;
+            ExecuteLowPassFilterFade(false);
 
             void UpdateCountInUi() {
                 if (countIn != _beatTracker)
@@ -268,6 +272,13 @@ namespace GameplaySystems
                     countIn = _beatTracker;
                 }
             }
+        }
+
+        public void ExecuteLowPassFilterFade(bool in_lowPassOn) {
+            float cutoffFrequency = 
+                in_lowPassOn ? _gameStateManager.SoundConfigs.LowPassFilterFadeCutoffFrequency : 22000;
+            _musicUtilities.FadeLowPassFilterAsync(_trackLowPassFilters, (float)_beatLength, 
+                cutoffFrequency, !in_lowPassOn);
         }
 
         #endregion

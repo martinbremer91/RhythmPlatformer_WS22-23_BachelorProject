@@ -23,8 +23,11 @@ namespace Utility_Scripts
         }
         
         public async void FadeLowPassFilterAsync(AudioLowPassFilter[] in_lowPassArray, float in_duration, 
-            float in_targetCutoff)
+            float in_targetCutoff, bool in_disable = false)
         {
+            foreach (AudioLowPassFilter lowPass in in_lowPassArray)
+                lowPass.enabled = true;
+
             float currentTime = 0;
             float startCutoff = in_lowPassArray[0].cutoffFrequency;
     
@@ -38,6 +41,10 @@ namespace Utility_Scripts
                 
                 await Task.Yield();
             }
+
+            if (in_disable)
+                foreach (AudioLowPassFilter lowPass in in_lowPassArray)
+                    lowPass.enabled = false;
         }
     }
 }
