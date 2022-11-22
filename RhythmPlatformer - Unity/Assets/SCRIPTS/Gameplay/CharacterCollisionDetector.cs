@@ -119,6 +119,7 @@ namespace Gameplay
                     collision = hitA != null && hitB != null;
                 }
 
+                collision = true;
                 return !runningUpTheLedge && (slideOffLeft || slideOffRight);
             }
         }
