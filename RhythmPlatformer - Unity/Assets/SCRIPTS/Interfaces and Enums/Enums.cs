@@ -20,10 +20,11 @@ namespace Interfaces_and_Enums
     
     public enum CollisionCheck
     {
-        Ground,
-        Ceiling,
-        RightWall,
-        LeftWall
+        None = 0,
+        Ground = 1,
+        Ceiling = 2,
+        RightWall = 3,
+        LeftWall = 4
     }
     
     public enum CharacterState

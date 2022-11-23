@@ -2,6 +2,7 @@ using System;
 using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
@@ -17,8 +18,11 @@ namespace Gameplay
         [SerializeField] private LayerMask _levelLayerMask;
         [SerializeField] private float _detectionOffset;
 
-        [HideInInspector] public bool SlideOn;
-        private int _slideOnDirection;
+        [HideInInspector] public bool SlideOnHorizontal;
+        private int _slideOnHorizontalDirection;
+        [HideInInspector] public bool SlideOnVertical;
+        private int _slideOnVerticalDirection;
+        private CollisionCheck _slideOnVerticalCollisionDirection;
         private float _slideOnSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;
@@ -42,8 +46,10 @@ namespace Gameplay
                 DetectCollision(CollisionCheck.RightWall, !_characterStateController.NearWallRight);
             }
 
-            if (SlideOn)
-                transform.Translate(Vector2.right * _slideOnDirection * _slideOnSpeed * Time.fixedDeltaTime);
+            if (SlideOnHorizontal)
+                transform.Translate(Vector2.right * _slideOnHorizontalDirection * _slideOnSpeed * Time.fixedDeltaTime);
+            else if (SlideOnVertical)
+                transform.Translate(Vector2.up * _slideOnVerticalDirection * _slideOnSpeed * Time.fixedDeltaTime);
         }
 
         private void DetectCollision(CollisionCheck in_collisionCheck, bool in_detectEnter)
@@ -61,7 +67,7 @@ namespace Gameplay
             float radiusOnDetectionAxis =  verticalDetection ?
                 bounds.size.y * .5f : bounds.size.x * .5f;
             float radiusOnComplementaryAxis = verticalDetection ?
-                bounds.size.x * .5f + (SlideOn ? .1f : 0): bounds.size.y * .5f;
+                bounds.size.x * .5f + (SlideOnHorizontal ? .1f : 0): bounds.size.y * .5f;
 
             Vector2 pointOnDetectionAxis = 
                 (Vector2)bounds.center + detectDirection * (radiusOnDetectionAxis + .05f);
@@ -80,7 +86,9 @@ namespace Gameplay
             bool collision = hitA != null && hitB != null;
 
             if (in_collisionCheck is CollisionCheck.Ground)
-                SlideOn = GroundedCollisionCheck();
+                SlideOnHorizontal = CheckHorizontalSlideOn();
+            else if (!verticalDetection)
+                SlideOnVertical = CheckVerticalSlideOn();
             else if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
                 collision = OnOneWayPlatform;
 
@@ -95,7 +103,7 @@ namespace Gameplay
             if (CheckValidStateForCollisionInteraction(in_collisionCheck, in_detectEnter))
                 _characterStateController.HandleCollisionStateChange(in_collisionCheck, in_detectEnter);
 
-            bool GroundedCollisionCheck()
+            bool CheckHorizontalSlideOn()
             {
                 bool slideOnToLeft = hitA == null && hitB != null;
                 bool slideOnToRight = hitA != null && hitB == null;
@@ -103,12 +111,36 @@ namespace Gameplay
                 if (collision || !slideOnToLeft && !slideOnToRight)
                     return false;
 
-                _slideOnDirection = slideOnToLeft ? -1 : 1;
+                _slideOnHorizontalDirection = slideOnToLeft ? -1 : 1;
                 collision = true;
                 bool running = 
-                    _slideOnDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) != 0;
+                    _slideOnHorizontalDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) != 0;
 
                 return !running;
+            }
+
+            bool CheckVerticalSlideOn() {
+                if (_slideOnVerticalCollisionDirection is not CollisionCheck.None &&
+                    _slideOnVerticalCollisionDirection != in_collisionCheck)
+                    return true;
+                
+                bool slideOnDown = hitA == null && hitB != null;
+                bool slideOnUp = hitA != null && hitB == null;
+
+                if (collision || !slideOnDown && !slideOnUp) {
+                    _slideOnVerticalCollisionDirection = CollisionCheck.None;
+                    return false;
+                }
+
+                _slideOnVerticalDirection = slideOnDown ? -1 : 1;
+                collision = true;
+                bool clinging =
+                    _characterInput.InputState.WallClingTrigger is InputActionPhase.Performed;
+
+                _slideOnVerticalCollisionDirection = 
+                    !clinging ? CollisionCheck.None : in_collisionCheck;
+
+                return clinging;
             }
         }
 
