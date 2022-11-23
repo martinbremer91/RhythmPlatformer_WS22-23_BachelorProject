@@ -14,6 +14,7 @@ namespace Debug_and_Tools
         public CharacterMovement CharacterMovement;
         public CharacterStateController CharacterStateController;
         public CharacterInput CharacterInput;
+        public CharacterCollisionDetector CharacterCollisionDetector;
 
         private void OnEnable()
         {

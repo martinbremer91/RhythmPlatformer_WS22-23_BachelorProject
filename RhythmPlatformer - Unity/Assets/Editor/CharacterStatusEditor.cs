@@ -17,6 +17,9 @@ namespace Editor
         private CharacterMovement _characterMovement => 
             EditorReferenceCollector.s_Instance.CharacterMovement;
 
+        private CharacterCollisionDetector _characterCollisionDetector =>
+            EditorReferenceCollector.s_Instance.CharacterCollisionDetector;
+
         private CharacterInput _characterInput => EditorReferenceCollector.s_Instance.CharacterInput;
 
         private Texture2D _unitCircleTexture;
@@ -135,6 +138,12 @@ namespace Editor
                 _characterStateController.CanWallCling, "Wall Cling available");
             GUI.Label(new Rect (_infoRect.position + new Vector2(25, 150), new Vector2(300, 20)), 
                 "Wall Cling Timer: " + $"{_characterStateController.WallClingTimer:N2}");
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 170),
+                    new Vector2(200, 20)),
+                _characterCollisionDetector.SlideOnHorizontal, "SlideOn Horizontal");
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 185),
+                    new Vector2(200, 20)),
+                _characterCollisionDetector.SlideOnVertical, "SlideOn Vertical");
         }
 
         private void DrawInputState()

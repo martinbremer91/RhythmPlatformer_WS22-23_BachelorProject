@@ -156,6 +156,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _detectionOffset: 0.01
+  SlideOnHorizontal: 0
+  SlideOnVertical: 0
   OnOneWayPlatform: 0
 --- !u!114 &5562756899129024191
 MonoBehaviour:

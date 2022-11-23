@@ -953,6 +953,7 @@ MonoBehaviour:
   CharacterMovement: {fileID: 1285793917}
   CharacterStateController: {fileID: 1285793915}
   CharacterInput: {fileID: 1285793916}
+  CharacterCollisionDetector: {fileID: 1285793920}
 --- !u!4 &763262511
 Transform:
   m_ObjectHideFlags: 0
