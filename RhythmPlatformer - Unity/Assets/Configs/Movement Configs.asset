@@ -58,7 +58,7 @@ MonoBehaviour:
       inWeight: 0.061997175
       outWeight: 0
     - serializedVersion: 3
-      time: 0.25
+      time: 0.2
       value: 0
       inSlope: Infinity
       outSlope: 0.023792375
@@ -67,7 +67,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.29
+      time: 0.249
       value: 0
       inSlope: 0.0030450982
       outSlope: 5.1029434
@@ -76,8 +76,8 @@ MonoBehaviour:
       inWeight: 0.13795671
       outWeight: 1
     - serializedVersion: 3
-      time: 0.3
-      value: 0.1
+      time: 0.25
+      value: 0.5
       inSlope: 12.675079
       outSlope: 12.675079
       tangentMode: 0
@@ -156,4 +156,4 @@ MonoBehaviour:
   FastFallSpeedModifier: 2
   DashWindupVelocityMod: 0.1
   SlideOnSpeed: 2
-  MaxXVelocityWhenFalling: 10
+  MaxInheritedXVelocity: 10
