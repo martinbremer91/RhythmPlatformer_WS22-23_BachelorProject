@@ -75,7 +75,8 @@ namespace Gameplay
         private float _fastFallSpeedModifier;
         [HideInInspector] public bool YAxisReadyForFastFall;
         [HideInInspector] public bool FastFalling;
-        
+        private float _dashWindupVelocityMod;
+
         [HideInInspector] public Vector2 RunCurveTracker;
         [HideInInspector] public Vector2 DashCurveTracker;
         [HideInInspector] public Vector2 RiseCurveTracker;
@@ -144,6 +145,7 @@ namespace Gameplay
 
             _crouchJumpVerticalSpeedModifier = _movementConfigs.CrouchJumpSpeedModifier;
             _fastFallSpeedModifier = _movementConfigs.FastFallSpeedModifier;
+            _dashWindupVelocityMod = _movementConfigs.DashWindupVelocityMod;
         }
 
         public void CustomUpdate()
@@ -158,7 +160,7 @@ namespace Gameplay
             _characterVelocity = GetCharacterVelocity();
 
             if (_characterStateController.DashWindup)
-                _characterVelocity *= _movementConfigs.DashWindupVelocityMod;
+                _characterVelocity *= _dashWindupVelocityMod;
             
             _rigidbody2D.velocity = _characterVelocity;
 
@@ -310,7 +312,7 @@ namespace Gameplay
             return currentWallDrag;
         }
 
-        public void InitializeRise()
+        public void InitializeRise(float in_inheritedXVelocity)
         {
             bool crouching = _characterStateController.Grounded && _characterInput.InputState.DirectionalInput.y < -.5f;
             _riseSpeedMod = crouching ? _crouchJumpVerticalSpeedModifier : 1;
@@ -319,7 +321,7 @@ namespace Gameplay
                 new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;
 
             _riseVelocity = new Vector2(riseVector.x, riseVector.y * _riseSpeedMod) * _riseTopSpeed + 
-                           new Vector2(_characterVelocity.x, 0);
+                new Vector2(in_inheritedXVelocity, 0);
 
             _characterVelocity = _riseVelocity;
         }

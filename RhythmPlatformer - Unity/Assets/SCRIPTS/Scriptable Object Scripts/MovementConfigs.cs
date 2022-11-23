@@ -126,6 +126,10 @@ namespace Scriptable_Object_Scripts
         [Tooltip("Speed at which character slides off a ledge if the collider is only partially on it.")]
         public float SlideOnSpeed;
 
+        [Tooltip("Maximum speed that FallVelocity can inherit when the CharacterState changes to Fall. Limits " +
+            "the speed transfered when a dash transitions into a fall before the end of the dash.")]
+        public float MaxInheritedXVelocity;
+
         #endregion
     }
 }

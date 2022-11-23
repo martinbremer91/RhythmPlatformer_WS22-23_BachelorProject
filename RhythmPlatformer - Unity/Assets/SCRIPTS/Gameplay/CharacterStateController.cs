@@ -19,7 +19,6 @@ namespace Gameplay
         private CharacterSpriteController _spriteController;
         private CharacterMovement _characterMovement;
         private CharacterInput _characterInput;
-        private MovementConfigs _movementConfigs;
 
         #endregion
         
@@ -101,7 +100,7 @@ namespace Gameplay
             CurrentCharacterState is CharacterState.Rise or CharacterState.Fall or CharacterState.Dash;
         public bool Walled => CurrentCharacterState is CharacterState.WallCling or CharacterState.WallSlide;
 
-        private float _runTurnWindow => _movementConfigs.RunTurnWindow;
+        private float _runTurnWindow;
 
         public bool NearWallLeft { get; set; }
         public bool NearWallRight { get; set; }
@@ -109,8 +108,10 @@ namespace Gameplay
         private bool _canWallCling = true;
         public bool CanWallCling => _canWallCling;
 
-        private float wallClingMaxDuration => _movementConfigs.WallClingMaxDuration;
+        private float _wallClingMaxDuration;
         public float WallClingTimer {get; private set;}
+
+        private float _maxInheritedXVelocity;
 
         [HideInInspector] public bool Dead;
         
@@ -158,11 +159,12 @@ namespace Gameplay
                     _characterMovement.FastFalling = false;
                     _characterMovement.YAxisReadyForFastFall = _characterInput.InputState.DirectionalInput.y >= -.5f;
                     _characterMovement.FallCurveTracker.x = 0;
-                    _characterMovement.FallVelocity = new(_characterMovement.CharacterVelocity.x, 0);
+                    float clampedInheritedXVelocityFall = GetClampedInheritedXVelocity();
+                    _characterMovement.FallVelocity = new(clampedInheritedXVelocityFall, 0);
                     break;
                 case CharacterState.Rise:
                     _characterMovement.RiseCurveTracker.x = 0;
-                    _characterMovement.InitializeRise();
+                    _characterMovement.InitializeRise(GetClampedInheritedXVelocity());
                     CanDash = true;
                     break;
                 case CharacterState.Land:
@@ -177,6 +179,12 @@ namespace Gameplay
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
                     break;
+            }
+
+            float GetClampedInheritedXVelocity() {
+                return Mathf.Abs(_characterMovement.CharacterVelocity.x) <= _maxInheritedXVelocity ?
+                        _characterMovement.CharacterVelocity.x : _characterMovement.CharacterVelocity.x > 0 ?
+                        _maxInheritedXVelocity : -_maxInheritedXVelocity;
             }
         }
 
@@ -220,8 +228,12 @@ namespace Gameplay
             _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
             _characterInput = in_gameStateManager.CharacterInput;
             _characterMovement = in_gameStateManager.CharacterMovement;
-            _movementConfigs = in_gameStateManager.MovementConfigs;
             _spriteController = in_gameStateManager.CharacterSpriteController;
+            
+            MovementConfigs movementConfigs = in_gameStateManager.MovementConfigs;
+            _maxInheritedXVelocity = movementConfigs.MaxInheritedXVelocity;
+            _runTurnWindow = movementConfigs.RunTurnWindow;
+            _wallClingMaxDuration = movementConfigs.WallClingMaxDuration;
             
             GetAnticipationStatesDurations();
             
@@ -479,8 +491,8 @@ namespace Gameplay
         
         public void IncrementWallClingTimer()
         {
-            WallClingTimer = Mathf.Min(WallClingTimer + Time.fixedDeltaTime, wallClingMaxDuration);
-            if (WallClingTimer >= wallClingMaxDuration)
+            WallClingTimer = Mathf.Min(WallClingTimer + Time.fixedDeltaTime, _wallClingMaxDuration);
+            if (WallClingTimer >= _wallClingMaxDuration)
             {
                 _canWallCling = false;
                 CurrentCharacterState = CharacterState.Fall;
