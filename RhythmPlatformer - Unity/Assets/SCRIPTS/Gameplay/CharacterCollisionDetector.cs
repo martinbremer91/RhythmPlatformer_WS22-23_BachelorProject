@@ -18,7 +18,7 @@ namespace Gameplay
         [SerializeField] private float _detectionOffset;
 
         [HideInInspector] public bool SlideOn;
-        private int _slideOffDirection;
+        private int _slideOnDirection;
         private float _slideOnSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;
@@ -43,7 +43,7 @@ namespace Gameplay
             }
 
             if (SlideOn)
-                transform.Translate(Vector2.right * _slideOffDirection * _slideOnSpeed * Time.fixedDeltaTime);
+                transform.Translate(Vector2.right * _slideOnDirection * _slideOnSpeed * Time.fixedDeltaTime);
         }
 
         private void DetectCollision(CollisionCheck in_collisionCheck, bool in_detectEnter)
@@ -81,9 +81,7 @@ namespace Gameplay
 
             if (in_collisionCheck is CollisionCheck.Ground)
                 SlideOn = GroundedCollisionCheck();
-            else
-
-            if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
+            else if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
                 collision = OnOneWayPlatform;
 
             // COLLISION DEBUGGING
@@ -99,16 +97,16 @@ namespace Gameplay
 
             bool GroundedCollisionCheck()
             {
-                bool slideOffRight = hitA == null && hitB != null;
-                bool slideOffLeft = hitA != null && hitB == null;
+                bool slideOnToLeft = hitA == null && hitB != null;
+                bool slideOnToRight = hitA != null && hitB == null;
 
-                if (collision || !slideOffRight && !slideOffLeft)
+                if (collision || !slideOnToLeft && !slideOnToRight)
                     return false;
 
-                _slideOffDirection = slideOffRight ? -1 : 1;
+                _slideOnDirection = slideOnToLeft ? -1 : 1;
                 collision = true;
                 bool running = 
-                    _slideOffDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) != 0;
+                    _slideOnDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) != 0;
 
                 return !running;
             }
