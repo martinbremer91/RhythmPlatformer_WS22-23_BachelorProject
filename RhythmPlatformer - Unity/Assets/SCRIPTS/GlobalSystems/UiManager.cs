@@ -68,6 +68,9 @@ namespace GlobalSystems
 
             _gameStateManager = in_gameStateManager;
             SyncSettingsMenuWithAudioSources();
+
+            if (_gameStateManager.LoadedSceneType == SceneType.MainMenu)
+                HandleOpenMainMenu();
         }
 
         public void SceneRefresh()
