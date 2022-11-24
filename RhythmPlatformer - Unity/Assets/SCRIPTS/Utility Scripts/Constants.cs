@@ -18,5 +18,9 @@ namespace Utility_Scripts
         public const string WalledClipName = "Walled";
         public const string DashWindupClipName = "DashWindup";
         public const string DashClipName = "Dash";
+
+        // Tags
+        public const string PlayerTag = "Player";
+        public const string OneWayPlatform = "OneWayPlatform";
     }
 }

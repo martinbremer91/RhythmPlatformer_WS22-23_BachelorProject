@@ -3,6 +3,7 @@ using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utility_Scripts;
 
 namespace Gameplay
 {
@@ -26,6 +27,7 @@ namespace Gameplay
         private float _slideOnSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;
+        private string _oneWayPlatformTag;
         
         public void Init(GameStateManager in_gameStateManager)
         {
@@ -33,6 +35,8 @@ namespace Gameplay
             _characterMovement = in_gameStateManager.CharacterMovement;
             _characterInput = in_gameStateManager.CharacterInput;
             _slideOnSpeed = in_gameStateManager.MovementConfigs.SlideOnSpeed;
+
+            _oneWayPlatformTag = Constants.OneWayPlatform;
         }
         
         public void CustomUpdate()
@@ -89,7 +93,7 @@ namespace Gameplay
                 SlideOnHorizontal = CheckHorizontalSlideOn();
             else if (!verticalDetection)
                 SlideOnVertical = CheckVerticalSlideOn();
-            else if (collision && hitA.gameObject.CompareTag("OneWayPlatform"))
+            else if (collision && hitA.gameObject.CompareTag(_oneWayPlatformTag))
                 collision = OnOneWayPlatform;
 
             // COLLISION DEBUGGING
@@ -128,6 +132,15 @@ namespace Gameplay
                 bool slideOnUp = hitA != null && hitB == null;
 
                 if (collision || !slideOnDown && !slideOnUp) {
+                    _slideOnVerticalCollisionDirection = CollisionCheck.None;
+                    return false;
+                }
+
+                bool hitIsOneWayPlat = slideOnDown && hitB.CompareTag(_oneWayPlatformTag) || 
+                    slideOnUp && hitA.CompareTag(_oneWayPlatformTag);
+
+                if (hitIsOneWayPlat) {
+                    collision = false;
                     _slideOnVerticalCollisionDirection = CollisionCheck.None;
                     return false;
                 }
