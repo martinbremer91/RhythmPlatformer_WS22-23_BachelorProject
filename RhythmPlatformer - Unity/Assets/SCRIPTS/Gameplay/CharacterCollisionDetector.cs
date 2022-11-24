@@ -67,7 +67,7 @@ namespace Gameplay
             float radiusOnDetectionAxis =  verticalDetection ?
                 bounds.size.y * .5f : bounds.size.x * .5f;
             float radiusOnComplementaryAxis = verticalDetection ?
-                bounds.size.x * .5f + (SlideOnHorizontal ? .1f : 0): bounds.size.y * .5f;
+                bounds.size.x * .51f + (SlideOnHorizontal ? .1f : 0): bounds.size.y * .5f;
 
             Vector2 pointOnDetectionAxis = 
                 (Vector2)bounds.center + detectDirection * (radiusOnDetectionAxis + .05f);
