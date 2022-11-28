@@ -30,12 +30,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints:
     - _FadeStrength: 20
-    - _FadeThickness: 116
+    - _FadeThickness: 7
     m_Floats:
     - PixelSnap: 0
     - _EnableExternalAlpha: 0
-    - _OutlineThickness: 0.5
-    - _Resolution: 0.001
+    - _FadeThickness: 8
+    - _OutlineThickness: 0
+    - _Resolution: 0.003
     m_Colors:
     - _CenterColor: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 1}
     - _Color: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 1}

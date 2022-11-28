@@ -3,7 +3,7 @@ guid: e5750e357965545c389b2b14a96a3b46
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -2888,7 +2889,7 @@ TextureImporter:
     nameFileIdTable:
       HollowKnightSpriteSheet_80: -802833553
       HollowKnightSpriteSheet_90: 1062589863
-      HollowKnightSpriteSheet_78: -748378195
+      HollowKnightSpriteSheet_56: 656416936
       HollowKnightSpriteSheet_62: -1870832745
       HollowKnightSpriteSheet_77: 1577447361
       HollowKnightSpriteSheet_88: 1724754885
@@ -3017,7 +3018,7 @@ TextureImporter:
       HollowKnightSpriteSheet_14: 1005225891
       HollowKnightSpriteSheet_64: 1511386492
       HollowKnightSpriteSheet_58: -1032014847
-      HollowKnightSpriteSheet_56: 656416936
+      HollowKnightSpriteSheet_78: -748378195
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
