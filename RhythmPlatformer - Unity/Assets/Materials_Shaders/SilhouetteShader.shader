@@ -5,6 +5,8 @@ Shader "Custom/SilhouetteShader"
         _MainTex ("Texture", 2D) = "white" {}
         _Resolution ("Resolution", Float) = 0.001
         _FadeThickness ("Fade Thickness", Integer) = 20
+        _CenterColor ("Center Color", Color) = (1, 1, 1, 1)
+        [HDR]_EdgeColor ("Edge Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -13,6 +15,8 @@ Shader "Custom/SilhouetteShader"
         }
 
         Blend SrcAlpha OneMinusSrcAlpha
+
+        // EXPAND PASS -------------------------------------------------------
 
         Pass
         {
@@ -39,12 +43,15 @@ Shader "Custom/SilhouetteShader"
             float4 _MainTex_ST;
             float _Resolution;
             uint _FadeThickness;
+            float4 _EdgeColor;
+            float4 _CenterColor;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+
                 return o;
             }
 
@@ -52,31 +59,28 @@ Shader "Custom/SilhouetteShader"
                 return (v - a) / (b - a);
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 float2 directions[8] = {float2(1, 0), float2(0, 1), float2(-1, 0), float2(0, -1),
                     float2(DIV_SQRT_2, DIV_SQRT_2), float2(-DIV_SQRT_2, DIV_SQRT_2),
                     float2(-DIV_SQRT_2, -DIV_SQRT_2), float2(DIV_SQRT_2, -DIV_SQRT_2)
                 };
 
-                uint loopsToTransparency = 0;
-                bool hitTransparency = false;
+                float loopsToEdge = _FadeThickness;
+                float alpha = tex2D(_MainTex, i.uv).a;
 
                 for (uint loopCount = 0; loopCount < _FadeThickness; loopCount++) {
                     for (uint index = 0; index < 8; index++) {
-                        float2 sampleUV = i.uv + directions[index] * 0.001 + loopCount * _Resolution;
-                        if (tex2D(_MainTex, sampleUV).a == 0) {
-                            loopsToTransparency = hitTransparency ? loopsToTransparency : loopCount;
-                            hitTransparency = true;
+                        float2 sampleUV = i.uv + directions[index] * (loopCount + 1) * _Resolution;
+                        if (tex2D(_MainTex, sampleUV).a <= 0) {
+                            loopsToEdge = min(loopsToEdge, loopCount);
                         }
                     }
                 }
 
-                float greyscale = InverseLerp(0, _FadeThickness, loopsToTransparency);
-                return float4 (greyscale.xxx, tex2D(_MainTex, i.uv).a);
-
-                fixed4 col = tex2D(_MainTex, i.uv);
-                return col;
+                float distToEdge = InverseLerp(_FadeThickness, 0, loopsToEdge);
+                float4 color = lerp(_CenterColor, _EdgeColor, distToEdge);
+                return float4(distToEdge.xxx * color, alpha);
             }
             ENDCG
         }
