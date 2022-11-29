@@ -2,16 +2,17 @@ Shader "Custom/SilhouetteShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        [NoScaleOffset]_MainTex ("Texture", 2D) = "white" {}
+        [NoScaleOffset]_UVTex ("SpriteUV", 2D) = "white" {}
         _Resolution ("Resolution", Float) = 0.001
+        _OutlineThickness ("Outline Thickness", Float) = 0.5
         _FadeThickness ("Fade Thickness", Range(0, 20)) = 20
-        _OutlineThickness ("Outline Thickness", Range(0, 0.1)) = 0.5
         _CenterColor ("Center Color", Color) = (1, 1, 1, 1)
         [HDR]_EdgeColor ("Edge Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
-        Tags { 
+        Tags {
             "RenderType"="Transparent" 
         }
 
@@ -31,40 +32,31 @@ Shader "Custom/SilhouetteShader"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float2 uv0 : TEXCOORD0;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
             };
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            sampler2D _UVTex;
+            //float4 _UVTex_ST;
             float _Resolution;
             int _FadeThickness;
             float _OutlineThickness;
             float4 _EdgeColor;
             float4 _CenterColor;
 
-            float4 Expand(float4 vertPos, float expansion){
-                float4x4 scale = float4x4(
-                    1 + expansion, 0, 0, 0,
-                    0, 1 + expansion, 0, 0,
-                    0, 0, 1 + expansion, 0,
-                    0, 0, 0, 1 + expansion
-                );
-
-                return mul(scale, vertPos) - float4(0, expansion, 0, 0);
-            }
-
             v2f vert(appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(Expand(v.vertex, 1));
-                o.uv = v.uv.xy - float2(0, 0.05);
-
+                o.vertex = UnityObjectToClipPos(float4(v.vertex.x + _OutlineThickness, v.vertex.yzw));
+                o.uv = TRANSFORM_TEX(v.uv0, _MainTex);
+                
                 return o;
             }
 
@@ -77,27 +69,24 @@ Shader "Custom/SilhouetteShader"
                 float2 directions[16] = {float2(1, 0), float2(0, 1), float2(-1, 0), float2(0, -1),
                     float2(DIV_SQRT_2, DIV_SQRT_2), float2(-DIV_SQRT_2, DIV_SQRT_2),
                     float2(-DIV_SQRT_2, -DIV_SQRT_2), float2(DIV_SQRT_2, -DIV_SQRT_2),
-                    float2(DIV16_LONG_SIDE, DIV16_SHORT_SIDE), float2(DIV16_SHORT_SIDE, DIV16_LONG_SIDE), 
-                    float2(-DIV16_LONG_SIDE, DIV16_SHORT_SIDE), float2(-DIV16_SHORT_SIDE, DIV16_LONG_SIDE), 
-                    float2(DIV16_LONG_SIDE, -DIV16_SHORT_SIDE), float2(DIV16_SHORT_SIDE, -DIV16_LONG_SIDE), 
+                    float2(DIV16_LONG_SIDE, DIV16_SHORT_SIDE), float2(DIV16_SHORT_SIDE, DIV16_LONG_SIDE),
+                    float2(-DIV16_LONG_SIDE, DIV16_SHORT_SIDE), float2(-DIV16_SHORT_SIDE, DIV16_LONG_SIDE),
+                    float2(DIV16_LONG_SIDE, -DIV16_SHORT_SIDE), float2(DIV16_SHORT_SIDE, -DIV16_LONG_SIDE),
                     float2(-DIV16_LONG_SIDE, -DIV16_SHORT_SIDE), float2(-DIV16_SHORT_SIDE, -DIV16_LONG_SIDE)
                 };
 
+                float loopsToEdge = _FadeThickness;
+
                 uint hitCount;
 
-                for (uint loopCount = 0; loopCount < 20; loopCount++){
-                    for (uint index = 0; index < 16; index++){
+                for (uint loopCount = 0; loopCount < 20; loopCount++) {
+                    for (uint index = 0; index < 16; index++) {
                         float2 sampleUV = i.uv + directions[index] * (loopCount + 1 / 20) * _OutlineThickness;
                         if (tex2D(_MainTex, sampleUV).a > 0) {
                             hitCount++;
                         }
                     }
                 }
-
-                return 0;
-
-                float alpha = max(tex2D(_MainTex, i.uv).a, hitCount > 3);
-                float loopsToEdge = _FadeThickness;
 
                 for (uint loopCount = 0; loopCount < _FadeThickness; loopCount++) {
                     for (uint index = 0; index < 16; index++) {
@@ -109,11 +98,14 @@ Shader "Custom/SilhouetteShader"
                 }
 
                 float distToEdge = InverseLerp(_FadeThickness, 0, loopsToEdge);
+                float alpha = min(tex2D(_MainTex, i.uv).a, 4);
                 float4 color = lerp(_CenterColor, _EdgeColor, distToEdge);
                 return float4(distToEdge.xxx * color, alpha);
             }
             ENDCG
         }
+
+        // ----- TEXTURE PASS ------
 
         Pass
         {
