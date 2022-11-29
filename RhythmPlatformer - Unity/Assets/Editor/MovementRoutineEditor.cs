@@ -22,7 +22,7 @@ namespace Editor
 
             if (GUILayout.Button("Generate Waypoint"))
             {
-                Waypoint waypoint = new Waypoint(script.transform.position, 0);
+                Waypoint waypoint = new Waypoint(script.transform.position);
                 script.Waypoints.Add(waypoint);
             }
         }
@@ -43,7 +43,7 @@ namespace Editor
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(script, "Change Waypoint Position");
-                    Waypoint newWaypoint = new Waypoint(newTargetPosition, waypoint.Pause);
+                    Waypoint newWaypoint = new Waypoint(newTargetPosition);
                     script.Waypoints[i] = newWaypoint;
                 }
             }

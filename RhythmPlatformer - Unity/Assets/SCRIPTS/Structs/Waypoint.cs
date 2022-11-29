@@ -12,13 +12,15 @@ namespace Structs
             get => _coords;
             set => _coords = value;
         }
-        
-        public float Pause;
 
-        public Waypoint(Vector2 coords, float pause)
+        public int[] ArrivalBeats;
+        public int[] DepartureBeats;
+
+        public Waypoint(Vector2 coords)
         {
             _coords = coords;
-            Pause = pause;
+            ArrivalBeats = new int[1];
+            DepartureBeats = new int[1];
         }
     }
 }

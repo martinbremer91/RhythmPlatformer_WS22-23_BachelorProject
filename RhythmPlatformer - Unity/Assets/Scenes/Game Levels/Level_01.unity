@@ -1432,6 +1432,50 @@ PrefabInstance:
       propertyPath: Waypoints.Array.data[1]._coords.y
       value: -19.25
       objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[2]._coords.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[2]._coords.y
+      value: -19.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[0].ArrivalBeats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[1].ArrivalBeats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[2].ArrivalBeats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[0].DepartureBeats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[1].DepartureBeats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[0].ArrivalBeats.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[1].ArrivalBeats.Array.data[0]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[0].DepartureBeats.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: Waypoints.Array.data[1].DepartureBeats.Array.data[0]
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
 --- !u!4 &1599931680 stripped
@@ -6406,7 +6450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
-  _trackData: {fileID: 11400000, guid: 28eadce83afd4f746881b63a364ed59e, type: 2}
+  _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 2119138286}
   HUDController: {fileID: 944723738}

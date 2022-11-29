@@ -51,9 +51,10 @@ namespace GameplaySystems
         [HideInInspector] public float _currentMusicVolume;
         [HideInInspector] public float _currentMetronomeVolume;
         
-        private double _beatLength;
+        [HideInInspector] public double BeatLength;
+        [HideInInspector] public int BeatTracker;
+        [HideInInspector] public int Meter;
         private double _nextBeatTime;
-        private int _beatTracker;
         private int _pausedBeat;
 
         [SerializeField] private bool _metronomeOn;
@@ -75,7 +76,6 @@ namespace GameplaySystems
 
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;
-        public int BeatTracker => _beatTracker;
         [SerializeField] private bool _debugBeatOff;
 #endif
         private struct LoopPoints
@@ -121,9 +121,11 @@ namespace GameplaySystems
             
             _characterInput = in_gameStateManager.CharacterInput;
             _characterStateController = in_gameStateManager.CharacterStateController;
-            
-            _beatLength = 60 / (double) _trackData.BPM;
-            double barLength = _beatLength * _trackData.Meter;
+
+            Meter = _trackData.Meter;
+
+            BeatLength = 60 / (double) _trackData.BPM;
+            double barLength = BeatLength * _trackData.Meter;
 
             _nextBeatTime = AudioSettings.dspTime + _startDelay;
 
@@ -145,7 +147,7 @@ namespace GameplaySystems
             if (in_gameStateManager.HUDController != null)
             {
                 _hudController = in_gameStateManager.HUDController;
-                _hudController.InitializeHUD((float)_beatLength, _trackData);
+                _hudController.InitializeHUD((float)BeatLength, _trackData);
             }
         }
 
@@ -170,15 +172,15 @@ namespace GameplaySystems
 
             if (time >= _nextBeatTime)
             {
-                _nextBeatTime += _beatLength;
-                _beatTracker = _beatTracker < _trackData.Meter ? _beatTracker + 1 : 1;
+                _nextBeatTime += BeatLength;
+                BeatTracker = BeatTracker < _trackData.Meter ? BeatTracker + 1 : 1;
 
                 bool gameplayActive = _gameStateManager.ActiveUpdateType == UpdateType.GamePlay;
 
                 if (gameplayActive || _unpauseSignal)
                     BeatAction?.Invoke();
 
-                if (_trackData.EventBeats.Any(b => b == _beatTracker))
+                if (_trackData.EventBeats.Any(b => b == BeatTracker))
                 {
                     if (MetronomeOn)
                         _metronomeStrong.Play();
@@ -195,12 +197,12 @@ namespace GameplaySystems
                     _metronomeWeak.Play();
             }
 
-            _hudController.UpdateHUD(_beatTracker);
+            _hudController.UpdateHUD(BeatTracker);
         }
 
         public void RecordPausedBeatAndMetronome()
         {
-            _pausedBeat = _beatTracker;
+            _pausedBeat = BeatTracker;
             _gameStateManager.PauseMenu.SetPausedBeatText(_pausedBeat);
             _pausedMetronome = MetronomeOn;
         } 
@@ -212,7 +214,7 @@ namespace GameplaySystems
             int countIn = 0;
             bool metronomeMute = _metronomeWeak.mute;
 
-            while (_beatTracker != _trackData.Meter && Time.deltaTime > 0)
+            while (BeatTracker != _trackData.Meter && Time.deltaTime > 0)
                 await Task.Yield();
 
             if (Time.deltaTime <= 0)
@@ -220,7 +222,7 @@ namespace GameplaySystems
 
             SetMetronomeMute(false);
             MetronomeOn = true;
-            while (_beatTracker != 1 && Time.deltaTime > 0)
+            while (BeatTracker != 1 && Time.deltaTime > 0)
                 await Task.Yield();
 
             if (Time.deltaTime <= 0)
@@ -228,7 +230,7 @@ namespace GameplaySystems
 
             UpdateCountInUi();
 
-            while (_beatTracker != 2 && Time.deltaTime > 0)
+            while (BeatTracker != 2 && Time.deltaTime > 0)
                 await Task.Yield();
 
             if (Time.deltaTime <= 0)
@@ -238,7 +240,7 @@ namespace GameplaySystems
 
             if (_pausedBeat != 1)
             {
-                while (_beatTracker != 1 && Time.deltaTime > 0)
+                while (BeatTracker != 1 && Time.deltaTime > 0)
                 {
                     UpdateCountInUi();
                     await Task.Yield();
@@ -248,7 +250,7 @@ namespace GameplaySystems
                     return;
             }
             
-            while (_beatTracker != beatBeforeUnpause && Time.deltaTime > 0)
+            while (BeatTracker != beatBeforeUnpause && Time.deltaTime > 0)
             {
                 UpdateCountInUi();
                 await Task.Yield();
@@ -266,10 +268,10 @@ namespace GameplaySystems
             ExecuteLowPassFilterFade(false);
 
             void UpdateCountInUi() {
-                if (countIn != _beatTracker)
+                if (countIn != BeatTracker)
                 {
-                    pauseMenu.SetCountInText(_beatTracker);
-                    countIn = _beatTracker;
+                    pauseMenu.SetCountInText(BeatTracker);
+                    countIn = BeatTracker;
                 }
             }
         }
@@ -277,7 +279,7 @@ namespace GameplaySystems
         public void ExecuteLowPassFilterFade(bool in_lowPassOn) {
             float cutoffFrequency = 
                 in_lowPassOn ? _gameStateManager.SoundConfigs.LowPassFilterFadeCutoffFrequency : 22000;
-            _musicUtilities.FadeLowPassFilterAsync(_trackLowPassFilters, (float)_beatLength, 
+            _musicUtilities.FadeLowPassFilterAsync(_trackLowPassFilters, (float)BeatLength, 
                 cutoffFrequency, !in_lowPassOn);
         }
 
