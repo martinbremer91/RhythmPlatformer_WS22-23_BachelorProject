@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateManager: {fileID: 0}
-  _waypoints: []
+  Waypoints: []
   MovePlayerAsWell: 0
 --- !u!114 &7817663017858759882
 MonoBehaviour:
@@ -195,7 +195,7 @@ PlatformEffector2D:
   m_SurfaceArc: 170
   m_UseSideFriction: 0
   m_UseSideBounce: 0
-  m_SideArc: 1
+  m_SideArc: 10
 --- !u!1 &7731077097821928416
 GameObject:
   m_ObjectHideFlags: 0

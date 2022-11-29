@@ -3,6 +3,7 @@ using Gameplay;
 using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
+using Utility_Scripts;
 
 namespace GameplaySystems
 {
@@ -19,7 +20,7 @@ namespace GameplaySystems
         
         public void Init(GameStateManager in_gameStateManager)
         {
-            _isOneWayPlatform = gameObject.CompareTag("OneWayPlatform");
+            _isOneWayPlatform = gameObject.CompareTag(Constants.OneWayPlatform);
             if (_isOneWayPlatform)
                 _characterStateController = in_gameStateManager.CharacterStateController;
             
@@ -34,7 +35,7 @@ namespace GameplaySystems
         
         private void OnCollisionEnter2D(Collision2D col)
         {
-            if (col.enabled && col.gameObject.CompareTag("Player"))
+            if (col.enabled && col.gameObject.CompareTag(Constants.PlayerTag))
             {
                 if (_isOneWayPlatform)
                     _characterCollisionDetector.OnOneWayPlatform = true;
@@ -45,7 +46,7 @@ namespace GameplaySystems
 
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (!_isOneWayPlatform || !collision.enabled || !collision.gameObject.CompareTag("Player"))
+            if (!_isOneWayPlatform || !collision.enabled || !collision.gameObject.CompareTag(Constants.PlayerTag))
                 return;
 
             if (_characterStateController.CurrentCharacterState == CharacterState.Crouch)
@@ -54,7 +55,7 @@ namespace GameplaySystems
 
         private void OnCollisionExit2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag(Constants.PlayerTag))
             {
                 if (_isOneWayPlatform)
                     _characterCollisionDetector.OnOneWayPlatform = false;
