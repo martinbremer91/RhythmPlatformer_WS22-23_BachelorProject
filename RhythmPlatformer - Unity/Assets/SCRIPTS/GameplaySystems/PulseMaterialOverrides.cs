@@ -22,4 +22,10 @@ public class PulseMaterialOverrides
         _materialPropertyBlock.SetColor("_SecondaryColor", in_color);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
+
+    public void SetFlipX(bool in_flipX) {
+        float value = in_flipX ? 1 : 0;
+        _materialPropertyBlock.SetFloat("_FlipX", value);
+        _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
 }
