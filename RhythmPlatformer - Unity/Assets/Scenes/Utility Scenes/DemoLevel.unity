@@ -1426,6 +1426,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingHazard (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5876704418279072140, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7121104706424130029, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
       propertyPath: _moveSpeed
       value: 15
@@ -1846,6 +1850,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingHazard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5876704418279072140, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7121104706424130029, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
       propertyPath: _moveSpeed
       value: 15
@@ -2082,6 +2090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingHazard (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5876704418279072140, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7121104706424130029, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
       propertyPath: _moveSpeed
       value: 15
@@ -2126,6 +2138,10 @@ PrefabInstance:
     - target: {fileID: 7731077097819015074, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
       propertyPath: m_Name
       value: MovingPlatform_Horizontal_3Tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731077097819015074, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b21fa685e1cbd6a45898491d60c11725, type: 3}
       propertyPath: m_RootOrder
@@ -2211,6 +2227,10 @@ PrefabInstance:
     - target: {fileID: 7731077097819015074, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: m_Name
       value: MovingPlatform_Vertical_3Tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731077097819015074, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: m_RootOrder
@@ -2873,6 +2893,10 @@ PrefabInstance:
     - target: {fileID: 5876704418279072140, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
       propertyPath: m_Name
       value: MovingHazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876704418279072140, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7121104706424130029, guid: 3e08cee33634f5e48bf6775a58fbbdef, type: 3}
       propertyPath: _moveSpeed
@@ -8294,6 +8318,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024187, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 67b0074caf401494a8236fbb74b74858, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
 --- !u!1 &8088622841161808754
