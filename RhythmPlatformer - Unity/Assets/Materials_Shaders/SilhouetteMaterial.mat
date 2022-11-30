@@ -37,9 +37,10 @@ Material:
     - _FadeThickness: 7
     m_Floats:
     - PixelSnap: 0
+    - _AlphaFadeThickness: 38.6
     - _EnableExternalAlpha: 0
     - _FadeThickness: 10
-    - _OutlineThickness: 0.5
+    - _OutlineThickness: 0.18
     - _Resolution: 0.002
     m_Colors:
     - _CenterColor: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 1}
