@@ -27,13 +27,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaFadeThickness: 62.4
+    - _AtlasColumns: 4
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _FadeThickness: 10
     - _FlipX: 0
     - _Fuzziness: 0.27
     - _MaskRange: 0.12
-    - _OutlineThickness: 0.28
+    - _OutlineThickness: 0.3
+    - _OutlineThicknessMax: 0.3
     - _Resolution: 0.001
     - _ScrollSpeed: 0.05
     m_Colors:

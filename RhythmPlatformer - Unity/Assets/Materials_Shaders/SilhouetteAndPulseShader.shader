@@ -10,11 +10,14 @@ Shader "Custom/SilhouetteAndPulseShader"
         _Fuzziness("Fuzziness", Float) = 0
 
         _Resolution("Resolution", Float) = 0.001
-        _OutlineThickness("Outline Thickness", Float) = 0.5
         _FadeThickness("Fade Thickness", Range(0, 20)) = 20
+        _OutlineThickness("Outline Thickness", Float) = 0
+        _OutlineThicknessMax("Outline Thickness Max", Float) = 0.5
         _AlphaFadeThickness("Alpha Fade Thickness", Float) = 75
         _CenterColor("Center Color", Color) = (1, 1, 1, 1)
+        _AtlasColumns("Atlas Columns", Float) = 4
         [HDR]_EdgeColor("Edge Color", Color) = (1, 1, 1, 1)
+        _Test("Test", Float) = 0
 
         [HideInInspector]_FlipX ("Flip X", Float) = 0
 
@@ -70,6 +73,7 @@ Shader "Custom/SilhouetteAndPulseShader"
             float _OutlineThickness;
             float4 _EdgeColor;
             float4 _CenterColor;
+            float _AtlasColumns;
             float _FlipX;
 
             v2f vert(appdata v)
@@ -98,8 +102,8 @@ Shader "Custom/SilhouetteAndPulseShader"
 
                 float loopsToEdge = _FadeThickness;
 
-                for (uint loopCount = 0; loopCount < _FadeThickness; loopCount++) {
-                    for (uint index = 0; index < 16; index++) {
+                for (float loopCount = 0; loopCount < _FadeThickness; loopCount++) {
+                    for (float index = 0; index < 16; index++) {
                         float2 sampleUV = i.uv + directions[index] * (loopCount + 1) * _Resolution;
                         if (tex2D(_MainTex, sampleUV).a <= 0) {
                             loopsToEdge = min(loopsToEdge, loopCount);
@@ -110,7 +114,7 @@ Shader "Custom/SilhouetteAndPulseShader"
                 // NOTE: calculating the alpha depends on how the single-frame UV is laid out:
                 // the number of columns in used to locate the frame's uv within the atlas's uv
 
-                float columnWidth = 0.25;
+                float columnWidth = 1 / _AtlasColumns;
 
                 uint column = floor(i.uv.x / columnWidth);
                 float xPosInColumn = (i.uv.x - column * columnWidth) / columnWidth;
@@ -173,6 +177,7 @@ Shader "Custom/SilhouetteAndPulseShader"
             float4 _EdgeColor;
             float4 _CenterColor;
             float _FlipX;
+            float _AtlasColumns;
 
             v2f vert(appdata v)
             {
@@ -200,8 +205,8 @@ Shader "Custom/SilhouetteAndPulseShader"
 
                 float loopsToEdge = _FadeThickness;
 
-                for (uint loopCount = 0; loopCount < _FadeThickness; loopCount++) {
-                    for (uint index = 0; index < 16; index++) {
+                for (float loopCount = 0; loopCount < _FadeThickness; loopCount++) {
+                    for (float index = 0; index < 16; index++) {
                         float2 sampleUV = i.uv + directions[index] * (loopCount + 1) * _Resolution;
                         if (tex2D(_MainTex, sampleUV).a <= 0) {
                             loopsToEdge = min(loopsToEdge, loopCount);
@@ -212,7 +217,7 @@ Shader "Custom/SilhouetteAndPulseShader"
                 // NOTE: calculating the alpha depends on how the single-frame UV is laid out:
                 // the number of columns in used to locate the frame's uv within the atlas's uv
 
-                float columnWidth = 0.25;
+                float columnWidth = 1 / _AtlasColumns;
 
                 uint column = floor(i.uv.x / columnWidth);
                 float xPosInColumn = (i.uv.x - column * columnWidth) / columnWidth;

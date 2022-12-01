@@ -18,6 +18,7 @@ namespace GameplaySystems
         private GameStateManager _gameStateManager;
         private CharacterInput _characterInput;
         private CharacterStateController _characterStateController;
+        private CharacterSpriteController _characterSpriteController;
 
         [SerializeField] private AudioSource[] _trackAudioSources;
         [SerializeField] private AudioLowPassFilter[] _trackLowPassFilters;
@@ -121,6 +122,7 @@ namespace GameplaySystems
             
             _characterInput = in_gameStateManager.CharacterInput;
             _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterSpriteController = in_gameStateManager.CharacterSpriteController;
 
             Meter = _trackData.Meter;
 
