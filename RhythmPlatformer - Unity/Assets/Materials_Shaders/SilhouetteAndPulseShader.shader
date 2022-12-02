@@ -133,7 +133,9 @@ Shader "Custom/SilhouetteAndPulseShader"
                     targetEdgeX += (sampleAlpha > 0) * checkGreater *  checkLess * (sampleUV.x - targetEdgeX);
                 }
 
-                float alpha = saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * _AlphaFadeThickness);
+                float2 xAxisFadePoints = _FlipX ? float2(0.4, 0.6) : float2(0.6, 0.4);
+                float xAxisFade = saturate(InverseLerp(xAxisFadePoints.x, xAxisFadePoints.y, xPosInColumn));
+                float alpha = xAxisFade * saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * _AlphaFadeThickness);
 
                 float distToEdge = InverseLerp(_FadeThickness, 0, loopsToEdge);
                 float4 color = lerp(_CenterColor, _EdgeColor, distToEdge);
@@ -238,7 +240,9 @@ Shader "Custom/SilhouetteAndPulseShader"
                     targetEdgeX += (sampleAlpha > 0) * checkGreater * checkLess * (sampleUV.x - targetEdgeX);
                 }
 
-                float alpha = saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * _AlphaFadeThickness);
+                float2 xAxisFadePoints = _FlipX ? float2(0.6, 0.4) : float2(0.4, 0.6);
+                float xAxisFade = saturate(InverseLerp(xAxisFadePoints.x, xAxisFadePoints.y, xPosInColumn));
+                float alpha = xAxisFade * saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * _AlphaFadeThickness);
 
                 float distToEdge = InverseLerp(_FadeThickness, 0, loopsToEdge);
                 float4 color = lerp(_CenterColor, _EdgeColor, distToEdge);

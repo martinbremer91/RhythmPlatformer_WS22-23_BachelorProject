@@ -34,17 +34,6 @@ namespace Gameplay
             _noDashColors = _characterColorPalette.GetColorByLabel("NoDash");
         }
 
-        float timer = .3f;
-        private void Update() {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0) {
-                timer = .3f;
-            }
-
-            SetSilhouetteDistance(.5f * timer / .3f);
-        }
-
         public void SetCharacterOrientation(bool in_faceLeft) {
             _spriteRenderer.flipX = in_faceLeft;
             _pulseMaterialOverrides.SetFlipX(in_faceLeft);
