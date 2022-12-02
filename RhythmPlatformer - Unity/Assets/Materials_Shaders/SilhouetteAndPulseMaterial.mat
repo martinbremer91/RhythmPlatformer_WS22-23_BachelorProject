@@ -26,21 +26,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaFadeThickness: 62.4
+    - _AlphaFadeThickness: 25
     - _AtlasColumns: 4
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _FadeThickness: 10
+    - _FadeThickness: 11
     - _FlipX: 0
     - _Fuzziness: 0.27
     - _MaskRange: 0.12
     - _OutlineThickness: 0.3
     - _OutlineThicknessMax: 0.3
-    - _Resolution: 0.001
+    - _Resolution: 0.003
     - _ScrollSpeed: 0.05
+    - _Test: 0
     m_Colors:
     - _BaseColor: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 0}
     - _CenterColor: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 1}
-    - _EdgeColor: {r: 0.8268844, g: 0.7790335, b: 1.8556753, a: 1}
+    - _EdgeColor: {r: 0.8355397, g: 0.7869618, b: 1.8556753, a: 1}
     - _SecondaryColor: {r: 3.078862, g: 0.3877086, b: 4.35602, a: 0}
   m_BuildTextureStacks: []

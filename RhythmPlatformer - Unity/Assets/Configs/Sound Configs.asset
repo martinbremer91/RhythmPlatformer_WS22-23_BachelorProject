@@ -17,5 +17,5 @@ MonoBehaviour:
     MusicMuted: 0
     CurrentMetronomeVolume: 0.87554836
     MetronomeMuted: 0
-  MusicVolumeFadeDuration: 0
+  MusicVolumeFadeDuration: 2
   LowPassFilterFadeCutoffFrequency: 600

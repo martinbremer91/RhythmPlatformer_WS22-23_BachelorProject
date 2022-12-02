@@ -3895,6 +3895,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7ff667baad20d584b84e0701fbfcbdc2, type: 2}
+    - target: {fileID: 5562756899129024189, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: _silhouetteMatMaxDistance
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
 --- !u!1 &8088622841161808754
@@ -3927,7 +3931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
-  _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
+  _trackData: {fileID: 11400000, guid: 28eadce83afd4f746881b63a364ed59e, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 573837828}
   HUDController: {fileID: 2061435938}

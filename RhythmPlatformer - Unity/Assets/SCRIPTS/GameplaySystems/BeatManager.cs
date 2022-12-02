@@ -199,6 +199,8 @@ namespace GameplaySystems
                     _metronomeWeak.Play();
             }
 
+            float progressPercentageInCurrentBeat = 1 - (float)(_nextBeatTime - time) / (float)BeatLength;
+            _characterSpriteController.SetSilhouetteDistanceAndAlpha(progressPercentageInCurrentBeat);
             _hudController.UpdateHUD(BeatTracker);
         }
 

@@ -33,4 +33,9 @@ public class PulseMaterialOverrides
         _materialPropertyBlock.SetFloat("_OutlineThickness", in_distance);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
+
+    public void SetProximityAlpha(float in_alpha) {
+        _materialPropertyBlock.SetFloat("_ProximityAlpha", in_alpha);
+        _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
 }

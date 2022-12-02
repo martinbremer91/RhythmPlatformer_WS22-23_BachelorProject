@@ -3,13 +3,18 @@ Shader "Custom/SilhouetteAndPulseShader"
     Properties
     {
         [MainTexture] [NoScaleOffset] _MainTex("Main", 2D) = "white" {}
+        [Space(5)]
+
+        [Header(Pulse Shader)][Space(5)]
         _ScrollSpeed("ScrollSpeed", Float) = 0.05
         _MaskRange("MaskRange", Float) = 0
         _BaseColor("BaseColor", Color) = (0.9254902, 0.2941177, 0.9333333, 0)
         [HDR]_SecondaryColor("SecondaryColor", Color) = (3.078862, 0.3877086, 4.35602, 0)
         _Fuzziness("Fuzziness", Float) = 0
+        [Space(5)]
 
-        _Resolution("Resolution", Float) = 0.001
+        [Header(Silhouette Shader)][Space(5)]
+        _Resolution("Resolution", Range(0.001, 0.01)) = 0.003
         _FadeThickness("Fade Thickness", Range(0, 20)) = 20
         _OutlineThickness("Outline Thickness", Float) = 0
         _AlphaFadeThickness("Alpha Fade Thickness", Float) = 75
@@ -18,6 +23,7 @@ Shader "Custom/SilhouetteAndPulseShader"
         [HDR]_EdgeColor("Edge Color", Color) = (1, 1, 1, 1)
 
         [HideInInspector]_FlipX ("Flip X", Float) = 0
+        [HideInInspector]_ProximityAlpha("Proximity Alpha", Float) = 1
 
         [HideInInspector]_BUILTIN_QueueOffset("Float", Float) = 0
         [HideInInspector]_BUILTIN_QueueControl("Float", Float) = -1
@@ -63,17 +69,18 @@ Shader "Custom/SilhouetteAndPulseShader"
                 float2 uv : TEXCOORD0;
             };
 
-            CBUFFER_START(UnityPerMaterial)
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _Resolution;
             int _FadeThickness;
             float _AlphaFadeThickness;
+            float _AtlasColumns;
+            float _Resolution;
+            CBUFFER_START(UnityPerMaterial)
             float _OutlineThickness;
             float4 _EdgeColor;
             float4 _CenterColor;
-            float _AtlasColumns;
-            float _FlipX;            
+            float _FlipX;
+            float _ProximityAlpha;
             CBUFFER_END
 
             v2f vert(appdata v)
@@ -135,7 +142,8 @@ Shader "Custom/SilhouetteAndPulseShader"
 
                 float2 xAxisFadePoints = _FlipX ? float2(0.4, 0.6) : float2(0.6, 0.4);
                 float xAxisFade = saturate(InverseLerp(xAxisFadePoints.x, xAxisFadePoints.y, xPosInColumn));
-                float alpha = xAxisFade * saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * _AlphaFadeThickness);
+                float alpha = _ProximityAlpha * xAxisFade * saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * 
+                    _AlphaFadeThickness);
 
                 float distToEdge = InverseLerp(_FadeThickness, 0, loopsToEdge);
                 float4 color = lerp(_CenterColor, _EdgeColor, distToEdge);
@@ -170,17 +178,18 @@ Shader "Custom/SilhouetteAndPulseShader"
                 float2 uv : TEXCOORD0;
             };
 
-            CBUFFER_START(UnityPerMaterial)
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _Resolution;
             int _FadeThickness;
             float _AlphaFadeThickness;
+            float _AtlasColumns;
+            CBUFFER_START(UnityPerMaterial)
             float _OutlineThickness;
             float4 _EdgeColor;
             float4 _CenterColor;
             float _FlipX;
-            float _AtlasColumns;
+            float _ProximityAlpha;
             CBUFFER_END
 
             v2f vert(appdata v)
@@ -242,7 +251,8 @@ Shader "Custom/SilhouetteAndPulseShader"
 
                 float2 xAxisFadePoints = _FlipX ? float2(0.6, 0.4) : float2(0.4, 0.6);
                 float xAxisFade = saturate(InverseLerp(xAxisFadePoints.x, xAxisFadePoints.y, xPosInColumn));
-                float alpha = xAxisFade * saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * _AlphaFadeThickness);
+                float alpha = _ProximityAlpha * xAxisFade * (saturate(tex2D(_MainTex, i.uv).a - abs(targetEdgeX - i.uv.x) * 
+                    _AlphaFadeThickness));
 
                 float distToEdge = InverseLerp(_FadeThickness, 0, loopsToEdge);
                 float4 color = lerp(_CenterColor, _EdgeColor, distToEdge);

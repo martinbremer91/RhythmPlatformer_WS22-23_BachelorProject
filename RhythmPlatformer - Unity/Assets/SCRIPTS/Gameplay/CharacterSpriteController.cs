@@ -12,10 +12,13 @@ namespace Gameplay
         private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Animator _playerAnimator;
-        [SerializeField] private ColorPalette _characterColorPalette;
+        [SerializeField] private CharacterVisualsData _characterVisualsData;
         private PulseMaterialOverrides _pulseMaterialOverrides;
 
         #endregion
+
+        private float _silhouetteMatMaxDistance;
+        private Vector2 _silhouetteMatProximityAlphaRange;
 
         private LabeledColor _defaultColors;
         private LabeledColor _noDashColors;
@@ -30,8 +33,11 @@ namespace Gameplay
             _characterStateController = in_gameStateManager.CharacterStateController;
             _pulseMaterialOverrides = new PulseMaterialOverrides(_spriteRenderer);
 
-            _defaultColors = _characterColorPalette.GetColorByLabel("Default");
-            _noDashColors = _characterColorPalette.GetColorByLabel("NoDash");
+            _silhouetteMatMaxDistance = _characterVisualsData.SilhouetteMatMaxDistance;
+            _silhouetteMatProximityAlphaRange = _characterVisualsData.SilhouetteMatProximityAlphaRange;
+
+            _defaultColors = _characterVisualsData.GetColorByLabel("Default");
+            _noDashColors = _characterVisualsData.GetColorByLabel("NoDash");
         }
 
         public void SetCharacterOrientation(bool in_faceLeft) {
@@ -39,8 +45,12 @@ namespace Gameplay
             _pulseMaterialOverrides.SetFlipX(in_faceLeft);
         }
 
-        public void SetSilhouetteDistance(float in_distancePercentage) {
-            _pulseMaterialOverrides.SetSilhouetteDistance(in_distancePercentage);
+        public void SetSilhouetteDistanceAndAlpha(float in_distancePercentage) {
+            _pulseMaterialOverrides.SetSilhouetteDistance((1 - in_distancePercentage) * _silhouetteMatMaxDistance);
+            
+            float proximityAlpha = Mathf.Lerp(
+                _silhouetteMatProximityAlphaRange.x, _silhouetteMatProximityAlphaRange.y, in_distancePercentage);
+            _pulseMaterialOverrides.SetProximityAlpha(proximityAlpha);
         }
 
         public void SetDashWindupTrigger()
