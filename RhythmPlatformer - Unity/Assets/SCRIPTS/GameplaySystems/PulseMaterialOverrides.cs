@@ -5,21 +5,6 @@ public class PulseMaterialOverrides
     private SpriteRenderer _spriteRenderer;
     private MaterialPropertyBlock _materialPropertyBlock;
 
-    private float _outlineThicknessMax;
-    public float OutlineThicknessMax {
-        get {
-            if (_materialPropertyBlock == null) {
-                Debug.LogError("Trying to access material value before property block is set up");
-                return 0;
-            }
-
-            if (_outlineThicknessMax == 0)
-                _outlineThicknessMax = _materialPropertyBlock.GetFloat("_OutlineThicknessMax");
-
-            return _outlineThicknessMax;
-        }
-    }
-
     public PulseMaterialOverrides(SpriteRenderer in_spriteRenderer)
     {
         _spriteRenderer = in_spriteRenderer;
@@ -45,7 +30,7 @@ public class PulseMaterialOverrides
     }
 
     public void SetSilhouetteDistance(float in_distance) {
-        _materialPropertyBlock.SetFloat("Test", in_distance);
+        _materialPropertyBlock.SetFloat("_OutlineThickness", in_distance);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
 }

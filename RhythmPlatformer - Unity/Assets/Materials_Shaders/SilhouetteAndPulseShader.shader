@@ -12,12 +12,10 @@ Shader "Custom/SilhouetteAndPulseShader"
         _Resolution("Resolution", Float) = 0.001
         _FadeThickness("Fade Thickness", Range(0, 20)) = 20
         _OutlineThickness("Outline Thickness", Float) = 0
-        _OutlineThicknessMax("Outline Thickness Max", Float) = 0.5
         _AlphaFadeThickness("Alpha Fade Thickness", Float) = 75
         _CenterColor("Center Color", Color) = (1, 1, 1, 1)
         _AtlasColumns("Atlas Columns", Float) = 4
         [HDR]_EdgeColor("Edge Color", Color) = (1, 1, 1, 1)
-        _Test("Test", Float) = 0
 
         [HideInInspector]_FlipX ("Flip X", Float) = 0
 
@@ -65,6 +63,7 @@ Shader "Custom/SilhouetteAndPulseShader"
                 float2 uv : TEXCOORD0;
             };
 
+            CBUFFER_START(UnityPerMaterial)
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _Resolution;
@@ -74,7 +73,8 @@ Shader "Custom/SilhouetteAndPulseShader"
             float4 _EdgeColor;
             float4 _CenterColor;
             float _AtlasColumns;
-            float _FlipX;
+            float _FlipX;            
+            CBUFFER_END
 
             v2f vert(appdata v)
             {
@@ -168,6 +168,7 @@ Shader "Custom/SilhouetteAndPulseShader"
                 float2 uv : TEXCOORD0;
             };
 
+            CBUFFER_START(UnityPerMaterial)
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _Resolution;
@@ -178,6 +179,7 @@ Shader "Custom/SilhouetteAndPulseShader"
             float4 _CenterColor;
             float _FlipX;
             float _AtlasColumns;
+            CBUFFER_END
 
             v2f vert(appdata v)
             {

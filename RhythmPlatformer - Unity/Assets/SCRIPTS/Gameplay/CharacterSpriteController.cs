@@ -34,15 +34,15 @@ namespace Gameplay
             _noDashColors = _characterColorPalette.GetColorByLabel("NoDash");
         }
 
-        float timer = 1;
-        bool done; 
+        float timer = .3f;
         private void Update() {
             timer -= Time.deltaTime;
 
-            if (!done && timer <= 0) {
-                done = true;
-                SetSilhouetteDistance(.3f);
+            if (timer <= 0) {
+                timer = .3f;
             }
+
+            SetSilhouetteDistance(.5f * timer / .3f);
         }
 
         public void SetCharacterOrientation(bool in_faceLeft) {
@@ -51,8 +51,7 @@ namespace Gameplay
         }
 
         public void SetSilhouetteDistance(float in_distancePercentage) {
-            _pulseMaterialOverrides.SetSilhouetteDistance(in_distancePercentage * 
-                _pulseMaterialOverrides.OutlineThicknessMax);
+            _pulseMaterialOverrides.SetSilhouetteDistance(in_distancePercentage);
         }
 
         public void SetDashWindupTrigger()
