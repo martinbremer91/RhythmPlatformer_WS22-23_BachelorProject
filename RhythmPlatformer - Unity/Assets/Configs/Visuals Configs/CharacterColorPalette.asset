@@ -19,5 +19,11 @@ MonoBehaviour:
   - Label: NoDash
     Color: {r: 0.4433962, g: 0.11084905, b: 0.18249089, a: 0}
     HDRColor: {r: 3.5661874, g: 0.31961104, b: 1.0145262, a: 0}
+  - Label: SilhouetteWeakBeat
+    Color: {r: 0.42352942, g: 0.19215687, b: 0.7372549, a: 0}
+    HDRColor: {r: 0.94307685, g: 0.8475436, b: 1.6792452, a: 0}
+  - Label: SilhouetteStrongBeat
+    Color: {r: 0.29958147, g: 0.93333334, b: 0.2941176, a: 0}
+    HDRColor: {r: 2.0088012, g: 7.1052046, b: 3.5712023, a: 0}
   SilhouetteMatMaxDistance: 0.3
   SilhouetteMatProximityAlphaRange: {x: 0, y: 1}

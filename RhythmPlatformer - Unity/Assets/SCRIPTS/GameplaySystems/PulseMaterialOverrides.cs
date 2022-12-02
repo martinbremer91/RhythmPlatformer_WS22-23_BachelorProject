@@ -12,13 +12,13 @@ public class PulseMaterialOverrides
         _spriteRenderer.GetPropertyBlock(_materialPropertyBlock);
     }
 
-    public void ChangeBaseColor(Color in_color)
+    public void SetBaseColor(Color in_color)
     {
         _materialPropertyBlock.SetColor("_BaseColor", in_color);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
 
-    public void ChangeSecondaryColor(Color in_color) {
+    public void SetSecondaryColor(Color in_color) {
         _materialPropertyBlock.SetColor("_SecondaryColor", in_color);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
@@ -36,6 +36,16 @@ public class PulseMaterialOverrides
 
     public void SetProximityAlpha(float in_alpha) {
         _materialPropertyBlock.SetFloat("_ProximityAlpha", in_alpha);
+        _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
+
+    public void SetSilhouetteBaseColor(Color in_color) {
+        _materialPropertyBlock.SetColor("_CenterColor", in_color);
+        _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
+
+    public void SetSilhouetteSecondaryColor(Color in_color) {
+        _materialPropertyBlock.SetColor("_EdgeColor", in_color);
         _spriteRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
 }

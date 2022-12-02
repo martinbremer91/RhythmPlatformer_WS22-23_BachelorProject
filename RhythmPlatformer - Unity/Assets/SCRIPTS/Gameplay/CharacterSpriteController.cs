@@ -20,8 +20,12 @@ namespace Gameplay
         private float _silhouetteMatMaxDistance;
         private Vector2 _silhouetteMatProximityAlphaRange;
 
+        private bool _nextBeatStrong;
+
         private LabeledColor _defaultColors;
         private LabeledColor _noDashColors;
+        private LabeledColor _silhouetteWeakBeatColors;
+        private LabeledColor _silhouetteStrongBeatColors;
 
         public Animator Animator
         {
@@ -38,6 +42,9 @@ namespace Gameplay
 
             _defaultColors = _characterVisualsData.GetColorByLabel("Default");
             _noDashColors = _characterVisualsData.GetColorByLabel("NoDash");
+
+            _silhouetteWeakBeatColors = _characterVisualsData.GetColorByLabel("SilhouetteWeakBeat");
+            _silhouetteStrongBeatColors = _characterVisualsData.GetColorByLabel("SilhouetteStrongBeat");
         }
 
         public void SetCharacterOrientation(bool in_faceLeft) {
@@ -45,12 +52,21 @@ namespace Gameplay
             _pulseMaterialOverrides.SetFlipX(in_faceLeft);
         }
 
-        public void SetSilhouetteDistanceAndAlpha(float in_distancePercentage) {
+        public void SetSilhouetteMaterialParameters(float in_distancePercentage, bool in_nextBeatStrong) {
             _pulseMaterialOverrides.SetSilhouetteDistance((1 - in_distancePercentage) * _silhouetteMatMaxDistance);
             
             float proximityAlpha = Mathf.Lerp(
                 _silhouetteMatProximityAlphaRange.x, _silhouetteMatProximityAlphaRange.y, in_distancePercentage);
             _pulseMaterialOverrides.SetProximityAlpha(proximityAlpha);
+
+            if (_nextBeatStrong != in_nextBeatStrong) {
+                _nextBeatStrong = in_nextBeatStrong;
+                LabeledColor silhouetteColors = in_nextBeatStrong ? 
+                    _silhouetteStrongBeatColors : _silhouetteWeakBeatColors;
+
+                _pulseMaterialOverrides.SetSilhouetteBaseColor(silhouetteColors.Color);
+                _pulseMaterialOverrides.SetSilhouetteSecondaryColor(silhouetteColors.HDRColor);
+            }
         }
 
         public void SetDashWindupTrigger()
@@ -110,8 +126,8 @@ namespace Gameplay
         public void UpdateCanDashColor(bool in_canDash) {
             LabeledColor colors = in_canDash ? _defaultColors : _noDashColors;
             
-            _pulseMaterialOverrides.ChangeBaseColor(colors.Color);
-            _pulseMaterialOverrides.ChangeSecondaryColor(colors.HDRColor);
+            _pulseMaterialOverrides.SetBaseColor(colors.Color);
+            _pulseMaterialOverrides.SetSecondaryColor(colors.HDRColor);
         }
     }
 }

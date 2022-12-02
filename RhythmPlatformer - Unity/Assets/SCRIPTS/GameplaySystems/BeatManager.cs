@@ -200,7 +200,9 @@ namespace GameplaySystems
             }
 
             float progressPercentageInCurrentBeat = 1 - (float)(_nextBeatTime - time) / (float)BeatLength;
-            _characterSpriteController.SetSilhouetteDistanceAndAlpha(progressPercentageInCurrentBeat);
+            int nextBeatClamped = BeatTracker + 1 > Meter ? 1 : BeatTracker + 1;
+            bool nextBeatStrong = _trackData.EventBeats.Any(e => e == nextBeatClamped);
+            _characterSpriteController.SetSilhouetteMaterialParameters(progressPercentageInCurrentBeat, nextBeatStrong);
             _hudController.UpdateHUD(BeatTracker);
         }
 

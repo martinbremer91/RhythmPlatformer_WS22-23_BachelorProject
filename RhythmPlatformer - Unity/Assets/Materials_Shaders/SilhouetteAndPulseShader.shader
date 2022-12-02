@@ -18,8 +18,8 @@ Shader "Custom/SilhouetteAndPulseShader"
         _FadeThickness("Fade Thickness", Range(0, 20)) = 20
         _OutlineThickness("Outline Thickness", Float) = 0
         _AlphaFadeThickness("Alpha Fade Thickness", Float) = 75
-        _CenterColor("Center Color", Color) = (1, 1, 1, 1)
         _AtlasColumns("Atlas Columns", Float) = 4
+        _CenterColor("Center Color", Color) = (1, 1, 1, 1)
         [HDR]_EdgeColor("Edge Color", Color) = (1, 1, 1, 1)
 
         [HideInInspector]_FlipX ("Flip X", Float) = 0

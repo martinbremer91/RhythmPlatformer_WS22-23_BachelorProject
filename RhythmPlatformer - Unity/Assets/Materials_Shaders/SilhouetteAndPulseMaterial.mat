@@ -36,12 +36,13 @@ Material:
     - _MaskRange: 0.12
     - _OutlineThickness: 0.3
     - _OutlineThicknessMax: 0.3
+    - _ProximityAlpha: 1
     - _Resolution: 0.003
     - _ScrollSpeed: 0.05
     - _Test: 0
     m_Colors:
     - _BaseColor: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 0}
-    - _CenterColor: {r: 0.33333334, g: 0.29411766, b: 0.93333334, a: 1}
-    - _EdgeColor: {r: 0.8355397, g: 0.7869618, b: 1.8556753, a: 1}
+    - _CenterColor: {r: 0.42352942, g: 0.19215687, b: 0.7372549, a: 1}
+    - _EdgeColor: {r: 0.94307685, g: 0.8475436, b: 1.6792452, a: 0}
     - _SecondaryColor: {r: 3.078862, g: 0.3877086, b: 4.35602, a: 0}
   m_BuildTextureStacks: []
