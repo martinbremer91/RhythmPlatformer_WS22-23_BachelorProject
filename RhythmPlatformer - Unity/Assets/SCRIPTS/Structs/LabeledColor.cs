@@ -4,6 +4,6 @@ using UnityEngine;
 public struct LabeledColor
 {
     public string Label;
-    [ColorUsage(false)] public Color Color;
-    [ColorUsage(false, true)] public Color HDRColor;
+    public Color Color;
+    [ColorUsage(true, true)] public Color HDRColor;
 }

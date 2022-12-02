@@ -34,6 +34,7 @@ namespace GlobalSystems
         [HideInInspector] public CharacterStateController CharacterStateController;
         [HideInInspector] public CharacterMovement CharacterMovement;
         [HideInInspector] public CharacterSpriteController CharacterSpriteController;
+        [HideInInspector] public CompanionSpriteController CompanionSpriteController;
         [HideInInspector] public CompanionFollow CompanionFollow;
         [HideInInspector] public TextAsset CameraBoundsData;
 
@@ -142,6 +143,7 @@ namespace GlobalSystems
                 CharacterStateController.Init(this);
                 CharacterMovement.Init(this);
                 CharacterSpriteController.Init(this);
+                CompanionSpriteController.Init(this);
                 CompanionFollow.Init(this);
             }
         }
@@ -190,6 +192,7 @@ namespace GlobalSystems
             // Refactor TogglePhysicsPause when BeatManager has CountIn functionality
             TogglePhysicsPause(paused);
             CharacterSpriteController.OnTogglePause(paused);
+            CompanionSpriteController.OnTogglePause(paused);
             PauseMenu.TogglePauseMenu(paused);
         }
 

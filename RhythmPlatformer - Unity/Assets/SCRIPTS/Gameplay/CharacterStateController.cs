@@ -66,7 +66,7 @@ namespace Gameplay
         }
         private float _dashWindupDuration;
 
-        private bool _canDash;
+        private bool _canDash = true;
         public bool CanDash {
             get => _canDash;
             set {
@@ -74,7 +74,7 @@ namespace Gameplay
                     return;
 
                 _canDash = value;
-                _spriteController.UpdateCanDashColor(value);
+                CanDashStateChanged?.Invoke(value);
             }
         }
 
@@ -117,6 +117,7 @@ namespace Gameplay
         
         public Action Respawn;
         public Action BecomeGrounded;
+        public Action<bool> CanDashStateChanged;
         
 #if UNITY_EDITOR
         public static bool s_Invulnerable;

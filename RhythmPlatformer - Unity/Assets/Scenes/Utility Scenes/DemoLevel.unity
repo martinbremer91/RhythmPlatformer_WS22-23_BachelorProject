@@ -998,6 +998,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c349e52a3f3c16d439ec85ab3ecc7af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &397391153 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2276265025016101018, guid: 8739c4bb915cd634398ee551d41b981c, type: 3}
+  m_PrefabInstance: {fileID: 397391151}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fb9cbca0768934f8eb67b5cb77bc13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &424795564
 GameObject:
   m_ObjectHideFlags: 0
@@ -8365,4 +8376,5 @@ MonoBehaviour:
   CharacterStateController: {fileID: 1285793915}
   CharacterMovement: {fileID: 1285793917}
   CharacterSpriteController: {fileID: 1285793919}
+  CompanionSpriteController: {fileID: 397391153}
   CompanionFollow: {fileID: 397391152}

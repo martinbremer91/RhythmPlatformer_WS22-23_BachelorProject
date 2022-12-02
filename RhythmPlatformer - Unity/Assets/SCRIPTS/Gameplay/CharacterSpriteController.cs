@@ -13,7 +13,7 @@ namespace Gameplay
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Animator _playerAnimator;
         [SerializeField] private CharacterVisualsData _characterVisualsData;
-        private PulseMaterialOverrides _pulseMaterialOverrides;
+        private SilhouetteMaterialOverrides _pulseAndSilhouetteMatOverrides;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Gameplay
 
         public void Init(GameStateManager in_gameStateManager) {
             _characterStateController = in_gameStateManager.CharacterStateController;
-            _pulseMaterialOverrides = new PulseMaterialOverrides(_spriteRenderer);
+            _pulseAndSilhouetteMatOverrides = new SilhouetteMaterialOverrides(_spriteRenderer);
 
             _silhouetteMatMaxDistance = _characterVisualsData.SilhouetteMatMaxDistance;
             _silhouetteMatProximityAlphaRange = _characterVisualsData.SilhouetteMatProximityAlphaRange;
@@ -49,23 +49,23 @@ namespace Gameplay
 
         public void SetCharacterOrientation(bool in_faceLeft) {
             _spriteRenderer.flipX = in_faceLeft;
-            _pulseMaterialOverrides.SetFlipX(in_faceLeft);
+            _pulseAndSilhouetteMatOverrides.SetFlipX(in_faceLeft);
         }
 
         public void SetSilhouetteMaterialParameters(float in_distancePercentage, bool in_nextBeatStrong) {
-            _pulseMaterialOverrides.SetSilhouetteDistance((1 - in_distancePercentage) * _silhouetteMatMaxDistance);
+            _pulseAndSilhouetteMatOverrides.SetSilhouetteDistance((1 - in_distancePercentage) * _silhouetteMatMaxDistance);
             
             float proximityAlpha = Mathf.Lerp(
                 _silhouetteMatProximityAlphaRange.x, _silhouetteMatProximityAlphaRange.y, in_distancePercentage);
-            _pulseMaterialOverrides.SetProximityAlpha(proximityAlpha);
+            _pulseAndSilhouetteMatOverrides.SetProximityAlpha(proximityAlpha);
 
             if (_nextBeatStrong != in_nextBeatStrong) {
                 _nextBeatStrong = in_nextBeatStrong;
                 LabeledColor silhouetteColors = in_nextBeatStrong ? 
                     _silhouetteStrongBeatColors : _silhouetteWeakBeatColors;
 
-                _pulseMaterialOverrides.SetSilhouetteBaseColor(silhouetteColors.Color);
-                _pulseMaterialOverrides.SetSilhouetteSecondaryColor(silhouetteColors.HDRColor);
+                _pulseAndSilhouetteMatOverrides.SetSilhouetteBaseColor(silhouetteColors.Color);
+                _pulseAndSilhouetteMatOverrides.SetSilhouetteSecondaryColor(silhouetteColors.HDRColor);
             }
         }
 
@@ -122,12 +122,5 @@ namespace Gameplay
         }
 
         public void OnTogglePause(bool in_paused) => (this as IAnimatorPausable).ToggleAnimatorPause(in_paused);
-        
-        public void UpdateCanDashColor(bool in_canDash) {
-            LabeledColor colors = in_canDash ? _defaultColors : _noDashColors;
-            
-            _pulseMaterialOverrides.SetBaseColor(colors.Color);
-            _pulseMaterialOverrides.SetSecondaryColor(colors.HDRColor);
-        }
     }
 }
