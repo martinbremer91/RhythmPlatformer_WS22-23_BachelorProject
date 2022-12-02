@@ -153,6 +153,7 @@ namespace Gameplay
             switch (in_value)
             {
                 case CharacterState.Run:
+                    CanDash = true;
                     CheckFacingOrientation();
                     break;
                 case CharacterState.Fall:
@@ -165,14 +166,15 @@ namespace Gameplay
                 case CharacterState.Rise:
                     _characterMovement.RiseCurveTracker.x = 0;
                     _characterMovement.InitializeRise(GetClampedInheritedXVelocity());
-                    CanDash = true;
                     break;
                 case CharacterState.Land:
+                    CanDash = true;
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
                     break;
                 case CharacterState.WallCling:
                     _characterMovement.CancelVerticalVelocity();
                     CheckFacingOrientation(true);
+                    CanDash = true;
                     break;
                 case CharacterState.WallSlide:
                     CheckFacingOrientation(true);
