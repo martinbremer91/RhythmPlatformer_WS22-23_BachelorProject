@@ -217,56 +217,50 @@ namespace GameplaySystems
             _pausedMetronome = MetronomeOn;
         } 
 
-        // TODO: refactor this (maybe coroutine would be better here?)
         public async void ExecuteCountInAsync()
         {
             PauseMenu pauseMenu = _gameStateManager.PauseMenu;
             int countIn = 0;
             bool metronomeMute = _metronomeWeak.mute;
 
-            while (BeatTracker != _trackData.Meter && Time.deltaTime > 0)
+            while (BeatTracker != _trackData.Meter && !GameStateManager.GameQuitting)
                 await Task.Yield();
-
-            if (Time.deltaTime <= 0)
+            if (GameStateManager.GameQuitting)
                 return;
 
             SetMetronomeMute(false);
             MetronomeOn = true;
-            while (BeatTracker != 1 && Time.deltaTime > 0)
+            while (BeatTracker != 1 && !GameStateManager.GameQuitting)
                 await Task.Yield();
-
-            if (Time.deltaTime <= 0)
+            if (GameStateManager.GameQuitting)
                 return;
 
             UpdateCountInUi();
 
-            while (BeatTracker != 2 && Time.deltaTime > 0)
+            while (BeatTracker != 2 && !GameStateManager.GameQuitting)
                 await Task.Yield();
-
-            if (Time.deltaTime <= 0)
+            if (GameStateManager.GameQuitting)
                 return;
 
             int beatBeforeUnpause = _pausedBeat == 1 ? _trackData.Meter : _pausedBeat - 1;
 
             if (_pausedBeat != 1)
             {
-                while (BeatTracker != 1 && Time.deltaTime > 0)
+                while (BeatTracker != 1 && !GameStateManager.GameQuitting)
                 {
                     UpdateCountInUi();
                     await Task.Yield();
                 }
-
-                if (Time.deltaTime <= 0)
+                if (GameStateManager.GameQuitting)
                     return;
             }
             
-            while (BeatTracker != beatBeforeUnpause && Time.deltaTime > 0)
+            while (BeatTracker != beatBeforeUnpause && !GameStateManager.GameQuitting)
             {
                 UpdateCountInUi();
                 await Task.Yield();
             }
-
-            if (Time.deltaTime <= 0)
+            if (GameStateManager.GameQuitting)
                 return;
 
             UpdateCountInUi();

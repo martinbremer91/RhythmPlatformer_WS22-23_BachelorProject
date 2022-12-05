@@ -1,3 +1,4 @@
+using GlobalSystems;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Utility_Scripts
             float currentTime = 0;
             float startCutoff = in_audioSources[0].volume;
     
-            while (currentID == _volumeFadeID && currentTime <= in_duration && Time.deltaTime > 0)
+            while (currentID == _volumeFadeID && currentTime <= in_duration && !GameStateManager.GameQuitting)
             {
                 currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetVolume, currentTime / in_duration);
@@ -40,7 +41,7 @@ namespace Utility_Scripts
             float currentTime = 0;
             float startCutoff = in_lowPassArray[0].cutoffFrequency;
     
-            while (currentID == _loPassFadeID && currentTime <= in_duration && Time.deltaTime > 0)
+            while (currentID == _loPassFadeID && currentTime <= in_duration && !GameStateManager.GameQuitting)
             {
                 currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetCutoff, currentTime / in_duration);
@@ -51,7 +52,7 @@ namespace Utility_Scripts
                 await Task.Yield();
             }
 
-            if (currentID == _loPassFadeID && in_disable)
+            if (!GameStateManager.GameQuitting && currentID == _loPassFadeID && in_disable)
                 foreach (AudioLowPassFilter lowPass in in_lowPassArray)
                     lowPass.enabled = false;
         }

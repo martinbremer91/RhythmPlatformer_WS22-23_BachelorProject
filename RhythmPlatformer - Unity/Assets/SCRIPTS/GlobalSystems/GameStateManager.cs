@@ -54,6 +54,8 @@ namespace GlobalSystems
 
         private PlayerProgressData _playerProgressData;
 
+        public static bool GameQuitting;
+
 #if UNITY_EDITOR
         public static bool s_DebugMode;
 #endif
@@ -79,6 +81,9 @@ namespace GlobalSystems
 
         private void OnApplicationPause(bool pause) =>
             UpdateManagerPauseToggle(pause);
+
+        private void OnApplicationQuit() =>
+            GameQuitting = true;
 
         private void UpdateManagerPauseToggle(bool in_pause) {
             if (in_pause) {

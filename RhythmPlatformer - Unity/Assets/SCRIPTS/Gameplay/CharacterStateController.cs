@@ -532,7 +532,7 @@ namespace Gameplay
         {
             float runTimer = _runTurnWindow;
 
-            while (runTimer > 0 && Time.deltaTime > 0)
+            while (runTimer > 0 && !GameStateManager.GameQuitting)
             {
                 await Task.Yield();
                 runTimer -= Time.fixedDeltaTime;
@@ -566,7 +566,7 @@ namespace Gameplay
             
             float timer = _dashWindupDuration;
 
-            while (timer > 0 && Time.deltaTime > 0)
+            while (timer > 0 && !GameStateManager.GameQuitting)
             {
                 await Task.Yield();
                 timer -= Time.fixedDeltaTime;

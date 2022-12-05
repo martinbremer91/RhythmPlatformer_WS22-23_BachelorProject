@@ -140,7 +140,7 @@ namespace GlobalSystems
             int timer = 0;
             Vector2 startAndEndAlphas = new(in_fadeScreenIn ? 0 : 1, in_fadeScreenIn ? 1 : 0);
 
-            while (timer <= _fadeDuration * 1000 + 100 && Time.deltaTime > 0)
+            while (timer <= _fadeDuration * 1000 + 100 && !GameStateManager.GameQuitting)
             {
                 int deltaTimeMilliseconds = Mathf.RoundToInt(1000 * Time.deltaTime);
                 await Task.Delay(deltaTimeMilliseconds);
@@ -152,7 +152,7 @@ namespace GlobalSystems
                 _fadeScreen.color = new Color(screenColor.r, screenColor.g, screenColor.b, alpha);
             }
 
-            if (Time.deltaTime <= 0)
+            if (GameStateManager.GameQuitting)
                 return;
 
             _fadeScreen.color = in_fadeScreenIn ? new Color(screenColor.r, screenColor.g, screenColor.b, 1) : 
