@@ -170,7 +170,7 @@ namespace GlobalSystems
 
         public void ScheduleTogglePause()
         {            
-            if (BeatManager.BeatState == BeatState.Off)
+            if (!BeatManager.BeatActive)
                 BeatManager.ExecuteCountInAsync();
             else
                 BeatManager.BeatAction += TogglePause;
@@ -183,7 +183,7 @@ namespace GlobalSystems
             ActiveUpdateType = ActiveUpdateType == UpdateType.Paused ? UpdateType.GamePlay : UpdateType.Paused;
             bool paused = ActiveUpdateType == UpdateType.Paused;
             
-            BeatManager.BeatState = paused ? BeatState.Off : BeatState.Active;
+            BeatManager.BeatActive = !paused;
 
             if (paused)
             {
@@ -194,7 +194,6 @@ namespace GlobalSystems
             else
                 PauseMenu.SetCountInText(0, false);
 
-            // Refactor TogglePhysicsPause when BeatManager has CountIn functionality
             TogglePhysicsPause(paused);
             CharacterSpriteController.OnTogglePause(paused);
             CompanionSpriteController.OnTogglePause(paused);

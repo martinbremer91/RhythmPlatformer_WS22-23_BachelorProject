@@ -12,12 +12,6 @@ namespace Interfaces_and_Enums
         Always = ~0
     }
     
-    public enum BeatState
-    {
-        Off,
-        Active
-    }
-    
     public enum CollisionCheck
     {
         None = 0,

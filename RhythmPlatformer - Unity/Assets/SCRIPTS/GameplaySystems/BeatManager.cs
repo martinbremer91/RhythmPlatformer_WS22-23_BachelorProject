@@ -41,7 +41,7 @@ namespace GameplaySystems
         private static BeatManager s_Instance;
         public UpdateType UpdateType => ~UpdateType.MenuTransition;
 
-        public BeatState BeatState;
+        public bool BeatActive;
         
         private int _activeSource;
         private int _nextSource => _activeSource == 0 ? 1 : 0;
@@ -121,8 +121,7 @@ namespace GameplaySystems
             _trackAudioSources[0].clip = _trackData.Clip;
             _trackAudioSources[1].clip = _trackData.Clip;
 
-            // TODO: starting value will have to change to BeatState.StandBy in levels and BeatState.Off in menus
-            BeatState = BeatState.Active;
+            BeatActive = true;
             
             _characterInput = in_gameStateManager.CharacterInput;
             _characterStateController = in_gameStateManager.CharacterStateController;
