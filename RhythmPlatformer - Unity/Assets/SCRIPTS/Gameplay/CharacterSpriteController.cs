@@ -22,8 +22,6 @@ namespace Gameplay
 
         private bool _nextBeatStrong;
 
-        private LabeledColor _defaultColors;
-        private LabeledColor _noDashColors;
         private LabeledColor _silhouetteWeakBeatColors;
         private LabeledColor _silhouetteStrongBeatColors;
 
@@ -39,9 +37,6 @@ namespace Gameplay
 
             _silhouetteMatMaxDistance = _characterVisualsData.SilhouetteMatMaxDistance;
             _silhouetteMatProximityAlphaRange = _characterVisualsData.SilhouetteMatProximityAlphaRange;
-
-            _defaultColors = _characterVisualsData.GetColorByLabel("Default");
-            _noDashColors = _characterVisualsData.GetColorByLabel("NoDash");
 
             _silhouetteWeakBeatColors = _characterVisualsData.GetColorByLabel("SilhouetteWeakBeat");
             _silhouetteStrongBeatColors = _characterVisualsData.GetColorByLabel("SilhouetteStrongBeat");
