@@ -27,7 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaFadeThickness: 25
-    - _AtlasColumns: 4
+    - _AtlasColumns: 8
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _FadeThickness: 11

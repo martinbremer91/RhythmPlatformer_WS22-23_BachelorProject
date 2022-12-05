@@ -121,7 +121,7 @@ Shader "Custom/SilhouetteAndPulseShader"
                 // NOTE: calculating the alpha depends on how the single-frame UV is laid out:
                 // the number of columns in used to locate the frame's uv within the atlas's uv
 
-                float columnWidth = 1 / _AtlasColumns;
+                float columnWidth = 1.0 / _AtlasColumns;
 
                 uint column = floor(i.uv.x / columnWidth);
                 float xPosInColumn = (i.uv.x - column * columnWidth) / columnWidth;
@@ -230,7 +230,7 @@ Shader "Custom/SilhouetteAndPulseShader"
                 // NOTE: calculating the alpha depends on how the single-frame UV is laid out:
                 // the number of columns in used to locate the frame's uv within the atlas's uv
 
-                float columnWidth = 1 / _AtlasColumns;
+                float columnWidth = 1.0 / _AtlasColumns;
 
                 uint column = floor(i.uv.x / columnWidth);
                 float xPosInColumn = (i.uv.x - column * columnWidth) / columnWidth;
