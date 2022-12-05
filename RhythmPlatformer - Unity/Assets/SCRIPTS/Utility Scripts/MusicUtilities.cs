@@ -5,12 +5,18 @@ namespace Utility_Scripts
 {
     public class MusicUtilities
     {
+        private static int _volumeFadeID;
+        private static int _loPassFadeID;
+
         public async void FadeVolumeAsync(AudioSource[] in_audioSources, float in_duration, float in_targetVolume)
         {
+            _volumeFadeID++;
+            int currentID = _volumeFadeID;
+
             float currentTime = 0;
             float startCutoff = in_audioSources[0].volume;
     
-            while (currentTime <= in_duration && Time.deltaTime > 0)
+            while (currentID == _volumeFadeID && currentTime <= in_duration && Time.deltaTime > 0)
             {
                 currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetVolume, currentTime / in_duration);
@@ -25,13 +31,16 @@ namespace Utility_Scripts
         public async void FadeLowPassFilterAsync(AudioLowPassFilter[] in_lowPassArray, float in_duration, 
             float in_targetCutoff, bool in_disable = false)
         {
+            _loPassFadeID++;
+            int currentID = _loPassFadeID;
+
             foreach (AudioLowPassFilter lowPass in in_lowPassArray)
                 lowPass.enabled = true;
 
             float currentTime = 0;
             float startCutoff = in_lowPassArray[0].cutoffFrequency;
     
-            while (currentTime <= in_duration && Time.deltaTime > 0)
+            while (currentID == _loPassFadeID && currentTime <= in_duration && Time.deltaTime > 0)
             {
                 currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetCutoff, currentTime / in_duration);
@@ -42,7 +51,7 @@ namespace Utility_Scripts
                 await Task.Yield();
             }
 
-            if (in_disable)
+            if (currentID == _loPassFadeID && in_disable)
                 foreach (AudioLowPassFilter lowPass in in_lowPassArray)
                     lowPass.enabled = false;
         }

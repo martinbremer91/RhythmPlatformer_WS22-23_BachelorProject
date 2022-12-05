@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Interfaces_and_Enums;
@@ -11,6 +12,8 @@ namespace GlobalSystems
         private static List<IRefreshable> s_refreshables;
         public static List<IRefreshable> s_Refreshables => s_refreshables ??= new();
 
+        public static Action SceneLoaded;
+
         public static void RefreshGlobalObjects()
         {
             foreach (IRefreshable refreshable in s_Refreshables)
@@ -22,6 +25,7 @@ namespace GlobalSystems
             bool loadCompleted = false;
             in_uiManager.LoadingScreen.SetActive(true);
             GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Nothing;
+            SceneLoaded?.Invoke();
 
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
             asyncLoad.completed += OnSceneLoaded;

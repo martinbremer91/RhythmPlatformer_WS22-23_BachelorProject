@@ -93,6 +93,9 @@ namespace GameplaySystems
                 Destroy(gameObject);
         }
 
+        private void OnDisable() =>
+            SceneLoadManager.SceneLoaded -= () => ExecuteLowPassFilterFade(false);
+
         private void OnApplicationFocus(bool focus) =>
             AudioListener.pause = !focus;
 
@@ -111,6 +114,7 @@ namespace GameplaySystems
 
             _gameStateManager = in_gameStateManager;
             _musicUtilities = new MusicUtilities();
+            SceneLoadManager.SceneLoaded += () => ExecuteLowPassFilterFade(false);
 
             _trackData = _gameStateManager.CurrentTrackData;
             _metronomeOnlyMode = _trackData.Clip == null;
@@ -283,6 +287,9 @@ namespace GameplaySystems
         }
 
         public void ExecuteLowPassFilterFade(bool in_lowPassOn) {
+            if (!_trackLowPassFilters[0].enabled && !in_lowPassOn)
+                return;
+
             float cutoffFrequency = 
                 in_lowPassOn ? _gameStateManager.SoundConfigs.LowPassFilterFadeCutoffFrequency : 22000;
             _musicUtilities.FadeLowPassFilterAsync(_trackLowPassFilters, (float)BeatLength, 
