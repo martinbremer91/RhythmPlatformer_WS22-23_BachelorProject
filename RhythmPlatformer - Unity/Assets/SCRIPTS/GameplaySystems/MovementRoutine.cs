@@ -22,6 +22,8 @@ namespace GameplaySystems
 
         #endregion
 
+        #region VARIABLES
+
         private Waypoint _currentWaypoint;
         private Vector3 _currentWaypointDirection;
         private Waypoint _previousWaypoint;
@@ -35,7 +37,7 @@ namespace GameplaySystems
 
         private bool _waitingForDepartureBeat;
 
-        private void OnDisable() => _updateManager.MovementRoutines.Remove(this);
+        #endregion
 
         #region IUpdatable
         
@@ -46,7 +48,9 @@ namespace GameplaySystems
 
         #endregion
 
-        #region IInit
+        #region INITIALIZATION
+
+        private void OnDisable() => _updateManager.MovementRoutines.Remove(this);
 
         public void Init(GameStateManager in_gameStateManager)
         {
@@ -60,8 +64,6 @@ namespace GameplaySystems
             _nextDepartureBeat = GetNextMovementBeat(Waypoints[Waypoints.Count - 1].DepartureBeats);
         }
 
-        #endregion
-
         private void Start()
         {
             if (Waypoints == null || !Waypoints.Any())
@@ -70,6 +72,8 @@ namespace GameplaySystems
                 gameObject.SetActive(false);
             }
         }
+
+        #endregion
 
         private void FollowWaypoints()
         {

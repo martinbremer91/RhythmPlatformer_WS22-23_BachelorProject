@@ -15,7 +15,6 @@ public class HUDController : MonoBehaviour
     private float _beatMarkerSpeed;
 
     private float _farthestMarkerPositionX;
-    private int[] _beatsAsCountedOutLoud;
 
     public void InitializeHUD(float in_beatLength, TrackData in_trackData)
     {
@@ -37,18 +36,6 @@ public class HUDController : MonoBehaviour
         }
 
         _beatDisplayText.text = in_trackData.Meter.ToString();
-        _beatsAsCountedOutLoud = new int[in_trackData.Meter];
-
-        int counter = 1;
-        for (int i = 0; i < _beatsAsCountedOutLoud.Length; i++)
-        {
-            _beatsAsCountedOutLoud[i] = counter;
-            
-            if (i != 1 && in_trackData.EventBeats.Any(b => b == i + 1))
-                counter = 1;
-            else
-                counter++;
-        }
     }
 
     public void UpdateHUD(int in_beatTracker)
@@ -58,7 +45,7 @@ public class HUDController : MonoBehaviour
         foreach (RectTransform beatMarker in _rightBeatMarkers)
             MoveBeatMarker(beatMarker, false);
 
-        SetBeatDisplayText();
+        _beatDisplayText.text = _beatMarkerSpeed.ToString();
 
         void MoveBeatMarker(RectTransform in_beatMarker, bool in_leftMarker)
         {
@@ -78,13 +65,6 @@ public class HUDController : MonoBehaviour
                 in_beatMarker.anchoredPosition =
                     new Vector2(_farthestMarkerPositionX, _beatLine.anchoredPosition.y);
             }
-        }
-
-        void SetBeatDisplayText()
-        {
-            if (in_beatTracker < 1)
-                return;
-            _beatDisplayText.text = _beatsAsCountedOutLoud[in_beatTracker - 1].ToString();
         }
     }
 }
