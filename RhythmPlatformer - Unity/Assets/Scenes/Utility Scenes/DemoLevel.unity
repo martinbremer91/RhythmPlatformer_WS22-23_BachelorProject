@@ -2273,7 +2273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015074, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: m_RootOrder
@@ -2365,19 +2365,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8904598278570313299, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: Waypoints.Array.data[0].ArrivalBeats.Array.data[0]
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8904598278570313299, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
-      propertyPath: Waypoints.Array.data[1].ArrivalBeats.Array.data[0]
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8904598278570313299, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
+      propertyPath: Waypoints.Array.data[1].ArrivalBeats.Array.data[0]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904598278570313299, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: Waypoints.Array.data[0].DepartureBeats.Array.data[0]
-      value: 9
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8904598278570313299, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
       propertyPath: Waypoints.Array.data[1].DepartureBeats.Array.data[0]
-      value: 4
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e86b1e1768ad004f9c1a7ece6e319aa, type: 3}
@@ -8332,6 +8332,22 @@ PrefabInstance:
     - target: {fileID: 5562756899129024180, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: m_Name
       value: Player Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024185, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1.3586667
+      objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024185, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 1.3586667
+      objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024185, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.3586667
+      objectReference: {fileID: 0}
+    - target: {fileID: 5562756899129024185, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.3586667
       objectReference: {fileID: 0}
     - target: {fileID: 5562756899129024186, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
       propertyPath: m_RootOrder

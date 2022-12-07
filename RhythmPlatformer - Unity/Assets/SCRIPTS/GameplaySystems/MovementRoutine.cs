@@ -94,8 +94,8 @@ namespace GameplaySystems
                 _previousWaypoint = _currentWaypoint;
                 _currentWaypoint = Waypoints[_nextWaypointIndex];
                 _currentWaypointDirection = ((Vector3)_currentWaypoint.Coords - position).normalized;
-                _nextWaypointIndex++;
 
+                _nextWaypointIndex++;
                 if (_nextWaypointIndex >= Waypoints.Count)
                     _nextWaypointIndex = 0;
 
@@ -137,7 +137,7 @@ namespace GameplaySystems
                 int beatsInMovement = _nextArrivalBeat > _nextDepartureBeat ? _nextDepartureBeat - _nextArrivalBeat : 
                     _beatManager.Meter - _nextDepartureBeat + _nextArrivalBeat;
 
-                return Mathf.Abs(Vector2.Distance(in_origin, in_destination) / beatsInMovement * _beatLength);
+                return Mathf.Abs(Vector2.Distance(in_origin, in_destination) / (beatsInMovement * _beatLength));
             }
         }
 
