@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using GlobalSystems;
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
 using Structs;
@@ -7,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utility_Scripts;
 
-namespace GlobalSystems
+namespace UI_And_Menus
 {
     public class UiManager : MonoBehaviour, IRefreshable, IInit<GameStateManager>
     {

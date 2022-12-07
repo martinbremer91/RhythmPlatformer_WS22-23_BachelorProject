@@ -17,6 +17,8 @@ namespace Gameplay
 
         #endregion
 
+        #region VARIABLES
+
         private float _silhouetteMatMaxDistance;
         private Vector2 _silhouetteMatProximityAlphaRange;
 
@@ -30,6 +32,8 @@ namespace Gameplay
             get => _playerAnimator;
             set => _playerAnimator = value;
         }
+
+        #endregion
 
         public void Init(GameStateManager in_gameStateManager) {
             _characterStateController = in_gameStateManager.CharacterStateController;

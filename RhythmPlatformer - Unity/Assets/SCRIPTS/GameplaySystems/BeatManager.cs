@@ -6,7 +6,7 @@ using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
 using GlobalSystems;
 using UnityEngine;
-using Menus_and_Transitions;
+using UI_And_Menus;
 using Utility_Scripts;
 
 namespace GameplaySystems

@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using Interfaces_and_Enums;
 
-namespace Menus_and_Transitions
+namespace UI_And_Menus
 {
     public class PauseMenu : MonoBehaviour, IInit<GameStateManager>
     {

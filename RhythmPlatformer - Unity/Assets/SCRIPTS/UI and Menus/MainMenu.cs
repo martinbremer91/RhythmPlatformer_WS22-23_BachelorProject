@@ -2,7 +2,7 @@ using GlobalSystems;
 using UnityEngine;
 using Utility_Scripts;
 
-namespace Menus_and_Transitions
+namespace UI_And_Menus
 {
     public class MainMenu : MonoBehaviour
     {
