@@ -96,6 +96,8 @@ namespace Gameplay
             else if (collision && hitA.gameObject.CompareTag(_oneWayPlatformTag))
                 collision = OnOneWayPlatform;
 
+            UiManager.ToggleDebugSymbol(SlideOnHorizontal);
+
 #if UNITY_EDITOR 
             // COLLISION DEBUGGING
             Color color = collision ? Color.green : verticalDetection ? Color.yellow : Color.cyan;
@@ -121,7 +123,10 @@ namespace Gameplay
                 bool running = 
                     _slideOnHorizontalDirection * Mathf.RoundToInt(_characterInput.InputState.DirectionalInput.x) != 0;
 
-                return !running;
+                bool platCheck = hitA != null && hitA.CompareTag(Constants.OneWayPlatform) ||
+                    hitB != null && hitB.CompareTag(Constants.OneWayPlatform);
+
+                return !running && platCheck == OnOneWayPlatform;
             }
 
             bool CheckVerticalSlideOn() {
