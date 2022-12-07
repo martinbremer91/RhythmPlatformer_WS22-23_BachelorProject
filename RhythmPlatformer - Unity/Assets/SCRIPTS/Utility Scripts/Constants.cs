@@ -15,7 +15,8 @@ namespace Utility_Scripts
         public const string LandClipName = "Land";
         public const string RiseClipName = "Rise";
         public const string FallClipName = "Fall";
-        public const string WalledClipName = "Walled";
+        public const string WallClingClipName = "WallCling";
+        public const string WallSlideClipName = "WallSlide";
         public const string DashWindupClipName = "DashWindup";
         public const string DashClipName = "Dash";
 

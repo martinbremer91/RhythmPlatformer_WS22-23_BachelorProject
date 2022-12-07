@@ -79,7 +79,8 @@ namespace Gameplay
             _playerAnimator.ResetTrigger(Constants.FallClipName);
             _playerAnimator.ResetTrigger(Constants.DashWindupClipName);
             _playerAnimator.ResetTrigger(Constants.DashClipName);
-            _playerAnimator.ResetTrigger(Constants.WalledClipName);
+            _playerAnimator.ResetTrigger(Constants.WallClingClipName);
+            _playerAnimator.ResetTrigger(Constants.WallSlideClipName);
         }
 
         public void HandleStateAnimation()
@@ -110,8 +111,10 @@ namespace Gameplay
                     _playerAnimator.SetTrigger(Constants.DashClipName);
                     break;
                 case CharacterState.WallCling:
+                    _playerAnimator.SetTrigger(Constants.WallClingClipName);
+                    break;
                 case CharacterState.WallSlide:
-                    _playerAnimator.SetTrigger(Constants.WalledClipName);
+                    _playerAnimator.SetTrigger(Constants.WallSlideClipName);
                     break;
             }
         }
