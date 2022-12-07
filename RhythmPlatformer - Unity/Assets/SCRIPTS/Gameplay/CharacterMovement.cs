@@ -355,6 +355,10 @@ namespace Gameplay
                 inputDirection.x < 0 ? -1 : 1;
 
             int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
+            bool groundedDash = _characterStateController.Grounded && directionY < 1;
+
+            if (groundedDash && directionY < 0)
+                directionY = 0;
 
             bool wallDash =
                 _characterStateController.Walled && 
@@ -365,10 +369,7 @@ namespace Gameplay
                 directionX *= -1;
 
             DashDirection = new Vector2(directionX, directionY * .5f).normalized;
-            return GetIsDashGrounded();
-
-            bool GetIsDashGrounded() =>
-                _characterStateController.Grounded && directionY < 1;
+            return groundedDash;
         }
 
         #endregion
