@@ -34,6 +34,12 @@ namespace GlobalSystems
         public GameObject LoadingScreen;
         public GameObject SaveInProgressText;
 
+#if UNITY_EDITOR
+        private static GameObject s_debugSymbol;
+        [SerializeField] private GameObject _debugSymbol;
+        public static void ToggleDebugSymbol(bool in_on) => s_debugSymbol.SetActive(in_on);
+#endif
+
         private EventSystem _currentEventSystem => EventSystem.current;
 
         #endregion
@@ -49,6 +55,10 @@ namespace GlobalSystems
             }
             
             (this as IRefreshable).RegisterRefreshable();
+
+#if UNITY_EDITOR
+            s_debugSymbol = _debugSymbol;
+#endif
         } 
         
         private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();

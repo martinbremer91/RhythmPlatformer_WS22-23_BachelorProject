@@ -67,7 +67,7 @@ namespace GameplaySystems
         private async void ExecuteFallThrough()
         {
             _characterCollisionDetector.OnOneWayPlatform = false;
-            
+
             if (_isMovingPlatform)
                 _movementRoutine.MovePlayerAsWell = false;
 

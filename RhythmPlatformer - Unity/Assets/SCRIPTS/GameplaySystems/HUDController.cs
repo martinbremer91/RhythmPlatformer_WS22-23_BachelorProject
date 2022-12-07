@@ -45,7 +45,7 @@ public class HUDController : MonoBehaviour
         foreach (RectTransform beatMarker in _rightBeatMarkers)
             MoveBeatMarker(beatMarker, false);
 
-        _beatDisplayText.text = _beatMarkerSpeed.ToString();
+        _beatDisplayText.text = in_beatTracker.ToString();
 
         void MoveBeatMarker(RectTransform in_beatMarker, bool in_leftMarker)
         {

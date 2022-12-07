@@ -78,6 +78,7 @@ namespace GameplaySystems
 #if UNITY_EDITOR
         public int ActiveSource => _activeSource;
         [SerializeField] private bool _debugBeatOff;
+        [SerializeField] private bool _debugBeatJumpOff;
 #endif
         private struct LoopPoints
         {
@@ -196,6 +197,10 @@ namespace GameplaySystems
 
                         if (!_characterStateController.Dead)
                             _characterInput.InputState.JumpCommand = true;
+#if UNITY_EDITOR
+                        if (_debugBeatJumpOff)
+                            _characterInput.InputState.JumpCommand = false;
+#endif
                     }
                 } 
                 else if (MetronomeOn)

@@ -96,11 +96,12 @@ namespace Gameplay
             else if (collision && hitA.gameObject.CompareTag(_oneWayPlatformTag))
                 collision = OnOneWayPlatform;
 
+#if UNITY_EDITOR 
             // COLLISION DEBUGGING
             Color color = collision ? Color.green : verticalDetection ? Color.yellow : Color.cyan;
             Debug.DrawLine(collisionCheckPointA, collisionCheckPointB, color);
             Debug.DrawLine(bounds.center, (Vector2)bounds.center + detectDirection, collision ? Color.green : Color.red);
-
+#endif
             if (!collision == in_detectEnter)
                 return;
 
