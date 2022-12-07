@@ -314,6 +314,7 @@ namespace GameplaySystems
         }
 
         public void SetMetronomeMute(bool in_value) {
+            _pausedMetronome = !in_value;
             _metronomeStrong.mute = in_value;
             _metronomeWeak.mute = in_value;
         }
