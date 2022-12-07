@@ -332,35 +332,43 @@ namespace Gameplay
             CancelVerticalVelocity();
             DashVelocity = Vector2.zero;
 
-            Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
-
-            int directionX = 
-                inputDirection.x <= _characterInput.GameplayControlConfigs.InputDeadZone ?
-                _characterStateController.FacingLeft ? -1 : 1 : 
-                inputDirection.x < 0 ? -1 : 1;
-            
-            int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
-            
-            // "Wavedash" (grounded Dash)
-            if (_characterStateController.Grounded && directionY < 1)
+            if (GetDashDirection())
             {
-                _characterVelocity = new Vector2((directionY < 0 ? .75f : 1) * _dashTopSpeed * directionX, 0);
+                _characterVelocity = 
+                    new Vector2((DashDirection.y < 0 ? .75f : 1) * _dashTopSpeed * DashDirection.x, 0);
                 _characterStateController.CurrentCharacterState = CharacterState.Land;
                 return;
             }
 
+            DashVelocity = new Vector2(DashDirection.x, DashDirection.y) * _dashTopSpeed;
+            
+            _characterStateController.CurrentCharacterState = CharacterState.Dash;
+            _characterVelocity = DashVelocity;
+        }
+
+        public bool GetDashDirection() {
+            Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
+
+            int directionX =
+                inputDirection.x <= _characterInput.GameplayControlConfigs.InputDeadZone ?
+                _characterStateController.FacingLeft ? -1 : 1 :
+                inputDirection.x < 0 ? -1 : 1;
+
+            int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
+
             bool wallDash =
-                _characterStateController.Walled && _characterStateController.NearWallLeft && directionX < 0 ||
+                _characterStateController.Walled && 
+                _characterStateController.NearWallLeft && directionX < 0 ||
                 _characterStateController.NearWallRight && directionX > 0;
 
             if (wallDash)
                 directionX *= -1;
 
             DashDirection = new Vector2(directionX, directionY * .5f).normalized;
-            DashVelocity = new Vector2(DashDirection.x, DashDirection.y) * _dashTopSpeed;
-            
-            _characterStateController.CurrentCharacterState = CharacterState.Dash;
-            _characterVelocity = DashVelocity;
+            return GetIsDashGrounded();
+
+            bool GetIsDashGrounded() =>
+                _characterStateController.Grounded && directionY < 1;
         }
 
         #endregion

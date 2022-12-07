@@ -11,6 +11,7 @@ namespace Gameplay
 
         private CharacterStateController _characterStateController;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Transform _dashPreviewArrow;
         [SerializeField] private Animator _playerAnimator;
         [SerializeField] private CharacterVisualsData _characterVisualsData;
         private SilhouetteMaterialOverrides _pulseAndSilhouetteMatOverrides;
@@ -72,6 +73,14 @@ namespace Gameplay
         {
             ResetAnimationTriggers();
             _playerAnimator.SetTrigger(Constants.DashWindupClipName);
+        }
+
+        public void ToggleDashPreviewArrow(bool in_active) =>
+            _dashPreviewArrow.gameObject.SetActive(in_active);
+
+        public void UpdateDashPreviewArrowDirection(Vector2 in_direction) {
+            float angle = Mathf.Atan2(in_direction.y, in_direction.x) * Mathf.Rad2Deg;
+            _dashPreviewArrow.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
         private void ResetAnimationTriggers()

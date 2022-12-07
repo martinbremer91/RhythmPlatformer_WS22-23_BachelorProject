@@ -17,7 +17,7 @@ namespace Gameplay
 
         private GameStateManager _gameStateManager;
         private CharacterCollisionDetector _characterCollisionDetector;
-        private CharacterSpriteController _spriteController;
+        private CharacterSpriteController _characterSpriteController;
         private CharacterMovement _characterMovement;
         private CharacterInput _characterInput;
 
@@ -63,6 +63,8 @@ namespace Gameplay
                     PerformDashWindupAsync();
                 else
                     _characterInput.InputState.DashWindup = false;
+
+                _characterSpriteController.ToggleDashPreviewArrow(_dashWindup);
             }
         }
         private float _dashWindupDuration;
@@ -88,7 +90,7 @@ namespace Gameplay
                 if (_facingLeft == value)
                     return;
                 
-                _spriteController.SetCharacterOrientation(value);
+                _characterSpriteController.SetCharacterOrientation(value);
                 _facingLeft = value;
             }
         }
@@ -141,7 +143,7 @@ namespace Gameplay
             _currentCharacterState = in_value;
             
             if (!DashWindup)
-                _spriteController.HandleStateAnimation();
+                _characterSpriteController.HandleStateAnimation();
 
             if (Grounded)
                 BecomeGrounded?.Invoke();
@@ -232,7 +234,7 @@ namespace Gameplay
             _characterCollisionDetector = in_gameStateManager.CharacterCollisionDetector;
             _characterInput = in_gameStateManager.CharacterInput;
             _characterMovement = in_gameStateManager.CharacterMovement;
-            _spriteController = in_gameStateManager.CharacterSpriteController;
+            _characterSpriteController = in_gameStateManager.CharacterSpriteController;
             
             MovementConfigs movementConfigs = in_gameStateManager.MovementConfigs;
             _maxInheritedXVelocity = movementConfigs.MaxInheritedXVelocity;
@@ -244,7 +246,7 @@ namespace Gameplay
             void GetAnticipationStatesDurations()
             {
                 AnimationClip dashWindupClip =
-                    _spriteController.Animator.runtimeAnimatorController.animationClips
+                    _characterSpriteController.Animator.runtimeAnimatorController.animationClips
                         .FirstOrDefault(c => c.name == Constants.DashWindupClipName);
                 
                 if (dashWindupClip == null)
@@ -563,17 +565,19 @@ namespace Gameplay
             }
 
             CanDash = false;
-            _spriteController.SetDashWindupTrigger();
+            _characterSpriteController.SetDashWindupTrigger();
             
             float timer = _dashWindupDuration;
 
             while (timer > 0 && !GameStateManager.GameQuitting)
             {
                 await Task.Yield();
+                _characterMovement.GetDashDirection();
+                _characterSpriteController.UpdateDashPreviewArrowDirection(_characterMovement.DashDirection);
                 timer -= Time.fixedDeltaTime;
             }
 
-            if (Time.deltaTime <= 0)
+            if (GameStateManager.GameQuitting)
                 return;
 
             DashWindup = false;
