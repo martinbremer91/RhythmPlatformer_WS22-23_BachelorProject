@@ -568,12 +568,14 @@ namespace Gameplay
             _characterSpriteController.SetDashWindupTrigger();
             
             float timer = _dashWindupDuration;
+            bool dashButtonHeld = _characterInput.InputState.DashButton == InputActionPhase.Performed;
 
-            while (timer > 0 && !GameStateManager.GameQuitting)
+            while (timer > 0 && dashButtonHeld && !GameStateManager.GameQuitting)
             {
                 await Task.Yield();
                 _characterMovement.GetDashDirection();
                 _characterSpriteController.UpdateDashPreviewArrowDirection(_characterMovement.DashDirection);
+                dashButtonHeld = _characterInput.InputState.DashButton == InputActionPhase.Performed;
                 timer -= Time.fixedDeltaTime;
             }
 
