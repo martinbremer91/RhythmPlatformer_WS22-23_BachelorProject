@@ -109,10 +109,6 @@ namespace Scriptable_Object_Scripts
                  "direction, the character will immediately turn but not lose their current speed (i.e. 'dash dance')")]
         public float RunTurnWindow = .1f;
         
-        [Tooltip("Maximum duration the character can wall-cling at a time. " +
-                 "Recharges any time the character is not wall-clinging")]
-        public float WallClingMaxDuration = .5f;
-        
         [Tooltip("Modifier multiplied with rise velocity if player holds down while grounded when jump comes out")]
         public float CrouchJumpSpeedModifier;
         

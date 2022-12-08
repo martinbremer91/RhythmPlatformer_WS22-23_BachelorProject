@@ -107,12 +107,6 @@ namespace Gameplay
 
         public bool NearWallLeft { get; set; }
         public bool NearWallRight { get; set; }
-        
-        private bool _canWallCling = true;
-        public bool CanWallCling => _canWallCling;
-
-        private float _wallClingMaxDuration;
-        public float WallClingTimer {get; private set;}
 
         private float _maxInheritedXVelocity;
 
@@ -239,7 +233,6 @@ namespace Gameplay
             MovementConfigs movementConfigs = in_gameStateManager.MovementConfigs;
             _maxInheritedXVelocity = movementConfigs.MaxInheritedXVelocity;
             _runTurnWindow = movementConfigs.RunTurnWindow;
-            _wallClingMaxDuration = movementConfigs.WallClingMaxDuration;
             
             GetAnticipationStatesDurations();
             
@@ -375,7 +368,7 @@ namespace Gameplay
                     break;
                 case CharacterState.WallSlide:
                     HandleWalled();
-                    if (CanWallCling && _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed &&
+                    if (_characterInput.InputState.WallClingTrigger == InputActionPhase.Performed &&
                         Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
                         CurrentCharacterState = CharacterState.WallCling;
                     break;
@@ -436,10 +429,7 @@ namespace Gameplay
         }
         
         private void ApplyStateMovement()
-        {
-            if (!Walled)
-                DecrementWallClingTimer();
-            
+        {            
             switch (CurrentCharacterState)
             {
                 case CharacterState.Idle:
@@ -472,7 +462,6 @@ namespace Gameplay
                     _characterMovement.Fall();
                     break;
                 case CharacterState.WallCling:
-                    IncrementWallClingTimer();
                     break;
                 case CharacterState.WallSlide:
                     _characterMovement.WallSlide();
@@ -485,23 +474,6 @@ namespace Gameplay
                         _characterMovement.Dash();
                     }
                     break;
-            }
-
-            void DecrementWallClingTimer()
-            {
-                WallClingTimer = Mathf.Max(WallClingTimer - Time.fixedDeltaTime, 0);
-                if (WallClingTimer <= 0)
-                    _canWallCling = true;
-            }
-        }
-        
-        public void IncrementWallClingTimer()
-        {
-            WallClingTimer = Mathf.Min(WallClingTimer + Time.fixedDeltaTime, _wallClingMaxDuration);
-            if (WallClingTimer >= _wallClingMaxDuration)
-            {
-                _canWallCling = false;
-                CurrentCharacterState = CharacterState.Fall;
             }
         }
         
@@ -601,14 +573,14 @@ namespace Gameplay
             bool holdTowardsWall_L = leftWall && inputX < -.5f && velocityX <= 0;
             bool holdTowardsWall_R = rightWall && inputX > .5f && velocityX >= 0;
 
-            if (CanWallCling && Airborne && (holdTowardsWall_L || holdTowardsWall_R))
+            if (Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
 
             if (CurrentCharacterState is CharacterState.WallSlide && 
                 _characterMovement.CharacterVelocity.y <= 0 && !holdTowardsWall_L && !holdTowardsWall_R)
                 CurrentCharacterState = CharacterState.Fall;
 
-            if (CanWallCling && CurrentCharacterState is not CharacterState.Rise and not CharacterState.Dash &&
+            if (CurrentCharacterState is not CharacterState.Rise and not CharacterState.Dash &&
                 _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
             {
                 if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)

@@ -305,9 +305,6 @@ namespace Gameplay
 
             float currentWallDrag = increasedDrag ? _increasedWallDrag :
                 slideAxisInput == 0 || _characterVelocity.y == 0 ? _defaultWallDrag : _reducedWallDrag;
-
-            if (increasedDrag)
-                _characterStateController.IncrementWallClingTimer();
             
             return currentWallDrag;
         }

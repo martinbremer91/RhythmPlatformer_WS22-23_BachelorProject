@@ -133,15 +133,10 @@ namespace Editor
                 "Wall Slide Velocity: " + $"{_characterMovement.WallSlideVelocity:N2}");
             GUI.Label(new Rect(_infoRect.position + new Vector2(25, 115), new Vector2(300, 20)),
                 "Dash Velocity: " + _characterMovement.DashVelocity);
-            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 135),
-                    new Vector2(200, 20)), 
-                _characterStateController.CanWallCling, "Wall Cling available");
-            GUI.Label(new Rect (_infoRect.position + new Vector2(25, 150), new Vector2(300, 20)), 
-                "Wall Cling Timer: " + $"{_characterStateController.WallClingTimer:N2}");
-            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 170),
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 150),
                     new Vector2(200, 20)),
                 _characterCollisionDetector.SlideOnHorizontal, "SlideOn Horizontal");
-            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 185),
+            GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 165),
                     new Vector2(200, 20)),
                 _characterCollisionDetector.SlideOnVertical, "SlideOn Vertical");
         }
