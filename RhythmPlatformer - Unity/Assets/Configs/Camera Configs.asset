@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Camera Configs
   m_EditorClassIdentifier: 
   CharacterMovementBoundaries: {x: 1.5, y: 0.5}
-  LookAheadShiftDistance: 2.5
-  _smoothTime: 0.5
-  MaxSpeed: 30
+  _smoothTime: 0.25
+  MaxSpeed: 200
   MaxSize: 100
   MinSize: 2.5

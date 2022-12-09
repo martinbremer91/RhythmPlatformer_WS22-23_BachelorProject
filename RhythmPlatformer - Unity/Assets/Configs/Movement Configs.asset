@@ -143,15 +143,14 @@ MonoBehaviour:
   AirDriftSpeed: 6
   AirDrag: 0.1
   DefaultGroundDrag: 50
-  ReducedGroundDragFactor: 40
+  ReducedGroundDragFactor: 30
   IncreasedGroundDragFactor: 60
-  DefaultWallDrag: 50
-  ReducedWallDrag: 40
-  IncreasedWallDrag: 60
+  DefaultWallDrag: 30
+  ReducedWallDrag: 15
+  IncreasedWallDrag: 50
   MinSlideVelocity: 0.5
   MaxAirDriftCancelVelocity: 12
   RunTurnWindow: 0.1
-  WallClingMaxDuration: 3
   CrouchJumpSpeedModifier: 0.5
   FastFallSpeedModifier: 2
   DashWindupVelocityMod: 0.1
