@@ -650,6 +650,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 8192x8192_SpriteSheet_26
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 3072
+        width: 1023
+        height: 1023
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f60faa270bee324c922cd8426fa8c78
+      internalID: 1385290249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8192x8192_SpriteSheet_27
+      rect:
+        serializedVersion: 2
+        x: 6144
+        y: 6144
+        width: 1023
+        height: 1023
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62fc49e6cf5083f41b6eb6cc16c9ccc0
+      internalID: -338066818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8192x8192_SpriteSheet_28
+      rect:
+        serializedVersion: 2
+        x: 7167
+        y: 6144
+        width: 1023
+        height: 1023
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29ce3bde49fb6f743ac55531189256eb
+      internalID: -371055488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -669,12 +732,15 @@ TextureImporter:
       8192x8192_SpriteSheet_21: -419340255
       8192x8192_SpriteSheet_3: 1203624825
       8192x8192_SpriteSheet_9: 1652628778
+      8192x8192_SpriteSheet_26: 1385290249
       8192x8192_SpriteSheet_24: -747091565
       8192x8192_SpriteSheet_2: 534335125
       8192x8192_SpriteSheet_19: -2017777790
+      8192x8192_SpriteSheet_27: -338066818
       8192x8192_SpriteSheet_0: 348236942
       8192x8192_SpriteSheet_5: 1906747313
       8192x8192_SpriteSheet_17: -28618162
+      8192x8192_SpriteSheet_28: -371055488
       8192x8192_SpriteSheet_10: -1990786656
       8192x8192_SpriteSheet_13: 925707139
       8192x8192_SpriteSheet_7: 728674555
