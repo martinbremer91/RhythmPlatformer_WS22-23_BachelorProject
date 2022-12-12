@@ -95,7 +95,7 @@ namespace GameplaySystems
         }
 
         private void OnDisable() =>
-            SceneLoadManager.SceneLoaded -= () => ExecuteLowPassFilterFade(false);
+            SceneLoadManager.SceneUnloaded -= () => ExecuteLowPassFilterFade(false);
 
         private void OnApplicationFocus(bool focus) =>
             AudioListener.pause = !focus;
@@ -115,7 +115,7 @@ namespace GameplaySystems
 
             _gameStateManager = in_gameStateManager;
             _musicUtilities = new MusicUtilities();
-            SceneLoadManager.SceneLoaded += () => ExecuteLowPassFilterFade(false);
+            SceneLoadManager.SceneUnloaded += () => ExecuteLowPassFilterFade(false);
 
             _trackData = _gameStateManager.CurrentTrackData;
             _metronomeOnlyMode = _trackData.Clip == null;
@@ -227,44 +227,47 @@ namespace GameplaySystems
             int countIn = 0;
             bool metronomeMute = _metronomeWeak.mute;
 
-            while (BeatTracker != _trackData.Meter && !GameStateManager.GameQuitting)
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
+            while (!CheckQuitFunction() && BeatTracker != _trackData.Meter)
                 await Task.Yield();
-            if (GameStateManager.GameQuitting)
+            if (CheckQuitFunction())
                 return;
 
             SetMetronomeMute(false);
             MetronomeOn = true;
-            while (BeatTracker != 1 && !GameStateManager.GameQuitting)
+            while (!CheckQuitFunction() && BeatTracker != 1)
                 await Task.Yield();
-            if (GameStateManager.GameQuitting)
+            if (CheckQuitFunction())
                 return;
 
             UpdateCountInUi();
 
-            while (BeatTracker != 2 && !GameStateManager.GameQuitting)
+            while (!CheckQuitFunction() && BeatTracker != 2)
                 await Task.Yield();
-            if (GameStateManager.GameQuitting)
+            if (CheckQuitFunction())
                 return;
 
             int beatBeforeUnpause = _pausedBeat == 1 ? _trackData.Meter : _pausedBeat - 1;
 
             if (_pausedBeat != 1)
             {
-                while (BeatTracker != 1 && !GameStateManager.GameQuitting)
+                while (!CheckQuitFunction() && BeatTracker != 1)
                 {
                     UpdateCountInUi();
                     await Task.Yield();
                 }
-                if (GameStateManager.GameQuitting)
+                if (CheckQuitFunction())
                     return;
             }
             
-            while (BeatTracker != beatBeforeUnpause && !GameStateManager.GameQuitting)
+            while (!CheckQuitFunction() && BeatTracker != beatBeforeUnpause)
             {
                 UpdateCountInUi();
                 await Task.Yield();
             }
-            if (GameStateManager.GameQuitting)
+            if (CheckQuitFunction())
                 return;
 
             UpdateCountInUi();
@@ -281,6 +284,14 @@ namespace GameplaySystems
                     pauseMenu.SetCountInText(BeatTracker);
                     countIn = BeatTracker;
                 }
+            }
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
             }
         }
 

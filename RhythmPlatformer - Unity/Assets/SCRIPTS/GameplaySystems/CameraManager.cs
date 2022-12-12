@@ -142,9 +142,12 @@ namespace GameplaySystems
 
         private async void UpdateSpawnValuesAndDeactivateAssistantAsync()
         {
+            bool quitFunction = false;
             int timer = 0;
 
-            while (timer < 3000 && Time.deltaTime > 0)
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
+            while (timer < 3000 && !CheckQuitFunction())
             {
                 int deltaTimeMilliseconds = Mathf.RoundToInt(Time.deltaTime * 1000);
 
@@ -155,10 +158,18 @@ namespace GameplaySystems
                 await Task.Delay(deltaTimeMilliseconds);
             }
 
-            if (Time.deltaTime <= 0)
+            if (CheckQuitFunction())
                 return;
 
             gameObject.SetActive(false);
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
 
         private void JumpToSpawnPoint()

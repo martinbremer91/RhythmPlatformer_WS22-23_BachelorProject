@@ -1,5 +1,6 @@
 using UnityEngine;
 using UI_And_Menus;
+using GlobalSystems;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -22,13 +23,27 @@ namespace Structs
             in_uiManager.SaveInProgressText.SetActive(true);
     #if UNITY_EDITOR
             string path = "Assets/JsonData/SaveData/PlayerProgress.json";
-    #else
+#else
             string path = Application.persistentDataPath + "/SaveData/PlayerProgress.json";
-    #endif
+#endif
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
             string jsonData = JsonUtility.ToJson(this);
             await System.IO.File.WriteAllTextAsync(path, jsonData);
 
+            if (CheckQuitFunction())
+                return;
+
             in_uiManager.SaveInProgressText.SetActive(false);
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
 
         public bool LoadPlayerProgressData(ref PlayerProgressData ref_playerProgressData) {

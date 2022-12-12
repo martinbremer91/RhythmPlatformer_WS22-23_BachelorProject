@@ -13,7 +13,7 @@ namespace GlobalSystems
         private static List<IRefreshable> s_refreshables;
         public static List<IRefreshable> s_Refreshables => s_refreshables ??= new();
 
-        public static Action SceneLoaded;
+        public static Action SceneUnloaded;
 
         public static void RefreshGlobalObjects()
         {
@@ -23,10 +23,11 @@ namespace GlobalSystems
 
         public static IEnumerator LoadSceneCoroutine(string in_sceneName, UiManager in_uiManager)
         {
+            SceneUnloaded?.Invoke();
+
             bool loadCompleted = false;
             in_uiManager.LoadingScreen.SetActive(true);
             GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Nothing;
-            SceneLoaded?.Invoke();
 
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
             asyncLoad.completed += OnSceneLoaded;

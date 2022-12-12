@@ -1,6 +1,5 @@
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
-using Structs;
 using UnityEngine;
 
 namespace GlobalSystems

@@ -16,8 +16,11 @@ namespace Utility_Scripts
 
             float currentTime = 0;
             float startCutoff = in_audioSources[0].volume;
-    
-            while (currentID == _volumeFadeID && currentTime <= in_duration && !GameStateManager.GameQuitting)
+
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
+            while (!CheckQuitFunction() && currentID == _volumeFadeID && currentTime <= in_duration)
             {
                 currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetVolume, currentTime / in_duration);
@@ -26,6 +29,14 @@ namespace Utility_Scripts
                     source.volume = cutoffFrequency;
                 
                 await Task.Yield();
+            }
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
             }
         }
         
@@ -40,8 +51,11 @@ namespace Utility_Scripts
 
             float currentTime = 0;
             float startCutoff = in_lowPassArray[0].cutoffFrequency;
-    
-            while (currentID == _loPassFadeID && currentTime <= in_duration && !GameStateManager.GameQuitting)
+
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
+            while (!CheckQuitFunction() && currentID == _loPassFadeID && currentTime <= in_duration)
             {
                 currentTime += Time.deltaTime;
                 float cutoffFrequency = Mathf.Lerp(startCutoff, in_targetCutoff, currentTime / in_duration);
@@ -55,6 +69,14 @@ namespace Utility_Scripts
             if (!GameStateManager.GameQuitting && currentID == _loPassFadeID && in_disable)
                 foreach (AudioLowPassFilter lowPass in in_lowPassArray)
                     lowPass.enabled = false;
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
     }
 }

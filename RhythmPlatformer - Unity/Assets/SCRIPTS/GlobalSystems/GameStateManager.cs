@@ -22,8 +22,8 @@ namespace GlobalSystems
 
         public BeatManager BeatManager;
         public UiManager UiManager;
-        public HUDController HUDController;
         public PulsingController PulsingController;
+        [HideInInspector] public HUDController HUDController;
 
         [HideInInspector] public CameraManager CameraManager;
         [HideInInspector] public CameraManager CameraManagerAssistant;
@@ -41,6 +41,7 @@ namespace GlobalSystems
         public MovementConfigs MovementConfigs;
         public CompanionConfigs CompanionConfigs;
         public GameplayControlConfigs GameplayControlConfigs;
+        public LevelSequenceData LevelSequenceData;
         public SoundConfigs SoundConfigs;
         [HideInInspector] public TrackData CurrentTrackData;
 

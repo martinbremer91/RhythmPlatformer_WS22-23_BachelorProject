@@ -270,6 +270,9 @@ namespace Gameplay
             if (s_Invulnerable)
                 return;
 #endif
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
             Dead = true;
             UiManager uiManager = _gameStateManager.UiManager;
             UniversalInputManager.SetUniversalControlsActive(false);
@@ -277,15 +280,25 @@ namespace Gameplay
             _characterInput.SetInputStateToNeutral();
             
             await uiManager.FadeDarkScreen(true);
+            if (quitFunction)
+                return;
 
             Respawn?.Invoke();
             CurrentCharacterState = CharacterState.Idle;
 
             await uiManager.FadeDarkScreen(false);
-            
+            if (quitFunction)
+                return;
+
             _characterInput.SetCharacterControlsActive(true);
             UniversalInputManager.SetUniversalControlsActive(true);
             Dead = false;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
         
         public void HandleCollisionStateChange(CollisionCheck in_check, bool in_enter)
@@ -507,7 +520,10 @@ namespace Gameplay
         {
             float runTimer = _runTurnWindow;
 
-            while (runTimer > 0 && !GameStateManager.GameQuitting)
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
+            while (runTimer > 0 && !CheckQuitFunction())
             {
                 await Task.Yield();
                 runTimer -= Time.fixedDeltaTime;
@@ -516,10 +532,18 @@ namespace Gameplay
                     return;
             }
 
-            if (Time.deltaTime <= 0)
+            if (CheckQuitFunction())
                 return;
             
             _characterMovement.RunCurveTracker.x = 0;
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
 
         private void ExecuteJump()
@@ -536,13 +560,16 @@ namespace Gameplay
                 return;
             }
 
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
             CanDash = false;
             _characterSpriteController.SetDashWindupTrigger();
             
             float timer = _dashWindupDuration;
             bool dashButtonHeld = _characterInput.InputState.DashButton == InputActionPhase.Performed;
 
-            while (timer > 0 && dashButtonHeld && !GameStateManager.GameQuitting)
+            while (!CheckQuitFunction() && timer > 0 && dashButtonHeld)
             {
                 await Task.Yield();
                 _characterMovement.GetDashDirection();
@@ -551,12 +578,20 @@ namespace Gameplay
                 timer -= Time.fixedDeltaTime;
             }
 
-            if (GameStateManager.GameQuitting)
+            if (CheckQuitFunction())
                 return;
 
             DashWindup = false;
             CheckFacingOrientation();
             _characterMovement.InitializeDash();
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
         
         private void HandleWallInteractions(bool in_RightWall)

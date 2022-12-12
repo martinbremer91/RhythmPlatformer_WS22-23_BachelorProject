@@ -1,6 +1,7 @@
 using Structs;
 using UnityEngine;
 using UI_And_Menus;
+using GlobalSystems;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -25,10 +26,24 @@ namespace Scriptable_Object_Scripts
 #else
             string path = Application.persistentDataPath + "/SaveData/UserSoundPreferences.json";
 #endif
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
             string jsonData = JsonUtility.ToJson(SoundPreferences);
             await System.IO.File.WriteAllTextAsync(path, jsonData);
+            
+            if (CheckQuitFunction())
+                return;
 
             in_uiManager.SaveInProgressText.SetActive(false);
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
 
         public bool LoadSoundPreferences()

@@ -50,6 +50,7 @@ MonoBehaviour:
   PauseMenu: {fileID: 0}
   BeatManager: {fileID: 0}
   UiManager: {fileID: 0}
+  HUDController: {fileID: 0}
   PulsingController: {fileID: 0}
   CameraManager: {fileID: 0}
   CameraManagerAssistant: {fileID: 0}
@@ -59,11 +60,13 @@ MonoBehaviour:
   CharacterStateController: {fileID: 0}
   CharacterMovement: {fileID: 0}
   CharacterSpriteController: {fileID: 0}
+  CompanionSpriteController: {fileID: 0}
   CompanionFollow: {fileID: 0}
   CameraBoundsData: {fileID: 0}
   MovementConfigs: {fileID: 11400000, guid: 0c653f86a49314f2297b5b508a28ce8a, type: 2}
   CompanionConfigs: {fileID: 11400000, guid: a5bab89e7fcef65439b2c69db433a7bc, type: 2}
   GameplayControlConfigs: {fileID: 11400000, guid: b3ef191d31a6bb74291481d947f015cb, type: 2}
+  LevelSequenceData: {fileID: 11400000, guid: d1f2e67f767d41b4b8b6c2779e954bf7, type: 2}
   SoundConfigs: {fileID: 11400000, guid: 99609539b7004491bb0ebba6c5c3ee9f, type: 2}
   CurrentTrackData: {fileID: 0}
   LoadedSceneType: 0

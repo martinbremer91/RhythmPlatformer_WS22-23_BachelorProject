@@ -141,6 +141,9 @@ namespace UI_And_Menus
         public async Task FadeDarkScreen(bool in_fadeScreenIn)
         {
             Color screenColor = _fadeScreen.color;
+
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
             
             if (in_fadeScreenIn)
             {
@@ -151,7 +154,7 @@ namespace UI_And_Menus
             int timer = 0;
             Vector2 startAndEndAlphas = new(in_fadeScreenIn ? 0 : 1, in_fadeScreenIn ? 1 : 0);
 
-            while (timer <= _fadeDuration * 1000 + 100 && !GameStateManager.GameQuitting)
+            while (!CheckQuitFunction() && timer <= _fadeDuration * 1000 + 100)
             {
                 int deltaTimeMilliseconds = Mathf.RoundToInt(1000 * Time.deltaTime);
                 await Task.Delay(deltaTimeMilliseconds);
@@ -163,7 +166,7 @@ namespace UI_And_Menus
                 _fadeScreen.color = new Color(screenColor.r, screenColor.g, screenColor.b, alpha);
             }
 
-            if (GameStateManager.GameQuitting)
+            if (CheckQuitFunction())
                 return;
 
             _fadeScreen.color = in_fadeScreenIn ? new Color(screenColor.r, screenColor.g, screenColor.b, 1) : 
@@ -171,6 +174,14 @@ namespace UI_And_Menus
 
             if (!in_fadeScreenIn)
                 _fadeScreen.gameObject.SetActive(false);
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
         }
 
         #endregion

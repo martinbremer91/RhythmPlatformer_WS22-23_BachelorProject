@@ -23,6 +23,8 @@ namespace GameplaySystems
         [SerializeField] private Transform _dashCrystalsParent;
         private List<CrystalBase> _crystals = new();
 
+        [SerializeField] private LevelEnd _levelEnd;
+
         private CharacterStateController _characterStateController;
         private Vector3 _currentSpawnPoint;
         private bool _spawnFacingLeft;
@@ -39,6 +41,7 @@ namespace GameplaySystems
             InitCheckpoints();
             InitHazards();
             InitDashCrystals();
+            InitLevelEnd();
             
             void InitPlatforms()
             {
@@ -86,6 +89,9 @@ namespace GameplaySystems
                         crystal.Init(in_gameStateManager);
                 }
             }
+
+            void InitLevelEnd() =>
+                _levelEnd.Init(in_gameStateManager);
         }
 
         public void SetCurrentCheckPoint(Checkpoint in_checkpoint)
