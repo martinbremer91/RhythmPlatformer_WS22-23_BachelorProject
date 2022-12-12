@@ -11,7 +11,6 @@ namespace Gameplay
     {
         #region REFERENCES
 
-        private GameStateManager _gameStateManager;
         public GameplayControlConfigs GameplayControlConfigs;
 
         #endregion
@@ -26,10 +25,9 @@ namespace Gameplay
 
         #endregion
 
-        public void Init(GameStateManager in_GameStateManager)
+        public void Init(GameStateManager in_gameStateManager)
         {
-            _gameStateManager = in_GameStateManager;
-            GameplayControlConfigs = in_GameStateManager.GameplayControlConfigs;
+            GameplayControlConfigs = in_gameStateManager.GameplayControlConfigs;
             
             _controls = new DefaultControls();
             
@@ -68,7 +66,7 @@ namespace Gameplay
                 InputState.WallClingTrigger = _controls.GameplayDefault.WallCling.phase;
 
                 InputState.directionalInputModifier = 
-                    _controls.GameplayDefault.DigitalAxesModifier.phase == InputActionPhase.Performed &&
+                    _controls.GameplayDefault.DigitalAxesModifier.phase is InputActionPhase.Performed &&
                     InputState.analogDeadzone;
             }
         }

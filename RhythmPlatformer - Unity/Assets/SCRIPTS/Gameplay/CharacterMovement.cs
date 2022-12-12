@@ -244,7 +244,7 @@ namespace Gameplay
         
         public void WallSlide()
         {
-            bool wallSlideFalling = _characterInput.InputState.WallClingTrigger != InputActionPhase.Performed &&
+            bool wallSlideFalling = _characterInput.InputState.WallClingTrigger is not InputActionPhase.Performed &&
                                     WallSlideVelocity <= 0 && WallSlideVelocity > -_wallSlideFallTopSpeed;
 
             float drag = wallSlideFalling ? 0 : GetCurrentWallDrag();
@@ -300,7 +300,7 @@ namespace Gameplay
         {
             float slideAxisInput = _characterInput.InputState.DirectionalInput.y;
 
-            bool increasedDrag = _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed ||
+            bool increasedDrag = _characterInput.InputState.WallClingTrigger is InputActionPhase.Performed ||
                                  _characterVelocity.y * slideAxisInput < 0;
 
             float currentWallDrag = increasedDrag ? _increasedWallDrag :

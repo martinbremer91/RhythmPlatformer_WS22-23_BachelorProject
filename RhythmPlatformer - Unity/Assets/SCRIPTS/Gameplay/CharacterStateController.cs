@@ -312,6 +312,8 @@ namespace Gameplay
                             : CharacterState.Fall;
                     else
                         CurrentCharacterState = CharacterState.Land;
+                    NearWallLeft = false;
+                    NearWallRight = false;
                     break;
                 case CollisionCheck.Ceiling:
                     CeilingHit = in_enter;
@@ -368,8 +370,8 @@ namespace Gameplay
                                 CharacterState.Crouch : CharacterState.Idle;
                     break;
                 case CharacterState.WallCling:
-                    HandleWalled();
-                    if (_characterInput.InputState.WallClingTrigger != InputActionPhase.Performed)
+                    CheckWalled();
+                    if (_characterInput.InputState.WallClingTrigger is not InputActionPhase.Performed)
                     {
                         float inputX = _characterInput.InputState.DirectionalInput.x;
                         bool holdTowardsWall_L = NearWallLeft && inputX < -.5f;
@@ -380,8 +382,8 @@ namespace Gameplay
                     }
                     break;
                 case CharacterState.WallSlide:
-                    HandleWalled();
-                    if (_characterInput.InputState.WallClingTrigger == InputActionPhase.Performed &&
+                    CheckWalled();
+                    if (_characterInput.InputState.WallClingTrigger is InputActionPhase.Performed &&
                         Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
                         CurrentCharacterState = CharacterState.WallCling;
                     break;
@@ -434,7 +436,7 @@ namespace Gameplay
                     CurrentCharacterState = CharacterState.Crouch;
             }
 
-            void HandleWalled()
+            void CheckWalled()
             {
                 if (!NearWallLeft && !NearWallRight)
                     CurrentCharacterState = CharacterState.Fall;
@@ -616,7 +618,7 @@ namespace Gameplay
                 CurrentCharacterState = CharacterState.Fall;
 
             if (CurrentCharacterState is not CharacterState.Rise and not CharacterState.Dash &&
-                _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed)
+                _characterInput.InputState.WallClingTrigger is InputActionPhase.Performed)
             {
                 if (Mathf.Abs(_characterMovement.CharacterVelocity.y) <= 1)
                     CurrentCharacterState = CharacterState.WallCling;

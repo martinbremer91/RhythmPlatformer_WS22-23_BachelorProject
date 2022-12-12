@@ -50,8 +50,8 @@ MonoBehaviour:
   PauseMenu: {fileID: 0}
   BeatManager: {fileID: 0}
   UiManager: {fileID: 0}
-  HUDController: {fileID: 0}
   PulsingController: {fileID: 0}
+  HUDController: {fileID: 0}
   CameraManager: {fileID: 0}
   CameraManagerAssistant: {fileID: 0}
   LevelManager: {fileID: 0}
@@ -83,3 +83,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c66967c843c444e4bcf10e89290b1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debugTimeScale: 1

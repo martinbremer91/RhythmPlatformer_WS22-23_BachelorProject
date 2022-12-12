@@ -25,6 +25,10 @@ namespace GameplaySystems
 
         public readonly List<MovementRoutine> MovementRoutines = new();
 
+#if UNITY_EDITOR
+        [SerializeField] private float _debugTimeScale = 1;
+#endif
+
         private void OnEnable()
         {
             if (s_Instance == null)
@@ -52,6 +56,10 @@ namespace GameplaySystems
             _characterStateController = in_gameStateManager.CharacterStateController;
             _characterMovement = in_gameStateManager.CharacterMovement;
             _companionFollow = in_gameStateManager.CompanionFollow;
+
+#if UNITY_EDITOR
+            Time.timeScale = _debugTimeScale <= 0 ? 1 :_debugTimeScale;
+#endif
         }
 
         public void SceneRefresh() => 

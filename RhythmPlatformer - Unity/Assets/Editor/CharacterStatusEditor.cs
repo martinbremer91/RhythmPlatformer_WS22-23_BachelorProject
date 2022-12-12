@@ -159,10 +159,10 @@ namespace Editor
 
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 145),
                     new Vector2(200, 20)), 
-                _characterInput.InputState.DashButton == InputActionPhase.Performed, "DASH");
+                _characterInput.InputState.DashButton is InputActionPhase.Performed, "DASH");
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 160),
                     new Vector2(200, 20)), 
-                _characterInput.InputState.WallClingTrigger == InputActionPhase.Performed, "WALL CLING");
+                _characterInput.InputState.WallClingTrigger is InputActionPhase.Performed, "WALL CLING");
             GUI.Toggle(new Rect(_inputStatePos + new Vector2(0, 175),
                     new Vector2(200, 20)), 
                 _characterStateController.NearWallLeft || _characterStateController.NearWallRight, "NEAR WALL");
