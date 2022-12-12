@@ -1274,7 +1274,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths: []
@@ -1763,6 +1763,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4395796802103105377, guid: 794890b81e98f4e59a254e971e28d8ee, type: 3}
+      propertyPath: _cam
+      value: 
+      objectReference: {fileID: 1266477865208277403}
+    - target: {fileID: 4395796802103105377, guid: 794890b81e98f4e59a254e971e28d8ee, type: 3}
+      propertyPath: _complementaryCameraManager
+      value: 
+      objectReference: {fileID: 851463575}
     - target: {fileID: 4395796802103105382, guid: 794890b81e98f4e59a254e971e28d8ee, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -7264,7 +7272,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -7904,12 +7912,21 @@ PrefabInstance:
       propertyPath: _camBoundsData
       value: 
       objectReference: {fileID: 4900000, guid: 74758df2374a9544db880a1178c93d9c, type: 3}
+    - target: {fileID: 1266477865505378587, guid: e494ed8280c3f4cb6b307fdc00f2c40a, type: 3}
+      propertyPath: _complementaryCameraManager
+      value: 
+      objectReference: {fileID: 1229030468}
     - target: {fileID: 1266477865505378790, guid: e494ed8280c3f4cb6b307fdc00f2c40a, type: 3}
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e494ed8280c3f4cb6b307fdc00f2c40a, type: 3}
+--- !u!20 &1266477865208277403 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1266477865505378789, guid: e494ed8280c3f4cb6b307fdc00f2c40a, type: 3}
+  m_PrefabInstance: {fileID: 1266477865208277402}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2095723732962664861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8167,7 +8184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
   _trackData: {fileID: 11400000, guid: 28eadce83afd4f746881b63a364ed59e, type: 2}
-  _levelSequenceData: {fileID: 11400000, guid: d1f2e67f767d41b4b8b6c2779e954bf7, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 1229030468}
   HUDController: {fileID: 347373957}
