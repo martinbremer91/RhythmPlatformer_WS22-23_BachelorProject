@@ -23,7 +23,11 @@ namespace Gameplay
         
         public InputState InputState;
 
-        #endregion
+#if UNITY_EDITOR
+        public static bool s_DebuggerStart;
+#endif
+
+    #endregion
 
         public void Init(GameStateManager in_gameStateManager)
         {
@@ -51,6 +55,9 @@ namespace Gameplay
 #if UNITY_EDITOR
             _controls.GameplayDefault.Jump.performed += _ => InputState.JumpCommand = true;
             _controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
+
+            _controls.GameplayDefault.DebuggerStart.performed += _ => { s_DebuggerStart = true; };
+            _controls.GameplayDefault.DebuggerStart.canceled += _ => { s_DebuggerStart = false; };
 #endif
             _controls.Enable();
         }
@@ -135,9 +142,9 @@ namespace Gameplay
         
 #if UNITY_EDITOR
         private void ToggleDebugMode()
-        {            
+        {
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
-            CharacterStateController.s_Invulnerable = GameStateManager.s_DebugMode; 
+            CharacterStateController.s_Invulnerable = GameStateManager.s_DebugMode;
             Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);
         }
 #endif

@@ -116,6 +116,15 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebuggerStart"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a49cd13-978c-405c-9834-b6e46765d2f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -415,6 +424,17 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                     ""action"": ""Digital Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21468fa7-04e3-4d05-b8d7-4294b4e77491"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebuggerStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -472,6 +492,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         m_GameplayDefault_Jump = m_GameplayDefault.FindAction("Jump", throwIfNotFound: true);
         m_GameplayDefault_WallCling = m_GameplayDefault.FindAction("WallCling", throwIfNotFound: true);
         m_GameplayDefault_DebugToggle = m_GameplayDefault.FindAction("DebugToggle", throwIfNotFound: true);
+        m_GameplayDefault_DebuggerStart = m_GameplayDefault.FindAction("DebuggerStart", throwIfNotFound: true);
         // UniversalInputs
         m_UniversalInputs = asset.FindActionMap("UniversalInputs", throwIfNotFound: true);
         m_UniversalInputs_MenuButton = m_UniversalInputs.FindAction("MenuButton", throwIfNotFound: true);
@@ -544,6 +565,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_GameplayDefault_Jump;
     private readonly InputAction m_GameplayDefault_WallCling;
     private readonly InputAction m_GameplayDefault_DebugToggle;
+    private readonly InputAction m_GameplayDefault_DebuggerStart;
     public struct GameplayDefaultActions
     {
         private @DefaultControls m_Wrapper;
@@ -558,6 +580,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_GameplayDefault_Jump;
         public InputAction @WallCling => m_Wrapper.m_GameplayDefault_WallCling;
         public InputAction @DebugToggle => m_Wrapper.m_GameplayDefault_DebugToggle;
+        public InputAction @DebuggerStart => m_Wrapper.m_GameplayDefault_DebuggerStart;
         public InputActionMap Get() { return m_Wrapper.m_GameplayDefault; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -597,6 +620,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @DebugToggle.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDebugToggle;
                 @DebugToggle.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDebugToggle;
                 @DebugToggle.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDebugToggle;
+                @DebuggerStart.started -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDebuggerStart;
+                @DebuggerStart.performed -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDebuggerStart;
+                @DebuggerStart.canceled -= m_Wrapper.m_GameplayDefaultActionsCallbackInterface.OnDebuggerStart;
             }
             m_Wrapper.m_GameplayDefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -631,6 +657,9 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
                 @DebugToggle.started += instance.OnDebugToggle;
                 @DebugToggle.performed += instance.OnDebugToggle;
                 @DebugToggle.canceled += instance.OnDebugToggle;
+                @DebuggerStart.started += instance.OnDebuggerStart;
+                @DebuggerStart.performed += instance.OnDebuggerStart;
+                @DebuggerStart.canceled += instance.OnDebuggerStart;
             }
         }
     }
@@ -680,6 +709,7 @@ public partial class @DefaultControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnWallCling(InputAction.CallbackContext context);
         void OnDebugToggle(InputAction.CallbackContext context);
+        void OnDebuggerStart(InputAction.CallbackContext context);
     }
     public interface IUniversalInputsActions
     {
