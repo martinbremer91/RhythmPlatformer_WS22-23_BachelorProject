@@ -69,36 +69,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "cefbd6bf-f804-4d4f-9017-5cf4193808a5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "WallCling",
                     "type": "Button",
                     "id": "a079fa59-bfe3-4a8f-be61-2ddd6b010fcb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DebugToggle",
-                    "type": "Button",
-                    "id": "4866d982-b308-46ab-b381-2d10274974b8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DebuggerStart",
-                    "type": "Button",
-                    "id": "6a49cd13-978c-405c-9834-b6e46765d2f1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -163,39 +136,6 @@
                 },
                 {
                     "name": "",
-                    "id": "7b141ba5-2dc9-4a8f-bdd4-a48d9179c707",
-                    "path": "<Keyboard>/j",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5212e3f5-76f8-4b97-a879-fe8d1520cf5d",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ebaa28c4-a818-4643-b2f5-ee2a70c6fb88",
-                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e7ca458e-eeb6-4aa9-b338-be9f36016d42",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
@@ -246,17 +186,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "WallCling",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0cadff1e-0e8a-44a6-806f-09db54803006",
-                    "path": "<Keyboard>/backspace",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DebugToggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -402,17 +331,6 @@
                     "action": "Digital Down",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "21468fa7-04e3-4d05-b8d7-4294b4e77491",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DebuggerStart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -450,6 +368,85 @@
                     "processors": "",
                     "groups": "",
                     "action": "MenuButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DebugInputs",
+            "id": "e8df16f5-ea38-4a32-b603-360f3885ccdb",
+            "actions": [
+                {
+                    "name": "DebugJump",
+                    "type": "Button",
+                    "id": "d5877402-23a9-4229-a246-d4ada49bea05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DebugToggle",
+                    "type": "Button",
+                    "id": "83033249-b598-400d-ab59-cf3ff6290438",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DebuggerStart",
+                    "type": "Button",
+                    "id": "c9f0018b-8b4f-435c-a381-a97a2cf545f5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fd1d38e1-d966-4cb8-a767-1257a378405e",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a4e2642-f1ee-4bb0-af10-080ab538092c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac8dd450-039d-47c0-b696-00161d667274",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e7190bc-524f-401c-a801-e5b500e7a777",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebuggerStart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

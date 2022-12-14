@@ -53,11 +53,11 @@ namespace Gameplay
             
             _controls.GameplayDefault.Dash.performed += _ => HandleDashButton();
 #if UNITY_EDITOR
-            _controls.GameplayDefault.Jump.performed += _ => InputState.JumpCommand = true;
-            _controls.GameplayDefault.DebugToggle.performed += _ => ToggleDebugMode();
+            _controls.DebugInputs.DebugJump.performed += _ => InputState.JumpCommand = true;
+            _controls.DebugInputs.DebugToggle.performed += _ => ToggleDebugMode();
 
-            _controls.GameplayDefault.DebuggerStart.performed += _ => { s_DebuggerStart = true; };
-            _controls.GameplayDefault.DebuggerStart.canceled += _ => { s_DebuggerStart = false; };
+            _controls.DebugInputs.DebuggerStart.performed += _ => { s_DebuggerStart = true; };
+            _controls.DebugInputs.DebuggerStart.canceled += _ => { s_DebuggerStart = false; };
 #endif
             _controls.Enable();
         }
@@ -68,8 +68,10 @@ namespace Gameplay
 
             void InputStateButtonsUpdate()
             {
+#if UNITY_EDITOR
+                InputState.JumpButton = _controls.DebugInputs.DebugJump.phase;
+#endif
                 InputState.DashButton = _controls.GameplayDefault.Dash.phase;
-                InputState.JumpButton = _controls.GameplayDefault.Jump.phase;
                 InputState.WallClingTrigger = _controls.GameplayDefault.WallCling.phase;
 
                 InputState.directionalInputModifier = 
