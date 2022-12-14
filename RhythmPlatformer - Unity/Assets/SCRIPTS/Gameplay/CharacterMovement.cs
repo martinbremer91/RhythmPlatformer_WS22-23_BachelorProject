@@ -347,7 +347,7 @@ namespace Gameplay
             Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
 
             int directionX =
-                inputDirection.x <= _characterInput.GameplayControlConfigs.InputDeadZone ?
+                Mathf.Abs(inputDirection.x) <= _characterInput.GameplayControlConfigs.InputDeadZone ?
                 _characterStateController.FacingLeft ? -1 : 1 :
                 inputDirection.x < 0 ? -1 : 1;
 
