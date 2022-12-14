@@ -23,8 +23,8 @@ namespace Gameplay
         [HideInInspector] public bool SlideOnHorizontal;
         private int _slideOnHorizontalDirection;
         [HideInInspector] public bool SlideOnVertical;
-        private int _slideOnVerticalDirection;
-        private CollisionCheck _slideOnVerticalCollisionDirection;
+        [SerializeField] private int _slideOnVerticalDirection;
+        [SerializeField] private CollisionCheck _slideOnVerticalCollisionSide;
         private float _slideOnSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;
@@ -97,14 +97,43 @@ namespace Gameplay
             else if (collision && hitA.gameObject.CompareTag(_oneWayPlatformTag))
                 collision = OnOneWayPlatform;
 
-            UiManager.ToggleDebugSymbol(SlideOnHorizontal);
+            bool collisionOutsideOfCollisionChecks = false;
+            if (_characterStateController.CurrentCharacterState is CharacterState.Fall) {
+                collisionOutsideOfCollisionChecks = 
+                    !collision && _boxCollider.IsTouchingLayers(_levelLayerMask);
 
-#if UNITY_EDITOR 
+                if (collisionOutsideOfCollisionChecks) {
+                    bool collisionRight = Physics2D.OverlapPoint(collisionCheckPointA + Vector2.right * .01f, _levelLayerMask);
+                    bool collisionLeft = false;
+
+                    if (collisionRight)
+                        transform.Translate(Vector2.left * .01f);
+                    else 
+                        collisionLeft = Physics2D.OverlapPoint(collisionCheckPointB + Vector2.left * .01f, _levelLayerMask);
+
+                    if (collisionLeft)
+                        transform.Translate(Vector2.right * .01f);
+
+                    if (!collisionLeft && !collisionRight)
+                        Debug.LogWarning("Collision outside of collision checks detected. Correction failed.");
+                }
+            }
+
+#if UNITY_EDITOR
             // COLLISION DEBUGGING
             Color color = collision ? Color.green : verticalDetection ? Color.yellow : Color.cyan;
             Debug.DrawLine(collisionCheckPointA, collisionCheckPointB, color);
             Debug.DrawLine(bounds.center, (Vector2)bounds.center + detectDirection, collision ? Color.green : Color.red);
+
+            color = hitA == null ? Color.red : Color.green;
+            Debug.DrawLine(collisionCheckPointA + new Vector2(-.05f, .05f), collisionCheckPointA + new Vector2(.05f, -.05f), color);
+            Debug.DrawLine(collisionCheckPointA + new Vector2(-.05f, -.05f), collisionCheckPointA + new Vector2(.05f, .05f), color);
+
+            color = hitB == null ? Color.red : Color.green;
+            Debug.DrawLine(collisionCheckPointB + new Vector2(-.05f, .05f), collisionCheckPointB + new Vector2(.05f, -.05f), color);
+            Debug.DrawLine(collisionCheckPointB + new Vector2(-.05f, -.05f), collisionCheckPointB + new Vector2(.05f, .05f), color);
 #endif
+
             if (!collision == in_detectEnter)
                 return;
 
@@ -131,15 +160,16 @@ namespace Gameplay
             }
 
             bool CheckVerticalSlideOn() {
-                if (_slideOnVerticalCollisionDirection is not CollisionCheck.None &&
-                    _slideOnVerticalCollisionDirection != in_collisionCheck)
+                // if slideOn is active on opposite side, return true so as not to disrupt it
+                if (_slideOnVerticalCollisionSide is not CollisionCheck.None &&
+                    _slideOnVerticalCollisionSide != in_collisionCheck)
                     return true;
                 
                 bool slideOnDown = hitA == null && hitB != null;
                 bool slideOnUp = hitA != null && hitB == null;
 
                 if (collision || !slideOnDown && !slideOnUp) {
-                    _slideOnVerticalCollisionDirection = CollisionCheck.None;
+                    _slideOnVerticalCollisionSide = CollisionCheck.None;
                     return false;
                 }
 
@@ -148,16 +178,17 @@ namespace Gameplay
 
                 if (hitIsOneWayPlat) {
                     collision = false;
-                    _slideOnVerticalCollisionDirection = CollisionCheck.None;
+                    _slideOnVerticalCollisionSide = CollisionCheck.None;
                     return false;
                 }
 
-                _slideOnVerticalDirection = slideOnDown ? -1 : 1;
                 collision = true;
-                bool clinging =
+
+                _slideOnVerticalDirection = slideOnDown ? -1 : 1;
+                bool clinging = 
                     _characterInput.InputState.WallClingTrigger is InputActionPhase.Performed;
 
-                _slideOnVerticalCollisionDirection = 
+                _slideOnVerticalCollisionSide = 
                     !clinging ? CollisionCheck.None : in_collisionCheck;
 
                 return clinging;
