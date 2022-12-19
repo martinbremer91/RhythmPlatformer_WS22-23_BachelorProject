@@ -36,18 +36,27 @@ namespace GameplaySystems
 
         private Vector3 _characterPos;
         private Vector2 _characterMovementBoundaries;
-        private bool _getCharacterIntoMovementBoundaries;
+        private bool _characterInMovementBoundaries;
 
         private CamNode[] _camNodes;
-        
+        private CamBoundsEdge[] _camBoundsEdgesHorizontal;
+        private CamBoundsEdge[] _camBoundsEdgesVertical;
+
+        private CamBoundsEdge frustrumNorthEdge;
+        private CamBoundsEdge frustrumSouthEdge;
+        private CamBoundsEdge frustrumEastEdge;
+        private CamBoundsEdge frustrumWestEdge;
+
+        private CamBoundsEdge _northEdge;
+        private CamBoundsEdge _southEdge;
+        private CamBoundsEdge _eastEdge;
+        private CamBoundsEdge _westEdge;
+
         private readonly List<float> _nodeDistances = new();
 
-        private CameraBounds _characterPosBounds;
-        private CameraBounds _northBounds;
-        private CameraBounds _westBounds;
-        private CameraBounds _southBounds;
-        private CameraBounds _eastBounds;
+        private CameraBounds _currentBounds;
 
+        private Vector2 _targetPos;
         private Vector2 _camSize;
 
         private Vector3 _velocity;
@@ -78,11 +87,47 @@ namespace GameplaySystems
             _characterTransform = _characterStateController.transform;
 
             _camBoundsData = in_gameStateManager.CameraBoundsData;
+
             GetCamNodesFromJson();
             InitializeNodeDistances();
 
+            GetBoundEdgesFromNodes();
+
             _characterStateController.Respawn += JumpToSpawnPoint;
             _complementaryCameraManager.InitCameraManagerAssistant(this);
+
+            GetFrustrumEdges();
+            GetCurrentBoundsEdges();
+            UpdateCurrentBounds();
+
+            void GetBoundEdgesFromNodes() {
+                int arrayLength = Mathf.RoundToInt(_camNodes.Length * .5f);
+                CamBoundsEdge[] horizontalEdges = new CamBoundsEdge[arrayLength];
+                CamBoundsEdge[] verticalEdges = new CamBoundsEdge[arrayLength];
+
+                CamNode node;
+                int neighborIndex = 0;
+                for (int i = 0; i < _camNodes.Length; i++) {
+                    node = _camNodes[neighborIndex];
+                    bool horizontal = i % 2 == 0;
+                    neighborIndex = horizontal ? node.HorizontalNeighborIndex :
+                        node.VerticalNeighborIndex;
+
+                    CamNode neighbor = _camNodes[neighborIndex];
+                    int currentIndex = Mathf.FloorToInt(i * .5f);
+
+                    if (horizontal)
+                        horizontalEdges[currentIndex] = new CamBoundsEdge(true, node, neighbor);
+                    else
+                        verticalEdges[currentIndex] = new CamBoundsEdge(false, node, neighbor);
+
+                    if (neighborIndex == 0)
+                        break;
+                }
+
+                _camBoundsEdgesHorizontal = horizontalEdges;
+                _camBoundsEdgesVertical = verticalEdges;
+            }
         }
         
         private void GetCamNodesFromJson() =>
@@ -120,6 +165,8 @@ namespace GameplaySystems
             _minSize = in_cameraManager._minSize;
             
             InitializeNodeDistances();
+            _camBoundsEdgesHorizontal = in_cameraManager._camBoundsEdgesHorizontal;
+            _camBoundsEdgesVertical = in_cameraManager._camBoundsEdgesVertical;
             UpdateOnRespawnPosAndSize(in_cameraManager);
         }
 
@@ -193,149 +240,144 @@ namespace GameplaySystems
                 _characterPos = _characterTransform.position;
             }
 
-            bool camOutOfBounds;
-            UpdateCurrentBounds();
+            if (CheckCharacterInMovementBoundaries())
+                return;
 
-            if (!camOutOfBounds)
-                CheckCharacterInMovementBoundaries();
+            Vector2 clampedCharacterPos = GetClampedTargetPos();
+            Vector2 interolatedClampedTargetPos = 
+                (Vector2)Vector3.SmoothDamp(position, new Vector3(clampedCharacterPos.x, clampedCharacterPos.y, position.z),
+                    ref _velocity, _smoothTime, _maxSpeed);
+
+            _targetPos = interolatedClampedTargetPos;
+            
+            GetFrustrumEdges();
+            GetCurrentBoundsEdges();
+
+            UpdateCurrentBounds();
 
             _hasBounds = true;
 
-            void UpdateCurrentBounds()
+            bool CheckCharacterInMovementBoundaries()
             {
-                _characterPosBounds = GetCamBounds(_characterPosBounds, _characterPos, true, true);
-
-                Vector3 northPos = new Vector3(position.x, position.y + _camSize.y, 0);
-                Vector3 westPos = new Vector3(position.x - _camSize.x, position.y, 0);
-                Vector3 southPos = new Vector3(position.x, position.y - _camSize.y, 0);
-                Vector3 eastPos = new Vector3(position.x + _camSize.x, position.y, 0);
-                
-                bool northPosInBounds = CheckPointInBounds(northPos, _characterPosBounds);
-                bool westPosInBounds = CheckPointInBounds(westPos, _characterPosBounds);
-                bool southPosInBounds = CheckPointInBounds(southPos, _characterPosBounds);
-                bool eastPosInBounds = CheckPointInBounds(eastPos, _characterPosBounds);
-                
-                if (northPosInBounds)
-                    _northBounds = GetCamBounds(_northBounds, northPos, true, false);
-                if(westPosInBounds)
-                    _westBounds = GetCamBounds(_westBounds, westPos, false, true);
-                if (southPosInBounds)
-                    _southBounds = GetCamBounds(_southBounds, southPos, true, false);
-                if(eastPosInBounds)
-                    _eastBounds = GetCamBounds(_eastBounds, eastPos, false, true);
-
-                camOutOfBounds =
-                    !northPosInBounds || !westPosInBounds || !southPosInBounds || eastPosInBounds;
-
-                if (camOutOfBounds)
-                    _getCharacterIntoMovementBoundaries = false;
-            }
-
-            void CheckCharacterInMovementBoundaries()
-            {
-                _getCharacterIntoMovementBoundaries =
+                _characterInMovementBoundaries =
                     _characterPos.x >= position.x - _characterMovementBoundaries.x && 
                     _characterPos.x <= position.x + _characterMovementBoundaries.x &&
                     _characterPos.y >= position.y - _characterMovementBoundaries.y && 
                     _characterPos.y <= position.y + _characterMovementBoundaries.y;
+                return _characterInMovementBoundaries;
             }
 
-            CameraBounds GetCamBounds(CameraBounds in_default, Vector3 in_pos, bool in_getX, bool in_getY)
-            {
-                CameraBounds camBounds = new CameraBounds();
-                
-                for (int i = 0; i < _camNodes.Length; i++)
-                {
-                    CamNode cn = _camNodes.FirstOrDefault(n => n.Index == i);
-                    _nodeDistances[i] = Vector3.Distance(cn.Position, in_pos);
+            Vector2 GetClampedTargetPos() {
+                Vector2 targetPos = new();
+
+                if (_characterPos.x + _camSize.x > _currentBounds.MaxX)
+                    targetPos.x = _currentBounds.MaxX - _camSize.x;
+                else if (_characterPos.x - _camSize.x < _currentBounds.MinX)
+                    targetPos.x = _currentBounds.MinX + _camSize.x;
+
+                if (_characterPos.y + _camSize.y > _currentBounds.MaxY)
+                    targetPos.y = _currentBounds.MaxY - _camSize.y;
+                else if (_characterPos.y - _camSize.y < _currentBounds.MinY)
+                    targetPos.y = _currentBounds.MinY + _camSize.y;
+
+                return targetPos;
+            }
+        }
+
+        private void GetFrustrumEdges() {
+            Vector3 position = transform.position;
+
+            Vector3 nw = position + Vector3.left * _camSize.x + Vector3.up * _camSize.y;
+            Vector3 ne = position + Vector3.right * _camSize.x + Vector3.up * _camSize.y;
+            Vector3 sw = position + Vector3.left * _camSize.x + Vector3.down * _camSize.y;
+            Vector3 se = position + Vector3.right * _camSize.x + Vector3.down * _camSize.y;
+
+            frustrumNorthEdge = new(true, nw, ne);
+            frustrumSouthEdge = new(true, sw, se);
+            frustrumEastEdge = new(false, ne, se);
+            frustrumWestEdge = new(false, nw, sw);
+        }
+
+        private void GetCurrentBoundsEdges() {
+            float maxY = float.MaxValue;
+            float minY = float.MinValue;
+
+            foreach (CamBoundsEdge edge in _camBoundsEdgesHorizontal) {
+                bool aboveCam = edge.NodeAPos.y > _targetPos.y;
+                CamBoundsEdge frustrumEdge = aboveCam ? frustrumNorthEdge : frustrumSouthEdge;
+
+                float inverseLerpFrustrumEdgeA = (frustrumEdge.NodeAPos.x - edge.NodeAPos.x) / (edge.NodeBPos.x - edge.NodeAPos.x);
+                float inverseLerpFrustrumEdgeB = (frustrumEdge.NodeBPos.x - edge.NodeAPos.x) / (edge.NodeBPos.x - edge.NodeAPos.x);
+
+                if ((inverseLerpFrustrumEdgeA > 1 || inverseLerpFrustrumEdgeA < 0) &&
+                    (inverseLerpFrustrumEdgeB > 1 || inverseLerpFrustrumEdgeB < 0))
+                    continue;
+
+                if (aboveCam) {
+                    if (edge.NodeAPos.y < maxY) {
+                        _northEdge = edge;
+                        maxY = edge.NodeAPos.y;
+                    }
+                } else {
+                    if (edge.NodeAPos.y > minY) {
+                        _southEdge = edge;
+                        minY = edge.NodeAPos.y;
+                    }
                 }
+            }
 
-                CamNode[] nwNodes = 
-                    _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y >= in_pos.y).ToArray();
-                CamNode[] neNodes = 
-                    _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y >= in_pos.y).ToArray();
-                CamNode[] swNodes = 
-                    _camNodes.Where(n => n.Position.x <= in_pos.x && n.Position.y <= in_pos.y).ToArray();
-                CamNode[] seNodes = 
-                    _camNodes.Where(n => n.Position.x >= in_pos.x && n.Position.y <= in_pos.y).ToArray();
+            float maxX = float.MaxValue;
+            float minX = float.MinValue;
 
-                if (!nwNodes.Any() || !neNodes.Any() || !swNodes.Any() || !seNodes.Any())
-                    return in_default;
-                
-                Vector2 currentNW = GetClosestNode(nwNodes);
-                Vector2 currentNE = GetClosestNode(neNodes);
-                Vector2 currentSW = GetClosestNode(swNodes);
-                Vector2 currentSE = GetClosestNode(seNodes);
-                
-                if (in_getY)
-                {
-                    camBounds.MaxY = Mathf.Max(currentNW.y, currentNE.y);
-                    camBounds.MinY = Mathf.Min(currentSW.y, currentSE.y);
+            foreach (CamBoundsEdge edge in _camBoundsEdgesVertical) {
+                bool rightOfCam = edge.NodeAPos.x > _targetPos.x;
+                CamBoundsEdge frustrumEdge = rightOfCam ? frustrumEastEdge : frustrumWestEdge;
+
+                float inverseLerpFrustrumEdgeA = (frustrumEdge.NodeAPos.y - edge.NodeAPos.y) / (edge.NodeBPos.y - edge.NodeAPos.y);
+                float inverseLerpFrustrumEdgeB = (frustrumEdge.NodeBPos.y - edge.NodeAPos.y) / (edge.NodeBPos.y - edge.NodeAPos.y);
+
+                if ((inverseLerpFrustrumEdgeA > 1 || inverseLerpFrustrumEdgeA < 0) &&
+                    (inverseLerpFrustrumEdgeB > 1 || inverseLerpFrustrumEdgeB < 0))
+                    continue;
+
+                if (rightOfCam) {
+                    if (edge.NodeAPos.x < maxX) {
+                        _eastEdge = edge;
+                        maxX = edge.NodeAPos.x;
+                    }
+                } else {
+                    if (edge.NodeAPos.x > minX) {
+                        _westEdge = edge;
+                        minX = edge.NodeAPos.x;
+                    }
                 }
-                if (in_getX)
-                {
-                    camBounds.MinX = Mathf.Min(currentNW.x, currentSW.x);
-                    camBounds.MaxX = Mathf.Max(currentNE.x, currentSE.x);
-                }
+            }
+        }
 
-                return camBounds;
-            }
-            
-            Vector2 GetClosestNode(IEnumerable<CamNode> nodes)
-            {
-                return nodes.Aggregate((minD, n) => 
-                        _nodeDistances[n.Index] < _nodeDistances[minD.Index] ? n : minD).Position;
-            }
-
-            bool CheckPointInBounds(Vector3 in_point, CameraBounds in_bounds)
-            {
-                return in_point.x > in_bounds.MinX && in_point.x < in_bounds.MaxX && in_point.y > in_bounds.MinY &&
-                       in_point.y < in_bounds.MaxY;
-            }
+        private void UpdateCurrentBounds() {
+            _currentBounds.MaxX = _eastEdge.NodeAPos.x;
+            _currentBounds.MaxY = _northEdge.NodeAPos.x;
+            _currentBounds.MinX = _westEdge.NodeAPos.y;
+            _currentBounds.MinY = _southEdge.NodeAPos.y;
         }
 
         private void LateUpdate()
         {
-            if (!_hasBounds || _getCharacterIntoMovementBoundaries)
+            if (!_hasBounds || _characterInMovementBoundaries)
                 return;
 
             _hasBounds = false;
 
-            Vector3 position = transform.position;
-
-            GetClampedTargetPos();
-            
-            position = 
-                Vector3.SmoothDamp(position, new Vector3(_characterPos.x, _characterPos.y, position.z), 
-                    ref _velocity, _smoothTime, _maxSpeed);
-            
-            transform.position = position;
-
-            if (_isAssistant)
-                _currentSpawnPosition = position;
-
+            transform.position = _targetPos;
             SetCamSize();
-
-            void GetClampedTargetPos()
-            {
-                if (_characterPos.x + _camSize.x > _characterPosBounds.MaxX)
-                    _characterPos.x = _characterPosBounds.MaxX - _camSize.x;
-                else if (_characterPos.x - _camSize.x < _characterPosBounds.MinX)
-                    _characterPos.x = _characterPosBounds.MinX + _camSize.x;
-                
-                if (_characterPos.y + _camSize.y > _characterPosBounds.MaxY)
-                    _characterPos.y = _characterPosBounds.MaxY - _camSize.y;
-                else if (_characterPos.y - _camSize.y < _characterPosBounds.MinY)
-                    _characterPos.y = _characterPosBounds.MinY + _camSize.y;
-            }
 
             void SetCamSize()
             {
                 float minVerticalSize =
-                    Mathf.Min(_westBounds.MaxY - _westBounds.MinY, _eastBounds.MaxY - _eastBounds.MinY) * .5f;
+                    Mathf.Min(_currentBounds.MaxY - _currentBounds.MinY, _currentBounds.MaxY - _currentBounds.MinY) * .5f;
 
                 float minHorizontalSize =
-                    Mathf.Min(_northBounds.MaxX - _northBounds.MinX, _southBounds.MaxX - _southBounds.MinX) * .5f;
+                    Mathf.Min(_currentBounds.MaxX - _currentBounds.MinX, _currentBounds.MaxX - _currentBounds.MinX) * .5f;
                 float verticalComplementForAspectRatio = minHorizontalSize / _cam.aspect;
 
                 float targetSize =
@@ -358,7 +400,7 @@ namespace GameplaySystems
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (Selection.activeObject != gameObject)
+            if (Selection.activeObject != gameObject || _isAssistant)
                 return;
 
             Vector2 position = transform.position;
@@ -381,27 +423,20 @@ namespace GameplaySystems
             Gizmos.DrawLine(upperRight, lowerRight);
             Gizmos.DrawLine(lowerLeft, lowerRight);
 
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(new Vector3(_characterPos.x, _characterPosBounds.MaxY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPos.x, _characterPosBounds.MinY, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MinX, _characterPos.y, 0), .5f);
-            Gizmos.DrawWireSphere(new Vector3(_characterPosBounds.MaxX, _characterPos.y, 0), .5f);
-            
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(new Vector3(_northBounds.MinX, position.y + _camSize.y, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(_northBounds.MaxX, position.y + _camSize.y, 0), .3f);
-            
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MinY, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(position.x - _camSize.x, _westBounds.MaxY, 0), .3f);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(new Vector3(_southBounds.MinX, position.y - _camSize.y, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(_southBounds.MaxX, position.y - _camSize.y, 0), .3f);
-            
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MinY, 0), .3f);
-            Gizmos.DrawWireSphere(new Vector3(position.x + _camSize.x, _eastBounds.MaxY, 0), .3f);
+            if (_camBoundsEdgesHorizontal == null || _camBoundsEdgesVertical == null)
+                return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_targetPos, .1f);
+
+            foreach (CamBoundsEdge edge in _camBoundsEdgesHorizontal) {
+                Gizmos.color = edge.NodeAPos == _northEdge.NodeAPos ? Color.green : edge.NodeAPos == _southEdge.NodeAPos ? Color.blue : Color.black;
+                Gizmos.DrawLine(edge.NodeAPos, edge.NodeBPos);
+            }
+            foreach (CamBoundsEdge edge in _camBoundsEdgesVertical) {
+                Gizmos.color = edge.NodeAPos == _eastEdge.NodeAPos ? Color.red : edge.NodeAPos == _westEdge.NodeAPos ? Color.yellow : Color.black;
+                Gizmos.DrawLine(edge.NodeAPos, edge.NodeBPos);
+            }
         }
 #endif
 
