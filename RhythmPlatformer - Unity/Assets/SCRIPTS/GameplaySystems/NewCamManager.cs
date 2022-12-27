@@ -6,6 +6,8 @@ using Utility_Scripts;
 public class NewCamManager : MonoBehaviour
 {
     [SerializeField] private Transform _characterTransform;
+    [SerializeField] private BoxCollider2D _characterCollider;
+    private Vector2 _characterSize;
     [SerializeField] private Camera _cam;
 
     [SerializeField] private TextAsset _camBoundsData;
@@ -16,15 +18,24 @@ public class NewCamManager : MonoBehaviour
 
     private Vector2 _characterPos;
     [SerializeField] private Vector2 _characterMovementBoundaries;
+    private bool _characterWithinMovementBoundaries;
     private Vector3 _targetPos;
     private Vector2 _targetCamSize;
 
+    [SerializeField] private float _minSize;
+    [SerializeField] private float _maxSize;
+
     private CameraBounds _currentBounds;
 
-    private CamBoundsEdge _northEdge;
-    private CamBoundsEdge _southEdge;
-    private CamBoundsEdge _eastEdge;
-    private CamBoundsEdge _westEdge;
+    private CamBoundsEdge _sizeNorthEdge;
+    private CamBoundsEdge _sizeSouthEdge;
+    private CamBoundsEdge _sizeEastEdge;
+    private CamBoundsEdge _sizeWestEdge;
+
+    private CamBoundsEdge _posNorthEdge;
+    private CamBoundsEdge _posSouthEdge;
+    private CamBoundsEdge _posEastEdge;
+    private CamBoundsEdge _posWestEdge;
 
     private CamBoundsEdge _frustrumNorthEdge;
     private CamBoundsEdge _frustrumSouthEdge;
@@ -42,6 +53,8 @@ public class NewCamManager : MonoBehaviour
 
         void GetCamNodesFromJson() =>
             _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
+
+        _characterSize = new(_characterCollider.size.x, _characterCollider.size.y);
 
         void GetBoundEdgesFromNodes()
         {
@@ -81,7 +94,7 @@ public class NewCamManager : MonoBehaviour
 
         Vector2 currentCamSize = new();
         currentCamSize.y = _cam.orthographicSize;
-        currentCamSize.x = _targetCamSize.y * _cam.aspect;
+        currentCamSize.x = currentCamSize.y * _cam.aspect;
 
         _characterPos = _characterTransform.position;
 
@@ -92,8 +105,7 @@ public class NewCamManager : MonoBehaviour
         GetCurrentBoundsEdges();
         UpdateCurrentBounds();
 
-        // update target size
-        _targetCamSize = currentCamSize;
+        SetCamSize();
 
         Vector3 clampedTargetPos = GetClampedTargetPos();
         Vector3 interpolatedClampedTargetPos = Vector3.SmoothDamp(position,
@@ -110,10 +122,12 @@ public class NewCamManager : MonoBehaviour
 
         bool CheckCharacterInMovementBoundaries()
         {
-            return _characterPos.x >= position.x - _characterMovementBoundaries.x &&
+            _characterWithinMovementBoundaries =
+                _characterPos.x >= position.x - _characterMovementBoundaries.x &&
                 _characterPos.x <= position.x + _characterMovementBoundaries.x &&
                 _characterPos.y >= position.y - _characterMovementBoundaries.y &&
                 _characterPos.y <= position.y + _characterMovementBoundaries.y;
+            return _characterWithinMovementBoundaries;
         }
     }
 
@@ -128,14 +142,14 @@ public class NewCamManager : MonoBehaviour
         Vector3 pos = new(_characterPos.x, _characterPos.y, transform.position.z);
 
         if (_characterPos.x + _targetCamSize.x > _currentBounds.MaxX)
-            pos.x = _currentBounds.MaxX - _targetCamSize.x;
+            pos.x = _currentBounds.MaxX - _targetCamSize.x - .1f;
         else if (_characterPos.x - _targetCamSize.x < _currentBounds.MinX)
-            pos.x = _currentBounds.MinX + _targetCamSize.x;
+            pos.x = _currentBounds.MinX + _targetCamSize.x + .1f;
 
         if (_characterPos.y + _targetCamSize.y > _currentBounds.MaxY)
-            pos.y = _currentBounds.MaxY - _targetCamSize.y;
+            pos.y = _currentBounds.MaxY - _targetCamSize.y - .1f;
         else if (_characterPos.y - _targetCamSize.y < _currentBounds.MinY)
-            pos.y = _currentBounds.MinY + _targetCamSize.y;
+            pos.y = _currentBounds.MinY + _targetCamSize.y + .1f;
 
         return pos;
     }
@@ -208,7 +222,7 @@ public class NewCamManager : MonoBehaviour
                 if (edge.NodeAPos.x < maxX)
                 {
                     _eastEdge = edge;
-                    maxX = edge.NodeAPos.x;
+                    maxX = edge.NodeAPos.x - .1f;
                 }
             }
             else
@@ -216,7 +230,7 @@ public class NewCamManager : MonoBehaviour
                 if (edge.NodeAPos.x > minX)
                 {
                     _westEdge = edge;
-                    minX = edge.NodeAPos.x;
+                    minX = edge.NodeAPos.x + .1f;
                 }
             }
         }
@@ -228,6 +242,25 @@ public class NewCamManager : MonoBehaviour
         _currentBounds.MinY = _southEdge.NodeAPos.y;
         _currentBounds.MaxX = _eastEdge.NodeAPos.x;
         _currentBounds.MinX = _westEdge.NodeAPos.x;
+    }
+
+    private void SetCamSize()
+    {
+        float minVerticalSize =
+            (_currentBounds.MaxY - _currentBounds.MinY) * .5f;
+
+        float minHorizontalSize =
+            (_currentBounds.MaxX - _currentBounds.MinX) * .5f;
+        float verticalComplementForAspectRatio = minHorizontalSize / _cam.aspect;
+
+        float clampedOrthographicSize =
+            Mathf.Clamp(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .1f,
+                _minSize, _maxSize);
+
+        float interpolatedClampedOrthographicSize = Mathf.Lerp(_cam.orthographicSize, clampedOrthographicSize, Time.deltaTime * 2);
+
+        _targetCamSize = new(interpolatedClampedOrthographicSize * _cam.aspect - .1f, interpolatedClampedOrthographicSize);
+        _cam.orthographicSize = interpolatedClampedOrthographicSize;
     }
 
     private void OnDrawGizmos()
@@ -252,6 +285,7 @@ public class NewCamManager : MonoBehaviour
         Vector2 lowerRight =
             position + new Vector2(_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
 
+        Gizmos.color = _characterWithinMovementBoundaries ? Color.green : Color.red;
         Gizmos.DrawLine(upperLeft, lowerLeft);
         Gizmos.DrawLine(upperLeft, upperRight);
         Gizmos.DrawLine(upperRight, lowerRight);

@@ -2302,6 +2302,8 @@ MonoBehaviour:
   _cam: {fileID: 991022200}
   _camBoundsData: {fileID: 4900000, guid: 95e5dc23dbc04144db30eaabde01ed77, type: 3}
   _characterMovementBoundaries: {x: 1.5, y: 0.5}
+  _minSize: 2.5
+  _maxSize: 100
   _smoothTime: 0.25
   _maxSpeed: 200
 --- !u!20 &991022200
