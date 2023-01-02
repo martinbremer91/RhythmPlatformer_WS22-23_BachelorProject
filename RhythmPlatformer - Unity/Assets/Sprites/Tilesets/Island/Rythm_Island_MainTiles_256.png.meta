@@ -638,7 +638,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -659,7 +659,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -680,7 +680,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -701,7 +701,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -722,7 +722,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -743,7 +743,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -764,7 +764,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -785,7 +785,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -806,7 +806,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -827,7 +827,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -848,7 +848,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -869,7 +869,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -890,7 +890,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -911,7 +911,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -932,7 +932,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -953,7 +953,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -961,6 +961,132 @@ TextureImporter:
       bones: []
       spriteID: 058c433fe361626449fa75712763644b
       internalID: 722478248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_MainTiles_256_41
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d66e0255366b77b489ded7d6bbaa2567
+      internalID: 1912694025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_MainTiles_256_42
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fda9ceaeb9df3f94784ca8b76373df1b
+      internalID: 1171819221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_MainTiles_256_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2faaa169658b844aacd935b6f23457b
+      internalID: -917377997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_MainTiles_256_44
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ae873c6bb086384ba8e4044a5b82d91
+      internalID: 475420648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_MainTiles_256_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d475cf27da2364c4b9ee600095ff75f3
+      internalID: 1627076218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_MainTiles_256_46
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1792
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4790cf10b4f8ae040af87bb9b829b57b
+      internalID: 1291943404
       vertices: []
       indices: 
       edges: []
@@ -976,47 +1102,53 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Rythm_Island_MainTiles_256_23: 172704322
       Rythm_Island_MainTiles_256_26: 605487673
-      Rythm_Island_MainTiles_256_39: -929194950
-      Rythm_Island_MainTiles_256_30: -1937669629
-      Rythm_Island_MainTiles_256_6: -1812350879
+      Rythm_Island_MainTiles_256_44: 475420648
       Rythm_Island_MainTiles_256_1: 495366355
-      Rythm_Island_MainTiles_256_2: -796092754
       Rythm_Island_MainTiles_256_25: -1160328727
-      Rythm_Island_MainTiles_256_24: 1932946305
+      Rythm_Island_MainTiles_256_45: 1627076218
       Rythm_Island_MainTiles_256_19: 716873985
-      Rythm_Island_MainTiles_256_31: -1690647724
       Rythm_Island_MainTiles_256_7: -1774234152
-      Rythm_Island_MainTiles_256_20: 259798430
       Rythm_Island_MainTiles_256_37: -553418533
-      Rythm_Island_MainTiles_256_34: 1187535440
       Rythm_Island_MainTiles_256_9: 1122029990
-      Rythm_Island_MainTiles_256_18: 2092628388
-      Rythm_Island_MainTiles_256_17: 34740420
       Rythm_Island_MainTiles_256_10: 1090462836
       Rythm_Island_MainTiles_256_11: -200840152
-      Rythm_Island_MainTiles_256_16: 415511950
+      Rythm_Island_MainTiles_256_43: -917377997
       Rythm_Island_MainTiles_256_40: 722478248
       Rythm_Island_MainTiles_256_8: -267869615
       Rythm_Island_MainTiles_256_22: 563789663
-      Rythm_Island_MainTiles_256_33: -1844802523
       Rythm_Island_MainTiles_256_28: 2088535067
+      Rythm_Island_MainTiles_256_41: 1912694025
       Rythm_Island_MainTiles_256_5: -2109863304
       Rythm_Island_MainTiles_256_4: -648303560
       Rythm_Island_MainTiles_256_14: 1221790576
       Rythm_Island_MainTiles_256_21: 2138699156
       Rythm_Island_MainTiles_256_36: -1400844611
-      Rythm_Island_MainTiles_256_3: -1820144028
-      Rythm_Island_MainTiles_256_38: 456685564
-      Rythm_Island_MainTiles_256_32: 1820881269
       Rythm_Island_MainTiles_256_13: 1991109962
       Rythm_Island_MainTiles_256_0: 1181415112
       Rythm_Island_MainTiles_256_12: -1062117872
-      Rythm_Island_MainTiles_256_15: -1156301792
       Rythm_Island_MainTiles_256_35: -1151783985
-      Rythm_Island_MainTiles_256_29: 2031319806
       Rythm_Island_MainTiles_256_27: -1648249126
+      Rythm_Island_MainTiles_256_23: 172704322
+      Rythm_Island_MainTiles_256_30: -1937669629
+      Rythm_Island_MainTiles_256_6: -1812350879
+      Rythm_Island_MainTiles_256_2: -796092754
+      Rythm_Island_MainTiles_256_24: 1932946305
+      Rythm_Island_MainTiles_256_31: -1690647724
+      Rythm_Island_MainTiles_256_20: 259798430
+      Rythm_Island_MainTiles_256_34: 1187535440
+      Rythm_Island_MainTiles_256_18: 2092628388
+      Rythm_Island_MainTiles_256_17: 34740420
+      Rythm_Island_MainTiles_256_16: 415511950
+      Rythm_Island_MainTiles_256_33: -1844802523
+      Rythm_Island_MainTiles_256_42: 1171819221
+      Rythm_Island_MainTiles_256_46: 1291943404
+      Rythm_Island_MainTiles_256_3: -1820144028
+      Rythm_Island_MainTiles_256_38: 456685564
+      Rythm_Island_MainTiles_256_39: -929194950
+      Rythm_Island_MainTiles_256_15: -1156301792
+      Rythm_Island_MainTiles_256_32: 1820881269
+      Rythm_Island_MainTiles_256_29: 2031319806
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
