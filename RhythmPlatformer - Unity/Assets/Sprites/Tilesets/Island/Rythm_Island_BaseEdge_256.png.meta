@@ -103,7 +103,742 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_0
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1791
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09b0ec98e6dd39a4ea46a48522c28e32
+      internalID: 2081121738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_1
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1535
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76d4f11927594c04d9943e2cbce89ba6
+      internalID: -1077940797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 511
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc26b187d3f39542ae51e6159ba2f1c
+      internalID: -1043765020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 511
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad2cd742505da7f458d9b15ab54f53ae
+      internalID: 12545037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c673f57891daee4fad25283412f1234
+      internalID: 959383676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_5
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1606f97ab2b79e44e80c717f886073f5
+      internalID: -491333752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_6
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6df81965746d46468d1ba2f9a439b50
+      internalID: 779127550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_7
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d08118c6269273044a94a7c69efc6cc6
+      internalID: 614651782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 767
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b215d8d70f59f954a9a105ddba902a34
+      internalID: -633228514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_9
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 767
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d97614fd2f41504fa6b489f197053d0
+      internalID: 1059981378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_10
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 767
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 962a0f77952f2a24c91b21c46d6beda0
+      internalID: 8813142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_11
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 767
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f07a779bdb6c8cf468db008cdf4fa3fa
+      internalID: 89534493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_12
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca5084e6fe5d61541867849d3b77f181
+      internalID: 450917389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_13
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd890efc41b17df4b8e9529cad50e5a0
+      internalID: -591538688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 511
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11221e02640cff7459941e72a3584e93
+      internalID: 1873478648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_15
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 511
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec54e0236ca8a874c9569e53245d59c1
+      internalID: -1466882242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1791
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4287f8e4d5a64a4b85d9eed2c391d4e
+      internalID: 360898850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_17
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1791
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98fcfdc50b705d842942f5c6ea9d82d4
+      internalID: -464590887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1535
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a1f49008b8bc9d46b3747bbd75f1c9d
+      internalID: -1205741377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_19
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1535
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62fa6a3a9ca34a54bb0dfde885172e7f
+      internalID: 2024805784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_20
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1791
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1adb0d573354d8241944c872767b13a9
+      internalID: -1439659700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_21
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1791
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f8404eab495d1d419ff805246af263a
+      internalID: -684777208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_22
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1535
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8225a01187be58949926c47af679d49f
+      internalID: 1736239866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_23
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1535
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b1016881f48ad941b827a1c7fca4827
+      internalID: -1191209402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_24
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1791
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adfd9e7e03a8cb74796a02bcb20d3b8e
+      internalID: -1922526494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_25
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1535
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6fb5597d8f3b774c8488fc5dd70c475
+      internalID: 1534131306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_26
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29db7a472a8eb9048a11b3d83c663425
+      internalID: -447663037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_27
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d71ec913a039ef742aaacd1d012e2ee7
+      internalID: 1158892289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_28
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14a2ec6c886bf004480321e4d274ecab
+      internalID: -1064076692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_29
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dcee6e36239ac249a2c8e81b0e61463
+      internalID: 854093233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_30
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 259173977ed32b14bbc321158b0b35c9
+      internalID: 1606251922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_31
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d659d360e9dab734180c723b2c9dc530
+      internalID: 1923350880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_32
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 1279
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afcfafbc6d8264d47af766bf75143250
+      internalID: 962718656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_33
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68454c6619909dc4ea7d72d566461486
+      internalID: -1701480897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_BaseEdge_256_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1023
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc89870b1f9697846902dd32dda5739d
+      internalID: -581152757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -114,7 +849,42 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Rythm_Island_BaseEdge_256_6: 779127550
+      Rythm_Island_BaseEdge_256_2: -1043765020
+      Rythm_Island_BaseEdge_256_29: 854093233
+      Rythm_Island_BaseEdge_256_0: 2081121738
+      Rythm_Island_BaseEdge_256_15: -1466882242
+      Rythm_Island_BaseEdge_256_19: 2024805784
+      Rythm_Island_BaseEdge_256_26: -447663037
+      Rythm_Island_BaseEdge_256_16: 360898850
+      Rythm_Island_BaseEdge_256_10: 8813142
+      Rythm_Island_BaseEdge_256_22: 1736239866
+      Rythm_Island_BaseEdge_256_33: -1701480897
+      Rythm_Island_BaseEdge_256_17: -464590887
+      Rythm_Island_BaseEdge_256_11: 89534493
+      Rythm_Island_BaseEdge_256_25: 1534131306
+      Rythm_Island_BaseEdge_256_4: 959383676
+      Rythm_Island_BaseEdge_256_1: -1077940797
+      Rythm_Island_BaseEdge_256_5: -491333752
+      Rythm_Island_BaseEdge_256_31: 1923350880
+      Rythm_Island_BaseEdge_256_18: -1205741377
+      Rythm_Island_BaseEdge_256_12: 450917389
+      Rythm_Island_BaseEdge_256_23: -1191209402
+      Rythm_Island_BaseEdge_256_20: -1439659700
+      Rythm_Island_BaseEdge_256_3: 12545037
+      Rythm_Island_BaseEdge_256_24: -1922526494
+      Rythm_Island_BaseEdge_256_28: -1064076692
+      Rythm_Island_BaseEdge_256_13: -591538688
+      Rythm_Island_BaseEdge_256_27: 1158892289
+      Rythm_Island_BaseEdge_256_32: 962718656
+      Rythm_Island_BaseEdge_256_34: -581152757
+      Rythm_Island_BaseEdge_256_7: 614651782
+      Rythm_Island_BaseEdge_256_9: 1059981378
+      Rythm_Island_BaseEdge_256_8: -633228514
+      Rythm_Island_BaseEdge_256_21: -684777208
+      Rythm_Island_BaseEdge_256_14: 1873478648
+      Rythm_Island_BaseEdge_256_30: 1606251922
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
