@@ -2299,6 +2299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterTransform: {fileID: 1285793913}
+  _characterCollider: {fileID: 1285793921}
   _cam: {fileID: 991022200}
   _camBoundsData: {fileID: 4900000, guid: 95e5dc23dbc04144db30eaabde01ed77, type: 3}
   _characterMovementBoundaries: {x: 1.5, y: 0.5}
@@ -2607,6 +2608,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4faf10b2cc7434cb945cc0bef52bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &1285793921 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5562756899129024185, guid: 9ff2657e2d40d49b3b5365b90741168c, type: 3}
+  m_PrefabInstance: {fileID: 5562756898263135939}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1328509086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2835730285110137294, guid: 01546c07150f34e24ab22c9a424d4a08, type: 3}

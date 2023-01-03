@@ -7,7 +7,6 @@ public class NewCamManager : MonoBehaviour
 {
     [SerializeField] private Transform _characterTransform;
     [SerializeField] private BoxCollider2D _characterCollider;
-    private Vector2 _characterSize;
     [SerializeField] private Camera _cam;
 
     [SerializeField] private TextAsset _camBoundsData;
@@ -17,6 +16,7 @@ public class NewCamManager : MonoBehaviour
     private CamBoundsEdge[] _camBoundsEdgesVertical;
 
     private Vector2 _characterPos;
+    private Vector2 _characterSize;
     [SerializeField] private Vector2 _characterMovementBoundaries;
     private bool _characterWithinMovementBoundaries;
     private Vector3 _targetPos;
@@ -27,20 +27,25 @@ public class NewCamManager : MonoBehaviour
 
     private CameraBounds _currentBounds;
 
-    private CamBoundsEdge _sizeNorthEdge;
-    private CamBoundsEdge _sizeSouthEdge;
-    private CamBoundsEdge _sizeEastEdge;
-    private CamBoundsEdge _sizeWestEdge;
-
-    private CamBoundsEdge _posNorthEdge;
-    private CamBoundsEdge _posSouthEdge;
-    private CamBoundsEdge _posEastEdge;
-    private CamBoundsEdge _posWestEdge;
-
     private CamBoundsEdge _frustrumNorthEdge;
     private CamBoundsEdge _frustrumSouthEdge;
     private CamBoundsEdge _frustrumEastEdge;
     private CamBoundsEdge _frustrumWestEdge;
+
+    private CamBoundsEdge _frustrumNorthBoundary;
+    private CamBoundsEdge _frustrumSouthBoundary;
+    private CamBoundsEdge _frustrumEastBoundary;
+    private CamBoundsEdge _frustrumWestBoundary;
+
+    private CamBoundsEdge _characterNorthEdge;
+    private CamBoundsEdge _characterSouthEdge;
+    private CamBoundsEdge _characterEastEdge;
+    private CamBoundsEdge _characterWestEdge;
+
+    private CamBoundsEdge _characterNorthBoundary;
+    private CamBoundsEdge _characterSouthBoundary;
+    private CamBoundsEdge _characterEastBoundary;
+    private CamBoundsEdge _characterWestBoundary;
 
     private Vector3 _velocity;
     [SerializeField] private float _smoothTime;
@@ -54,7 +59,7 @@ public class NewCamManager : MonoBehaviour
         void GetCamNodesFromJson() =>
             _camNodes = JsonArrayUtility.FromJson<CamNode>(_camBoundsData.text);
 
-        _characterSize = new(_characterCollider.size.x, _characterCollider.size.y);
+        _characterSize = _characterCollider.bounds.extents;
 
         void GetBoundEdgesFromNodes()
         {
@@ -101,9 +106,10 @@ public class NewCamManager : MonoBehaviour
         if (CheckCharacterInMovementBoundaries())
             return;
 
+        GetCharacterColliderEdges();
         GetFrustrumEdges(currentCamSize);
-        GetCurrentBoundsEdges();
-        UpdateCurrentBounds();
+
+        GetCurrentBoundaries();
 
         SetCamSize();
 
@@ -112,13 +118,6 @@ public class NewCamManager : MonoBehaviour
             clampedTargetPos, ref _velocity, _smoothTime, _maxSpeed);
 
         _targetPos = interpolatedClampedTargetPos;
-
-        // check if cam currently fits in target pos
-            // if so, move cam
-            // else, check if character is within frustrum
-                // if so, return
-                // else, move
-        // set (persistent target cam size)
 
         bool CheckCharacterInMovementBoundaries()
         {
@@ -135,6 +134,35 @@ public class NewCamManager : MonoBehaviour
     {
         // interpolate pos and size
         transform.position = _targetPos;
+    }
+
+    private void GetCharacterColliderEdges() {
+        Bounds characterBounds = _characterCollider.bounds;
+        float xCenter = characterBounds.center.x;
+        float yCenter = characterBounds.center.y;
+
+        Vector2 nw = new(xCenter - _characterSize.x, yCenter + _characterSize.y);
+        Vector2 ne = new(xCenter + _characterSize.x, yCenter + _characterSize.y);
+        Vector2 sw = new(xCenter - _characterSize.x, yCenter - _characterSize.y);
+        Vector2 se = new(xCenter + _characterSize.x, yCenter - _characterSize.y);
+
+        _characterNorthEdge = new(true, nw, ne);
+        _characterSouthEdge = new(true, sw, se);
+        _characterEastEdge = new(false, ne, se);
+        _characterWestEdge = new(false, nw, sw);
+    }
+
+    private void GetFrustrumEdges(Vector2 in_currentCamSize)
+    {
+        Vector2 nw = (Vector2)_targetPos + Vector2.left * in_currentCamSize.x + Vector2.up * in_currentCamSize.y;
+        Vector2 ne = (Vector2)_targetPos + Vector2.right * in_currentCamSize.x + Vector2.up * in_currentCamSize.y;
+        Vector2 sw = (Vector2)_targetPos + Vector2.left * in_currentCamSize.x + Vector2.down * in_currentCamSize.y;
+        Vector2 se = (Vector2)_targetPos + Vector2.right * in_currentCamSize.x + Vector2.down * in_currentCamSize.y;
+
+        _frustrumNorthEdge = new(true, nw, ne);
+        _frustrumSouthEdge = new(true, sw, se);
+        _frustrumEastEdge = new(false, ne, se);
+        _frustrumWestEdge = new(false, nw, sw);
     }
     
     private Vector3 GetClampedTargetPos()
@@ -154,94 +182,90 @@ public class NewCamManager : MonoBehaviour
         return pos;
     }
 
-    private void GetFrustrumEdges(Vector2 in_currentCamSize)
+    private void GetCurrentBoundaries()
     {
-        Vector2 nw = (Vector2)_targetPos + Vector2.left * in_currentCamSize.x + Vector2.up * in_currentCamSize.y;
-        Vector2 ne = (Vector2)_targetPos + Vector2.right * in_currentCamSize.x + Vector2.up * in_currentCamSize.y;
-        Vector2 sw = (Vector2)_targetPos + Vector2.left * in_currentCamSize.x + Vector2.down * in_currentCamSize.y;
-        Vector2 se = (Vector2)_targetPos + Vector2.right * in_currentCamSize.x + Vector2.down * in_currentCamSize.y;
+        GetBoundaries(false, false, _camBoundsEdgesHorizontal);
+        GetBoundaries(true, false, _camBoundsEdgesVertical);
+        GetBoundaries(false, true, _camBoundsEdgesHorizontal);
+        GetBoundaries(true, true, _camBoundsEdgesVertical);
 
-        _frustrumNorthEdge = new(true, nw, ne);
-        _frustrumSouthEdge = new(true, sw, se);
-        _frustrumEastEdge = new(false, ne, se);
-        _frustrumWestEdge = new(false, nw, sw);
-    }
+        UpdateCurrentBounds();
 
-    private void GetCurrentBoundsEdges()
-    {
-        float maxY = float.MaxValue;
-        float minY = float.MinValue;
+        void GetBoundaries(bool in_vertical, bool in_character, CamBoundsEdge[] in_boundaryEdges) {
+            float max = float.MaxValue;
+            float min = float.MinValue;
 
-        foreach (CamBoundsEdge edge in _camBoundsEdgesHorizontal)
-        {
-            bool aboveCam = edge.NodeAPos.y > _targetPos.y;
-            CamBoundsEdge frustrumEdge = aboveCam ? _frustrumNorthEdge : _frustrumSouthEdge;
+            Vector2 posToCheck = in_character ? _characterTransform.position : transform.position;
 
-            float inverseLerpFrustrumEdgeA = (frustrumEdge.NodeAPos.x - edge.NodeAPos.x) / (edge.NodeBPos.x - edge.NodeAPos.x);
-            float inverseLerpFrustrumEdgeB = (frustrumEdge.NodeBPos.x - edge.NodeAPos.x) / (edge.NodeBPos.x - edge.NodeAPos.x);
+            foreach (CamBoundsEdge edge in in_boundaryEdges) {
+                bool edgeBeyondPos = 
+                    !in_vertical ? edge.NodeAPos.y > posToCheck.y : edge.NodeAPos.x > posToCheck.x;
+                
+                CamBoundsEdge edgeToCheck = 
+                    !in_vertical ? 
+                        (edgeBeyondPos ? 
+                            (in_character ? _characterNorthEdge : _frustrumNorthEdge) : 
+                            (in_character ? _characterSouthEdge : _frustrumSouthEdge)) :
+                        (edgeBeyondPos ? 
+                            (in_character ? _characterEastEdge : _frustrumEastEdge) : 
+                            (in_character ? _characterWestEdge : _frustrumWestEdge));
 
-            if ((inverseLerpFrustrumEdgeA > 1 || inverseLerpFrustrumEdgeA < 0) &&
-                (inverseLerpFrustrumEdgeB > 1 || inverseLerpFrustrumEdgeB < 0))
-                continue;
+                float inverseLerpEdgeA =
+                    !in_vertical ? 
+                        (edgeToCheck.NodeAPos.x - edge.NodeAPos.x) / (edge.NodeBPos.x - edge.NodeAPos.x) :
+                        (edgeToCheck.NodeAPos.y - edge.NodeAPos.y) / (edge.NodeBPos.y - edge.NodeAPos.y);
+                float inverseLerpEdgeB =
+                    !in_vertical ? 
+                        (edgeToCheck.NodeBPos.x - edge.NodeAPos.x) / (edge.NodeBPos.x - edge.NodeAPos.x) : 
+                        (edgeToCheck.NodeBPos.y - edge.NodeAPos.y) / (edge.NodeBPos.y - edge.NodeAPos.y);
 
-            if (aboveCam)
-            {
-                if (edge.NodeAPos.y < maxY)
-                {
-                    _northEdge = edge;
-                    maxY = edge.NodeAPos.y;
-                }
-            }
-            else
-            {
-                if (edge.NodeAPos.y > minY)
-                {
-                    _southEdge = edge;
-                    minY = edge.NodeAPos.y;
+                if ((inverseLerpEdgeA > 1 || inverseLerpEdgeA < 0) && (inverseLerpEdgeB > 1 || inverseLerpEdgeB < 0))
+                    continue;
+
+                float edgeValue = !in_vertical ? edge.NodeAPos.y : edge.NodeAPos.x;
+
+                if (edgeBeyondPos) {
+                    if (edgeValue < max) {
+                        if (!in_vertical) {
+                            if (in_character)
+                                _characterNorthBoundary = edge;
+                            else
+                                _frustrumNorthBoundary = edge;
+                        } else {
+                            if (in_character)
+                                _characterEastBoundary = edge;
+                            else
+                                _frustrumEastBoundary = edge;
+                        }
+
+                        max = edgeValue;
+                    }
+                } else {
+                    if (edgeValue > min) {
+                        if (!in_vertical) {
+                            if (in_character)
+                                _characterSouthBoundary = edge;
+                            else
+                                _frustrumSouthBoundary = edge;
+                        } else {
+                            if (in_character)
+                                _characterWestBoundary = edge;
+                            else
+                                _frustrumWestBoundary = edge;
+                        }
+
+                        min = edgeValue;
+                    }
                 }
             }
         }
 
-        float maxX = float.MaxValue;
-        float minX = float.MinValue;
-
-        foreach (CamBoundsEdge edge in _camBoundsEdgesVertical)
-        {
-            bool rightOfCam = edge.NodeAPos.x > _targetPos.x;
-            CamBoundsEdge frustrumEdge = rightOfCam ? _frustrumEastEdge : _frustrumWestEdge;
-
-            float inverseLerpFrustrumEdgeA = (frustrumEdge.NodeAPos.y - edge.NodeAPos.y) / (edge.NodeBPos.y - edge.NodeAPos.y);
-            float inverseLerpFrustrumEdgeB = (frustrumEdge.NodeBPos.y - edge.NodeAPos.y) / (edge.NodeBPos.y - edge.NodeAPos.y);
-
-            if ((inverseLerpFrustrumEdgeA > 1 || inverseLerpFrustrumEdgeA < 0) &&
-                (inverseLerpFrustrumEdgeB > 1 || inverseLerpFrustrumEdgeB < 0))
-                continue;
-
-            if (rightOfCam)
-            {
-                if (edge.NodeAPos.x < maxX)
-                {
-                    _eastEdge = edge;
-                    maxX = edge.NodeAPos.x - .1f;
-                }
-            }
-            else
-            {
-                if (edge.NodeAPos.x > minX)
-                {
-                    _westEdge = edge;
-                    minX = edge.NodeAPos.x + .1f;
-                }
-            }
+        void UpdateCurrentBounds() {
+            _currentBounds.MaxY = Mathf.Min(_frustrumNorthBoundary.NodeAPos.y, _characterNorthBoundary.NodeAPos.y);
+            _currentBounds.MinY = Mathf.Max(_frustrumSouthBoundary.NodeAPos.y, _characterSouthBoundary.NodeAPos.y);
+            _currentBounds.MaxX = Mathf.Min(_frustrumEastBoundary.NodeAPos.x, _characterEastBoundary.NodeAPos.x);
+            _currentBounds.MinX = Mathf.Max(_frustrumWestBoundary.NodeAPos.x, _characterWestBoundary.NodeAPos.x);
         }
-    }
-
-    private void UpdateCurrentBounds()
-    {
-        _currentBounds.MaxY = _northEdge.NodeAPos.y;
-        _currentBounds.MinY = _southEdge.NodeAPos.y;
-        _currentBounds.MaxX = _eastEdge.NodeAPos.x;
-        _currentBounds.MinX = _westEdge.NodeAPos.x;
     }
 
     private void SetCamSize()
@@ -277,7 +301,7 @@ public class NewCamManager : MonoBehaviour
         Gizmos.DrawWireSphere(_targetPos, .1f);
 
         Vector2 upperLeft =
-                position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
+            position + new Vector2(-_characterMovementBoundaries.x, _characterMovementBoundaries.y);
         Vector2 lowerLeft =
             position + new Vector2(-_characterMovementBoundaries.x, -_characterMovementBoundaries.y);
         Vector2 upperRight =
@@ -301,13 +325,33 @@ public class NewCamManager : MonoBehaviour
 
         foreach (CamBoundsEdge edge in _camBoundsEdgesHorizontal)
         {
-            Gizmos.color = edge.NodeAPos == _northEdge.NodeAPos ? Color.green : edge.NodeAPos == _southEdge.NodeAPos ? Color.blue : Color.black;
-            Gizmos.DrawLine(edge.NodeAPos, edge.NodeBPos);
+            bool north = edge.NodeAPos == _characterNorthBoundary.NodeAPos;
+            bool south = edge.NodeAPos == _characterSouthBoundary.NodeAPos;
+
+            Gizmos.color = north ? Color.green : south ? Color.blue : Color.black;
+            Vector2 offset = north ? Vector2.up * .1f : south ? - Vector2.up * .1f : Vector2.zero;
+            Gizmos.DrawLine(edge.NodeAPos + offset, edge.NodeBPos + offset);
+
+            if (edge.NodeAPos == _frustrumNorthBoundary.NodeAPos || 
+                edge.NodeAPos == _frustrumSouthBoundary.NodeAPos) {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(edge.NodeAPos, edge.NodeBPos);
+            }
         }
         foreach (CamBoundsEdge edge in _camBoundsEdgesVertical)
         {
-            Gizmos.color = edge.NodeAPos == _eastEdge.NodeAPos ? Color.red : edge.NodeAPos == _westEdge.NodeAPos ? Color.yellow : Color.black;
-            Gizmos.DrawLine(edge.NodeAPos, edge.NodeBPos);
+            bool east = edge.NodeAPos == _characterEastBoundary.NodeAPos;
+            bool west = edge.NodeAPos == _characterWestBoundary.NodeAPos;
+
+            Gizmos.color = east ? Color.red : west ? Color.yellow : Color.black;
+            Vector2 offset = east ? Vector2.right * .1f : west ? - Vector2.right * .1f : Vector2.zero;
+            Gizmos.DrawLine(edge.NodeAPos + offset, edge.NodeBPos + offset);
+
+            if (edge.NodeAPos == _frustrumEastBoundary.NodeAPos ||
+                edge.NodeAPos == _frustrumWestBoundary.NodeAPos) {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(edge.NodeAPos, edge.NodeBPos);
+            }
         }
     }
 }
