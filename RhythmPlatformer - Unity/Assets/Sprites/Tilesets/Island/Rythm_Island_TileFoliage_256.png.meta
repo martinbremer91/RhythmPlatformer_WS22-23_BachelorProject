@@ -176,7 +176,7 @@ TextureImporter:
         width: 256
         height: 768
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -218,7 +218,7 @@ TextureImporter:
         width: 256
         height: 768
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -281,7 +281,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -302,7 +302,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -323,7 +323,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -339,12 +339,12 @@ TextureImporter:
       name: Rythm_Island_TileFoliage_256_11
       rect:
         serializedVersion: 2
-        x: 751
-        y: 239
+        x: 766
+        y: 111
         width: 290
         height: 290
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -428,7 +428,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -490,8 +490,8 @@ TextureImporter:
         y: 1408
         width: 128
         height: 128
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -587,6 +587,132 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_TileFoliage_256_23
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 282
+        width: 290
+        height: 145
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1561a8a88f72bd42b77c0487f92298f
+      internalID: 1265685529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_TileFoliage_256_24
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 512
+        width: 128
+        height: 128
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e2f0bb8e02536742bbd3f94348b00c6
+      internalID: 1953162718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_TileFoliage_256_25
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 512
+        width: 128
+        height: 128
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32477da33746b134588e14b37df7ff55
+      internalID: -315586822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_TileFoliage_256_26
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 128
+        height: 128
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f94cbc360ca5b144b1bf4eba07acbe2
+      internalID: -1347097741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_TileFoliage_256_27
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 512
+        width: 128
+        height: 128
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5df0cdc627e8df04b8f1b2ee91c8d92d
+      internalID: 1838520901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Island_TileFoliage_256_28
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1280
+        width: 128
+        height: 128
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9ea35c72be3ce444abfb581b286a13a
+      internalID: -280074031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -601,6 +727,7 @@ TextureImporter:
       Rythm_Island_TileFoliage_256_16: -245486470
       Rythm_Island_TileFoliage_256_21: 1682154192
       Rythm_Island_TileFoliage_256_14: 677398212
+      Rythm_Island_TileFoliage_256_24: 1953162718
       Rythm_Island_TileFoliage_256_2: -972311382
       Rythm_Island_TileFoliage_256_3: -211633292
       Rythm_Island_TileFoliage_256_1: 1314140119
@@ -611,11 +738,16 @@ TextureImporter:
       Rythm_Island_TileFoliage_256_18: 641586952
       Rythm_Island_TileFoliage_256_9: -1086570783
       Rythm_Island_TileFoliage_256_15: 532070499
+      Rythm_Island_TileFoliage_256_23: 1265685529
+      Rythm_Island_TileFoliage_256_25: -315586822
       Rythm_Island_TileFoliage_256_19: -833822130
+      Rythm_Island_TileFoliage_256_28: -280074031
       Rythm_Island_TileFoliage_256_22: 946263694
       Rythm_Island_TileFoliage_256_13: 466800751
+      Rythm_Island_TileFoliage_256_26: -1347097741
       Rythm_Island_TileFoliage_256_5: 1597892022
       Rythm_Island_TileFoliage_256_17: -1664784934
+      Rythm_Island_TileFoliage_256_27: 1838520901
       Rythm_Island_TileFoliage_256_20: -627916965
       Rythm_Island_TileFoliage_256_12: 364775310
       Rythm_Island_TileFoliage_256_4: 1708047427

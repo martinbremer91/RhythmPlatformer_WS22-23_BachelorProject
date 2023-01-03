@@ -109,7 +109,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 256
-        y: 256
+        y: 512
         width: 256
         height: 256
       alignment: 0
@@ -130,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
-        y: 256
+        y: 512
         width: 256
         height: 256
       alignment: 0
@@ -151,7 +151,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 256
+        y: 512
         width: 256
         height: 256
       alignment: 0
@@ -172,7 +172,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1024
-        y: 0
+        y: 769
         width: 256
         height: 256
       alignment: 0
@@ -722,7 +722,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -827,7 +827,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -848,7 +848,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -869,7 +869,7 @@ TextureImporter:
         width: 256
         height: 512
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -877,6 +877,90 @@ TextureImporter:
       bones: []
       spriteID: 99433e2cf56a8d242bf5025cbd18fb29
       internalID: -913762629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_37
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 256
+        height: 512
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7faeadaed96486b4fbddfc8e5b54c534
+      internalID: -2047435624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_38
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e81a5ee046953d49a7b95a1730732cd
+      internalID: -1808349890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_39
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 512
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6708006fe8786e54fb0405c4b85d2237
+      internalID: -11096888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_40
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 512
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaf75d29cd9da13409272044c3954292
+      internalID: 34050262
       vertices: []
       indices: 
       edges: []
@@ -904,6 +988,7 @@ TextureImporter:
       Rythm_Tower_FoliageSet_256_01_11: 46816473
       Rythm_Tower_FoliageSet_256_01_14: -2059669606
       Rythm_Tower_FoliageSet_256_01_18: 1077835890
+      Rythm_Tower_FoliageSet_256_01_39: -11096888
       Rythm_Tower_FoliageSet_256_01_22: 925902172
       Rythm_Tower_FoliageSet_256_01_6: 669674983
       Rythm_Tower_FoliageSet_256_01_10: 331165510
@@ -912,15 +997,18 @@ TextureImporter:
       Rythm_Tower_FoliageSet_256_01_23: 2021473076
       Rythm_Tower_FoliageSet_256_01_27: 306626433
       Rythm_Tower_FoliageSet_256_01_7: -1992115677
+      Rythm_Tower_FoliageSet_256_01_38: -1808349890
       Rythm_Tower_FoliageSet_256_01_19: 2005890037
       Rythm_Tower_FoliageSet_256_01_21: -700148624
       Rythm_Tower_FoliageSet_256_01_28: -157634595
       Rythm_Tower_FoliageSet_256_01_8: 1744797355
+      Rythm_Tower_FoliageSet_256_01_40: 34050262
       Rythm_Tower_FoliageSet_256_01_34: -2046754202
       Rythm_Tower_FoliageSet_256_01_25: 1141233039
       Rythm_Tower_FoliageSet_256_01_3: -455279197
       Rythm_Tower_FoliageSet_256_01_26: -1843438669
       Rythm_Tower_FoliageSet_256_01_36: -913762629
+      Rythm_Tower_FoliageSet_256_01_37: -2047435624
       Rythm_Tower_FoliageSet_256_01_2: -844310687
       Rythm_Tower_FoliageSet_256_01_15: -1929454224
       Rythm_Tower_FoliageSet_256_01_20: -208397938
