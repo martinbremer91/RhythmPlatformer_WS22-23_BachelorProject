@@ -309,7 +309,7 @@
 ### Changed
 - tweaked deadzone value
 ### Fixed
-- fixed ride and fall state changes, air drift application, air drag application incl. increased and reduced drag
+- fixed rise and fall state changes, air drift application, air drag application incl. increased and reduced drag
 
 ## [0.0.3] - 2022-07-31
 ### Added
@@ -325,7 +325,7 @@
 ### Added
 - implemented collision checks
 - started implementing character status editor script
-- started implementing new input => state machine => movement logic
+- started implementing new input, state machine, movement logic
 
 ## [0.0.1] - 2022-07-19
 ### Added
