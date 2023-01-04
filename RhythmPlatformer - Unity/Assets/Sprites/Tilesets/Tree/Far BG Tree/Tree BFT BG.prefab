@@ -86,27 +86,27 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 5
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1
+  - first: {x: -1, y: 1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
       m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -1, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 3
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1
   - first: {x: 0, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 3
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -135,20 +135,20 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: c723997b73736cf4883fea93a6c85828, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 19c046ef0ffdde446950fdd26620da13, type: 2}
+    m_Data: {fileID: 11400000, guid: 1c5fcf9cdf6b7ab4e8a8ffc67e42dd73, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: b757a858ae13b8747924f87f8e34ba07, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 49679584f3890764db64dcba7469208c, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: a7f6a4859424101478993a364fae5cdc, type: 3}
+    m_Data: {fileID: 21300000, guid: e7cb79ececcb61649a92e497d3fff1e1, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 633bc84995a2079438009866bb71072a, type: 3}
+    m_Data: {fileID: 21300000, guid: 75d2697f1666e1b40856fcdde0cdc45c, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: f731706cb6988b44daf4e136dec1707d, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: e7cb79ececcb61649a92e497d3fff1e1, type: 3}
+    m_Data: {fileID: 21300000, guid: 633bc84995a2079438009866bb71072a, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: b57c75d9f53c3c64ba5d3ea8e0fc5732, type: 3}
   - m_RefCount: 1
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 5691135909003718747}
   - component: {fileID: 670813644427112156}
   m_Layer: 0
-  m_Name: Tree Far BFT
+  m_Name: Tree BFT BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,7 +297,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &5263970923398826062
+--- !u!114 &8352116281667191392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
