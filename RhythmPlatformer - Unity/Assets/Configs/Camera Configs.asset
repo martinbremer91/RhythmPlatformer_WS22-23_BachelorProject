@@ -16,4 +16,4 @@ MonoBehaviour:
   _smoothTime: 0.25
   MaxSpeed: 200
   MaxSize: 100
-  MinSize: 2.5
+  MinSize: 1

@@ -54,7 +54,7 @@ namespace GameplaySystems
 
         private CameraBounds _currentBounds;
 
-        private Vector2 _targetPos;
+        private Vector3 _targetPos;
         private Vector2 _targetCamSize;
 
         private Vector3 _velocity;
@@ -253,20 +253,20 @@ namespace GameplaySystems
                 return _characterInMovementBoundaries;
             }
 
-            Vector2 GetClampedTargetPos() {
-                Vector2 targetPos = new();
+            Vector3 GetClampedTargetPos() {
+                Vector3 pos = new(_characterPos.x, _characterPos.y, transform.position.z);
 
                 if (_characterPos.x + _targetCamSize.x > _currentBounds.MaxX)
-                    targetPos.x = _currentBounds.MaxX - _targetCamSize.x;
+                    pos.x = _currentBounds.MaxX - _targetCamSize.x;
                 else if (_characterPos.x - _targetCamSize.x < _currentBounds.MinX)
-                    targetPos.x = _currentBounds.MinX + _targetCamSize.x;
+                    pos.x = _currentBounds.MinX + _targetCamSize.x;
 
                 if (_characterPos.y + _targetCamSize.y > _currentBounds.MaxY)
-                    targetPos.y = _currentBounds.MaxY - _targetCamSize.y;
+                    pos.y = _currentBounds.MaxY - _targetCamSize.y;
                 else if (_characterPos.y - _targetCamSize.y < _currentBounds.MinY)
-                    targetPos.y = _currentBounds.MinY + _targetCamSize.y;
+                    pos.y = _currentBounds.MinY + _targetCamSize.y;
 
-                return targetPos;
+                return pos;
             }
 
             void GetCharacterEdges()
@@ -298,10 +298,12 @@ namespace GameplaySystems
                     float max = float.MaxValue;
                     float min = float.MinValue;
 
+                    Vector2 posToCheck = _characterPos;
+
                     foreach (CamBoundsEdge edge in in_boundaryEdges)
                     {
                         bool edgeBeyondPos =
-                            !in_vertical ? edge.NodeAPos.y > _characterPos.y : edge.NodeAPos.x > _characterPos.x;
+                            !in_vertical ? edge.NodeAPos.y > posToCheck.y : edge.NodeAPos.x > posToCheck.x;
 
                         CamBoundsEdge edgeToCheck =
                             !in_vertical ?
@@ -371,7 +373,7 @@ namespace GameplaySystems
                     Mathf.Clamp(Mathf.Min(minVerticalSize, verticalComplementForAspectRatio) - .1f,
                         _minSize, _maxSize);
 
-                float interpolatedClampedOrthographicSize = Mathf.Lerp(_cam.orthographicSize, clampedOrthographicSize, Time.deltaTime * 2);
+                float interpolatedClampedOrthographicSize = Mathf.Lerp(currentCamSize.y, clampedOrthographicSize, Time.deltaTime * 2);
 
                 _targetCamSize = new(interpolatedClampedOrthographicSize * _cam.aspect - .1f, interpolatedClampedOrthographicSize);
 
@@ -382,7 +384,7 @@ namespace GameplaySystems
             }
         }
 
-        private void LateUpdate() => transform.position = new(_targetPos.x, _targetPos.y, transform.position.z);
+        private void LateUpdate() => transform.position = _targetPos;
 
         #endregion
 
