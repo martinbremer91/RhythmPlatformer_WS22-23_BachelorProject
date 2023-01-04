@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7731077096761880426}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7731077097819015075}
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1247650572, guid: a253c2fbb98bd8841a0adb812f04ecaa, type: 3}
-  m_Color: {r: 0.6886792, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 463171383, guid: 3645a05c446dd054987660d6471bbbc0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -222,7 +222,7 @@ Transform:
   m_GameObject: {fileID: 7731077097821928416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7731077097819015075}
@@ -269,8 +269,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 785089746, guid: a253c2fbb98bd8841a0adb812f04ecaa, type: 3}
-  m_Color: {r: 0.6886792, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 269002261, guid: 3645a05c446dd054987660d6471bbbc0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -306,7 +306,7 @@ Transform:
   m_GameObject: {fileID: 7731077098413810205}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7731077097819015075}
@@ -353,8 +353,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 782583189, guid: a253c2fbb98bd8841a0adb812f04ecaa, type: 3}
-  m_Color: {r: 0.6886792, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 811644589, guid: 3645a05c446dd054987660d6471bbbc0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
