@@ -97,25 +97,21 @@ namespace Gameplay
             else if (collision && hitA.gameObject.CompareTag(_oneWayPlatformTag))
                 collision = OnOneWayPlatform;
 
-            bool collisionOutsideOfCollisionChecks = false;
             if (_characterStateController.CurrentCharacterState is CharacterState.Fall) {
-                collisionOutsideOfCollisionChecks = 
+                bool collisionOutsideOfCollisionChecks = 
                     !collision && _boxCollider.IsTouchingLayers(_levelLayerMask);
 
                 if (collisionOutsideOfCollisionChecks) {
-                    bool collisionRight = Physics2D.OverlapPoint(collisionCheckPointA + Vector2.right * .01f, _levelLayerMask);
+                    bool collisionRight = Physics2D.OverlapPoint(collisionCheckPointA + Vector2.right * .1f, _levelLayerMask);
                     bool collisionLeft = false;
 
                     if (collisionRight)
                         transform.Translate(Vector2.left * .01f);
                     else 
-                        collisionLeft = Physics2D.OverlapPoint(collisionCheckPointB + Vector2.left * .01f, _levelLayerMask);
+                        collisionLeft = Physics2D.OverlapPoint(collisionCheckPointB + Vector2.left * .1f, _levelLayerMask);
 
                     if (collisionLeft)
                         transform.Translate(Vector2.right * .01f);
-
-                    if (!collisionLeft && !collisionRight)
-                        Debug.LogWarning("Collision outside of collision checks detected. Correction failed.");
                 }
             }
 
