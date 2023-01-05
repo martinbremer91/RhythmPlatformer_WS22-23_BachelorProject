@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Gameplay;
 using GlobalSystems;
 using Interfaces_and_Enums;
+using UI_And_Menus;
 using UnityEngine;
 using Utility_Scripts;
 
@@ -32,7 +33,7 @@ namespace GameplaySystems
                 _movementRoutine.Init(in_gameStateManager);
             }
         }
-        
+
         private void OnCollisionEnter2D(Collision2D col)
         {
             if (col.enabled && col.gameObject.CompareTag(Constants.PlayerTag))
@@ -41,6 +42,8 @@ namespace GameplaySystems
                     _characterCollisionDetector.OnOneWayPlatform = true;
                 if (_isMovingPlatform)
                     _movementRoutine.MovePlayerAsWell = true;
+
+                UiManager.ToggleDebugSymbol(true);
             }
         }
 
@@ -48,8 +51,8 @@ namespace GameplaySystems
         {
             if (!_isOneWayPlatform || !collision.enabled || !collision.gameObject.CompareTag(Constants.PlayerTag))
                 return;
-
-            if (_characterStateController.CurrentCharacterState == CharacterState.Crouch)
+            
+            if (_characterStateController.CurrentCharacterState is CharacterState.Crouch)
                 ExecuteFallThrough();
         }
 
@@ -61,6 +64,8 @@ namespace GameplaySystems
                     _characterCollisionDetector.OnOneWayPlatform = false;
                 if (_isMovingPlatform)
                     _movementRoutine.MovePlayerAsWell = false;
+                
+                UiManager.ToggleDebugSymbol(false);
             }
         }
 
