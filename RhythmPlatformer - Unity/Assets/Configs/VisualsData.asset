@@ -28,4 +28,10 @@ MonoBehaviour:
   - Label: CompanionNoDash
     Color: {r: 0.4433962, g: 0.11084905, b: 0.18249089, a: 1}
     HDRColor: {r: 3.5661874, g: 0.31961104, b: 1.0145262, a: 1}
-  InteractablesColors: []
+  InteractablesColors:
+  - Label: CheckpointInactive
+    Color: {r: 0.44313726, g: 0.10980392, b: 0.18431373, a: 1}
+    HDRColor: {r: 3.5661874, g: 0.31961104, b: 1.0145262, a: 1}
+  - Label: CheckpointActive
+    Color: {r: 0.29803923, g: 0.93333334, b: 0.29411766, a: 1}
+    HDRColor: {r: 2.0088012, g: 7.1052046, b: 3.5712023, a: 1}

@@ -62,7 +62,7 @@ namespace GameplaySystems
                 if (_checkpoints.Any())
                 {
                     foreach (Checkpoint checkpoint in _checkpoints)
-                        checkpoint.Init(this, _characterStateController);
+                        checkpoint.Init(in_gameStateManager);
                 }
 
                 _characterStateController.Respawn += RespawnPlayer;

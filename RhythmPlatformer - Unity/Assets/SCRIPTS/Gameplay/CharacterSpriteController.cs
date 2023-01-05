@@ -13,12 +13,13 @@ namespace Gameplay
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Transform _dashPreviewArrow;
         [SerializeField] private Animator _playerAnimator;
-        [SerializeField] private VisualsData _characterVisualsData;
         private SilhouetteMaterialOverrides _pulseAndSilhouetteMatOverrides;
 
         #endregion
 
         #region VARIABLES
+        
+        private VisualsData _characterVisualsData;
 
         private float _silhouetteMatMaxDistance;
         private Vector2 _silhouetteMatProximityAlphaRange;
@@ -39,6 +40,8 @@ namespace Gameplay
         public void Init(GameStateManager in_gameStateManager) {
             _characterStateController = in_gameStateManager.CharacterStateController;
             _pulseAndSilhouetteMatOverrides = new SilhouetteMaterialOverrides(_spriteRenderer);
+
+            _characterVisualsData = in_gameStateManager.VisualsData;
 
             _silhouetteMatMaxDistance = _characterVisualsData.SilhouetteMatMaxDistance;
             _silhouetteMatProximityAlphaRange = _characterVisualsData.SilhouetteMatProximityAlphaRange;

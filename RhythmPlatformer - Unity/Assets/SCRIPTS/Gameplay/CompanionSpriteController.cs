@@ -6,13 +6,13 @@ using UnityEngine;
 public class CompanionSpriteController : MonoBehaviour, IInit<GameStateManager>, IAnimatorPausable {
 
     private CharacterStateController _characterStateController;
-    [SerializeField] private VisualsData _companionVisualsData;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Animator _companionAnimator;
     [SerializeField] private ParticleSystem _companionBodyParticles;
     [SerializeField] private ParticleSystem _companionTrailParticles;
     private PulseMaterialOverrides _pulseMaterialOverrides;
 
+    private VisualsData _companionVisualsData;
     private LabeledColor _defaultColors;
     private LabeledColor _noDashColors;
 
@@ -30,6 +30,7 @@ public class CompanionSpriteController : MonoBehaviour, IInit<GameStateManager>,
     public void Init(GameStateManager in_gameStateManager) {
         _pulseMaterialOverrides = new PulseMaterialOverrides(_spriteRenderer);
 
+        _companionVisualsData = in_gameStateManager.VisualsData;
         LabeledColor[] companionColors = _companionVisualsData.CompanionColors.ToArray();
 
         _defaultColors = 

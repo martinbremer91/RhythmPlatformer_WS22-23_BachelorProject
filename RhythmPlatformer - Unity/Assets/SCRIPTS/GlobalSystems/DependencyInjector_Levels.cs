@@ -23,6 +23,7 @@ namespace GlobalSystems
         public CharacterSpriteController CharacterSpriteController;
         public CompanionSpriteController CompanionSpriteController;
         public CompanionFollow CompanionFollow;
+        public VisualsData VisualsData;
 
         public override void Init(GameStateManager in_gameStateManager)
         {
@@ -38,6 +39,7 @@ namespace GlobalSystems
             in_gameStateManager.CharacterSpriteController = CharacterSpriteController;
             in_gameStateManager.CompanionSpriteController = CompanionSpriteController;
             in_gameStateManager.CompanionFollow = CompanionFollow;
+            in_gameStateManager.VisualsData = VisualsData;
             
             base.Init(in_gameStateManager);
         }
