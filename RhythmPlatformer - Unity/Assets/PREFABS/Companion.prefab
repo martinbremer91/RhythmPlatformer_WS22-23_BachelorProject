@@ -9686,7 +9686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fb9cbca0768934f8eb67b5cb77bc13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterVisualsData: {fileID: 11400000, guid: 61751948e040ad04e8868da9c1854c78, type: 2}
+  _companionVisualsData: {fileID: 11400000, guid: a205c02785bd35042b719c319d5b21c9, type: 2}
   _spriteRenderer: {fileID: 9195974742300290838}
   _companionAnimator: {fileID: 5009292016580759261}
   _companionBodyParticles: {fileID: 1495759389}

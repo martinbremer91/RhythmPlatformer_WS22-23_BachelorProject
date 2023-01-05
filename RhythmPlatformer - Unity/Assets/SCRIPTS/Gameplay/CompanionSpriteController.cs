@@ -6,7 +6,7 @@ using UnityEngine;
 public class CompanionSpriteController : MonoBehaviour, IInit<GameStateManager>, IAnimatorPausable {
 
     private CharacterStateController _characterStateController;
-    [SerializeField] private CharacterVisualsData _characterVisualsData;
+    [SerializeField] private VisualsData _companionVisualsData;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Animator _companionAnimator;
     [SerializeField] private ParticleSystem _companionBodyParticles;
@@ -30,8 +30,12 @@ public class CompanionSpriteController : MonoBehaviour, IInit<GameStateManager>,
     public void Init(GameStateManager in_gameStateManager) {
         _pulseMaterialOverrides = new PulseMaterialOverrides(_spriteRenderer);
 
-        _defaultColors = _characterVisualsData.GetColorByLabel("CompanionDefault");
-        _noDashColors = _characterVisualsData.GetColorByLabel("CompanionNoDash");
+        LabeledColor[] companionColors = _companionVisualsData.CompanionColors.ToArray();
+
+        _defaultColors = 
+            _companionVisualsData.GetColorByLabel(companionColors, "CompanionDefault");
+        _noDashColors = 
+            _companionVisualsData.GetColorByLabel(companionColors, "CompanionNoDash");
 
         _characterStateController = in_gameStateManager.CharacterStateController;
         in_gameStateManager.CharacterStateController.CanDashStateChanged += UpdateCanDashColor;

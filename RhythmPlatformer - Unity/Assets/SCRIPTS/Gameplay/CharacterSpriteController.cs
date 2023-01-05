@@ -13,7 +13,7 @@ namespace Gameplay
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Transform _dashPreviewArrow;
         [SerializeField] private Animator _playerAnimator;
-        [SerializeField] private CharacterVisualsData _characterVisualsData;
+        [SerializeField] private VisualsData _characterVisualsData;
         private SilhouetteMaterialOverrides _pulseAndSilhouetteMatOverrides;
 
         #endregion
@@ -43,8 +43,12 @@ namespace Gameplay
             _silhouetteMatMaxDistance = _characterVisualsData.SilhouetteMatMaxDistance;
             _silhouetteMatProximityAlphaRange = _characterVisualsData.SilhouetteMatProximityAlphaRange;
 
-            _silhouetteWeakBeatColors = _characterVisualsData.GetColorByLabel("SilhouetteWeakBeat");
-            _silhouetteStrongBeatColors = _characterVisualsData.GetColorByLabel("SilhouetteStrongBeat");
+            LabeledColor[] characterColors = _characterVisualsData.CharacterColors.ToArray();
+
+            _silhouetteWeakBeatColors = 
+                _characterVisualsData.GetColorByLabel(characterColors, "SilhouetteWeakBeat");
+            _silhouetteStrongBeatColors = 
+                _characterVisualsData.GetColorByLabel(characterColors, "SilhouetteStrongBeat");
         }
 
         public void SetCharacterOrientation(bool in_faceLeft) {
