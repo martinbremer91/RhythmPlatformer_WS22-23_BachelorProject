@@ -3955,3 +3955,4 @@ MonoBehaviour:
   CharacterSpriteController: {fileID: 1285793919}
   CompanionSpriteController: {fileID: 427063394}
   CompanionFollow: {fileID: 427063393}
+  VisualsData: {fileID: 11400000, guid: a205c02785bd35042b719c319d5b21c9, type: 2}

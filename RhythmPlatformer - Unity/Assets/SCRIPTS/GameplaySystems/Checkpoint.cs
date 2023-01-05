@@ -7,15 +7,20 @@ namespace GameplaySystems
 {
     public class Checkpoint : MonoBehaviour, IInit<GameStateManager>
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private ParticleSystem _flamesParticleSystemA;
+        [SerializeField] private ParticleSystem _flamesParticleSystemB;
+
         private LevelManager _levelManager;
         private CharacterStateController _characterStateController;
-        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         private PulseMaterialOverrides _pulseMaterialOverrides;
 
         private VisualsData _interactablesVisualsData;
         private LabeledColor _inactiveColor;
         private LabeledColor _activeColor;
+        private Gradient _inactiveColorGradient;
+        private Gradient _activeColorGradient;
 
         private bool _checkpointTouched;
 
@@ -35,8 +40,28 @@ namespace GameplaySystems
             _inactiveColor = _interactablesVisualsData.GetColorByLabel(interactablesColors, "CheckpointInactive");
             _activeColor = _interactablesVisualsData.GetColorByLabel(interactablesColors, "CheckpointActive");
 
-            _pulseMaterialOverrides.SetBaseColor(_inactiveColor.Color);
-            _pulseMaterialOverrides.SetSecondaryColor(_inactiveColor.HDRColor);
+            _inactiveColorGradient = new Gradient();
+            _inactiveColorGradient.SetKeys(
+                new GradientColorKey[] {
+                new GradientColorKey(_inactiveColor.Color, 0),
+                new GradientColorKey(_inactiveColor.Color, 1) },
+                new GradientAlphaKey[] {
+                new GradientAlphaKey(1, 0),
+                new GradientAlphaKey(0, 1)
+                });
+
+
+            _activeColorGradient = new Gradient();
+            _activeColorGradient.SetKeys(
+                new GradientColorKey[] {
+                new GradientColorKey(_activeColor.Color, 0),
+                new GradientColorKey(_activeColor.Color, 1) },
+                new GradientAlphaKey[] {
+                new GradientAlphaKey(1, 0),
+                new GradientAlphaKey(0, 1)
+                });
+
+            UpdateCheckpointVisuals();
         }
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -44,12 +69,30 @@ namespace GameplaySystems
             if (_checkpointTouched || !col.gameObject.CompareTag("Player") || _characterStateController.Dead)
                 return;
 
+            _checkpointTouched = true;
             _levelManager.SetCurrentCheckPoint(this);
 
-            _pulseMaterialOverrides.SetBaseColor(_activeColor.Color);
-            _pulseMaterialOverrides.SetSecondaryColor(_activeColor.HDRColor);
+            UpdateCheckpointVisuals();
+        }
 
-            _checkpointTouched = true;
+        private void UpdateCheckpointVisuals() {
+            LabeledColor labeledColor = _checkpointTouched ? _activeColor : _inactiveColor;
+
+            _pulseMaterialOverrides.SetBaseColor(labeledColor.Color);
+            _pulseMaterialOverrides.SetSecondaryColor(labeledColor.HDRColor);
+            UpdateFlameParticles();
+
+            void UpdateFlameParticles() {
+                Gradient gradient = _checkpointTouched ? _activeColorGradient : _inactiveColorGradient;
+
+                ParticleSystem.ColorOverLifetimeModule flamesA =
+                    _flamesParticleSystemA.colorOverLifetime;
+                ParticleSystem.ColorOverLifetimeModule flamesB =
+                    _flamesParticleSystemB.colorOverLifetime;
+
+                flamesA.color = gradient;
+                flamesB.color = gradient;
+            }
         }
     }
 }
