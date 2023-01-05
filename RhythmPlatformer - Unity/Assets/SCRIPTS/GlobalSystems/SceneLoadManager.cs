@@ -14,6 +14,7 @@ namespace GlobalSystems
         public static List<IRefreshable> s_Refreshables => s_refreshables ??= new();
 
         public static Action SceneUnloaded;
+        public static Action SceneLoaded;
 
         public static void RefreshGlobalObjects()
         {
@@ -49,6 +50,7 @@ namespace GlobalSystems
                 yield return null;
 
             void OnSceneLoaded(AsyncOperation in_asyncOperation) {
+                SceneLoaded?.Invoke();
                 in_asyncOperation.completed -= OnSceneLoaded;
                 in_uiManager.LoadingScreen.SetActive(false);
                 RefreshGlobalObjects();
