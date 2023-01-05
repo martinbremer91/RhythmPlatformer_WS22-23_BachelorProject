@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Tower Top Edges Rule
+  m_Name: Tower Right Edge Rule
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 2025216002, guid: ae600bda1be21704ba840c255ad7f8e8, type: 3}
   m_DefaultGameObject: {fileID: 0}

@@ -822,8 +822,8 @@ TextureImporter:
       name: Rythm_Tower_FoliageSet_256_01_34
       rect:
         serializedVersion: 2
-        x: 768
-        y: 1536
+        x: 0
+        y: 768
         width: 256
         height: 256
       alignment: 0
@@ -843,8 +843,8 @@ TextureImporter:
       name: Rythm_Tower_FoliageSet_256_01_35
       rect:
         serializedVersion: 2
-        x: 768
-        y: 1280
+        x: 256
+        y: 768
         width: 256
         height: 256
       alignment: 0
@@ -965,6 +965,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_41
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b30b6808308c00428ec6c2425ef00b5
+      internalID: -594538109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_42
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d39bb816ab41444aba0d57391391ad
+      internalID: 1019611618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_43
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1024
+        width: 256
+        height: 512
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e52e41a7d86a3e4aa419629849d37e6
+      internalID: -957233012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_FoliageSet_256_01_44
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1536
+        width: 256
+        height: 512
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98e9152e44fbde34aaf4ad199b36f2fc
+      internalID: -1696518574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -976,47 +1060,51 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Rythm_Tower_FoliageSet_256_01_12: -1165008075
-      Rythm_Tower_FoliageSet_256_01_5: 1134415878
       Rythm_Tower_FoliageSet_256_01_9: -791837855
       Rythm_Tower_FoliageSet_256_01_33: 2119260931
-      Rythm_Tower_FoliageSet_256_01_13: -928721493
       Rythm_Tower_FoliageSet_256_01_1: 616767889
       Rythm_Tower_FoliageSet_256_01_30: -1345508819
-      Rythm_Tower_FoliageSet_256_01_31: -906405420
       Rythm_Tower_FoliageSet_256_01_4: 1082528164
       Rythm_Tower_FoliageSet_256_01_11: 46816473
-      Rythm_Tower_FoliageSet_256_01_14: -2059669606
+      Rythm_Tower_FoliageSet_256_01_44: -1696518574
       Rythm_Tower_FoliageSet_256_01_18: 1077835890
       Rythm_Tower_FoliageSet_256_01_39: -11096888
       Rythm_Tower_FoliageSet_256_01_22: 925902172
       Rythm_Tower_FoliageSet_256_01_6: 669674983
       Rythm_Tower_FoliageSet_256_01_10: 331165510
-      Rythm_Tower_FoliageSet_256_01_16: -1686070455
+      Rythm_Tower_FoliageSet_256_01_34: -2046754202
       Rythm_Tower_FoliageSet_256_01_32: 1865460057
-      Rythm_Tower_FoliageSet_256_01_23: 2021473076
       Rythm_Tower_FoliageSet_256_01_27: 306626433
       Rythm_Tower_FoliageSet_256_01_7: -1992115677
-      Rythm_Tower_FoliageSet_256_01_38: -1808349890
       Rythm_Tower_FoliageSet_256_01_19: 2005890037
       Rythm_Tower_FoliageSet_256_01_21: -700148624
       Rythm_Tower_FoliageSet_256_01_28: -157634595
-      Rythm_Tower_FoliageSet_256_01_8: 1744797355
       Rythm_Tower_FoliageSet_256_01_40: 34050262
-      Rythm_Tower_FoliageSet_256_01_34: -2046754202
+      Rythm_Tower_FoliageSet_256_01_37: -2047435624
       Rythm_Tower_FoliageSet_256_01_25: 1141233039
       Rythm_Tower_FoliageSet_256_01_3: -455279197
       Rythm_Tower_FoliageSet_256_01_26: -1843438669
       Rythm_Tower_FoliageSet_256_01_36: -913762629
-      Rythm_Tower_FoliageSet_256_01_37: -2047435624
       Rythm_Tower_FoliageSet_256_01_2: -844310687
-      Rythm_Tower_FoliageSet_256_01_15: -1929454224
-      Rythm_Tower_FoliageSet_256_01_20: -208397938
       Rythm_Tower_FoliageSet_256_01_35: 1271491116
-      Rythm_Tower_FoliageSet_256_01_24: -1842222551
-      Rythm_Tower_FoliageSet_256_01_29: 1604193224
       Rythm_Tower_FoliageSet_256_01_17: -1022236746
       Rythm_Tower_FoliageSet_256_01_0: -1384044763
+      Rythm_Tower_FoliageSet_256_01_41: -594538109
+      Rythm_Tower_FoliageSet_256_01_12: -1165008075
+      Rythm_Tower_FoliageSet_256_01_5: 1134415878
+      Rythm_Tower_FoliageSet_256_01_13: -928721493
+      Rythm_Tower_FoliageSet_256_01_43: -957233012
+      Rythm_Tower_FoliageSet_256_01_31: -906405420
+      Rythm_Tower_FoliageSet_256_01_14: -2059669606
+      Rythm_Tower_FoliageSet_256_01_23: 2021473076
+      Rythm_Tower_FoliageSet_256_01_16: -1686070455
+      Rythm_Tower_FoliageSet_256_01_38: -1808349890
+      Rythm_Tower_FoliageSet_256_01_8: 1744797355
+      Rythm_Tower_FoliageSet_256_01_15: -1929454224
+      Rythm_Tower_FoliageSet_256_01_20: -208397938
+      Rythm_Tower_FoliageSet_256_01_42: 1019611618
+      Rythm_Tower_FoliageSet_256_01_24: -1842222551
+      Rythm_Tower_FoliageSet_256_01_29: 1604193224
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
