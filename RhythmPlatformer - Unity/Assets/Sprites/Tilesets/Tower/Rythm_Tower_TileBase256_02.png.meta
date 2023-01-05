@@ -1310,7 +1310,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1331,7 +1331,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1352,7 +1352,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1373,7 +1373,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1381,6 +1381,27 @@ TextureImporter:
       bones: []
       spriteID: 52e13d301aa564648950372125105981
       internalID: -2132407766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rythm_Tower_TileBase256_02_61
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1536
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93cd60e219af4a441993b8b8db3868f4
+      internalID: 735085388
       vertices: []
       indices: 
       edges: []
@@ -1409,6 +1430,7 @@ TextureImporter:
       Rythm_Tower_TileBase256_02_6: -189447253
       Rythm_Tower_TileBase256_02_17: -704200965
       Rythm_Tower_TileBase256_02_60: -2132407766
+      Rythm_Tower_TileBase256_02_61: 735085388
       Rythm_Tower_TileBase256_02_55: -1149692808
       Rythm_Tower_TileBase256_02_44: 576122515
       Rythm_Tower_TileBase256_02_18: -1674271357
