@@ -301,8 +301,16 @@ namespace GameplaySystems
 
             float cutoffFrequency = 
                 in_lowPassOn ? _gameStateManager.SoundConfigs.LowPassFilterFadeCutoffFrequency : 22000;
+            
             _musicUtilities.FadeLowPassFilterAsync(_trackLowPassFilters, (float)BeatLength, 
                 cutoffFrequency, !in_lowPassOn);
+        }
+
+        public void ExecuteVolumeFade(bool in_fadeOut) {
+            float targetVolume = in_fadeOut ? 0 : 
+                _gameStateManager.SoundConfigs.SoundPreferences.CurrentMusicVolume;
+
+            _musicUtilities.FadeVolumeAsync(_trackAudioSources, 3, targetVolume);
         }
 
         #endregion

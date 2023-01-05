@@ -6,6 +6,8 @@ using Scriptable_Object_Scripts;
 using Structs;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Threading.Tasks;
 
 namespace GlobalSystems
 {
@@ -74,9 +76,16 @@ namespace GlobalSystems
             LoadPlayerProgress();
             LoadUserPrefs();
             (this as IRefreshable).RegisterRefreshable();
+
+            SceneLoadManager.SceneUnloaded += FadeOutVisualsAndMusic;
+            SceneLoadManager.SceneLoaded += ResetMusicVolumeAndFadeInVisuals;
         }
 
-        private void OnDisable() => (this as IRefreshable).DeregisterRefreshable();
+        private void OnDisable() {
+            (this as IRefreshable).DeregisterRefreshable();
+            SceneLoadManager.SceneUnloaded -= FadeOutVisualsAndMusic;
+            SceneLoadManager.SceneLoaded -= ResetMusicVolumeAndFadeInVisuals;
+        }
 
         private void OnApplicationFocus(bool focus) =>
             UpdateManagerPauseToggle(!focus);
@@ -206,6 +215,18 @@ namespace GlobalSystems
         {
             foreach (IPhysicsPausable physicsPausable in PhysicsPausables)
                 physicsPausable.TogglePausePhysics(in_paused);
+        }
+
+        private void FadeOutVisualsAndMusic() {
+            UiManager.FadeDarkScreen(true).
+                ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            BeatManager.ExecuteVolumeFade(true);
+        }
+
+        public void ResetMusicVolumeAndFadeInVisuals() {
+            BeatManager.SetMusicVolume(SoundConfigs.SoundPreferences.CurrentMusicVolume);
+            UiManager.FadeDarkScreen(false).
+                ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
         }
     }
 }
