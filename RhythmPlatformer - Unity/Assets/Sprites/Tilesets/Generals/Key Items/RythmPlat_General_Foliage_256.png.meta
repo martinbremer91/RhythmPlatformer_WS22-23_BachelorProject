@@ -171,8 +171,8 @@ TextureImporter:
       name: RythmPlat_General_Foliage_256_3
       rect:
         serializedVersion: 2
-        x: 768
-        y: 512
+        x: 769
+        y: 510
         width: 512
         height: 512
       alignment: 0

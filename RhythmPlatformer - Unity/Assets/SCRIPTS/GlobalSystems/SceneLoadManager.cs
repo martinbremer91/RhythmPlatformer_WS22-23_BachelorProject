@@ -26,9 +26,22 @@ namespace GlobalSystems
             SceneUnloaded?.Invoke();
 
             bool loadCompleted = false;
+
+            float delay = 3;
+            float timer = 0;
+            float time = Time.time;
+
+            while (timer < delay) {
+                float previousCallTime = time;
+                time = Time.time;
+                float delta = time - previousCallTime;
+                timer += delta;
+                
+                yield return null;
+            }
+
             in_uiManager.LoadingScreen.SetActive(true);
             GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Nothing;
-
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
             asyncLoad.completed += OnSceneLoaded;
 
