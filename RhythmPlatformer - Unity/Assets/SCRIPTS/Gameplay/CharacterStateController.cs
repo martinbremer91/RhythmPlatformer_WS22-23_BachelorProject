@@ -111,14 +111,11 @@ namespace Gameplay
         private float _maxInheritedXVelocity;
 
         [HideInInspector] public bool Dead;
+        [HideInInspector] public bool Invulnerable;
         
         public Action Respawn;
         public Action BecomeGrounded;
         public Action<bool> CanDashStateChanged;
-        
-#if UNITY_EDITOR
-        public static bool s_Invulnerable;
-#endif
         
         #endregion
 
@@ -166,6 +163,7 @@ namespace Gameplay
                     _characterMovement.InitializeRise(GetClampedInheritedXVelocity());
                     break;
                 case CharacterState.Land:
+                    Invulnerable = true;
                     CanDash = true;
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
                     break;
@@ -175,6 +173,7 @@ namespace Gameplay
                     CanDash = true;
                     break;
                 case CharacterState.WallSlide:
+                    Invulnerable = true;
                     CheckFacingOrientation(true);
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
@@ -197,6 +196,7 @@ namespace Gameplay
                     _characterMovement.RunVelocity = 0;
                     break;
                 case CharacterState.Land:
+                    Invulnerable = false;
                     _characterMovement.LandVelocity = 0;
                     break;
                 case CharacterState.Rise:
@@ -208,6 +208,7 @@ namespace Gameplay
                     _characterMovement.FallVelocity = Vector2.zero;
                     break;
                 case CharacterState.WallSlide:
+                    Invulnerable = false;
                     _characterMovement.WallSlideVelocity = 0;
                     break;
                 case CharacterState.Dash:
@@ -266,10 +267,8 @@ namespace Gameplay
 
         public async void DieAsync()
         {
-#if UNITY_EDITOR
-            if (s_Invulnerable)
+            if (Invulnerable)
                 return;
-#endif
             bool quitFunction = false;
             SceneLoadManager.SceneUnloaded += QuitFunction;
 

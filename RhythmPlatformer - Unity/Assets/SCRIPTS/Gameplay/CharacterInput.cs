@@ -12,6 +12,7 @@ namespace Gameplay
         #region REFERENCES
 
         public GameplayControlConfigs GameplayControlConfigs;
+        private CharacterStateController _characterStateController;
 
         #endregion
         
@@ -32,6 +33,7 @@ namespace Gameplay
         public void Init(GameStateManager in_gameStateManager)
         {
             GameplayControlConfigs = in_gameStateManager.GameplayControlConfigs;
+            _characterStateController = in_gameStateManager.CharacterStateController;
             
             _controls = new DefaultControls();
             
@@ -146,7 +148,7 @@ namespace Gameplay
         private void ToggleDebugMode()
         {
             GameStateManager.s_DebugMode = !GameStateManager.s_DebugMode;
-            CharacterStateController.s_Invulnerable = GameStateManager.s_DebugMode;
+            _characterStateController.Invulnerable = GameStateManager.s_DebugMode;
             Debug.Log("Debug Movement: " + GameStateManager.s_DebugMode);
         }
 #endif
