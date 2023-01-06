@@ -18,13 +18,12 @@ namespace Gameplay
         [SerializeField] private BoxCollider2D _boxCollider;
 
         [SerializeField] private LayerMask _levelLayerMask;
-        [SerializeField] private float _detectionOffset;
 
         [HideInInspector] public bool SlideOnHorizontal;
-        private int _slideOnHorizontalDirection;
+        [HideInInspector] private int _slideOnHorizontalDirection;
         [HideInInspector] public bool SlideOnVertical;
-        [SerializeField] private int _slideOnVerticalDirection;
-        [SerializeField] private CollisionCheck _slideOnVerticalCollisionSide;
+        private int _slideOnVerticalDirection;
+        private CollisionCheck _slideOnVerticalCollisionSide;
         private float _slideOnSpeed;
 
         [HideInInspector] public bool OnOneWayPlatform;

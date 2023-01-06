@@ -134,7 +134,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 0
+  m_GravityScale: 0.1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -156,11 +156,8 @@ MonoBehaviour:
   _levelLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _detectionOffset: 0.01
   SlideOnHorizontal: 0
   SlideOnVertical: 0
-  _slideOnVerticalDirection: 0
-  _slideOnVerticalCollisionSide: 0
   OnOneWayPlatform: 0
 --- !u!114 &5562756899129024191
 MonoBehaviour:
@@ -223,7 +220,6 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 5562756899129024187}
   _dashPreviewArrow: {fileID: 7199900320550714702}
   _playerAnimator: {fileID: 5562756899129024067}
-  _characterVisualsData: {fileID: 11400000, guid: a205c02785bd35042b719c319d5b21c9, type: 2}
 --- !u!95 &5562756899129024067
 Animator:
   serializedVersion: 4

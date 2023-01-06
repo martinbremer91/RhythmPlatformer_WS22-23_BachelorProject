@@ -42,8 +42,6 @@ namespace GameplaySystems
                     _characterCollisionDetector.OnOneWayPlatform = true;
                 if (_isMovingPlatform)
                     _movementRoutine.MovePlayerAsWell = true;
-
-                UiManager.ToggleDebugSymbol(true);
             }
         }
 
@@ -64,8 +62,6 @@ namespace GameplaySystems
                     _characterCollisionDetector.OnOneWayPlatform = false;
                 if (_isMovingPlatform)
                     _movementRoutine.MovePlayerAsWell = false;
-                
-                UiManager.ToggleDebugSymbol(false);
             }
         }
 
