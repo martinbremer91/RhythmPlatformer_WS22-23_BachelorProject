@@ -92,6 +92,8 @@ namespace GameplaySystems
             _characterStateController.Respawn += JumpToSpawnPoint;
             _complementaryCameraManager.InitCameraManagerAssistant(this);
 
+            _targetPos = transform.position;
+
             void GetBoundEdgesFromNodes() {
                 int arrayLength = Mathf.RoundToInt(_camNodes.Length * .5f);
                 CamBoundsEdge[] horizontalEdges = new CamBoundsEdge[arrayLength];
@@ -140,6 +142,7 @@ namespace GameplaySystems
             Transform tf = transform;
             _isAssistant = true;
             tf.position = in_cameraManager.transform.position;
+            _targetPos = tf.position;
             _characterCollider = in_cameraManager._characterCollider;
             _characterMovementBoundaries = in_cameraManager._characterMovementBoundaries;
             _camNodes = in_cameraManager._camNodes;
@@ -240,8 +243,14 @@ namespace GameplaySystems
             Vector3 clampedTargetPos = GetClampedTargetPos();
             Vector3 interpolatedClampedTargetPos = Vector3.SmoothDamp(position,
                 clampedTargetPos, ref _velocity, _smoothTime, _maxSpeed);
+            
+            if (clampedTargetPos.z == 0 || interpolatedClampedTargetPos.z == 0)
+                Debug.Log("stop");
 
             _targetPos = interpolatedClampedTargetPos;
+
+            if (_targetPos.z == 0 || position.z == 0)
+                Debug.Log("stop");
 
             bool CheckCharacterInMovementBoundaries()
             {
