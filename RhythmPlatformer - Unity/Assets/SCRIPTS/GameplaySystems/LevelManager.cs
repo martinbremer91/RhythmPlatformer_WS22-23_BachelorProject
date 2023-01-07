@@ -56,7 +56,7 @@ namespace GameplaySystems
 
             void InitCheckpoints()
             {
-                _currentSpawnPoint = _characterStateController.transform.position;
+                SetSpawnPointToPosition(_characterStateController.transform.position);
                 _checkpoints = _checkpointsParent.GetComponentsInChildren<Checkpoint>().ToList();
                 
                 if (_checkpoints.Any())
@@ -95,7 +95,7 @@ namespace GameplaySystems
             void InitLevelEnd()
             {
                 _levelEnd.Init(in_gameStateManager);
-                in_gameStateManager.UiManager.CheckpointsMenu.SetLevelEnd(_levelEnd);
+                in_gameStateManager.UiManager.CheckpointsMenu.SetLevelEnd(_levelEnd, in_gameStateManager, this);
             }
         }
 
@@ -104,6 +104,17 @@ namespace GameplaySystems
             _currentSpawnPoint = in_checkpoint.SpawnPoint.position;
             _spawnFacingLeft = in_checkpoint.SpawnFacingLeft;
             _gameStateManager.CameraManager.OnSetCheckpoint(_currentSpawnPoint);
+        }
+
+        public void SetSpawnPointToPosition(Vector3 in_spawnPoint) => _currentSpawnPoint = in_spawnPoint;
+
+        public void ResetCheckpoints()
+        {
+            foreach (Checkpoint checkpoint in _checkpoints)
+            {
+                checkpoint.CheckpointTouched = false;
+                checkpoint.UpdateCheckpointVisuals();
+            }
         }
 
         private void RespawnPlayer()

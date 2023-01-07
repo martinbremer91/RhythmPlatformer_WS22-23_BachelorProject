@@ -22,7 +22,7 @@ namespace GameplaySystems
         private Gradient _inactiveColorGradient;
         private Gradient _activeColorGradient;
 
-        private bool _checkpointTouched;
+        public bool CheckpointTouched;
 
         public Transform SpawnPoint;
         public bool SpawnFacingLeft;
@@ -66,24 +66,24 @@ namespace GameplaySystems
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (_checkpointTouched || !col.gameObject.CompareTag("Player") || _characterStateController.Dead)
+            if (CheckpointTouched || !col.gameObject.CompareTag("Player") || _characterStateController.Dead)
                 return;
 
-            _checkpointTouched = true;
+            CheckpointTouched = true;
             _levelManager.SetCurrentCheckPoint(this);
 
             UpdateCheckpointVisuals();
         }
 
-        private void UpdateCheckpointVisuals() {
-            LabeledColor labeledColor = _checkpointTouched ? _activeColor : _inactiveColor;
+        public void UpdateCheckpointVisuals() {
+            LabeledColor labeledColor = CheckpointTouched ? _activeColor : _inactiveColor;
 
             _pulseMaterialOverrides.SetBaseColor(labeledColor.Color);
             _pulseMaterialOverrides.SetSecondaryColor(labeledColor.HDRColor);
             UpdateFlameParticles();
 
             void UpdateFlameParticles() {
-                Gradient gradient = _checkpointTouched ? _activeColorGradient : _inactiveColorGradient;
+                Gradient gradient = CheckpointTouched ? _activeColorGradient : _inactiveColorGradient;
 
                 ParticleSystem.ColorOverLifetimeModule flamesA =
                     _flamesParticleSystemA.colorOverLifetime;

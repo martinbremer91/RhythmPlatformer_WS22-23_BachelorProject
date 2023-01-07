@@ -269,6 +269,7 @@ namespace Gameplay
         {
             if (Invulnerable)
                 return;
+
             bool quitFunction = false;
             SceneLoadManager.SceneUnloaded += QuitFunction;
 

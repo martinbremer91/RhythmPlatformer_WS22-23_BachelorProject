@@ -9,6 +9,8 @@ namespace GameplaySystems
 {
     public class LevelEnd : MonoBehaviour, IInit<GameStateManager>
     {
+        private GameStateManager _gameStateManager;
+
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private ParticleSystem _flamesParticleSystem;
         
@@ -30,6 +32,8 @@ namespace GameplaySystems
 
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
+
             _uiManager = in_gameStateManager.UiManager;
             _levelToLoadName = in_gameStateManager.LevelSequenceData.GetLevelToLoadName();
 
@@ -62,19 +66,20 @@ namespace GameplaySystems
                 new GradientAlphaKey(0, 1)
                 });
 
-            UpdateCheckpointVisuals();
+            UpdateLevelEndVisuals();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerStay2D(Collider2D collision)
         {
-            if (!_levelEndTouched && collision.CompareTag(Constants.PlayerTag)) {
+            if (_gameStateManager.ActiveUpdateType is UpdateType.GamePlay && !_levelEndTouched && 
+                collision.CompareTag(Constants.PlayerTag)) {
                 _levelEndTouched = true;
-                UpdateCheckpointVisuals();
+                UpdateLevelEndVisuals();
                 LoadLevelToLoad();
             }
         }
 
-        private void UpdateCheckpointVisuals() {
+        private void UpdateLevelEndVisuals() {
             LabeledColor labeledColor = _levelEndTouched ? _activeColor : _inactiveColor;
 
             _pulseMaterialOverrides.SetBaseColor(labeledColor.Color);

@@ -11,6 +11,8 @@ namespace Gameplay
     {
         #region REFERENCES
 
+        private GameStateManager _gameStateManager;
+
         public GameplayControlConfigs GameplayControlConfigs;
         private CharacterStateController _characterStateController;
 
@@ -32,6 +34,8 @@ namespace Gameplay
 
         public void Init(GameStateManager in_gameStateManager)
         {
+            _gameStateManager = in_gameStateManager;
+
             GameplayControlConfigs = in_gameStateManager.GameplayControlConfigs;
             _characterStateController = in_gameStateManager.CharacterStateController;
             
@@ -70,6 +74,9 @@ namespace Gameplay
 
             void InputStateButtonsUpdate()
             {
+                if (_gameStateManager.ActiveUpdateType is not UpdateType.GamePlay)
+                    return;
+
 #if UNITY_EDITOR
                 InputState.JumpButton = _controls.DebugInputs.DebugJump.phase;
 #endif
