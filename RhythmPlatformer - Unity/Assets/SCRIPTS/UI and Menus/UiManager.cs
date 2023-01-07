@@ -24,7 +24,7 @@ namespace UI_And_Menus
         [SerializeField] private Image _fadeScreen;
         [SerializeField] private float _fadeDuration;
 
-        [SerializeField] private GameObject _continueButton, _newGameButton, _resumeButton;
+        [SerializeField] private GameObject _newGameButton, _resumeButton;
 
         [SerializeField] private SoundConfigs _soundConfigs;
         [SerializeField] private Slider _musicVolumeSlider;
@@ -114,13 +114,14 @@ namespace UI_And_Menus
         }
 
         private void HandleOpenMainMenu() {
-            bool selectContinue = _continueButton.GetComponent<Button>().interactable;
-            _currentEventSystem.SetSelectedGameObject(selectContinue ? _continueButton :
-                _newGameButton);
+            _currentEventSystem.SetSelectedGameObject(_newGameButton);
         }
 
         public void HandleOpenSettings() =>
             _currentEventSystem.SetSelectedGameObject(_musicVolumeSlider.gameObject);
+
+        public void HandleOpenCheckpointMenu() =>
+            Debug.LogWarning("WARNING: Remember to actually write this code");
 
         public void HandleOpenPauseMenu() =>
             _currentEventSystem.SetSelectedGameObject(_resumeButton);
