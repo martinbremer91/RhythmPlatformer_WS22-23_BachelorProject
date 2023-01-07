@@ -21,6 +21,8 @@ namespace UI_And_Menus
         [SerializeField] private GameObject _gameplayUI;
         [SerializeField] private GameObject _settingsUI;
 
+        public CheckpointsMenu CheckpointsMenu;
+
         [SerializeField] private Image _fadeScreen;
         [SerializeField] private float _fadeDuration;
 
@@ -121,7 +123,7 @@ namespace UI_And_Menus
             _currentEventSystem.SetSelectedGameObject(_musicVolumeSlider.gameObject);
 
         public void HandleOpenCheckpointMenu() =>
-            Debug.LogWarning("WARNING: Remember to actually write this code");
+            _currentEventSystem.SetSelectedGameObject(CheckpointsMenu.DefaultSelectedButton);
 
         public void HandleOpenPauseMenu() =>
             _currentEventSystem.SetSelectedGameObject(_resumeButton);

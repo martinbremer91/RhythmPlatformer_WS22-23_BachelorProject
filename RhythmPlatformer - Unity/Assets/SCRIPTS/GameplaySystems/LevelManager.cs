@@ -65,6 +65,8 @@ namespace GameplaySystems
                         checkpoint.Init(in_gameStateManager);
                 }
 
+                in_gameStateManager.UiManager.CheckpointsMenu.SetCheckpoints(_checkpoints.ToArray());
+
                 _characterStateController.Respawn += RespawnPlayer;
             }
 
@@ -90,8 +92,11 @@ namespace GameplaySystems
                 }
             }
 
-            void InitLevelEnd() =>
+            void InitLevelEnd()
+            {
                 _levelEnd.Init(in_gameStateManager);
+                in_gameStateManager.UiManager.CheckpointsMenu.SetLevelEnd(_levelEnd);
+            }
         }
 
         public void SetCurrentCheckPoint(Checkpoint in_checkpoint)

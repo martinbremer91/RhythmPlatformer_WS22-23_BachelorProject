@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 3493300623485873953}
   - component: {fileID: 5480808039974652705}
   - component: {fileID: 6144957879312516236}
+  - component: {fileID: 5894996226311430427}
   m_Layer: 5
   m_Name: CheckpointsPanel
   m_TagString: Untagged
@@ -291,6 +292,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5894996226311430427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404672546424821544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8555c5cf41273c649887c3ba7db200f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _verticalGroup: {fileID: 1417994986360946470}
+  _buttonPrefab: {fileID: 6660475092084196062, guid: 232ab289ff802dd46b3673968846051e, type: 3}
+  _backButton: {fileID: 5713649876484046228}
+  DefaultSelectedButton: {fileID: 0}
 --- !u!1 &529724043878127354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,6 +2184,7 @@ MonoBehaviour:
   _menuUI: {fileID: 1686135452945456200}
   _gameplayUI: {fileID: 4485866933189822799}
   _settingsUI: {fileID: 6713930139786733716}
+  CheckpointsMenu: {fileID: 5894996226311430427}
   _fadeScreen: {fileID: 729434972982409097}
   _fadeDuration: 1
   _newGameButton: {fileID: 5145207395900089121}

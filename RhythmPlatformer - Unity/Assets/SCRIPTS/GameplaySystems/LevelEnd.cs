@@ -1,10 +1,11 @@
 using System;
+using GlobalSystems;
 using Interfaces_and_Enums;
 using UI_And_Menus;
 using UnityEngine;
 using Utility_Scripts;
 
-namespace GlobalSystems
+namespace GameplaySystems
 {
     public class LevelEnd : MonoBehaviour, IInit<GameStateManager>
     {
