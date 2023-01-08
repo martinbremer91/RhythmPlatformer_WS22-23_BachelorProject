@@ -102,9 +102,12 @@ namespace GameplaySystems
 
         public void Init(GameStateManager in_gameStateManager)
         {
+            bool firstInit = false;
+
             if (s_Instance == null)
             {
                 s_Instance = this;
+                firstInit = true;
                 DontDestroyOnLoad(gameObject);
             }
             else if (s_Instance != this)
@@ -113,9 +116,12 @@ namespace GameplaySystems
                 return;
             }
 
-            _gameStateManager = in_gameStateManager;
-            _musicUtilities = new MusicUtilities();
-            SceneLoadManager.SceneUnloaded += () => ExecuteLowPassFilterFade(false);
+            if (firstInit)
+            {
+                _gameStateManager = in_gameStateManager;
+                _musicUtilities = new MusicUtilities();
+                SceneLoadManager.SceneUnloaded += () => ExecuteLowPassFilterFade(false);
+            }
 
             _trackData = _gameStateManager.CurrentTrackData;
             _metronomeOnlyMode = _trackData.Clip == null;
@@ -123,6 +129,7 @@ namespace GameplaySystems
             _trackAudioSources[1].clip = _trackData.Clip;
 
             BeatActive = true;
+            BeatTracker = 0;
             
             _characterInput = in_gameStateManager.CharacterInput;
             _characterStateController = in_gameStateManager.CharacterStateController;
