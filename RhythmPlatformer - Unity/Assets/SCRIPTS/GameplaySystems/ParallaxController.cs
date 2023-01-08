@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
 {
-    [SerializeField] private Transform _camTransform;
-    [SerializeField] private Vector2 _parallaxAmount;
+    private Transform _camTransform;
+    [SerializeField, Range(0, 1)] private float _parallaxAmountX;
+    [SerializeField, Range(0, 1)] private float _parallaxAmountY;
 
     private Vector2 _prevCamPosition;
 
-    private void Start() =>
+    private void Start()
+    {
+        _camTransform = Camera.main.transform;
         _prevCamPosition = _camTransform.position;
+    }
 
     private void LateUpdate()
     {
@@ -16,8 +20,8 @@ public class ParallaxController : MonoBehaviour
         Vector2 camMovementDelta = camPosition - _prevCamPosition;
 
         transform.position += new Vector3(
-            camMovementDelta.x * _parallaxAmount.x, 
-            camMovementDelta.y * _parallaxAmount.y, 
+            camMovementDelta.x * _parallaxAmountX, 
+            camMovementDelta.y * _parallaxAmountY, 
             0);
 
         _prevCamPosition = camPosition;
