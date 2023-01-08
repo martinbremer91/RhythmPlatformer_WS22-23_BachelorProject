@@ -128,7 +128,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1620514102}
     m_Modifications:
     - target: {fileID: 1114196479788402945, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f2ffe56ede3af074d8a813303f78b4d9, type: 2}
     - target: {fileID: 7987243179019189208, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7987243179019189208, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_LocalPosition.x
@@ -160,15 +160,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7987243179019189208, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7987243179019189208, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7987243179019189208, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7987243179019189208, guid: e028e0616fc3948fdb057b2ec3c14549, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14350,7 +14350,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1529072745}
     m_Modifications:
     - target: {fileID: 7731077097819015074, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_Name
@@ -14358,7 +14358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14378,15 +14378,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7731077097819015075, guid: b1b3b29ac6f2e704388f31104b52689d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16729,6 +16729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73646065ed344219aba82fc5194bc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1529072745 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 476053683931542314, guid: 01546c07150f34e24ab22c9a424d4a08, type: 3}
+  m_PrefabInstance: {fileID: 4119576286142294204}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1572909785
 GameObject:
   m_ObjectHideFlags: 0
@@ -18083,6 +18088,11 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!4 &1620514102 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5379587988368093825, guid: 01546c07150f34e24ab22c9a424d4a08, type: 3}
+  m_PrefabInstance: {fileID: 4119576286142294204}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1631896554
 GameObject:
   m_ObjectHideFlags: 0
@@ -19714,7 +19724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentRoomCamData: {fileID: 4900000, guid: 457e212e78508e74b972a77029a3a365, type: 3}
-  _roomName: TEMPLATE_LEVEL_CamData
+  _roomName: IanLevel02
 --- !u!4 &1761029465
 Transform:
   m_ObjectHideFlags: 0
@@ -20558,7 +20568,7 @@ MonoBehaviour:
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
   HUDController: {fileID: 654439899}
-  CameraBoundsData: {fileID: 4900000, guid: 457e212e78508e74b972a77029a3a365, type: 3}
+  CameraBoundsData: {fileID: 4900000, guid: f51b1c4e605687649bfb1a4e1250dcbd, type: 3}
   LevelManager: {fileID: 336158991}
   CharacterInput: {fileID: 1285793916}
   CharacterCollisionDetector: {fileID: 1285793920}
