@@ -364,7 +364,7 @@ namespace Gameplay
                         _characterMovement.RunVelocity = _characterMovement.CharacterVelocity.x;
                         break;
                     }
-                    if (!_characterCollisionDetector.SlideOnHorizontal && _characterMovement.CharacterVelocity.x == 0)
+                    if (!_characterCollisionDetector.SlideHorizontal && _characterMovement.CharacterVelocity.x == 0)
                         CurrentCharacterState = 
                             _characterInput.InputState.DirectionalInput.y <= -.5f ? 
                                 CharacterState.Crouch : CharacterState.Idle;
@@ -412,7 +412,7 @@ namespace Gameplay
                     return;
                 }
                 
-                if (_characterCollisionDetector.SlideOnHorizontal) {
+                if (_characterCollisionDetector.SlideHorizontal) {
                     CurrentCharacterState = CharacterState.Land;
                     return;
                 }

@@ -135,10 +135,10 @@ namespace Editor
                 "Dash Velocity: " + _characterMovement.DashVelocity);
             GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 150),
                     new Vector2(200, 20)),
-                _characterCollisionDetector.SlideOnHorizontal, "SlideOn Horizontal");
+                _characterCollisionDetector.SlideHorizontal, "SlideOn Horizontal");
             GUI.Toggle(new Rect(_infoRect.position + new Vector2(5, 165),
                     new Vector2(200, 20)),
-                _characterCollisionDetector.SlideOnVertical, "SlideOn Vertical");
+                _characterCollisionDetector.SlideVertical, "SlideOn Vertical");
         }
 
         private void DrawInputState()
