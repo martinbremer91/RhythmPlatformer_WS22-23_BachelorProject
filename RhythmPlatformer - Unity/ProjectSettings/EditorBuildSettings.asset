@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Utility Scenes/IanTestLevel_01.unity
     guid: 8b94bc8628d0cf947b9fcfbf5a5775f2
+  - enabled: 1
+    path: Assets/Scenes/Game Levels/MartinLevel_01.unity
+    guid: 1bc5ee4a4340df54eab663b80a580eae
   m_configObjects: {}

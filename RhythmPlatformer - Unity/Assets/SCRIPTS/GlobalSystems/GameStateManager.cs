@@ -218,14 +218,14 @@ namespace GlobalSystems
         }
 
         private void FadeOutVisualsAndMusic() {
-            UiManager.FadeDarkScreen(true).
+            UiManager.FadeDarkScreen(true, 2).
                 ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
             BeatManager.ExecuteVolumeFade(true);
         }
 
         public void ResetMusicVolumeAndFadeInVisuals() {
             BeatManager.SetMusicVolume(SoundConfigs.SoundPreferences.CurrentMusicVolume);
-            UiManager.FadeDarkScreen(false).
+            UiManager.FadeDarkScreen(false, 2).
                 ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
         }
     }

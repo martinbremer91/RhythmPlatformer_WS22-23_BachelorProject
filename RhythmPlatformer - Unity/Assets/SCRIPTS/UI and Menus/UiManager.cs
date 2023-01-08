@@ -24,7 +24,6 @@ namespace UI_And_Menus
         public CheckpointsMenu CheckpointsMenu;
 
         [SerializeField] private Image _fadeScreen;
-        [SerializeField] private float _fadeDuration;
 
         [SerializeField] private GameObject _newGameButton, _resumeButton;
 
@@ -141,7 +140,7 @@ namespace UI_And_Menus
 
         #region TRANSITIONS AND LOADING UI
 
-        public async Task FadeDarkScreen(bool in_fadeScreenIn)
+        public async Task FadeDarkScreen(bool in_fadeScreenIn, float in_fadeDuration)
         {
             Color screenColor = _fadeScreen.color;
 
@@ -157,7 +156,7 @@ namespace UI_And_Menus
             int timer = 0;
             Vector2 startAndEndAlphas = new(in_fadeScreenIn ? 0 : 1, in_fadeScreenIn ? 1 : 0);
 
-            while (!CheckQuitFunction() && timer <= _fadeDuration * 1000 + 100)
+            while (!CheckQuitFunction() && timer <= in_fadeDuration * 1000 + 100)
             {
                 int deltaTimeMilliseconds = Mathf.RoundToInt(1000 * Time.deltaTime);
                 await Task.Delay(deltaTimeMilliseconds);
@@ -165,7 +164,7 @@ namespace UI_And_Menus
                 timer += deltaTimeMilliseconds;
 
                 float alpha = 
-                    Mathf.Lerp(startAndEndAlphas.x, startAndEndAlphas.y, timer / (_fadeDuration * 1000));
+                    Mathf.Lerp(startAndEndAlphas.x, startAndEndAlphas.y, timer / (in_fadeDuration * 1000));
                 _fadeScreen.color = new Color(screenColor.r, screenColor.g, screenColor.b, alpha);
             }
 

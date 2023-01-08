@@ -279,14 +279,14 @@ namespace Gameplay
             _characterInput.SetCharacterControlsActive(false);
             _characterInput.SetInputStateToNeutral();
             
-            await uiManager.FadeDarkScreen(true);
+            await uiManager.FadeDarkScreen(true, .2f);
             if (quitFunction)
                 return;
 
             Respawn?.Invoke();
             CurrentCharacterState = CharacterState.Idle;
 
-            await uiManager.FadeDarkScreen(false);
+            await uiManager.FadeDarkScreen(false, .2f);
             if (quitFunction)
                 return;
 
