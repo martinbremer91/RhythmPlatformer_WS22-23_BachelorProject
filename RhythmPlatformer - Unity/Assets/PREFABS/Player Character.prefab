@@ -156,8 +156,8 @@ MonoBehaviour:
   _levelLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  SlideOnHorizontal: 0
-  SlideOnVertical: 0
+  SlideHorizontal: 0
+  SlideVertical: 0
   OnOneWayPlatform: 0
 --- !u!114 &5562756899129024191
 MonoBehaviour:
@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dead: 0
+  Invulnerable: 0
 --- !u!114 &5562756899129024190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +267,7 @@ Transform:
   m_GameObject: {fileID: 6219089779505981675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4735, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5562756899129024186}
@@ -292,7 +293,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 67b0074caf401494a8236fbb74b74858, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

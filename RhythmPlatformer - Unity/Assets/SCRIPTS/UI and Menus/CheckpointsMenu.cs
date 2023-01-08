@@ -8,7 +8,6 @@ namespace UI_And_Menus
     public class CheckpointsMenu : MonoBehaviour
     {
         private GameStateManager _gameStateManager;
-        private UiManager _uiManager;
         private LevelManager _levelManager;
 
         [SerializeField] private Transform _verticalGroup;
@@ -32,7 +31,6 @@ namespace UI_And_Menus
             _beginningPos = in_gameStateManager.CharacterStateController.transform.position;
 
             _gameStateManager = in_gameStateManager;
-            _uiManager = in_gameStateManager.UiManager;
             _levelManager = in_levelManager;
             InitializeButtons();
         }

@@ -18,7 +18,9 @@ namespace Utility_Scripts
         public const string WallClingClipName = "WallCling";
         public const string WallSlideClipName = "WallSlide";
         public const string DashWindupClipName = "DashWindup";
-        public const string DashClipName = "Dash";
+        public const string DashStraightClipName = "DashStraight";
+        public const string DashUpClipName = "DashUp";
+        public const string DashDownClipName = "DashDown";
 
         // Tags
         public const string PlayerTag = "Player";

@@ -10,6 +10,7 @@ namespace Gameplay
         #region REFERENCES
 
         private CharacterStateController _characterStateController;
+        private CharacterMovement _characterMovement;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Transform _dashPreviewArrow;
         [SerializeField] private Animator _playerAnimator;
@@ -39,6 +40,7 @@ namespace Gameplay
 
         public void Init(GameStateManager in_gameStateManager) {
             _characterStateController = in_gameStateManager.CharacterStateController;
+            _characterMovement = in_gameStateManager.CharacterMovement;
             _pulseAndSilhouetteMatOverrides = new SilhouetteMaterialOverrides(_spriteRenderer);
 
             _characterVisualsData = in_gameStateManager.VisualsData;
@@ -98,7 +100,9 @@ namespace Gameplay
             _playerAnimator.ResetTrigger(Constants.RiseClipName);
             _playerAnimator.ResetTrigger(Constants.FallClipName);
             _playerAnimator.ResetTrigger(Constants.DashWindupClipName);
-            _playerAnimator.ResetTrigger(Constants.DashClipName);
+            _playerAnimator.ResetTrigger(Constants.DashStraightClipName);
+            _playerAnimator.ResetTrigger(Constants.DashUpClipName);
+            _playerAnimator.ResetTrigger(Constants.DashDownClipName);
             _playerAnimator.ResetTrigger(Constants.WallClingClipName);
             _playerAnimator.ResetTrigger(Constants.WallSlideClipName);
         }
@@ -128,7 +132,12 @@ namespace Gameplay
                     _playerAnimator.SetTrigger(Constants.FallClipName);
                     break;
                 case CharacterState.Dash:
-                    _playerAnimator.SetTrigger(Constants.DashClipName);
+                    if (_characterMovement.DashDirection.y > 0)
+                        _playerAnimator.SetTrigger(Constants.DashUpClipName);
+                    else if (_characterMovement.DashDirection.y < 0)
+                        _playerAnimator.SetTrigger(Constants.DashDownClipName);
+                    else
+                        _playerAnimator.SetTrigger(Constants.DashStraightClipName);
                     break;
                 case CharacterState.WallCling:
                     _playerAnimator.SetTrigger(Constants.WallClingClipName);

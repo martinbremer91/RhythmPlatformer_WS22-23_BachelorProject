@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dash
+  m_Name: DashUp
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -22,7 +22,7 @@ AnimationClip:
     - time: 0
       value: {fileID: -2113511860, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
     - time: 0.083333336
-      value: {fileID: 1906747313, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
+      value: {fileID: -338066818, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
     - time: 0.25
       value: {fileID: -607454714, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
     - time: 0.36666667
@@ -49,7 +49,7 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: -2113511860, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
-    - {fileID: 1906747313, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
+    - {fileID: -338066818, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
     - {fileID: -607454714, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
     - {fileID: 728674555, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
     - {fileID: 728674555, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
