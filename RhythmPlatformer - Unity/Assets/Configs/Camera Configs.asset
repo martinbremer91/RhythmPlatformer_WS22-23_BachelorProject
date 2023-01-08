@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterMovementBoundaries: {x: 1.5, y: 0.5}
   _smoothTime: 0.25
   MaxSpeed: 200
-  MaxSize: 100
+  MaxSize: 6
   MinSize: 1
