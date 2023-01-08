@@ -881,6 +881,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Rythm_Tree_PlatFoliage_256_1_37
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 512
+        width: 116
+        height: 244
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bf682c5e4d247249bee2cca8561b0b4
+      internalID: 803050915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -924,6 +945,7 @@ TextureImporter:
       Rythm_Tree_PlatFoliage_256_1_22: 1844758386
       Rythm_Tree_PlatFoliage_256_1_19: 994859870
       Rythm_Tree_PlatFoliage_256_1_0: 1113911312
+      Rythm_Tree_PlatFoliage_256_1_37: 803050915
       Rythm_Tree_PlatFoliage_256_1_28: 982184091
       Rythm_Tree_PlatFoliage_256_1_5: -1653136201
       Rythm_Tree_PlatFoliage_256_1_16: -1640243377
