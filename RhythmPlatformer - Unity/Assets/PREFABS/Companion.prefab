@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1495759387}
   - component: {fileID: 1495759389}
   - component: {fileID: 1495759388}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body ParticleSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4781,7 +4781,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 14
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 1882494531}
   - component: {fileID: 1882494533}
   - component: {fileID: 1882494532}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trail ParticleSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9593,7 +9593,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 14
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9742,7 +9742,7 @@ GameObject:
   - component: {fileID: 4052844977118587815}
   - component: {fileID: 9195974742300290838}
   - component: {fileID: 3482785420695957113}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9806,7 +9806,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_Sprite: {fileID: -106883828, guid: fd74c60191e5eaf4198b0d810a820606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9828,7 +9828,7 @@ Animator:
   m_GameObject: {fileID: 4765267051075456642}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 412a399b1fc16bc408afdc4fa9b6d964, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
