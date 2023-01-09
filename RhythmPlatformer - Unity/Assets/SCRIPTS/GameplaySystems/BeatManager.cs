@@ -160,7 +160,7 @@ namespace GameplaySystems
             if (in_gameStateManager.HUDController != null)
             {
                 _hudController = in_gameStateManager.HUDController;
-                _hudController.InitializeHUD((float)BeatLength, _trackData);
+                _hudController.InitializeHUD(in_gameStateManager, (float)BeatLength, _trackData);
             }
         }
 

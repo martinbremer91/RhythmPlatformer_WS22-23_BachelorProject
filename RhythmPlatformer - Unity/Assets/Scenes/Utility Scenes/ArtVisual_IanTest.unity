@@ -11587,6 +11587,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1498452835}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: HUDController
+      value: 
+      objectReference: {fileID: 2095723732962664862}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: PulsingController
       value: 
       objectReference: {fileID: 538796624}
@@ -20624,7 +20628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
   _trackData: {fileID: 11400000, guid: b6604c21d139cd241901a59e8366d5d0, type: 2}
-  _hudController: {fileID: 2095723732962664862}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
   CameraBoundsData: {fileID: 4900000, guid: f51b1c4e605687649bfb1a4e1250dcbd, type: 3}

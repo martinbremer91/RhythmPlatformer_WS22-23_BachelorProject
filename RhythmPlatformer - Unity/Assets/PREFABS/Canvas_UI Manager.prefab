@@ -2261,6 +2261,7 @@ MonoBehaviour:
   _menuUI: {fileID: 1686135452945456200}
   _gameplayUI: {fileID: 4485866933189822799}
   _settingsUI: {fileID: 6713930139786733716}
+  _hudController: {fileID: 5657933890722744040}
   CheckpointsMenu: {fileID: 5894996226311430427}
   _fadeScreen: {fileID: 729434972982409097}
   _newGameButton: {fileID: 5145207395900089121}

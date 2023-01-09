@@ -1289,6 +1289,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1498452835}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: HUDController
+      value: 
+      objectReference: {fileID: 2095723732962664862}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: CompanionConfigs
       value: 
       objectReference: {fileID: 11400000, guid: a5bab89e7fcef65439b2c69db433a7bc, type: 2}
@@ -8549,7 +8553,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
   _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
-  _hudController: {fileID: 2095723732962664862}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
   CameraBoundsData: {fileID: 4900000, guid: 95e5dc23dbc04144db30eaabde01ed77, type: 3}

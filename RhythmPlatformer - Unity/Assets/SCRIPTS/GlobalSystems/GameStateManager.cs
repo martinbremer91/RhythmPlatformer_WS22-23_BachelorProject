@@ -124,8 +124,8 @@ namespace GlobalSystems
             DependencyInjector.Init(this);
             
             UpdateManager.Init(this);
-            BeatManager.Init(this);
             UiManager.Init(this);
+            BeatManager.Init(this);
             UniversalInputManager.Init(UiManager);
             PauseMenu.Init(this);
             PulsingController.Init(this);

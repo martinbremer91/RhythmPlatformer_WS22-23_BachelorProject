@@ -263,6 +263,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 164801369}
     - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
+      propertyPath: HUDController
+      value: 
+      objectReference: {fileID: 340009741}
+    - target: {fileID: 9197381171710160412, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: _startUpdateType
       value: 1
       objectReference: {fileID: 0}
@@ -1067,7 +1071,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 238772566}
   _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
-  _hudController: {fileID: 340009741}
 --- !u!4 &1696514298
 Transform:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ namespace UI_And_Menus
         [SerializeField] private GameObject _menuUI;
         [SerializeField] private GameObject _gameplayUI;
         [SerializeField] private GameObject _settingsUI;
+        [SerializeField] private HUDController _hudController;
 
         public CheckpointsMenu CheckpointsMenu;
 
@@ -79,6 +80,7 @@ namespace UI_And_Menus
             }
 
             _gameStateManager = in_gameStateManager;
+            _gameStateManager.HUDController = _hudController;
             SyncSettingsMenuWithAudioSources();
 
             if (_gameStateManager.LoadedSceneType == SceneType.MainMenu)
