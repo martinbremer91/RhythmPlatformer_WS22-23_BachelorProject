@@ -22,7 +22,7 @@ namespace GameplaySystems
         private Gradient _inactiveColorGradient;
         private Gradient _activeColorGradient;
 
-        public bool CheckpointTouched;
+        [HideInInspector] public bool CheckpointTouched;
 
         public Transform SpawnPoint;
         public bool SpawnFacingLeft;

@@ -82,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 8752252297196789651}
   _flamesParticleSystemA: {fileID: 1556074194868574921}
-  _flamesParticleSystemB: {fileID: 0}
+  _flamesParticleSystemB: {fileID: 1576862351546695684}
   CheckpointTouched: 0
   SpawnPoint: {fileID: 5535535664544145236}
   SpawnFacingLeft: 1
@@ -225,6 +225,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc69d708b15175445b63fb6ca4c70d5b, type: 3}
+--- !u!198 &1576862351546695684 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1395943772253535726, guid: cc69d708b15175445b63fb6ca4c70d5b, type: 3}
+  m_PrefabInstance: {fileID: 485615265073593834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4987894327485095167 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4865523619370410261, guid: cc69d708b15175445b63fb6ca4c70d5b, type: 3}
