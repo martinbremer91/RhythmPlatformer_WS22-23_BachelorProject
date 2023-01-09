@@ -26,7 +26,7 @@ namespace UI_And_Menus
 
         [SerializeField] private Image _fadeScreen;
 
-        [SerializeField] private GameObject _newGameButton, _resumeButton;
+        [SerializeField] private GameObject _newGameButton, _resumeButton, _creditsButton, _creditsBackButton;
 
         [SerializeField] private SoundConfigs _soundConfigs;
         [SerializeField] private Slider _musicVolumeSlider;
@@ -137,6 +137,9 @@ namespace UI_And_Menus
             else if (currentSceneType is SceneType.Level)
                 HandleOpenPauseMenu();
         }
+
+        public void HandleToggleCredits(bool in_open) =>
+            _currentEventSystem.SetSelectedGameObject(in_open ? _creditsBackButton : _creditsButton);
 
         #endregion
 
