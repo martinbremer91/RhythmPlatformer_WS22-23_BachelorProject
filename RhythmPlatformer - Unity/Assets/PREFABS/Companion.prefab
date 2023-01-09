@@ -9673,6 +9673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 2060585807214171420}
+  _companionSpriteController: {fileID: 2276265025016101018}
   CharacterOffset: {x: 0, y: 0}
 --- !u!114 &2276265025016101018
 MonoBehaviour:
@@ -9686,8 +9687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fb9cbca0768934f8eb67b5cb77bc13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _companionMovement: {fileID: 933284978882340856}
   _spriteRenderer: {fileID: 9195974742300290838}
-  _companionAnimator: {fileID: 5009292016580759261}
+  _companionParentAnimator: {fileID: 5009292016580759261}
+  _companionSpriteAnimator: {fileID: 3482785420695957113}
   _companionBodyParticles: {fileID: 1495759389}
   _companionTrailParticles: {fileID: 1882494533}
 --- !u!50 &2060585807214171420

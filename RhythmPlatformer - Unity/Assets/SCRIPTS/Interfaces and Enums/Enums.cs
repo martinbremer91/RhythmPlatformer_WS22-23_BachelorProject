@@ -34,6 +34,12 @@ namespace Interfaces_and_Enums
         Dash = 8
     }
 
+    public enum CompanionState 
+    {
+        Idle = 0,
+        Fly = 1
+    }
+
     public enum SceneType
     {
         MainMenu,

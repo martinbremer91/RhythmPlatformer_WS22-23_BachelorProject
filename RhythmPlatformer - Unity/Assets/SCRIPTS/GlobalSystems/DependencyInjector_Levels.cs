@@ -22,7 +22,7 @@ namespace GlobalSystems
         public CharacterMovement CharacterMovement;
         public CharacterSpriteController CharacterSpriteController;
         public CompanionSpriteController CompanionSpriteController;
-        public CompanionFollow CompanionFollow;
+        public CompanionMovement CompanionFollow;
         public VisualsData VisualsData;
 
         public override void Init(GameStateManager in_gameStateManager)

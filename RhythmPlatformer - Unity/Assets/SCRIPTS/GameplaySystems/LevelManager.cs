@@ -29,7 +29,7 @@ namespace GameplaySystems
         private Vector3 _currentSpawnPoint;
         private bool _spawnFacingLeft;
 
-        private CompanionFollow _companionFollow;
+        private CompanionMovement _companionFollow;
 
         public void Init(GameStateManager in_gameStateManager)
         {

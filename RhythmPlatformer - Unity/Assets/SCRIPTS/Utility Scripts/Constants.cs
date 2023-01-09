@@ -21,6 +21,9 @@ namespace Utility_Scripts
         public const string DashStraightClipName = "DashStraight";
         public const string DashUpClipName = "DashUp";
         public const string DashDownClipName = "DashDown";
+        
+        public const string CompanionSpriteIdle = "CompanionSpriteIdle";
+        public const string CompanionSpriteFly = "CompanionSpriteFly";
 
         // Tags
         public const string PlayerTag = "Player";

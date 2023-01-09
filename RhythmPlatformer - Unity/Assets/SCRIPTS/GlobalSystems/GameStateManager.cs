@@ -37,7 +37,7 @@ namespace GlobalSystems
         [HideInInspector] public CharacterMovement CharacterMovement;
         [HideInInspector] public CharacterSpriteController CharacterSpriteController;
         [HideInInspector] public CompanionSpriteController CompanionSpriteController;
-        [HideInInspector] public CompanionFollow CompanionFollow;
+        [HideInInspector] public CompanionMovement CompanionFollow;
         [HideInInspector] public TextAsset CameraBoundsData;
         [HideInInspector] public VisualsData VisualsData;
 

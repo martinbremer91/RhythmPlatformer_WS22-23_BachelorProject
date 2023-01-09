@@ -3,17 +3,48 @@ using GlobalSystems;
 using Interfaces_and_Enums;
 using UnityEngine;
 
-public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager>, IPhysicsPausable
+public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManager>, IPhysicsPausable
 {
     public UpdateType UpdateType => UpdateType.GamePlay;
 
     public Rigidbody2D PausableRigidbody => _rigidbody2D;
-    public Vector2 Velocity => _velocity;
+    
+    private Vector2 _velocity;
+    public Vector2 Velocity {
+        get => _velocity;
+        set {
+            _velocity = value;
+            CurrentCompanionState = value.magnitude > 3 ?
+                CompanionState.Fly : CompanionState.Idle;
+        }
+    }
 
     private GameStateManager _gameStateManager;
     private CharacterStateController _characterStateController;
     private Transform _characterTransform;
     [SerializeField] private Rigidbody2D _rigidbody2D;
+    [SerializeField] private CompanionSpriteController _companionSpriteController;
+
+    private CompanionState _currentCompanionState;
+    public CompanionState CurrentCompanionState {
+        get => _currentCompanionState;
+        private set {
+            _currentCompanionState = value;
+            _companionSpriteController.HandleStateAnimation();
+        }
+    }
+
+    private bool m_facingLeft;
+    private bool _facingLeft {
+        get => m_facingLeft;
+        set {
+            if (m_facingLeft == value)
+                return;
+
+            m_facingLeft = value;
+            _companionSpriteController.HandleOrientationChange(value);
+        }
+    }
 
     [HideInInspector] public Vector2 CharacterOffset;
 
@@ -25,8 +56,6 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
     private float _followSpeedMin;
 
     private float _followArcOffsetMax;
-
-    private Vector2 _velocity;
 
     private float _maxSpeedDist;
     private float _minSpeedDist;
@@ -83,6 +112,8 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         float characterDist = (position - targetPos).sqrMagnitude;
         CheckFollowPlayer();
 
+        UpdateSpriteOrientation();
+
         if (!_followingCharacter)
             return;
 
@@ -108,18 +139,24 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
         Vector2 arcVector = arcDirection * _followArcVelocityCurve.Evaluate(distFactor) * _followArcOffsetMax;
         Vector2 directionVector = (companionCharacterVector + arcVector).normalized;
 
-        _velocity = directionVector * baseSpeed * 
+        Velocity = directionVector * baseSpeed * 
             _followAccelerationCurve.Evaluate(_followAccelerationCurveTracker.x);
 
-        _rigidbody2D.velocity = _velocity;
+        _rigidbody2D.velocity = Velocity;
+
+        Quaternion moveRotation = CurrentCompanionState is CompanionState.Fly ? 
+            Quaternion.LookRotation(Vector3.forward,
+            _facingLeft ? -Vector2.Perpendicular(Velocity.normalized) : Vector2.Perpendicular(Velocity.normalized)) : 
+            Quaternion.identity;
+        transform.rotation = moveRotation;
 
         void CheckFollowPlayer() {
             
             if (_followingCharacter) {
                 if (characterDist <= _stopFollowDist) {
                     _followingCharacter = false;
-                    _velocity = Vector2.zero;
-                    _rigidbody2D.velocity = _velocity;
+                    Velocity = Vector2.zero;
+                    _rigidbody2D.velocity = Velocity;
                 }
             } else {
                 if (characterDist >= _startFollowDist) {
@@ -131,6 +168,14 @@ public class CompanionFollow : MonoBehaviour, IUpdatable, IInit<GameStateManager
 
         void IncrementAccelerationCurveTracker() =>
             _followAccelerationCurveTracker.x += Time.deltaTime;
+
+        void UpdateSpriteOrientation() {
+            if (CurrentCompanionState is CompanionState.Idle) {
+                _facingLeft = _characterTransform.position.x < transform.position.x;
+            } else {
+                _facingLeft = Velocity.x < 0;
+            }
+        }
     }
 
     #endregion

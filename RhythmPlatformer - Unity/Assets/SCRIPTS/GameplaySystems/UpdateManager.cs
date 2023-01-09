@@ -19,7 +19,7 @@ namespace GameplaySystems
         private CharacterCollisionDetector _characterCollisionDetector;
         private CharacterStateController _characterStateController;
         private CharacterMovement _characterMovement;
-        private CompanionFollow _companionFollow;
+        private CompanionMovement _companionFollow;
 
         private bool _updateActive;
 
