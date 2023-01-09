@@ -372,6 +372,9 @@ namespace Gameplay
             return groundedDash;
         }
 
+        public void ToggleGravity(bool in_gravityOn) =>
+            _rigidbody2D.gravityScale = in_gravityOn ? _movementConfigs.GravityScale : 0;
+
         #endregion
 
         #region CANCEL VELOCITY FUNCTIONS

@@ -126,6 +126,8 @@ namespace Scriptable_Object_Scripts
             "the speed transfered when a dash transitions into a fall before the end of the dash.")]
         public float MaxInheritedXVelocity;
 
+        public float GravityScale;
+
         #endregion
     }
 }

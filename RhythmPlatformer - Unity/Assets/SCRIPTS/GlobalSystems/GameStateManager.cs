@@ -215,6 +215,8 @@ namespace GlobalSystems
         {
             foreach (IPhysicsPausable physicsPausable in PhysicsPausables)
                 physicsPausable.TogglePausePhysics(in_paused);
+
+            CharacterMovement.ToggleGravity(!in_paused);
         }
 
         private void FadeOutVisualsAndMusic() {
