@@ -1,5 +1,6 @@
 using Interfaces_and_Enums;
 using Scriptable_Object_Scripts;
+using UI_And_Menus;
 using UnityEngine;
 
 namespace GlobalSystems
@@ -8,6 +9,7 @@ namespace GlobalSystems
     {
         [SerializeField] private GameStateManager _gameStateManager;
         [SerializeField] private TrackData _trackData;
+        [SerializeField] private HUDController _hudController;
         
         private SceneType SceneType => GetSceneType();
         protected abstract SceneType GetSceneType();
@@ -30,6 +32,7 @@ namespace GlobalSystems
             _gameStateManager.CurrentTrackData = _trackData;
             _gameStateManager.LoadedSceneType = SceneType;
             _gameStateManager.ActiveUpdateType = UpdateType;
+            _gameStateManager.HUDController = _hudController;
             Destroy(gameObject);
         }
     }

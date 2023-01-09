@@ -20084,9 +20084,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
   _trackData: {fileID: 11400000, guid: b6604c21d139cd241901a59e8366d5d0, type: 2}
+  _hudController: {fileID: 1174966854}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
-  HUDController: {fileID: 1174966854}
   CameraBoundsData: {fileID: 4900000, guid: e2708d4ec4ceb8a4baee5818aa723015, type: 3}
   LevelManager: {fileID: 336158991}
   CharacterInput: {fileID: 1285793916}
