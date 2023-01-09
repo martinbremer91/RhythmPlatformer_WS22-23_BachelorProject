@@ -2068,7 +2068,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -5344,7 +5344,7 @@ Tilemap:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -10, y: -21, z: 0}
   m_Size: {x: 57, y: 34, z: 1}
-  m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
+  m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
     e00: 1
@@ -6040,17 +6040,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
---- !u!114 &2095723732962664862 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5657933890722744040, guid: 728a2e5243fe74b188d7bd23acf94fcf, type: 3}
-  m_PrefabInstance: {fileID: 2095723732962664861}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d1bc93de6749ef4bb9ff3f81a179df0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3947046283929585634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6369,7 +6358,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
   _trackData: {fileID: 11400000, guid: 19ad04f500e5e409fbd7b705dac2a791, type: 2}
-  _hudController: {fileID: 2095723732962664862}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 2119138286}
   CameraBoundsData: {fileID: 4900000, guid: bed6ce7c37b954e4da963d59652aef9e, type: 3}
