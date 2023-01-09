@@ -15,6 +15,6 @@ MonoBehaviour:
   Clip: {fileID: 8300000, guid: b5a803f2f60b5264cb070d4b2b7bec79, type: 3}
   BPM: 140
   Meter: 4
-  IntroBars: 0
-  TailBars: 0
+  IntroBars: 8
+  TailBars: 2
   EventBeats: 03000000

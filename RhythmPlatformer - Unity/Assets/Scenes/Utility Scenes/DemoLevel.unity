@@ -13923,7 +13923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
       propertyPath: _metronomeOn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
       propertyPath: _debugBeatOff
@@ -13932,6 +13932,10 @@ PrefabInstance:
     - target: {fileID: 5382255611666247909, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
       propertyPath: _debugBeatJumpOff
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382255612138771062, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5382255612138771062, guid: 70ba6e76505c44f36a9eabe40cb0fc3b, type: 3}
       propertyPath: m_audioClip

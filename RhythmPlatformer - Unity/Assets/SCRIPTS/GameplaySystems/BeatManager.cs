@@ -149,7 +149,7 @@ namespace GameplaySystems
                     (Mathf.FloorToInt(_trackAudioSources[_activeSource].clip.length / (float)barLength)
                      - _trackData.TailBars) * barLength;
 
-                _nextTrackTime = AudioSettings.dspTime + _loopPoints.end - _loopPoints.start + _startDelay;
+                _nextTrackTime = AudioSettings.dspTime + _loopPoints.end + _startDelay;
 
                 _trackAudioSources[_activeSource].PlayScheduled(AudioSettings.dspTime + _startDelay);
                 _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
@@ -180,7 +180,9 @@ namespace GameplaySystems
             {
                 _activeSource = _nextSource;
                 _nextTrackTime += _loopPoints.end - _loopPoints.start;
-                _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
+                _trackAudioSources[_activeSource].time = (float)_loopPoints.start;
+                SetUpNextTrack();
+                Debug.Log("BeatManager: switching audio sources");
             }
 
             if (time >= _nextBeatTime)
@@ -226,7 +228,30 @@ namespace GameplaySystems
             _pausedBeat = BeatTracker;
             _gameStateManager.PauseMenu.SetPausedBeatText(_pausedBeat);
             _pausedMetronome = MetronomeOn;
-        } 
+        }
+
+        private async void SetUpNextTrack()
+        {
+            bool quitFunction = false;
+            SceneLoadManager.SceneUnloaded += QuitFunction;
+
+            int tailMilliseconds = Mathf.RoundToInt(_trackData.TailBars * (float)BeatLength * Meter * 1000);
+            await Task.Delay(tailMilliseconds);
+            if (CheckQuitFunction())
+                return;
+
+            _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
+
+            SceneLoadManager.SceneUnloaded -= QuitFunction;
+
+            void QuitFunction()
+            {
+                SceneLoadManager.SceneUnloaded -= QuitFunction;
+                quitFunction = true;
+            }
+
+            bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;
+        }
 
         public async void ExecuteCountInAsync()
         {
@@ -284,6 +309,8 @@ namespace GameplaySystems
             _unpauseSignal = true;
             BeatAction += _gameStateManager.TogglePause;
             ExecuteLowPassFilterFade(false);
+
+            SceneLoadManager.SceneUnloaded -= QuitFunction;
 
             void UpdateCountInUi() {
                 if (countIn != BeatTracker)
