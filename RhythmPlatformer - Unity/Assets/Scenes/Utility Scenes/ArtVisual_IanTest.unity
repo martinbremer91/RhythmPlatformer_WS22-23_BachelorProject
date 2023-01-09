@@ -20724,7 +20724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
-  _trackData: {fileID: 11400000, guid: 7b95e7cc3365546918de1614979f75e8, type: 2}
+  _trackData: {fileID: 11400000, guid: b6604c21d139cd241901a59e8366d5d0, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
   HUDController: {fileID: 654439899}

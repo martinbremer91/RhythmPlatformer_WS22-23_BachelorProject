@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f50cf4eac7f4febb799c27b5b36c3f, type: 3}
+  m_Name: SatelliteJamTrackData
+  m_EditorClassIdentifier: 
+  Clip: {fileID: 8300000, guid: b5a803f2f60b5264cb070d4b2b7bec79, type: 3}
+  BPM: 140
+  Meter: 4
+  IntroBars: 0
+  TailBars: 0
+  EventBeats: 03000000
