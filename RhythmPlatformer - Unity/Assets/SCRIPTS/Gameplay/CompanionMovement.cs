@@ -65,6 +65,8 @@ public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManag
     private float _startFollowDist;
     private float _stopFollowDist;
 
+    private float _rotationSpeed;
+
     private bool _followingCharacter;
 
     private void OnEnable() => RegisterPhysicsPausable();
@@ -97,6 +99,7 @@ public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManag
         _maxSpeedDist = configs.MaxSpeedDist;
         _minSpeedDist = configs.MinSpeedDist;
         _followArcOffsetMax = configs.FollowArcOffsetMax;
+        _rotationSpeed = configs.RotationSpeed;
 
         _followAccelerationCurveTracker.y = configs.FollowAccelerationCurve.keys[^1].time;
     }
@@ -114,8 +117,10 @@ public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManag
 
         UpdateSpriteOrientation();
 
-        if (!_followingCharacter)
+        if (!_followingCharacter) {
+            HandleRotation();
             return;
+        }
 
         if (_reactionTimer < _reactionDelay)
             _reactionTimer += Time.deltaTime;
@@ -143,12 +148,15 @@ public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManag
             _followAccelerationCurve.Evaluate(_followAccelerationCurveTracker.x);
 
         _rigidbody2D.velocity = Velocity;
+        HandleRotation();
 
-        Quaternion moveRotation = CurrentCompanionState is CompanionState.Fly ? 
-            Quaternion.LookRotation(Vector3.forward,
-            _facingLeft ? -Vector2.Perpendicular(Velocity.normalized) : Vector2.Perpendicular(Velocity.normalized)) : 
-            Quaternion.identity;
-        transform.rotation = moveRotation;
+        void HandleRotation() {
+            Quaternion moveRotation = CurrentCompanionState is CompanionState.Fly ? 
+                Quaternion.LookRotation(Vector3.forward,
+                _facingLeft ? -Vector2.Perpendicular(Velocity.normalized) : Vector2.Perpendicular(Velocity.normalized)) : 
+                Quaternion.identity;
+            transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, Time.deltaTime * _rotationSpeed);
+        }
 
         void CheckFollowPlayer() {
             
@@ -173,7 +181,7 @@ public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManag
             if (CurrentCompanionState is CompanionState.Idle) {
                 _facingLeft = _characterTransform.position.x < transform.position.x;
             } else {
-                _facingLeft = Velocity.x < 0;
+                _facingLeft = Velocity.x < -10 ? true : Velocity.x > 10 ? false : _facingLeft;
             }
         }
     }

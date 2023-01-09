@@ -9701,7 +9701,7 @@ PrefabInstance:
       objectReference: {fileID: 8088622841161808755}
     - target: {fileID: 9197381171710160414, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: _debugTimeScale
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9197381171710160415, guid: 815d7884ca1ea4e05991beb21abd60fe, type: 3}
       propertyPath: m_Name
