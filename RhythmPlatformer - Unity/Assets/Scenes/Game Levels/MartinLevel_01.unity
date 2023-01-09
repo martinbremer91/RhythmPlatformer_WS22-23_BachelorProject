@@ -2362,7 +2362,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -5308,7 +5308,7 @@ Tilemap:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -51, y: -69, z: 0}
   m_Size: {x: 133, y: 81, z: 1}
-  m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
+  m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
     e00: 1
@@ -20184,7 +20184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateManager: {fileID: 74670186}
-  _trackData: {fileID: 11400000, guid: 4d4caa8d331b06f468f94957e6a5d3c8, type: 2}
+  _trackData: {fileID: 11400000, guid: b6604c21d139cd241901a59e8366d5d0, type: 2}
   CameraManager: {fileID: 851463575}
   CameraManagerAssistant: {fileID: 359988226}
   HUDController: {fileID: 654439899}
