@@ -42,7 +42,7 @@ namespace GlobalSystems
             }
 
             in_uiManager.LoadingScreen.SetActive(true);
-            GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Nothing;
+            GameStateManager.s_Instance.ActiveUpdateType = UpdateType.Halted;
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(in_sceneName);
             asyncLoad.completed += OnSceneLoaded;
 

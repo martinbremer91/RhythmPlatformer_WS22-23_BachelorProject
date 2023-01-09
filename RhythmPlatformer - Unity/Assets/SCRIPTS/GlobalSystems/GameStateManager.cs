@@ -98,13 +98,16 @@ namespace GlobalSystems
 
         private void UpdateManagerPauseToggle(bool in_pause) {
             if (in_pause) {
-                _activeUpdateTypeBuffer = ActiveUpdateType;
-                ActiveUpdateType = UpdateType.Nothing;
+                _activeUpdateTypeBuffer = 
+                    ActiveUpdateType != UpdateType.Halted ? ActiveUpdateType : _activeUpdateTypeBuffer;
+                ActiveUpdateType = UpdateType.Halted;
                 TogglePhysicsPause(true);
             } else if (_activeUpdateTypeBuffer is not UpdateType.Nothing) {
                 ActiveUpdateType = _activeUpdateTypeBuffer;
                 TogglePhysicsPause(false);
             }
+
+            AudioListener.pause = in_pause;
         }
 
         public void Init(DependencyInjector in_dependencyInjector)

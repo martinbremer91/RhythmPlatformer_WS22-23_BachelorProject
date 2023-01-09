@@ -97,9 +97,6 @@ namespace GameplaySystems
         private void OnDisable() =>
             SceneLoadManager.SceneUnloaded -= () => ExecuteLowPassFilterFade(false);
 
-        private void OnApplicationFocus(bool focus) =>
-            AudioListener.pause = !focus;
-
         public void Init(GameStateManager in_gameStateManager)
         {
             bool firstInit = false;

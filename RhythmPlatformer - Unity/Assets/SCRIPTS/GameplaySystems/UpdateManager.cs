@@ -69,7 +69,7 @@ namespace GameplaySystems
         {
             if (!_updateActive)
                 return;
-            if (_gameStateManager.ActiveUpdateType is UpdateType.Nothing)
+            if (_gameStateManager.ActiveUpdateType is UpdateType.Nothing or UpdateType.Halted)
                 return;
             
             UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
@@ -98,7 +98,7 @@ namespace GameplaySystems
         {
             if (!_updateActive)
                 return;
-            if (_gameStateManager.ActiveUpdateType is UpdateType.Nothing)
+            if (_gameStateManager.ActiveUpdateType is UpdateType.Nothing or UpdateType.Halted)
                 return;
 
             UpdateType currentUpdateType = _gameStateManager.ActiveUpdateType;
