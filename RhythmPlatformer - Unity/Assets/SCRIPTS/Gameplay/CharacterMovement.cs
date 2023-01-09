@@ -179,9 +179,12 @@ namespace Gameplay
                 _characterStateController.CheckFacingOrientation();
 
             int directionMod = _characterStateController.FacingLeft ? -1 : 1;
+            float stickTiltMod = 
+                Mathf.InverseLerp(0, .9f, Mathf.Abs(_characterInput.InputState.DirectionalInput.x));
             
             float velocity = RunCurveTracker.x < RunCurveTracker.y ?
                 _movementConfigs.RunAcceleration.Evaluate(RunCurveTracker.x) * _runTopSpeed : _runTopSpeed;
+            velocity *= stickTiltMod;
 
             if (velocity > Mathf.Abs(RunVelocity) || CharacterVelocity.x * _characterInput.InputState.DirectionalInput.x < 0)
                 RunVelocity = directionMod * velocity;
