@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Utility Scenes/DemoLevel.unity
     guid: 80884e4a70ba1eb4eb1e996683e077f2
   - enabled: 1
-    path: Assets/Scenes/Utility Scenes/IanTestLevel_01.unity
-    guid: 8b94bc8628d0cf947b9fcfbf5a5775f2
+    path: Assets/Scenes/Game Levels/IanLevel_01.unity
+    guid: 9b8cffc977b356548a9848aee4e098db
   - enabled: 1
     path: Assets/Scenes/Game Levels/MartinLevel_01.unity
     guid: 1bc5ee4a4340df54eab663b80a580eae
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
