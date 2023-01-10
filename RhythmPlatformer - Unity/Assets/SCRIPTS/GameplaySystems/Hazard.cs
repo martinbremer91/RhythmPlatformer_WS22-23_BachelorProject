@@ -10,6 +10,8 @@ public class Hazard : MonoBehaviour, IInit<GameStateManager>
 
     [SerializeField] private MovementRoutine _movementRoutine;
 
+    [SerializeField] private bool _slidingIsInvicible;
+
     public void Init(GameStateManager in_gameStateManager)
     {
         _characterStateController = in_gameStateManager.CharacterStateController;
@@ -18,17 +20,12 @@ public class Hazard : MonoBehaviour, IInit<GameStateManager>
             _movementRoutine.Init(in_gameStateManager);
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (!col.gameObject.CompareTag("Player") || _characterStateController.Dead)
-            return;
-        
-        _characterStateController.DieAsync();
-    }
-
     private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.gameObject.CompareTag("Player") || _characterStateController.Dead)
+            return;
+
+        if (_slidingIsInvicible && _characterStateController.Sliding)
             return;
 
         _characterStateController.DieAsync();

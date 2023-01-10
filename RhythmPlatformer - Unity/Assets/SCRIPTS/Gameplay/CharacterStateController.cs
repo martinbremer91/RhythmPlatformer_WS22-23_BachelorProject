@@ -102,6 +102,7 @@ namespace Gameplay
         public bool Airborne => 
             CurrentCharacterState is CharacterState.Rise or CharacterState.Fall or CharacterState.Dash;
         public bool Walled => CurrentCharacterState is CharacterState.WallCling or CharacterState.WallSlide;
+        public bool Sliding => CurrentCharacterState is CharacterState.Land or CharacterState.WallSlide;
 
         private float _runTurnWindow;
 
@@ -164,7 +165,6 @@ namespace Gameplay
                     break;
                 case CharacterState.Land:
                     CanDash = true;
-                    Invulnerable = true;
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
                     break;
                 case CharacterState.WallCling:
@@ -172,7 +172,6 @@ namespace Gameplay
                     CheckFacingOrientation(true);
                     break;
                 case CharacterState.WallSlide:
-                    Invulnerable = true;
                     CheckFacingOrientation(true);
                     _characterMovement.FallCurveTracker.x = 0;
                     _characterMovement.WallSlideVelocity = _characterMovement.CharacterVelocity.y;
@@ -195,7 +194,6 @@ namespace Gameplay
                     _characterMovement.RunVelocity = 0;
                     break;
                 case CharacterState.Land:
-                    Invulnerable = false;
                     _characterMovement.LandVelocity = 0;
                     break;
                 case CharacterState.Rise:
@@ -207,7 +205,6 @@ namespace Gameplay
                     _characterMovement.FallVelocity = Vector2.zero;
                     break;
                 case CharacterState.WallSlide:
-                    Invulnerable = false;
                     _characterMovement.WallSlideVelocity = 0;
                     break;
                 case CharacterState.Dash:
