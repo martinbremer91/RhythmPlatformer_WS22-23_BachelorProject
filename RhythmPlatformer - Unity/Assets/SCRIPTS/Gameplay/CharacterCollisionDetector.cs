@@ -89,9 +89,9 @@ namespace Gameplay
             bool collision = hitA != null && hitB != null;
 
             if (in_collisionCheck is CollisionCheck.Ground)
-                SlideHorizontal = CheckHorizontalSlideOn();
+                SlideHorizontal = CheckHorizontalSlide();
             else if (!verticalDetection)
-                SlideVertical = CheckVerticalSlideOn();
+                SlideVertical = CheckVerticalSlide();
             else if (collision && hitA.gameObject.CompareTag(_oneWayPlatformTag))
                 collision = OnOneWayPlatform;
 
@@ -134,7 +134,7 @@ namespace Gameplay
             if (CheckValidStateForCollisionInteraction(in_collisionCheck, in_detectEnter))
                 _characterStateController.HandleCollisionStateChange(in_collisionCheck, in_detectEnter);
 
-            bool CheckHorizontalSlideOn()
+            bool CheckHorizontalSlide()
             {
                 bool groundToTheLeft = hitA == null && hitB != null;
                 bool groundToTheRight = hitA != null && hitB == null;
@@ -158,7 +158,7 @@ namespace Gameplay
                 return !running && platCheck == OnOneWayPlatform;
             }
 
-            bool CheckVerticalSlideOn() {
+            bool CheckVerticalSlide() {
                 // if slideOn is active on opposite side, return true so as not to disrupt it
                 if (_slideVerticalCollisionSide is not CollisionCheck.None &&
                     _slideVerticalCollisionSide != in_collisionCheck)
@@ -181,10 +181,13 @@ namespace Gameplay
                     return false;
                 }
 
-                collision = true;
-
                 Collider2D midpoint = Physics2D.OverlapPoint(pointOnDetectionAxis, _levelLayerMask);
                 bool midpointOnWall = midpoint != null;
+
+                if (!midpointOnWall && wallBelow)
+                    return false;
+
+                collision = true;
 
                 _slideVerticalDirection = 
                     wallBelow ? (midpointOnWall ? -1 : 1) : (midpointOnWall ? 1 : -1);
