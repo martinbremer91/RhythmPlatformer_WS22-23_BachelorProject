@@ -24,7 +24,7 @@ MonoBehaviour:
   CompanionColors:
   - Label: CompanionDefault
     Color: {r: 0.29803923, g: 0.93333334, b: 0.29411766, a: 1}
-    HDRColor: {r: 0.1706962, g: 0.6145063, b: 0.3004253, a: 1}
+    HDRColor: {r: 0.42352942, g: 1.4980392, b: 0.74509805, a: 1}
   - Label: CompanionNoDash
     Color: {r: 0.4433962, g: 0.11084905, b: 0.18249089, a: 1}
     HDRColor: {r: 3.5661874, g: 0.31961104, b: 1.0145262, a: 1}
