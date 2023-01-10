@@ -353,7 +353,7 @@ namespace Gameplay
             bool crouching = _characterStateController.Grounded && _characterInput.InputState.DirectionalInput.y < -.5f;
 
             int directionX =
-                (crouching || Mathf.Abs(input.x) <= _characterInput.GameplayControlConfigs.InputDeadZone) ?
+                (crouching || Mathf.Abs(input.x) <= _characterInput.GameplayControlConfigs.HorizontalTurnDeadZone) ?
                 _characterStateController.FacingLeft ? -1 : 1 :
                 inputDirection.x < 0 ? -1 : 1;
 
