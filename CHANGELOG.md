@@ -21,6 +21,74 @@
 ## [Unreleased] (terminal: git log; hold enter to go farther back in commit history)
 ## [End of unreleased section]
 
+## [0.0.27] - 2022-01-10
+### Added
+- Martin level 01
+- checkpoint menu logic (to warp to any checkpoint)
+- parallax controller
+- dash up and dash down animations
+- gradient screen shader
+- particle textures (fire, clouds, hazards)
+-Satellite Jam music track
+- stick tilt modifier to run speed
+- basic credits screen
+- halted update state to fix on application focus logic
+- lock and key crystals
+- variations to the Island Base tileset
+### Changed
+- hazards have option to ignore player while player is sliding
+- slide mechanic: slides off if midpoint is not touching ground / wall
+- dash only replenishes when grounded
+### Removed
+- HUD beat line and markers and moved HUD to main canvas prefab
+- deprecated test levels
+### Fixed
+- scene change beat manager desync
+- companion visuals for all states
+- music looping logic
+- dash command logic and added dash input buffer
+- dead zone logic(and added turn dead zone)
+
+## [0.0.26] - 2022-01-06
+### Added
+- LevelEnd
+- debug time scale for easier testing
+- Scaffold and Cloud Crystal Platform Palettes
+- Tree Color Sprites
+- music and visuals fade on scene load and unload
+### Changed
+- improved async halting(on game quit and scene unloaded)
+- separated debug inputs into own controls profile
+- new cam manager system
+- generalized CharacterVisualsData to Visuals Data
+### Fixed
+- dash preview arrow not reversing from left to right
+- nonmutual collision detection bug by slightly increasing gravity scale in player rigidbody
+
+## [0.0.25] - 2022-12-08
+### Added
+- vertical slide on
+- maximum inherited x velocity when transitioning into a rise or fall
+- basic glowing silhouette shader
+- basic beat sync implementation for silhouette shader
+- companion graphics change color if character cannot dash
+- 8192px Character Sprite Atlas
+- thread-safety bool GameStateManager.GameQuitting
+- BeatManager.debugBeatJumpOff
+- UiManager.ToggleDebugSymbol
+- wall slide animation
+- basic dash direction preview arrow
+### Changed
+- dash length and exit speed
+- movement config values according to playtest feedback (more player control)
+- movement routines now move with the beat
+- releasing dash button before dash windup duration is up now starts dash immediately
+### Removed
+- BeatState enum (replaced with BeatActive bool)
+- wall cling timer logic
+### Fixed
+- plat slide on wall bug
+
 ## [0.0.24] - 2022-11-22
 ### Added
 - companion follow logic (makes arc on the way to player character)
