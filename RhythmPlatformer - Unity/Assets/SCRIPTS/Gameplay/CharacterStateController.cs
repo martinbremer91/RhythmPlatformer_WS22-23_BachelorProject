@@ -163,14 +163,13 @@ namespace Gameplay
                     _characterMovement.InitializeRise(GetClampedInheritedXVelocity());
                     break;
                 case CharacterState.Land:
-                    Invulnerable = true;
                     CanDash = true;
+                    Invulnerable = true;
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
                     break;
                 case CharacterState.WallCling:
                     _characterMovement.CancelVerticalVelocity();
                     CheckFacingOrientation(true);
-                    CanDash = true;
                     break;
                 case CharacterState.WallSlide:
                     Invulnerable = true;
