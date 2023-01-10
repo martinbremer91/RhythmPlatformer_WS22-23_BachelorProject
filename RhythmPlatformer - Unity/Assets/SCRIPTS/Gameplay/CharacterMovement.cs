@@ -347,14 +347,17 @@ namespace Gameplay
         }
 
         public bool GetDashDirection() {
+            Vector2 input = _characterInput.InputState.DirectionalInput;
             Vector2 inputDirection = _characterInput.InputState.DirectionalInput.normalized;
 
+            bool crouching = _characterStateController.Grounded && _characterInput.InputState.DirectionalInput.y < -.5f;
+
             int directionX =
-                Mathf.Abs(inputDirection.x) <= _characterInput.GameplayControlConfigs.InputDeadZone ?
+                (crouching || Mathf.Abs(input.x) <= _characterInput.GameplayControlConfigs.InputDeadZone) ?
                 _characterStateController.FacingLeft ? -1 : 1 :
                 inputDirection.x < 0 ? -1 : 1;
 
-            int directionY = Mathf.Abs(inputDirection.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
+            int directionY = Mathf.Abs(input.y) < .38f ? 0 : inputDirection.y < 0 ? -1 : 1;
             bool groundedDash = _characterStateController.Grounded && directionY < 1;
 
             if (groundedDash && directionY < 0)

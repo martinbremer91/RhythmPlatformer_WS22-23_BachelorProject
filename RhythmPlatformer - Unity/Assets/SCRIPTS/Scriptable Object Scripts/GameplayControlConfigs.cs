@@ -6,5 +6,6 @@ namespace Scriptable_Object_Scripts
     public class GameplayControlConfigs : ScriptableObject
     {
         public float InputDeadZone = .19f;
+        public float HorizontalTurnDeadZone = .19f;
     }
 }

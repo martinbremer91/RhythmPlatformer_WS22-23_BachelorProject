@@ -531,8 +531,11 @@ namespace Gameplay
         /// <param name="in_slideOrDash"></param>
         public void CheckFacingOrientation(bool in_walled = false, bool in_slideOrDash = false)
         {
+            float directionX = Mathf.Abs(_characterInput.InputState.DirectionalInput.x) > _characterInput.GameplayControlConfigs.HorizontalTurnDeadZone ?
+                _characterInput.InputState.DirectionalInput.x : 0;
+
             float turnParam = 
-                in_slideOrDash ? _characterMovement.CharacterVelocity.x : _characterInput.InputState.DirectionalInput.x;
+                in_slideOrDash ? _characterMovement.CharacterVelocity.x : directionX;
 
             if (in_walled)
             {
@@ -612,7 +615,7 @@ namespace Gameplay
                 return;
 
             DashWindup = false;
-            CheckFacingOrientation();
+            CheckFacingOrientation(false, true);
             _characterMovement.InitializeDash();
 
             bool CheckQuitFunction() => quitFunction || GameStateManager.GameQuitting;

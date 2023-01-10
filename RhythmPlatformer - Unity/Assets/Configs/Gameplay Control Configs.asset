@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24cca6f08910ca248a24edf48240feaa, type: 3}
   m_Name: Gameplay Control Configs
   m_EditorClassIdentifier: 
-  InputDeadZone: 0.5
+  InputDeadZone: 0.22
+  HorizontalTurnDeadZone: 0.5
