@@ -25,4 +25,12 @@ public class Hazard : MonoBehaviour, IInit<GameStateManager>
         
         _characterStateController.DieAsync();
     }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!other.gameObject.CompareTag("Player") || _characterStateController.Dead)
+            return;
+
+        _characterStateController.DieAsync();
+    }
 }

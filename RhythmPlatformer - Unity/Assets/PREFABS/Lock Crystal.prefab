@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191062603617931}
   - component: {fileID: 4941191062603617930}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191062659410491}
   - component: {fileID: 4941191062659410490}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LockIcon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191062694683410}
   - component: {fileID: 4941191062694683629}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LockIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191062865135694}
   - component: {fileID: 4941191062865135689}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LockIcon (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191062906277097}
   - component: {fileID: 4941191062906277096}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LockIcon (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191062938157503}
   - component: {fileID: 4941191062938157502}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LockIcon (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4941191063002099121}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GraphicsParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191063245141648}
   - component: {fileID: 4941191063245141651}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191063606283383}
   - component: {fileID: 4941191063606283382}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -722,7 +722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191063968160416}
   - component: {fileID: 4941191063968160419}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -807,7 +807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191064039703551}
   - component: {fileID: 4941191064039703550}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -892,7 +892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191064064686181}
   - component: {fileID: 4941191064064686180}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Pointed-Top (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -977,7 +977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941191064210249588}
   - component: {fileID: 4941191064210249591}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LockIcon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1062,7 +1062,7 @@ GameObject:
   - component: {fileID: 4941191064413317928}
   - component: {fileID: 4941191064413317929}
   - component: {fileID: 4941191064413317934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Lock Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
