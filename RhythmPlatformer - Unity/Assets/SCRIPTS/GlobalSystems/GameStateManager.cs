@@ -216,6 +216,9 @@ namespace GlobalSystems
 
         public void TogglePhysicsPause(bool in_paused)
         {
+            if (GameQuitting)
+                return;
+
             foreach (IPhysicsPausable physicsPausable in PhysicsPausables)
                 physicsPausable.TogglePausePhysics(in_paused);
 
