@@ -128,6 +128,8 @@ namespace Scriptable_Object_Scripts
 
         public float GravityScale;
 
+        public float DashBufferDuration;
+
         #endregion
     }
 }

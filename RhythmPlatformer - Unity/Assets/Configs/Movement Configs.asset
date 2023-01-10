@@ -157,3 +157,4 @@ MonoBehaviour:
   SlideOnSpeed: 2
   MaxInheritedXVelocity: 10
   GravityScale: 0.1
+  DashBufferDuration: 0.5

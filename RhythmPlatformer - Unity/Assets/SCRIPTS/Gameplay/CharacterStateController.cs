@@ -21,10 +21,12 @@ namespace Gameplay
         private CharacterMovement _characterMovement;
         private CharacterInput _characterInput;
 
+        private MovementConfigs _movementConfigs;
+
         #endregion
-        
+
         #region VARIABLES
-        
+
         public UpdateType UpdateType => UpdateType.GamePlay;
         
         private CharacterState _currentCharacterState;
@@ -80,6 +82,9 @@ namespace Gameplay
                 CanDashStateChanged?.Invoke(value);
             }
         }
+
+        private bool _dashBuffered;
+        private float _dashBufferTimer;
 
         private bool _facingLeft;
         public bool FacingLeft
@@ -148,6 +153,9 @@ namespace Gameplay
         {
             switch (in_value)
             {
+                case CharacterState.Idle:
+                    CanDash = true;
+                    break;
                 case CharacterState.Run:
                     CanDash = true;
                     CheckFacingOrientation();
@@ -164,7 +172,6 @@ namespace Gameplay
                     _characterMovement.InitializeRise(GetClampedInheritedXVelocity());
                     break;
                 case CharacterState.Land:
-                    CanDash = true;
                     _characterMovement.LandVelocity = _characterMovement.CharacterVelocity.x;
                     break;
                 case CharacterState.WallCling:
@@ -227,9 +234,9 @@ namespace Gameplay
             _characterMovement = in_gameStateManager.CharacterMovement;
             _characterSpriteController = in_gameStateManager.CharacterSpriteController;
             
-            MovementConfigs movementConfigs = in_gameStateManager.MovementConfigs;
-            _maxInheritedXVelocity = movementConfigs.MaxInheritedXVelocity;
-            _runTurnWindow = movementConfigs.RunTurnWindow;
+            _movementConfigs = in_gameStateManager.MovementConfigs;
+            _maxInheritedXVelocity = _movementConfigs.MaxInheritedXVelocity;
+            _runTurnWindow = _movementConfigs.RunTurnWindow;
             
             GetAnticipationStatesDurations();
             
@@ -250,8 +257,33 @@ namespace Gameplay
         {
             if (_characterInput.InputState.JumpCommand)
                 _jumpCommand = true;
+
+            if (_dashBuffered)
+            {
+                if (CanDash)
+                {
+                    _dashBuffered = false;
+                    DashWindup = true;
+                }
+                else {
+                    if (_dashBufferTimer > _movementConfigs.DashBufferDuration)
+                        _dashBuffered = false;
+                    else
+                        _dashBufferTimer += Time.fixedDeltaTime;
+                }
+            }
+
             if (_characterInput.InputState.DashWindup)
-                DashWindup = true;
+            {
+                if (CanDash)
+                    DashWindup = true;
+                else {
+                    _dashBuffered = true;
+                    _dashBufferTimer = 0;
+                }
+
+                _characterInput.InputState.DashWindup = false;
+            }
             
             HandleInputStateChange();
             ApplyStateMovement();
