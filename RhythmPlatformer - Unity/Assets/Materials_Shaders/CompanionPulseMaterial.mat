@@ -37,10 +37,10 @@ Material:
     - _NoiseSize: 3
     - _ScrollSpeed: 0.01
     m_Colors:
-    - _BaseColor: {r: 0.20330477, g: 0.8396226, b: 0.31253126, a: 0}
+    - _BaseColor: {r: 0.20392154, g: 0.8392157, b: 0.78397816, a: 0}
     - _EffectColor: {r: 3.0788624, g: 0.38770857, b: 4.35602, a: 0}
     - _NoiseContrast: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
-    - _SecondaryColor: {r: 3.9338663, g: 0.21457453, b: 4.553748, a: 0}
+    - _SecondaryColor: {r: 2.4940045, g: 0.2145744, b: 4.553748, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5374098793528996587
 MonoBehaviour:
