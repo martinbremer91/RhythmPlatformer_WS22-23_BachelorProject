@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: LevelSequenceData
   m_EditorClassIdentifier: 
   LevelSequence:
-  - DemoLevel
-  - IanLevel_01
   - MartinLevel_01
+  - IanLevel_01
