@@ -10,6 +10,7 @@ namespace GameplaySystems
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private ParticleSystem _flamesParticleSystemA;
         [SerializeField] private ParticleSystem _flamesParticleSystemB;
+        [SerializeField] private ParticleSystem _burstParticleSystem;
 
         private LevelManager _levelManager;
         private CharacterStateController _characterStateController;
@@ -72,6 +73,7 @@ namespace GameplaySystems
             CheckpointTouched = true;
             _levelManager.SetCurrentCheckPoint(this);
 
+            _burstParticleSystem.Play();
             UpdateCheckpointVisuals();
         }
 
