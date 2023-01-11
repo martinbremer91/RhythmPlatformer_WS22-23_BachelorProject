@@ -13,6 +13,7 @@ namespace GameplaySystems
 
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private ParticleSystem _flamesParticleSystem;
+        [SerializeField] private ParticleSystem _burstParticleSystem;
         
         private string _levelToLoadName;
         private string LevelToLoadName => 
@@ -74,6 +75,7 @@ namespace GameplaySystems
             if (_gameStateManager.ActiveUpdateType is UpdateType.GamePlay && !_levelEndTouched && 
                 collision.CompareTag(Constants.PlayerTag)) {
                 _levelEndTouched = true;
+                _burstParticleSystem.Play();
                 UpdateLevelEndVisuals();
                 LoadLevelToLoad();
             }
