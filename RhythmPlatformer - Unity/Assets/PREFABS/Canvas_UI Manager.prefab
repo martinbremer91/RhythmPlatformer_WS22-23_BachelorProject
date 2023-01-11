@@ -1827,6 +1827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiManager: {fileID: 4735851565723588844}
+  _levelSequenceData: {fileID: 11400000, guid: d1f2e67f767d41b4b8b6c2779e954bf7, type: 2}
 --- !u!1 &1688945362842005567
 GameObject:
   m_ObjectHideFlags: 0
