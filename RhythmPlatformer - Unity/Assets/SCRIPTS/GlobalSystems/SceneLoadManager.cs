@@ -27,6 +27,7 @@ namespace GlobalSystems
             SceneUnloaded?.Invoke();
 
             bool loadCompleted = false;
+            UniversalInputManager.SetUniversalControlsActive(false);
 
             float delay = 3;
             float timer = 0;
@@ -48,6 +49,8 @@ namespace GlobalSystems
 
             while (!loadCompleted)
                 yield return null;
+
+            UniversalInputManager.SetUniversalControlsActive(true);
 
             void OnSceneLoaded(AsyncOperation in_asyncOperation) {
                 SceneLoaded?.Invoke();

@@ -252,6 +252,8 @@ namespace GameplaySystems
 
         public async void ExecuteCountInAsync()
         {
+            UniversalInputManager.SetUniversalControlsActive(false);
+
             PauseMenu pauseMenu = _gameStateManager.PauseMenu;
             int countIn = 0;
             bool metronomeMute = _metronomeWeak.mute;
@@ -301,6 +303,7 @@ namespace GameplaySystems
 
             UpdateCountInUi();
 
+            UniversalInputManager.SetUniversalControlsActive(true);
             SetMetronomeMute(metronomeMute);
             MetronomeOn = _pausedMetronome;
             _unpauseSignal = true;

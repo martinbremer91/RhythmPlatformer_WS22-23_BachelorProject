@@ -58,6 +58,9 @@ namespace GlobalSystems
 
         private PlayerProgressData _playerProgressData;
 
+        private bool _pausing;
+        private bool _unpausing;
+
         public static bool GameQuitting;
 
 #if UNITY_EDITOR
@@ -183,11 +186,20 @@ namespace GlobalSystems
         }
 
         public void ScheduleTogglePause()
-        {            
+        {
+            if (_unpausing || _pausing)
+                return;
+
             if (!BeatManager.BeatActive)
+            {
+                _unpausing = true;
                 BeatManager.ExecuteCountInAsync();
+            }
             else
+            {
+                _pausing = true;
                 BeatManager.BeatAction += TogglePause;
+            }
         }
 
         public void TogglePause()
@@ -208,6 +220,8 @@ namespace GlobalSystems
             else
                 PauseMenu.SetCountInText(0, false);
 
+            _pausing = false;
+            _unpausing = false;
             TogglePhysicsPause(paused);
             CharacterSpriteController.OnTogglePause(paused);
             CompanionSpriteController.OnTogglePause(paused);
