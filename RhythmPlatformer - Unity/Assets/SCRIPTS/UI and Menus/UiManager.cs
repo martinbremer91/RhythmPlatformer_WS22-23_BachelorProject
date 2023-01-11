@@ -118,6 +118,13 @@ namespace UI_And_Menus
                 _gameStateManager.ScheduleTogglePause();
         }
 
+        public void HandlePauseMenuClosing()
+        {
+            _settingsUI.SetActive(false);
+            CheckpointsMenu.gameObject.SetActive(false);
+            HandleTogglePauseMenu();
+        }
+
         private void HandleOpenMainMenu() {
             _currentEventSystem.SetSelectedGameObject(_newGameButton);
         }
@@ -128,7 +135,7 @@ namespace UI_And_Menus
         public void HandleOpenCheckpointMenu() =>
             _currentEventSystem.SetSelectedGameObject(CheckpointsMenu.DefaultSelectedButton);
 
-        public void HandleOpenPauseMenu() =>
+        public void HandleTogglePauseMenu() =>
             _currentEventSystem.SetSelectedGameObject(_resumeButton);
 
         public void HandleCloseSettings() {
@@ -137,7 +144,7 @@ namespace UI_And_Menus
             if (currentSceneType is SceneType.MainMenu)
                 HandleOpenMainMenu();
             else if (currentSceneType is SceneType.Level)
-                HandleOpenPauseMenu();
+                HandleTogglePauseMenu();
         }
 
         public void HandleToggleCredits(bool in_open) =>

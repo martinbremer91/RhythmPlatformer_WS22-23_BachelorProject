@@ -8,16 +8,21 @@ namespace UI_And_Menus
     public class PauseMenu : MonoBehaviour, IInit<GameStateManager>
     {
         private GameStateManager _gameStateManager;
+        private UiManager _uiManager;
 
         [SerializeField] private GameObject _pausePanel;
         [SerializeField] private TMP_Text _pausedBeatText;
         [SerializeField] private TMP_Text _countInText;
 
-        public void Init(GameStateManager in_gameStateManager) => _gameStateManager = in_gameStateManager;
+        public void Init(GameStateManager in_gameStateManager)
+        {
+            _gameStateManager = in_gameStateManager;
+            _uiManager = in_gameStateManager.UiManager;
+        }
 
         public void TogglePauseMenu(bool in_paused) {
             _pausePanel.SetActive(in_paused);
-            _gameStateManager.UiManager.HandleOpenPauseMenu();
+            _uiManager.HandlePauseMenuClosing();
         }
 
         public void ResumeButton() => _gameStateManager.ScheduleTogglePause();
