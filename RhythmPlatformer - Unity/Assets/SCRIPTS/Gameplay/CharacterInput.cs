@@ -138,8 +138,12 @@ namespace Gameplay
             }
         }
 
-        private void HandleDashButton() =>
+        private void HandleDashButton()
+        {
+            if (_gameStateManager.ActiveUpdateType is not UpdateType.GamePlay)
+                return;
             InputState.DashWindup = true;
+        }
 
         public void SetInputStateToNeutral() =>
             InputState = new InputState();
