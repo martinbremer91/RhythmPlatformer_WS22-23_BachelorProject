@@ -81,6 +81,8 @@ namespace UI_And_Menus
 
             _gameStateManager = in_gameStateManager;
             _gameStateManager.HUDController = _hudController;
+
+            HandleMetronomeMuteChange();
             SyncSettingsMenuWithAudioSources();
 
             if (_gameStateManager.LoadedSceneType == SceneType.MainMenu)

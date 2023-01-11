@@ -264,7 +264,7 @@ namespace GameplaySystems
             if (CheckQuitFunction())
                 return;
 
-            SetMetronomeMute(false);
+            SetMetronomeMute(false, true);
             MetronomeOn = true;
             while (!CheckQuitFunction() && BeatTracker != 1)
                 await Task.Yield();
@@ -363,8 +363,9 @@ namespace GameplaySystems
                 source.mute = in_value;
         }
 
-        public void SetMetronomeMute(bool in_value) {
-            _pausedMetronome = !in_value;
+        public void SetMetronomeMute(bool in_value, bool in_ignorePausedMetronome = false) {
+            if (!in_ignorePausedMetronome)
+                _pausedMetronome = !in_value;
             _metronomeStrong.mute = in_value;
             _metronomeWeak.mute = in_value;
         }
