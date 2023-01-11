@@ -150,6 +150,9 @@ namespace GameplaySystems
 
                 _trackAudioSources[_activeSource].PlayScheduled(AudioSettings.dspTime + _startDelay);
                 _trackAudioSources[_nextSource].PlayScheduled(_nextTrackTime);
+
+                _trackAudioSources[_activeSource].time = 0;
+                _trackAudioSources[_nextSource].time = 0;
             }
             else
                 MetronomeOn = true;
