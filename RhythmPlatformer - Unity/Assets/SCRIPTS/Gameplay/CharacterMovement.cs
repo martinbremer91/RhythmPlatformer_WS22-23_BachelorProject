@@ -194,6 +194,9 @@ namespace Gameplay
         {
             float xInput = _characterInput.InputState.DirectionalInput.x;
 
+            if (Mathf.Abs(xInput) < _characterInput.GameplayControlConfigs.HorizontalTurnDeadZone)
+                xInput = 0;
+
             if (Mathf.Abs(_fallVelocity.x) <= _maxAirDriftCancelVelocity)
             {
                 if (_fallVelocity.x * xInput < 0)
@@ -227,6 +230,10 @@ namespace Gameplay
         public void Rise()
         {
             float xInput = _characterInput.InputState.DirectionalInput.x;
+
+            if (Mathf.Abs(xInput) < _characterInput.GameplayControlConfigs.HorizontalTurnDeadZone)
+                xInput = 0;
+
             float drift = xInput * _airDriftSpeed;
 
             float xVelocity = _riseVelocity.x == 0 ? drift : 
