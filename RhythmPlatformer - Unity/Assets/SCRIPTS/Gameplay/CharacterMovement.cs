@@ -370,14 +370,6 @@ namespace Gameplay
             if (groundedDash && directionY < 0)
                 directionY = 0;
 
-            bool wallDash =
-                _characterStateController.Walled && 
-                _characterStateController.NearWallLeft && directionX < 0 ||
-                _characterStateController.NearWallRight && directionX > 0;
-
-            if (wallDash)
-                directionX *= -1;
-
             DashDirection = new Vector2(directionX, directionY * .5f).normalized;
             return groundedDash;
         }
