@@ -13,6 +13,7 @@ public class CompanionSpriteController : MonoBehaviour, IInit<GameStateManager>,
     [SerializeField] private Animator _companionSpriteAnimator;
     [SerializeField] private ParticleSystem _companionBodyParticles;
     [SerializeField] private ParticleSystem _companionTrailParticles;
+
     private PulseMaterialOverrides _pulseMaterialOverrides;
 
     private VisualsData _companionVisualsData;
