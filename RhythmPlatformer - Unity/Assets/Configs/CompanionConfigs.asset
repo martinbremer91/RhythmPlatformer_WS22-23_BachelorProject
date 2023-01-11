@@ -61,7 +61,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   CharacterOffset: {x: -0.75, y: 0.75}
-  ReactionDelay: 1
+  ReactionDelay: 0.75
   StartFollowDist: 5
   StopFollowDist: 0.1
   FollowSpeedMax: 15

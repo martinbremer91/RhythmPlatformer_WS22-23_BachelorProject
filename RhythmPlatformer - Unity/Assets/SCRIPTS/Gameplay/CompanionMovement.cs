@@ -109,8 +109,15 @@ public class CompanionMovement : MonoBehaviour, IUpdatable, IInit<GameStateManag
     public void CustomUpdate() {
 
         Vector2 position = transform.position;
-        Vector2 targetPos = (Vector2)_characterTransform.position + new Vector2(_characterStateController.FacingLeft ? 
-            -CharacterOffset.x : CharacterOffset.x, CharacterOffset.y);
+        
+        float xOffset = _characterStateController.FacingLeft ?
+            -CharacterOffset.x : CharacterOffset.x;
+
+        if (_characterStateController.Walled)
+            xOffset = -xOffset;
+        
+        Vector2 targetPos = (Vector2)_characterTransform.position + 
+            new Vector2(xOffset, CharacterOffset.y);
 
         float characterDist = (position - targetPos).sqrMagnitude;
         CheckFollowPlayer();
