@@ -138,7 +138,7 @@ MonoBehaviour:
   RunTopSpeed: 8
   DashTopSpeed: 20
   RiseTopSpeed: 10
-  FallTopSpeed: 18
+  FallTopSpeed: 16
   WallSlideFallTopSpeed: 5
   AirDriftSpeed: 6
   AirDrag: 0.1
