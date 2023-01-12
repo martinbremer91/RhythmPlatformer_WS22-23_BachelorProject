@@ -402,8 +402,8 @@ namespace Gameplay
                     if (_characterInput.InputState.WallClingTrigger is not InputActionPhase.Performed)
                     {
                         float inputX = _characterInput.InputState.DirectionalInput.x;
-                        bool holdTowardsWall_L = NearWallLeft && inputX < -.5f;
-                        bool holdTowardsWall_R = NearWallRight && inputX > .5f;
+                        bool holdTowardsWall_L = NearWallLeft && inputX < -.7f;
+                        bool holdTowardsWall_R = NearWallRight && inputX > .7f;
                         
                         CurrentCharacterState = holdTowardsWall_L || holdTowardsWall_R ? 
                             CharacterState.WallSlide : CharacterState.Fall;
@@ -638,8 +638,8 @@ namespace Gameplay
             float inputX = _characterInput.InputState.DirectionalInput.x;
             float velocityX = _characterMovement.CharacterVelocity.x;
 
-            bool holdTowardsWall_L = leftWall && inputX < -.5f && velocityX <= 0;
-            bool holdTowardsWall_R = rightWall && inputX > .5f && velocityX >= 0;
+            bool holdTowardsWall_L = leftWall && inputX < -.7f && velocityX <= 0;
+            bool holdTowardsWall_R = rightWall && inputX > .7f && velocityX >= 0;
 
             if (Airborne && (holdTowardsWall_L || holdTowardsWall_R))
                 CurrentCharacterState = CharacterState.WallSlide;
